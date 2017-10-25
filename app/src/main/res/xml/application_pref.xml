@@ -1,0 +1,217 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
+
+    <de.mrapp.android.preference.SwitchPreference
+        android:icon="@drawable/ic_bluetooth_connected_black_24dp"
+        android:defaultValue="false"
+        android:key="@string/auto_connect"
+        android:title="Auto connect"
+        android:summary="auto connect to last used device" />
+
+    <de.mrapp.android.preference.SwitchPreference
+        android:icon="@drawable/ic_power_black_24dp"
+        android:title="Sleep after job"
+        android:defaultValue="false"
+        android:key="@string/sleep_after_job"
+        android:summary="puts machine into a de-powered sleep mode using $SLP command" />
+
+    <de.mrapp.android.preference.NumberPickerPreference
+        android:icon="@drawable/ic_format_list_numbered_black_24dp"
+        android:defaultValue="10"
+        custom:min="1"
+        android:max="100"
+        custom:unit="Steps"
+        android:key="@string/jogging_max_step_size"
+        android:title="Jogging max step size"
+        android:summary="jogging step seekbar maximum value" />
+
+    <ListPreference
+        android:key="@string/streaming_stop_button_behaviour"
+        android:icon="@drawable/ic_stop_black_24dp"
+        android:title="Streaming stop button behaviour"
+        android:entries="@array/entries_stop_button_behaviour"
+        android:entryValues="@array/entriesvalues_stop_button_behaviour"
+        android:summary="%s"
+        android:defaultValue="1" />
+
+    <de.mrapp.android.preference.SwitchPreference
+        android:key="@string/enable_custom_buttons"
+        android:icon="@drawable/ic_view_module_black_24dp"
+        android:title="Enable custom buttons"
+        android:defaultValue="false"
+        android:summary="enables four custom buttons in jogging control tab. (you may need to restart the application)"/>
+
+    <PreferenceCategory android:title="Custom Buttons" android:dependency="@string/enable_custom_buttons">
+        <Preference android:summary="you can add gcode commands upto 125 characters in length. multiple commands must be separated by a new line (as per grbl limit, max 80 characters in one line)" />
+
+        <PreferenceScreen
+            android:key="custom_button_1_flashcard"
+            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+            android:defaultValue="false"
+            android:title="Custom button 1"
+            android:summary="configure buttom behaviour and commands">
+
+            <PreferenceCategory android:title="Custom Buttons">
+
+                <Preference android:summary="configure custom button 1 behaviour" />
+
+                <EditTextPreference
+                    android:key="@string/custom_button_one"
+                    android:maxLength="3"
+                    android:defaultValue="@string/value_na"
+                    android:title="Button label"
+                    android:summary="give a name for the button, maximum 3 characters"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_one_short_click"
+                    android:lines="3"
+                    android:title="Short click commands"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:summary="commands to send after the button short click"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_one_long_click"
+                    android:lines="3"
+                    android:title="Long click commands"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:summary="commands to send after the button long click"/>
+
+                <de.mrapp.android.preference.SwitchPreference
+                    android:key="@string/custom_button_one_confirm"
+                    android:defaultValue="true"
+                    android:title="Confirm first"
+                    android:summary="ask for confirmation before sending"/>
+
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="custom_button_2_flashcard"
+            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+            android:defaultValue="false"
+            android:title="Custom button 2"
+            android:summary="configure buttom behaviour and commands">
+
+            <PreferenceCategory android:title="Custom Buttons">
+                <Preference android:summary="configure custom button 2 behaviour" />
+
+                <EditTextPreference
+                    android:key="@string/custom_button_two"
+                    android:maxLength="3"
+                    android:defaultValue="@string/value_na"
+                    android:title="Button label"
+                    android:summary="give a name for the button, maximum 3 characters"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_two_short_click"
+                    android:title="Short click commands"
+                    android:lines="3"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:summary="commands to send after the button short click"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_two_long_click"
+                    android:lines="3"
+                    android:title="Long click commands"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:summary="commands to send after the button long click"/>
+
+                <de.mrapp.android.preference.SwitchPreference
+                    android:key="@string/custom_button_two_confirm"
+                    android:defaultValue="true"
+                    android:title="Confirm first"
+                    android:summary="ask for confirmation before sending"/>
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="custom_button_3_flashcard"
+            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+            android:defaultValue="false"
+            android:title="Custom button 3"
+            android:summary="configure buttom behaviour and commands">
+
+            <PreferenceCategory android:title="Custom Buttons">
+                <Preference android:summary="configure custom button 3 behaviour" />
+
+                <EditTextPreference
+                    android:key="@string/custom_button_three"
+                    android:maxLength="3"
+                    android:defaultValue="@string/value_na"
+                    android:title="Button label"
+                    android:summary="give a name for the button, maximum 3 characters"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_three_short_click"
+                    android:title="Short click commands"
+                    android:lines="3"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:summary="commands to send after the button short click"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_three_long_click"
+                    android:title="Long click commands"
+                    android:lines="3"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:summary="commands to send after the button long click"/>
+
+                <de.mrapp.android.preference.SwitchPreference
+                    android:key="@string/custom_button_three_confirm"
+                    android:defaultValue="true"
+                    android:title="Confirm first"
+                    android:summary="ask for confirmation before sending"/>
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="custom_button_4_flashcard"
+            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+            android:defaultValue="false"
+            android:title="Custom button 4"
+            android:summary="configure buttom behaviour and commands">
+
+            <PreferenceCategory android:title="Custom Buttons">
+                <Preference android:summary="configure custom button 4 behaviour" />
+
+                <EditTextPreference
+                    android:key="@string/custom_button_four"
+                    android:maxLength="3"
+                    android:defaultValue="@string/value_na"
+                    android:title="Button label"
+                    android:summary="give a name for the button, maximum 3 characters"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_four_short_click"
+                    android:title="Short click commands"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:lines="3"
+                    android:summary="commands to send after the button short click"/>
+
+                <EditTextPreference
+                    android:key="@string/custom_button_four_long_click"
+                    android:title="Long click commands"
+                    android:lines="3"
+                    android:maxLength="125"
+                    android:defaultValue="@string/value_empty"
+                    android:summary="commands to send after the button long click"/>
+
+                <de.mrapp.android.preference.SwitchPreference
+                    android:key="@string/custom_button_four_confirm"
+                    android:defaultValue="true"
+                    android:title="Confirm first"
+                    android:summary="ask for confirmation before sending"/>
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

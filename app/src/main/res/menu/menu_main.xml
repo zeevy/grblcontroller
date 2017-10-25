@@ -1,0 +1,47 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="in.co.gorest.grblcontroller.MainActivity">
+
+    <item
+        android:id="@+id/action_grbl_reset"
+        android:orderInCategory="10"
+        android:title="@string/reset"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_connect"
+        android:orderInCategory="11"
+        android:title="@string/connect"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_disconnect"
+        android:orderInCategory="12"
+        android:title="@string/disconnect"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:icon="@drawable/ic_settings_black_20dp"
+        android:title="@string/settings"
+        android:orderInCategory="13"
+        app:showAsAction="ifRoom"
+        android:id="@+id/app_settings" />
+
+    <item
+        android:id="@+id/share"
+        android:orderInCategory="14"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        android:icon="@drawable/ic_share_black_20dp"
+        android:title="Share"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:icon="@drawable/ic_android_black_20dp"
+        android:title="About"
+        android:orderInCategory="15"
+        app:showAsAction="ifRoom"
+        android:id="@+id/app_about" />
+
+
+</menu>

@@ -1,0 +1,106 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="consoleLogger" type="in.co.gorest.grblcontroller.listners.ConsoleLoggerListner" />
+        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listners.MachineStatusListner" />
+    </data>
+
+    <ScrollView
+        android:paddingTop="4dp"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_toStartOf="@+id/console_verbose_output"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/verbose_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/console_verbose_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+
+            <RelativeLayout
+                android:padding="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@{consoleLogger.messages}"
+                    android:minHeight="200dp"
+                    android:maxLines="16"
+                    android:padding="4dp"
+                    android:gravity="bottom"
+                    android:id="@+id/console_logger"
+                    android:scrollbars="vertical"
+                    android:fadeScrollbars="false"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10sp"
+                    android:background="@drawable/rounded_border_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+
+            <TableLayout
+                android:padding="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/command_input"
+                        android:padding="7dp"
+                        android:maxLength="78"
+                        android:maxLines="1"
+                        android:inputType="text"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/rounded_border_edittext"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content" />
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:text=" {fa-send 18dp @color/colorAccent} "
+                        android:id="@+id/send_command"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
+

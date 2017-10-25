@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:icon="@drawable/ic_android_black_36dp"
+        android:key="pref_app_version"
+        android:title="Version"/>
+
+    <Preference
+        android:icon="@drawable/ic_star_half_black_36dp"
+        android:summary="@string/pref_rate_app_summary"
+        android:title="@string/rate_application">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="market://details?id=in.co.gorest.grblcontroller"/>
+    </Preference>
+
+    <Preference
+        android:icon="@drawable/ic_bug_report_black_36dp"
+        android:summary="github.com/zeevy/grblcontroller"
+        android:title="Source / Issue tracker">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://github.com/zeevy/grblcontroller"/>
+    </Preference>
+
+    <Preference
+        android:icon="@drawable/ic_contact_mail_black_36dp"
+        android:summary="zeevy@outlook.in"
+        android:title="Contact developer">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="mailto:zeevy@outlook.in?subject=Grbl Controller"/>
+    </Preference>
+
+</PreferenceScreen>
