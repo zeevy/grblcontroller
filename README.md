@@ -7,7 +7,7 @@
 
 #### Special thanks to
 
-1. winder https://github.com/winder/Universal-G-Code-Sender 
+1. winder https://github.com/winder/Universal-G-Code-Sender (for most of the core logic and code)
 2. michael-rapp  https://github.com/michael-rapp/AndroidMaterialPreferences
 3. woxingxiao https://github.com/woxingxiao/BubbleSeekBar
 4. greenrobot https://github.com/greenrobot/EventBus
