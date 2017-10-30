@@ -1,24 +1,3 @@
-/*
- *  /**
- *  * Copyright (C) 2017  Grbl Controller Contributors
- *  *
- *  * This program is free software; you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation; either version 2 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * This program is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License along
- *  * with this program; if not, write to the Free Software Foundation, Inc.,
- *  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- *  * <http://www.gnu.org/licenses/>
- *
- */
-
 package in.co.gorest.grblcontroller.ui;
 
 import android.Manifest;
@@ -70,6 +49,8 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     private MachineStatusListner machineStatus;
     private FileSenderListner fileSender;
     private EnhancedSharedPreferences sharedPref;
+
+    private final int REQUEST_CODE_ASK_EXTERNAL_READ_PERMISSIONS = 100;
 
     public FileSenderTabFragment() {}
 
@@ -360,7 +341,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     private void askExternalReadPermission(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_EXTERNAL_READ_PERMISSIONS);
         }else{
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_external_read_permission)));
         }
@@ -368,10 +349,12 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            getFilePicker();
-        }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_external_read_permission)));
+        if(requestCode == REQUEST_CODE_ASK_EXTERNAL_READ_PERMISSIONS){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getFilePicker();
+            }else{
+                EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_external_read_permission)));
+            }
         }
     }
 
