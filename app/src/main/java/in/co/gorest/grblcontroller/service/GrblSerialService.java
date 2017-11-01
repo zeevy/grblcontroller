@@ -119,13 +119,16 @@ public class GrblSerialService extends SerialThreadService{
                 try{
                     BluetoothDevice device = mAdapter.getRemoteDevice(deviceAddress);
                     this.connect(device, false);
-                }catch(Exception e){
+                }catch(RuntimeException e){
                     EventBus.getDefault().post(new UiToastEvent(e.getMessage()));
+                    disconnectService();
+                    stopSelf();
                 }
             }
         }else{
             EventBus.getDefault().post(new UiToastEvent("Unknown error: please restart the application"));
             disconnectService();
+			stopSelf();
         }
 
         return Service.START_NOT_STICKY;
