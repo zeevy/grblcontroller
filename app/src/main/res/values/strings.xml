@@ -3,7 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="paired_devices">Choose a paired device</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="shared_preference_key">in.co.gorest.grblcontroller.f635f2e523d7c64f5b4ad9179b689432</string>
     <string name="auto_connect">auto_connect</string>
     <string name="console_verbose_mode">console_verbose_mode</string>
@@ -36,6 +35,8 @@
     <string name="event_grbl_version">Grbl versions</string>
     <string name="skip_error_20">skip_error_20</string>
     <string name="privacy_statement"><a href="https://gorest.co.in/grbl-controller-privacy-policy.html ">Privacy Statement</a></string>
+
+    <string name="alarm_format">Alarm:%d %s</string>
 
     <string-array name="entries_stop_button_behaviour">
         <item>Just stop streaming</item>
