@@ -20,7 +20,7 @@
 - If you are connecting Bluetooth module first time to your machine, then make sure you have changed the baud rate of the BT module to 115200. (Default baud rate of the GRBL 1.1v firmware is 115200 as 8-N-1 (8-bits, no parity, and 1-stop bit)).
 - For more information on changing baud rate, pass code of HC-05 Bluetooth module you may visit this link http://www.buildlog.net/blog/2017/10/using-the-hc-05-bluetooth-module/.
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/>](https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller "Download from play store")
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/>](https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller "Download from play store").
 
 #### Special thanks to
 
