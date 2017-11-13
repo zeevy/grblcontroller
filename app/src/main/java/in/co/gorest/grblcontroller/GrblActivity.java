@@ -21,6 +21,7 @@
 
 package in.co.gorest.grblcontroller;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -40,6 +41,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
@@ -47,6 +49,8 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.lang.reflect.Method;
 
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
@@ -107,7 +111,12 @@ public abstract class GrblActivity extends AppCompatActivity {
             Thread thread = new Thread(){
                 @Override
                 public void run(){
-                    bluetoothAdapter.enable();
+                    try{
+                        bluetoothAdapter.enable();
+                    }catch (RuntimeException e){
+                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_bluetooth_permission)));
+                        finish();
+                    }
                 }
             };
             thread.start();
@@ -128,7 +137,7 @@ public abstract class GrblActivity extends AppCompatActivity {
                     }
                 }
             }
-        }, 700);
+        }, 1000);
     }
 
     @Override
@@ -138,6 +147,10 @@ public abstract class GrblActivity extends AppCompatActivity {
             grblSerialService.setMessageHandler(null);
             unbindService(serviceConnection);
             mBound = false;
+        }
+
+        if(sharedPref.getBoolean(getString(R.string.turn_off_bluetooth), true) && bluetoothAdapter != null && bluetoothAdapter.isEnabled()){
+            bluetoothAdapter.disable();
         }
 
         EventBus.getDefault().unregister(this);
@@ -207,13 +220,25 @@ public abstract class GrblActivity extends AppCompatActivity {
         }
     }
 
+    //@SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        if(menu instanceof MenuBuilder){
-            MenuBuilder m = (MenuBuilder) menu;
-            m.setOptionalIconsVisible(true);
+        if(menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                }
+                catch(NoSuchMethodException e){
+                    Log.e(TAG, "onMenuOpened", e);
+                }
+                catch(Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         MenuItem actionConnect = menu.findItem(R.id.action_connect);
