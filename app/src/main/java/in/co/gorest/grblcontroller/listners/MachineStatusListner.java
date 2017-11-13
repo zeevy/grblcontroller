@@ -32,6 +32,9 @@ public class MachineStatusListner extends BaseObservable {
     private static final String TAG = MachineStatusListner.class.getSimpleName();
 
     private final String emptyString = "";
+    private final Double DEFAULT_FEEDRATE = 2400.0;
+    private final Integer GRBL_PLANNER_BUFFER = 15;
+    private final Integer GRBL_SERIAL_RX_BUFFER = 128;
 
     public static final String STATE_IDLE = "Idle";
     public static final String STATE_JOG = "Jog";
@@ -40,6 +43,8 @@ public class MachineStatusListner extends BaseObservable {
     public static final String STATE_ALARM = "Alarm";
     public static final String STATE_CHECK = "Check";
     public static final String STATE_SLEEP = "Sleep";
+    public static final String STATE_DOOR = "Door";
+    public static final String STATE_HOME = "Home";
     public static final String STATE_NOT_CONNECTED = "Un known";
 
     private String state;
@@ -51,14 +56,13 @@ public class MachineStatusListner extends BaseObservable {
     private Position machinePosition = new Position(0.00, 0.00, 0.00);
     private Position workPosition = new Position(0.00, 0.00, 0.00);
     private Position workCoordsOffset = new Position(0.00, 0.00, 0.00);
-    private Jogging jogging = new Jogging(0.0, 2400.0, false);
+    private Jogging jogging = new Jogging(0.0, DEFAULT_FEEDRATE, false);
     private OverridePercents overridePercents = new OverridePercents(100, 100, 100);
     private EnabledPins enabledPins = new EnabledPins(emptyString);
     private AccessoryStates accessoryStates = new AccessoryStates(emptyString);
     private BuildInfo buildInfo = null;
     private CompileTimeOptions compileTimeOptions = null;
     private ParserState parserState = null;
-
     private Boolean verboseOutput = false;
 
     private static MachineStatusListner machineStatus = null;
@@ -69,7 +73,7 @@ public class MachineStatusListner extends BaseObservable {
 
     private MachineStatusListner(){
         this.state = STATE_NOT_CONNECTED;
-        this.compileTimeOptions = new CompileTimeOptions(emptyString, 15, 128);
+        this.compileTimeOptions = new CompileTimeOptions(emptyString, GRBL_PLANNER_BUFFER, GRBL_SERIAL_RX_BUFFER);
         this.parserState = new ParserState("G0 G54 G17 G21 G90 G94");
     }
 

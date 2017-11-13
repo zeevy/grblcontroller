@@ -32,6 +32,7 @@ import in.co.gorest.grblcontroller.BR;
 public class ConsoleLoggerListner extends BaseObservable{
 
     private final CircularFifoQueue<String> loggedMessaagesQueue;
+    private final int MAX_LINES = 128;
 
     private static ConsoleLoggerListner consoleLogger = null;
     public static ConsoleLoggerListner getInstance(){
@@ -40,7 +41,7 @@ public class ConsoleLoggerListner extends BaseObservable{
     }
 
     private ConsoleLoggerListner(){
-        loggedMessaagesQueue = new CircularFifoQueue<>(128);
+        loggedMessaagesQueue = new CircularFifoQueue<>(MAX_LINES);
     }
 
     @Bindable

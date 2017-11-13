@@ -133,7 +133,7 @@ public class FileStreamerIntentService extends IntentService{
         clearBuffers();
         setIsServiceRunning(false);
 
-        StreamingCompleteEvent streamingCompleteEvent = new StreamingCompleteEvent("Streaming Completed");
+        StreamingCompleteEvent streamingCompleteEvent = new StreamingCompleteEvent(getString(R.string.streaming_completed));
         streamingCompleteEvent.setFileName(fileSenderListner.getGcodeFileName());
         streamingCompleteEvent.setRowsSent(fileSenderListner.getRowsSent());
         streamingCompleteEvent.setTimeMillis(fileSenderListner.getJobEndTime() - fileSenderListner.getJobStartTime());

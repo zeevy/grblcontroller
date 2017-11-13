@@ -22,6 +22,8 @@
 package in.co.gorest.grblcontroller.events;
 
 
+import in.co.gorest.grblcontroller.GrblConttroller;
+import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.util.GrblLookups;
 
 public class GrblAlarmEvent {
@@ -52,7 +54,7 @@ public class GrblAlarmEvent {
 
     @Override
     public String toString(){
-        return String.format("Alarm:%s %s", alarmCode, alarmDescription);
+        return GrblConttroller.getContext().getString(R.string.grbl_alarm_format, alarmCode, alarmDescription);
     }
 
     public String getMessage(){ return this.message; }

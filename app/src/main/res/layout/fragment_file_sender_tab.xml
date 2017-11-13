@@ -52,14 +52,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView app:layout_gravity="left" android:text="Total lines | Sent " />
+                    <TextView app:layout_gravity="left" android:text="Total lines | Sent" />
                     <TextView app:layout_gravity="right" android:text='@{fileSender.rowsInFile.toString() + " | " + fileSender.rowsSent.toString()}' />
 
-                    <TextView app:layout_gravity="left" android:text="Time elapsed " />
+                    <TextView app:layout_gravity="left" android:text="Time elapsed" />
                     <TextView app:layout_gravity="right" android:text="@{fileSender.elaspsedTime}" />
 
-                    <TextView app:layout_gravity="left" android:text="Overrides F:S " />
-                    <TextView app:layout_gravity="right" android:text='@{machineStatus.overridePercents.feed.toString() + ":" + machineStatus.overridePercents.spindle.toString()}' />
+                    <TextView app:layout_gravity="left" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? "Overrides F:S:V" : "Overrides F:S"}' />
+                    <TextView app:layout_gravity="right" android:text='@{machineStatus.overridePercents.feed.toString() + ":" + machineStatus.overridePercents.spindle.toString() + (machineStatus.compileTimeOptions.variableSpindle ? ":" + machineStatus.spindleSpeed : "")}' />
 
                 </android.support.v7.widget.GridLayout>
 

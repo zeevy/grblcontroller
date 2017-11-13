@@ -149,10 +149,6 @@ public abstract class GrblActivity extends AppCompatActivity {
             mBound = false;
         }
 
-        if(sharedPref.getBoolean(getString(R.string.turn_off_bluetooth), true) && bluetoothAdapter != null && bluetoothAdapter.isEnabled()){
-            bluetoothAdapter.disable();
-        }
-
         EventBus.getDefault().unregister(this);
     }
 

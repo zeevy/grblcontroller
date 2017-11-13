@@ -50,11 +50,7 @@ public class Position {
     }
 
     public boolean hasChanged(Position position){
-        boolean xChanged = (position.getCordX().compareTo(this.cordX) != 0);
-        boolean yChanged = (position.getCordY().compareTo(this.cordY) != 0);
-        boolean zChanged = (position.getCordZ().compareTo(this.cordZ) != 0);
-
-        return xChanged || yChanged || zChanged;
+        return (position.getCordX().compareTo(this.cordX) != 0) || (position.getCordY().compareTo(this.cordY) != 0) || (position.getCordZ().compareTo(this.cordZ) != 0);
     }
 
 }

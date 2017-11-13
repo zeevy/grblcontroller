@@ -32,7 +32,6 @@ import in.co.gorest.grblcontroller.BR;
 public class FileSenderListner extends BaseObservable {
 
     private String gcodeFileName;
-    private long fileSizeMb;
     private File gcodeFile;
     private Integer rowsInFile;
     private Integer rowsSent;
@@ -46,6 +45,7 @@ public class FileSenderListner extends BaseObservable {
         if(fileSenderListner == null) fileSenderListner = new FileSenderListner();
         return fileSenderListner;
     }
+
     private FileSenderListner(){
         this.gcodeFileName = "File type .gcode | .nc | .tap";
         this.gcodeFile = null;
@@ -61,21 +61,11 @@ public class FileSenderListner extends BaseObservable {
     }
 
     @Bindable
-    public long getFileSizeMb(){ return this.fileSizeMb; }
-    public void setFileSizeMb(long fileSizeMb){
-        this.fileSizeMb = fileSizeMb;
-        notifyPropertyChanged(BR.fileSizeMb);
-    }
-
-    @Bindable
     public File getGcodeFile(){ return this.gcodeFile; }
     public void setGcodeFile(File gcodeFile){
         this.gcodeFile = gcodeFile;
         this.setGcodeFileName(gcodeFile.getName());
-        this.fileSizeMb = gcodeFile.length() / (1024 * 1024);
-
         notifyPropertyChanged(BR.gcodeFile);
-        notifyPropertyChanged(BR.fileSizeMb);
     }
 
     @Bindable

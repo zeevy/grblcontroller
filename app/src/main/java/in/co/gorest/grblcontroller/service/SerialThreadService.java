@@ -40,9 +40,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.UUID;
 
+import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.listners.SerialCommunicationHandler;
 import in.co.gorest.grblcontroller.model.Constants;
-import in.co.gorest.grblcontroller.service.GrblSerialService.SerialCommunicationHandler;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 
@@ -54,7 +55,6 @@ public abstract class SerialThreadService extends Service{
     private static final String NAME_SECURE = "CNC3040";
     private static final String NAME_INSECURE = "CNC3040";
     private static final byte[] BYTE_NEWLINE = { 0x0A };
-    private static final String SERIAL_DELIMITER = "\n";
 
     // Unique UUID for this application
     private static final UUID MY_UUID_SECURE = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -76,7 +76,7 @@ public abstract class SerialThreadService extends Service{
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
-    static boolean isGrblFound = false;
+    public static volatile boolean isGrblFound = false;
 
     SerialCommunicationHandler serialCommunicationHandler;
 
@@ -88,8 +88,8 @@ public abstract class SerialThreadService extends Service{
         mNewState = mState;
 
         if(mAdapter == null){
-            Log.i(TAG, "Bluetooth Adapter Error");
-            EventBus.getDefault().post(new UiToastEvent("Bluetooth Adapter Error, please restart your phone"));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.bluetooth_adapter_error)));
+            stopSelf();
         }
     }
 
@@ -238,7 +238,7 @@ public abstract class SerialThreadService extends Service{
         if(mHandler != null){
             Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
             Bundle bundle = new Bundle();
-            bundle.putString(Constants.TOAST, "Unable to connect device");
+            bundle.putString(Constants.TOAST, getString(R.string.unable_to_connect_to_device));
             msg.setData(bundle);
             mHandler.sendMessage(msg);
         }
@@ -254,7 +254,7 @@ public abstract class SerialThreadService extends Service{
         if(mHandler != null){
             Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
             Bundle bundle = new Bundle();
-            bundle.putString(Constants.TOAST, "Device connection was lost");
+            bundle.putString(Constants.TOAST, getString(R.string.device_connection_was_lost));
             msg.setData(bundle);
             mHandler.sendMessage(msg);
         }

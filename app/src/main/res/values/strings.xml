@@ -36,7 +36,8 @@
     <string name="skip_error_20">skip_error_20</string>
     <string name="privacy_statement"><a href="https://gorest.co.in/grbl-controller-privacy-policy.html ">Privacy Statement</a></string>
 
-    <string name="alarm_format">Alarm:%d %s</string>
+    <string name="grbl_alarm_format">Alarm:%d %s</string>
+    <string name="grbl_error_format">Error:%d %s</string>
 
     <string-array name="entries_stop_button_behaviour">
         <item>Just stop streaming</item>
@@ -102,5 +103,11 @@
     <string name="is_first_run">is_first_run</string>
     <string name="welcome">Welcome!</string>
     <string name="first_run_text">Grbl Controller for android is free application, please contribute to its development by submiting any issues or problems that you may face. \nMore information can be found in application about page.</string>
+    <string name="bluetooth_adapter_error">Bluetooth Adapter Error, please restart your phone</string>
+    <string name="unable_to_connect_to_device">Unable to connect device</string>
+    <string name="device_connection_was_lost">Device connection was lost</string>
+    <string name="unknown_error">Unknown error: please restart the application</string>
+    <string name="streaming_completed">Streaming Completed</string>
+    <string name="no_bluetooth_permission">Unable to start bluetooth, please check permissions</string>
 
 </resources>
