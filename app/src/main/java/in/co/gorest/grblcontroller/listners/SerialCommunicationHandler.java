@@ -57,7 +57,7 @@ public class SerialCommunicationHandler extends Handler {
     private final ExecutorService singleThreadExecutor;
     private final MachineStatusListner machineStatus;
     private ScheduledExecutorService grblStatusUpdater = null;
-    private static final long GRBL_STATUS_UPDATE_INTERVAL = 500;
+    private static final long GRBL_STATUS_UPDATE_INTERVAL = 250;
 
     private static GrblLookups GrblErrors;
     private static GrblLookups GrblAlarms;
