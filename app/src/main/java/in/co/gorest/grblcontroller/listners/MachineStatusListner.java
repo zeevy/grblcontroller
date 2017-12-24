@@ -33,8 +33,6 @@ public class MachineStatusListner extends BaseObservable {
 
     private final String emptyString = "";
     private final Double DEFAULT_FEEDRATE = 2400.0;
-    private final Integer GRBL_PLANNER_BUFFER = 15;
-    private final Integer GRBL_SERIAL_RX_BUFFER = 128;
 
     public static final String STATE_IDLE = "Idle";
     public static final String STATE_JOG = "Jog";
@@ -73,7 +71,7 @@ public class MachineStatusListner extends BaseObservable {
 
     private MachineStatusListner(){
         this.state = STATE_NOT_CONNECTED;
-        this.compileTimeOptions = new CompileTimeOptions(emptyString, GRBL_PLANNER_BUFFER, GRBL_SERIAL_RX_BUFFER);
+        this.compileTimeOptions = new CompileTimeOptions(emptyString, 15, 128);
         this.parserState = new ParserState("G0 G54 G17 G21 G90 G94");
     }
 

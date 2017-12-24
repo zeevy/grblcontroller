@@ -22,7 +22,6 @@
 package in.co.gorest.grblcontroller.events;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

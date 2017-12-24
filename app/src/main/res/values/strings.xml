@@ -17,7 +17,6 @@
     <string name="no_gcode_file_selected">No gcode file selected</string>
     <string name="no_external_read_permission">Unable to read external storage, check permissions</string>
     <string name="sleep_after_job">sleep_after_job</string>
-    <string name="enable_fast_check_mode">enable_fast_check_mode</string>
     <string name="probing_feedrate">probing_feedrate</string>
     <string name="probing_plate_thickness">probing_plate_thickness</string>
     <string name="probing_distance">probing_distance</string>
@@ -26,15 +25,6 @@
         auto zero Z-Axis on work piece surface by using G10 L20 P0 Z(d) (d is probing plate thickness)
     </string>
     <string name="show_probing_help">show_probing_help</string>
-    <string name="event_file_streaming_started">Streaming started</string>
-    <string name="event_file_streaming_stopped">Streaming stopped</string>
-    <string name="event_file_streaming_completed">Streaming completed</string>
-    <string name="event_file_streaming_checking">Gcode checking</string>
-    <string name="event_grbl_error">Grbl errors</string>
-    <string name="event_grbl_alarm">Grbl alarms</string>
-    <string name="event_grbl_version">Grbl versions</string>
-    <string name="skip_error_20">skip_error_20</string>
-    <string name="privacy_statement"><a href="https://gorest.co.in/grbl-controller-privacy-policy.html ">Privacy Statement</a></string>
 
     <string name="grbl_alarm_format">Alarm:%d %s</string>
     <string name="grbl_error_format">Error:%d %s</string>
@@ -49,65 +39,48 @@
         <item>1</item>
     </string-array>
 
-    <string name="machine_probe_pin_invert">machine_probe_pin_invert</string>
-    <string name="enable_machine_settings">enable_machine_settings</string>
-    <string name="inches">Inches</string>
     <string name="verbose_output">Verbose output</string>
     <string name="steps_feed">Step | Feed</string>
-    <string name="spindle">Spindle</string>
-    <string name="flood">Flood</string>
-    <string name="mist">Mist</string>
     <string name="probing_feedrate_text">Probing feedrate</string>
     <string name="touch_plate_thickness">Plate thickness</string>
     <string name="distance_to_probe">Distance to probe</string>
     <string name="auto_zero_z_axis_after_probe">Zero Z axis after probe</string>
     <string name="start_probe">Start Probe</string>
-    <string name="auto_connect_to_last_used_device">Auto connect to last used device</string>
-    <string name="jogging_max_step_size_text">Jogging max step size</string>
-    <string name="jogging_max_feed_rate_text">Jogging max feed rate</string>
     <string name="reset">Reset</string>
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
     <string name="settings">Settings</string>
     <string name="grbl_unsupported">Only Grbl version 1.1 or Above is supported</string>
-    <string name="grbl_version">Grbl Version</string>
     <string name="enable_custom_buttons">enable_custom_buttons</string>
     <string name="custom_button_one">custom_button_one</string>
     <string name="custom_button_one_long_click">custom_button_one_long_click</string>
     <string name="custom_button_one_short_click">custom_button_one_short_click</string>
     <string name="custom_button_one_confirm">custom_button_one_confirm</string>
-    <string name="custom_button_one_only_idle">custom_button_one_only_idle</string>
     <string name="value_na">NA</string>
-    <string name="value_none">NONE</string>
     <string name="custom_button_two">custom_button_two</string>
     <string name="custom_button_two_short_click">custom_button_two_short_click</string>
     <string name="custom_button_two_long_click">custom_button_two_long_click</string>
     <string name="value_empty" />
 
     <string name="custom_button_two_confirm">custom_button_two_confirm</string>
-    <string name="custom_button_two_only_idle">custom_button_two_only_idle</string>
     <string name="custom_button_three">custom_button_three</string>
     <string name="custom_button_three_short_click">custom_button_three_short_click</string>
     <string name="custom_button_three_long_click">custom_button_three_long_click</string>
     <string name="custom_button_three_confirm">custom_button_three_confirm</string>
-    <string name="custom_button_three_only_idle">custom_button_three_only_idle</string>
     <string name="custom_button_four">custom_button_four</string>
     <string name="custom_button_four_short_click">custom_button_four_short_click</string>
     <string name="custom_button_four_long_click">custom_button_four_long_click</string>
     <string name="custom_button_four_confirm">custom_button_four_confirm</string>
-    <string name="custom_button_four_only_idle">custom_button_four_only_idle</string>
 
     <string name="pref_rate_app_summary">If you like Grbl Controller, you can show your appreciation here.</string>
     <string name="rate_application">Rate application</string>
     <string name="mist_disabled">Mist coolant is not enabled while compilling</string>
-    <string name="is_first_run">is_first_run</string>
-    <string name="welcome">Welcome!</string>
-    <string name="first_run_text">Grbl Controller for android is free application, please contribute to its development by submiting any issues or problems that you may face. \nMore information can be found in application about page.</string>
     <string name="bluetooth_adapter_error">Bluetooth Adapter Error, please restart your phone</string>
     <string name="unable_to_connect_to_device">Unable to connect device</string>
     <string name="device_connection_was_lost">Device connection was lost</string>
     <string name="unknown_error">Unknown error: please restart the application</string>
     <string name="streaming_completed">Streaming Completed</string>
     <string name="no_bluetooth_permission">Unable to start bluetooth, please check permissions</string>
+    <string name="file_reading_in_progress">File reading in progress</string>
 
 </resources>

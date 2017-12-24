@@ -24,10 +24,8 @@ package in.co.gorest.grblcontroller.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +38,7 @@ import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconToggleButton;
 import com.xw.repo.BubbleSeekBar;
 
-import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentJoggingTabBinding;
@@ -413,7 +407,8 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
     private void setJoggingStepAndFeed(){
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View view = inflater.inflate(R.layout.dialog_step_and_feed, null);
+        final ViewGroup nullParent = null;
+        View view = inflater.inflate(R.layout.dialog_step_and_feed, nullParent, false);
 
         BubbleSeekBar jogStepSeekBar = view.findViewById(R.id.jog_step_seek_bar);
         jogStepSeekBar.setProgress(machineStatus.getJogging().step.floatValue());
@@ -421,18 +416,20 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         jogStepSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
-            public void onProgressChanged(int progress, float progressFloat) {
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 machineStatus.setJogging(Double.parseDouble(Float.toString(progressFloat)), machineStatus.getJogging().feed, sharedPref.getBoolean(getString(R.string.jogging_in_inches), false));
             }
 
             @Override
-            public void getProgressOnActionUp(int progress, float progressFloat) {
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 EnhancedSharedPreferences.Editor editor = sharedPref.edit();
                 editor.putDouble(getString(R.string.jogging_step_size), Double.parseDouble(Float.toString(progressFloat))).commit();
             }
 
             @Override
-            public void getProgressOnFinally(int progress, float progressFloat) {}
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+
+            }
         });
 
         BubbleSeekBar jogFeedSeekBar = view.findViewById(R.id.jog_feed_seek_bar);
@@ -442,18 +439,18 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         jogFeedSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
-            public void onProgressChanged(int progress, float progressFloat) {
-                machineStatus.setJogging(machineStatus.getJogging().step, Double.valueOf(progress), sharedPref.getBoolean(getString(R.string.jogging_in_inches), false));
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                machineStatus.setJogging(machineStatus.getJogging().step, progress, sharedPref.getBoolean(getString(R.string.jogging_in_inches), false));
             }
 
             @Override
-            public void getProgressOnActionUp(int progress, float progressFloat) {
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 EnhancedSharedPreferences.Editor editor = sharedPref.edit();
-                editor.putDouble(getString(R.string.jogging_feed_rate), Double.valueOf(progress)).commit();
+                editor.putDouble(getString(R.string.jogging_feed_rate), progress).commit();
             }
 
             @Override
-            public void getProgressOnFinally(int progress, float progressFloat) {}
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {}
         });
 
         SwitchCompat jogInches = view.findViewById(R.id.jog_inches);

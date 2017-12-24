@@ -138,6 +138,12 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_gcode_file_selected)));
                     return;
                 }
+
+                if(fileSender.getStatus().equals(FileSenderListner.STATUS_READING)){
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.file_reading_in_progress)));
+                    return;
+                }
+
                 startFileStreaming();
             }
         });
@@ -157,7 +163,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             IconButton iconButton = view.findViewById(resourseId);
             iconButton.setOnClickListener(this);
         }
-
 
         return view;
     }
@@ -181,12 +186,11 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 FileStreamerIntentService.setShouldContinue(true);
                 Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
                 intent.putExtra(FileStreamerIntentService.CHECK_MODE_ENABLED, machineStatus.getState().equals(MachineStatusListner.STATE_CHECK));
-                intent.putExtra(FileStreamerIntentService.FASTER_CHECK_MODE_ENABLED, sharedPref.getBoolean(getString(R.string.enable_fast_check_mode), false));
                 getActivity().startService(intent);
             }else{
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("Ready to start file sending")
-                        .setMessage("do check every thing is reaady especially spindle status!")
+                        .setTitle("Starting GCODE streaming")
+                        .setMessage("do check every thing is reaady!")
                         .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 FileStreamerIntentService.setShouldContinue(true);
@@ -215,6 +219,8 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
             }
         }
+
+        fileSender.setStatus(FileSenderListner.STATUS_IDLE);
     }
 
     @Override
@@ -310,22 +316,26 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     private class ReadFileAsyncTask extends AsyncTask<File, Integer, Integer> {
 
         protected void onPreExecute(){
-            fileSender.setRowsInFile(0);
-            fileSender.setRowsSent(0);
+            fileSender.setStatus(FileSenderListner.STATUS_READING);
+            this.initFeileSenderListner();
         }
 
         protected Integer doInBackground(File... file){
-            Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+            Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
 
             Integer lines = 0;
             try{
                 BufferedReader reader = new BufferedReader(new FileReader(file[0]));
-                while (reader.readLine() != null){
+                String sCurrentLine;
+                while((sCurrentLine = reader.readLine()) != null){
+                    fileSender.addGcodeCommand(sCurrentLine);
                     lines++;
                     if(lines%1000 == 0) publishProgress(lines);
                 }
                 reader.close();
             }catch (IOException e){
+                this.initFeileSenderListner();
+                fileSender.setStatus(FileSenderListner.STATUS_IDLE);
                 Log.e(TAG, e.getMessage(), e);
             }
 
@@ -338,11 +348,18 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
         public void onPostExecute(Integer lines){
             fileSender.setRowsInFile(lines);
+            fileSender.setStatus(FileSenderListner.STATUS_IDLE);
+        }
+
+        private void initFeileSenderListner(){
+            fileSender.setRowsInFile(0);
+            fileSender.setRowsSent(0);
+            fileSender.clearGcodeCommands();
         }
     }
 
     private void getFilePicker(){
-        String[] gcodeTypes = {".tap",".gcode", ".nc"};
+        String[] gcodeTypes = {".tap",".gcode", ".nc",};
         FilePickerBuilder.getInstance().setMaxCount(1)
                 .setActivityTheme(R.style.AppTheme)
                 .addFileSupport(".tap | .gcode | .nc", gcodeTypes, R.drawable.ic_insert_drive_file)

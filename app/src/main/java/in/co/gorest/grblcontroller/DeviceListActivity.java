@@ -40,7 +40,6 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 

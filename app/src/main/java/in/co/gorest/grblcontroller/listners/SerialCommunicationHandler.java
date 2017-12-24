@@ -45,6 +45,7 @@ import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.Position;
 import in.co.gorest.grblcontroller.service.GrblSerialService;
+import in.co.gorest.grblcontroller.service.SerialThreadService;
 import in.co.gorest.grblcontroller.util.GrblLookups;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner.BuildInfo;
@@ -53,10 +54,10 @@ import static org.greenrobot.eventbus.EventBus.TAG;
 
 public class SerialCommunicationHandler extends Handler {
 
-    private ExecutorService singleThreadExecutor;
-    private MachineStatusListner machineStatus;
+    private final ExecutorService singleThreadExecutor;
+    private final MachineStatusListner machineStatus;
     private ScheduledExecutorService grblStatusUpdater = null;
-    private static final long GRBL_STATUS_UPDATE_INTERVAL = 250;
+    private static final long GRBL_STATUS_UPDATE_INTERVAL = 500;
 
     private static GrblLookups GrblErrors;
     private static GrblLookups GrblAlarms;
@@ -151,7 +152,7 @@ public class SerialCommunicationHandler extends Handler {
                 EventBus.getDefault().post(new UiToastEvent(GrblConttroller.getContext().getString(R.string.grbl_unsupported)));
                 grblSerialService.disconnectService();
             }else{
-                grblSerialService.isGrblFound = true;
+                SerialThreadService.isGrblFound = true;
                 EventBus.getDefault().post(new ConsoleMessageEvent(message));
 
                 grblSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
@@ -180,7 +181,7 @@ public class SerialCommunicationHandler extends Handler {
 
     }
 
-    public void startGrblStatusUpdateService(final GrblSerialService grblSerialService){
+    private void startGrblStatusUpdateService(final GrblSerialService grblSerialService){
 
         stopGrblStatusUpdateService();
 
@@ -188,7 +189,7 @@ public class SerialCommunicationHandler extends Handler {
         grblStatusUpdater.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                if(grblSerialService.getState() == grblSerialService.STATE_CONNECTED) grblSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
+                if(grblSerialService.getState() == SerialThreadService.STATE_CONNECTED) grblSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
             }
         }, GRBL_STATUS_UPDATE_INTERVAL, GRBL_STATUS_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
 

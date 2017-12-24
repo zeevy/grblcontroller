@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content" />
 
                 <com.joanzapata.iconify.widget.IconTextView
-                    android:enabled="@{machineStatus.state.equals(machineStatus.STATE_IDLE) || machineStatus.state.equals(machineStatus.STATE_CHECK)}"
+                    android:enabled="@{(machineStatus.state.equals(machineStatus.STATE_IDLE) || machineStatus.state.equals(machineStatus.STATE_CHECK)) &amp;&amp; fileSender.status.equals(fileSender.STATUS_IDLE)}"
                     android:text="{fa-file-text 24dp}"
                     android:id="@+id/select_gcode_file"
                     android:layout_alignParentEnd="true"
@@ -186,7 +186,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.overridePercents.rapid == 100 ? "{fa-rocket 18dp @color/colorAccent} R100" : "{fa-rocket 18dp} R100"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 18dp @color/colorAccent} R100" : "{fa-rocket 18dp} R100"}'
                         android:id="@+id/rapid_overrides_reset"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -195,7 +195,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.overridePercents.rapid == 50 ? "{fa-rocket 18dp @color/colorAccent} R50" : "{fa-rocket 18dp} R50"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 18dp @color/colorAccent} R50" : "{fa-rocket 18dp} R50"}'
                         android:id="@+id/rapid_override_medium"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -204,7 +204,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.overridePercents.rapid == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 18dp} R25"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 18dp} R25"}'
                         android:id="@+id/rapid_overrirde_low"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"

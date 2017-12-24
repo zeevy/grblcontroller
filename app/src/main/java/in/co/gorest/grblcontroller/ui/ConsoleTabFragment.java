@@ -72,7 +72,7 @@ public class ConsoleTabFragment extends BaseFragment {
 
         FragmentConsoleTabBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_console_tab, container, false);
         View view = binding.getRoot();
-        binding.setConsoleLogger(consoleLogger);
+        binding.setConsole(consoleLogger);
         binding.setMachineStatus(machineStatus);
 
         TextView consoleLogView = view.findViewById(R.id.console_logger);

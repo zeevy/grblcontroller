@@ -21,7 +21,6 @@
 
 package in.co.gorest.grblcontroller;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -36,13 +35,10 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.view.menu.MenuBuilder;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
@@ -75,9 +71,9 @@ public abstract class GrblActivity extends AppCompatActivity {
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 12;
 
     private boolean mBound = false;
-    GrblSerialService grblSerialService = null;
+    private GrblSerialService grblSerialService = null;
     String lastToastMessage = null;
-    Toast toastMessage;
+    private Toast toastMessage;
 
     private BluetoothAdapter bluetoothAdapter = null;
 

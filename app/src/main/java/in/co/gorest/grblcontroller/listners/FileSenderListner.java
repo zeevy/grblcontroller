@@ -26,8 +26,10 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import in.co.gorest.grblcontroller.BR;
+import in.co.gorest.grblcontroller.model.GcodeCommand;
 
 public class FileSenderListner extends BaseObservable {
 
@@ -35,6 +37,14 @@ public class FileSenderListner extends BaseObservable {
     private File gcodeFile;
     private Integer rowsInFile;
     private Integer rowsSent;
+
+    private String status;
+
+    public static final String STATUS_IDLE = "Idle";
+    public static final String STATUS_READING = "Reading";
+    public static final String STATUS_STREAMING = "Streaming";
+
+    private final ArrayList<GcodeCommand> gcodeCommands = new ArrayList<>();
 
     private long jobStartTime = 0L;
     private long jobEndTime = 0L;
@@ -47,10 +57,12 @@ public class FileSenderListner extends BaseObservable {
     }
 
     private FileSenderListner(){
+        this.setStatus(STATUS_IDLE);
         this.gcodeFileName = "File type .gcode | .nc | .tap";
         this.gcodeFile = null;
         this.rowsInFile = 0;
         this.rowsSent = 0;
+        this.gcodeCommands.clear();
     }
 
     @Bindable
@@ -65,6 +77,7 @@ public class FileSenderListner extends BaseObservable {
     public void setGcodeFile(File gcodeFile){
         this.gcodeFile = gcodeFile;
         this.setGcodeFileName(gcodeFile.getName());
+        this.gcodeCommands.clear();
         notifyPropertyChanged(BR.gcodeFile);
     }
 
@@ -101,6 +114,26 @@ public class FileSenderListner extends BaseObservable {
     public void setElaspsedTime(String elaspsedTime){
         this.elaspsedTime = elaspsedTime;
         notifyPropertyChanged(BR.elaspsedTime);
+    }
+
+    @Bindable
+    public String getStatus(){ return this.status; }
+    public void setStatus(String status){
+        this.status = status;
+        notifyPropertyChanged(BR.status);
+    }
+
+    public void addGcodeCommand(String command){
+        GcodeCommand gcodeCommand = new GcodeCommand(command);
+        if(gcodeCommand.getCommandString().length() > 0) gcodeCommands.add(gcodeCommand);
+    }
+
+    public ArrayList<GcodeCommand> getGcodeCommands(){
+        return this.gcodeCommands;
+    }
+
+    public void clearGcodeCommands(){
+        this.gcodeCommands.clear();
     }
 
 }

@@ -34,9 +34,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import in.co.gorest.grblcontroller.R;
-import in.co.gorest.grblcontroller.events.GrblGcodeCommandEvent;
+import in.co.gorest.grblcontroller.events.GrblRealTimeCommandEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.listners.SerialCommunicationHandler;
+import in.co.gorest.grblcontroller.model.GcodeCommand;
 
 public class GrblSerialService extends SerialThreadService{
 
@@ -73,7 +74,7 @@ public class GrblSerialService extends SerialThreadService{
             String deviceAddress = intent.getStringExtra(KEY_MAC_ADDRESS);
             if(deviceAddress != null){
                 try{
-                    BluetoothDevice device = mAdapter.getRemoteDevice(deviceAddress);
+                    BluetoothDevice device = mAdapter.getRemoteDevice(deviceAddress.toUpperCase());
                     this.connect(device, false);
                 }catch(RuntimeException e){
                     EventBus.getDefault().post(new UiToastEvent(e.getMessage()));
@@ -84,7 +85,7 @@ public class GrblSerialService extends SerialThreadService{
         }else{
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.unknown_error)));
             disconnectService();
-			stopSelf();
+            stopSelf();
         }
 
         return Service.START_NOT_STICKY;
@@ -103,8 +104,13 @@ public class GrblSerialService extends SerialThreadService{
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onGrblGcodeSendEvent(GrblGcodeCommandEvent event){
-        serialWriteString(event.getCommand());
+    public void onGrblGcodeSendEvent(GcodeCommand event){
+        serialWriteString(event.getCommandString());
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onGrblRelatimeCommandEvent(GrblRealTimeCommandEvent grblRealTimeCommandEvent){
+        serialWriteByte(grblRealTimeCommandEvent.getCommand());
     }
 
 }

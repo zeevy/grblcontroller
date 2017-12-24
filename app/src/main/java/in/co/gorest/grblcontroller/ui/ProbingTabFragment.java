@@ -46,7 +46,6 @@ import in.co.gorest.grblcontroller.events.GrblProbeEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
-import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class ProbingTabFragment extends BaseFragment {
 
@@ -56,7 +55,7 @@ public class ProbingTabFragment extends BaseFragment {
 
     private TextView probingFeedrate, probingPlateThickness, probingDistance;
 
-    private static final int PROBE_TYPE_AUTO_ZERRO = 1;
+    private static final int PROBE_TYPE_AUTO_ZERO = 1;
     private static final int PROBE_TYPE_TOOL_CHANGE = 2;
 
     private Integer probeType = null;
@@ -131,7 +130,7 @@ public class ProbingTabFragment extends BaseFragment {
             public void onClick(View view) {
 
                 if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
-                    probeType = PROBE_TYPE_AUTO_ZERRO;
+                    probeType = PROBE_TYPE_AUTO_ZERO;
 
                     String probeDistance = probingDistance.getText().toString();
                     String probeFeedrate = probingFeedrate.getText().toString();
@@ -156,7 +155,7 @@ public class ProbingTabFragment extends BaseFragment {
         probingHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showProbingHelp(false);
+                showProbingHelp();
             }
         });
 
@@ -165,7 +164,8 @@ public class ProbingTabFragment extends BaseFragment {
 
     private void setProbingDistance(){
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View v = inflater.inflate(R.layout.dialog_input_decimal, null);
+        final ViewGroup nullParent = null;
+        View v = inflater.inflate(R.layout.dialog_input_decimal, nullParent, false);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(v);
@@ -200,7 +200,8 @@ public class ProbingTabFragment extends BaseFragment {
 
     private void setProbingPlateThickness(){
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View v = inflater.inflate(R.layout.dialog_input_decimal, null);
+        final ViewGroup nullParent = null;
+        View v = inflater.inflate(R.layout.dialog_input_decimal, nullParent, false);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(v);
@@ -233,11 +234,12 @@ public class ProbingTabFragment extends BaseFragment {
 
     private void setProbingFeedrate(){
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View v = inflater.inflate(R.layout.dialog_input_decimal, null);
+        final ViewGroup nullParent = null;
+        View v = inflater.inflate(R.layout.dialog_input_decimal, nullParent, false);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(v);
-        alertDialogBuilder.setTitle("Probing feedrate");
+        alertDialogBuilder.setTitle("Probing feed rate");
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
         editText.setText(sharedPref.getString(getString(R.string.probing_feedrate), "10.0"));
@@ -263,7 +265,7 @@ public class ProbingTabFragment extends BaseFragment {
         dialog.show();
     }
 
-    private void showProbingHelp(boolean showNegativeButton){
+    private void showProbingHelp(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle("Probing help")
                 .setMessage(R.string.probing_help_text)
@@ -271,15 +273,6 @@ public class ProbingTabFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) { }
                 })
                 .setCancelable(false);
-
-        if(showNegativeButton){
-            alertDialogBuilder.setNegativeButton("Don't show again", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    sharedPref.edit().putBoolean(getString(R.string.show_probing_help), false).apply();
-                }
-            });
-        }
 
         alertDialogBuilder.show();
     }
@@ -296,7 +289,7 @@ public class ProbingTabFragment extends BaseFragment {
 
         Double probePlateThickness = Double.parseDouble(probingPlateThickness.getText().toString());
 
-        if(probeType == PROBE_TYPE_AUTO_ZERRO && autoZeroAfterProbe.isChecked()){
+        if(probeType == PROBE_TYPE_AUTO_ZERO && autoZeroAfterProbe.isChecked()){
             fragmentInteractionListener.onGcodeCommandReceived("G53 G0 Z" + event.getProbeCordZ().toString());
             fragmentInteractionListener.onGcodeCommandReceived("G10 L20 P0 Z" + probePlateThickness);
         }
