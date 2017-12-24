@@ -22,8 +22,8 @@ android {
         applicationId "in.co.gorest.grblcontroller"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 11
-        versionName "1.8"
+        versionCode 12
+        versionName "2.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -51,13 +51,13 @@ dependencies {
     compile 'org.apache.commons:commons-collections4:4.1'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
     compile 'com.android.support:gridlayout-v7:26.+'
-    compile 'com.droidninja:filepicker:2.0.8'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.xw.repo:bubbleseekbar:3.6'
+    compile 'com.droidninja:filepicker:2.1.1'
+    compile 'org.greenrobot:eventbus:3.1.1'
+    compile 'com.xw.repo:bubbleseekbar:3.12'
     compile 'com.github.michael-rapp:android-material-preferences:3.0.1'
     compile 'com.android.support:support-vector-drawable:26.+'
     testCompile 'junit:junit:4.12'
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
-        transitive = true;
+        transitive = true
     }
 }
