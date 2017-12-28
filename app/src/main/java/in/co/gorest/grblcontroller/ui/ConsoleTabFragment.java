@@ -87,10 +87,6 @@ public class ConsoleTabFragment extends BaseFragment {
                 String command = commandInput.getText().toString();
                 if(command.length() > 0){
                     fragmentInteractionListener.onGcodeCommandReceived(command.trim());
-                    if(GrblUtils.isGrblSettingMessage(command.trim())){
-                        GrblLookups grblSettings = new GrblLookups(getActivity().getApplicationContext(), "setting_codes");
-                        EventBus.getDefault().post(new GrblSettingMessageEvent(grblSettings, command.trim()));
-                    }
                     commandInput.setText(null);
                 }
             }

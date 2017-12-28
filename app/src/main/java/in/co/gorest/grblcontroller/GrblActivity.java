@@ -41,11 +41,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
@@ -56,6 +58,7 @@ import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblSerialService;
 import in.co.gorest.grblcontroller.service.GrblSerialService.GrblSerialServiceBinder;
+import in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public abstract class GrblActivity extends AppCompatActivity {
@@ -65,6 +68,7 @@ public abstract class GrblActivity extends AppCompatActivity {
     }
 
     private static final String TAG = GrblActivity.class.getSimpleName();
+    public static boolean isAppRunning;
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 11;
@@ -95,6 +99,21 @@ public abstract class GrblActivity extends AppCompatActivity {
         }
 
         sharedPref = EnhancedSharedPreferences.getInstance(GrblConttroller.getContext(), getString(R.string.shared_preference_key));
+
+        boolean isTokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
+        final String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
+
+        if(!isTokenSent && fcmToken != null){
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                    MyFirebaseInstanceIDService.sendRegistrationToServer(fcmToken);
+                }
+            };
+
+            thread.start();
+        }
+
         EventBus.getDefault().register(this);
 
     }
@@ -146,6 +165,7 @@ public abstract class GrblActivity extends AppCompatActivity {
         }
 
         EventBus.getDefault().unregister(this);
+        isAppRunning = false;
     }
 
     @Override

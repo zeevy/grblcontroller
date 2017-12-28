@@ -44,8 +44,6 @@ public class FileSenderListner extends BaseObservable {
     public static final String STATUS_READING = "Reading";
     public static final String STATUS_STREAMING = "Streaming";
 
-    private final ArrayList<GcodeCommand> gcodeCommands = new ArrayList<>();
-
     private long jobStartTime = 0L;
     private long jobEndTime = 0L;
     private String elaspsedTime = "00:00:00";
@@ -58,11 +56,10 @@ public class FileSenderListner extends BaseObservable {
 
     private FileSenderListner(){
         this.setStatus(STATUS_IDLE);
-        this.gcodeFileName = "File type .gcode | .nc | .tap";
+        this.gcodeFileName = "File types .tap | .gcode | .nc | .ngc";
         this.gcodeFile = null;
         this.rowsInFile = 0;
         this.rowsSent = 0;
-        this.gcodeCommands.clear();
     }
 
     @Bindable
@@ -77,7 +74,6 @@ public class FileSenderListner extends BaseObservable {
     public void setGcodeFile(File gcodeFile){
         this.gcodeFile = gcodeFile;
         this.setGcodeFileName(gcodeFile.getName());
-        this.gcodeCommands.clear();
         notifyPropertyChanged(BR.gcodeFile);
     }
 
@@ -121,19 +117,6 @@ public class FileSenderListner extends BaseObservable {
     public void setStatus(String status){
         this.status = status;
         notifyPropertyChanged(BR.status);
-    }
-
-    public void addGcodeCommand(String command){
-        GcodeCommand gcodeCommand = new GcodeCommand(command);
-        if(gcodeCommand.getCommandString().length() > 0) gcodeCommands.add(gcodeCommand);
-    }
-
-    public ArrayList<GcodeCommand> getGcodeCommands(){
-        return this.gcodeCommands;
-    }
-
-    public void clearGcodeCommands(){
-        this.gcodeCommands.clear();
     }
 
 }

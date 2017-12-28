@@ -33,4 +33,6 @@ public interface Constants {
     String DEVICE_NAME = "device_name";
     String TOAST = "toast";
 
+    String DEFAULT_NOTIFICATION_CHANNEL = "General";
+
 }

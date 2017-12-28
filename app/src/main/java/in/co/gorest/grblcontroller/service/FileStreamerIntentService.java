@@ -30,6 +30,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Timer;
@@ -100,7 +103,7 @@ public class FileStreamerIntentService extends IntentService{
 
         MachineStatusListner.CompileTimeOptions compileTimeOptions = MachineStatusListner.getInstance().getCompileTimeOptions();
         if(compileTimeOptions.serialRxBuffer > 0) MAX_RX_SERIAL_BUFFER = compileTimeOptions.serialRxBuffer - 3;
-        Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
+        Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
 
         boolean isCheckMode = intent.getBooleanExtra(CHECK_MODE_ENABLED, false);
 
@@ -146,33 +149,63 @@ public class FileStreamerIntentService extends IntentService{
     }
 
     private void startStreaming(){
-        int linesSent = 0;
-        for(GcodeCommand gcodeCommand: fileSenderListner.getGcodeCommands()){
-            if(!shouldContinue) break;
-            if(!gcodeCommand.getHasModalSet()){
-                streamLine(gcodeCommand);
-            }else{
-                streamLine(gcodeCommand);
-                this.waitUntilBufferRunout();
-                streamLine(new GcodeCommand(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND));
-                this.waitUntilBufferRunout();
+
+        BufferedReader br; String sCurrentLine;
+        try{
+            br = new BufferedReader(new FileReader(fileSenderListner.getGcodeFile()));
+            int linesSent = 0;
+            while ((sCurrentLine = br.readLine()) != null) {
+                if(!shouldContinue) break;
+
+                GcodeCommand gcodeCommand = new GcodeCommand(sCurrentLine);
+                if(gcodeCommand.getCommandString().length() > 0){
+
+                    if(gcodeCommand.getHasModalSet()){
+                        streamLine(gcodeCommand);
+                        this.waitUntilBufferRunout();
+                        streamLine(new GcodeCommand(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND));
+                        this.waitUntilBufferRunout();
+                    }else{
+                        streamLine(gcodeCommand);
+                    }
+
+                    linesSent++;
+                }
+
+                if(linesSent%5 == 0) fileSenderListner.setRowsSent(linesSent);
             }
 
-            linesSent++;
-            if(linesSent%5 == 0) fileSenderListner.setRowsSent(linesSent);
+            br.close();
+            fileSenderListner.setRowsSent(linesSent);
+
+        }catch (IOException | NullPointerException e){
+            Log.e(TAG, e.getMessage(), e);
         }
-        fileSenderListner.setRowsSent(linesSent);
+
     }
 
     private void checkGcodeFile(){
-        int linesSent = 0;
-        for(GcodeCommand gcodeCommand: fileSenderListner.getGcodeCommands()){
-            if(!shouldContinue) break;
-            EventBus.getDefault().post(gcodeCommand);
-            linesSent++;
-            if(linesSent%250 == 0) fileSenderListner.setRowsSent(linesSent);
+
+        BufferedReader br; String sCurrentLine;
+        try{
+            br = new BufferedReader(new FileReader(fileSenderListner.getGcodeFile()));
+            int linesSent = 0;
+            while ((sCurrentLine = br.readLine()) != null) {
+                if(!shouldContinue) break;
+                GcodeCommand gcodeCommand = new GcodeCommand(sCurrentLine);
+                if(gcodeCommand.getCommandString().length() > 0){
+                    EventBus.getDefault().post(gcodeCommand);
+                    linesSent++;
+                }
+                if(linesSent%555 == 0) fileSenderListner.setRowsSent(linesSent);
+            }
+            br.close();
+
+            fileSenderListner.setRowsSent(linesSent);
+
+        }catch (IOException | NullPointerException e){
+            Log.e(TAG, e.getMessage(), e);
         }
-        fileSenderListner.setRowsSent(linesSent);
     }
 
     private void waitUntilBufferRunout(){

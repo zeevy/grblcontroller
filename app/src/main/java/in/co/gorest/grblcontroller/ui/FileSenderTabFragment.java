@@ -60,8 +60,10 @@ import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listners.FileSenderListner;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.model.Overrides;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
+import in.co.gorest.grblcontroller.util.GcodePreprocessorUtils;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class FileSenderTabFragment extends BaseFragment implements View.OnClickListener{
@@ -220,7 +222,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             }
         }
 
-        fileSender.setStatus(FileSenderListner.STATUS_IDLE);
+        if(fileSender.getStatus().equals(FileSenderListner.STATUS_STREAMING)) fileSender.setStatus(FileSenderListner.STATUS_IDLE);
     }
 
     @Override
@@ -321,16 +323,29 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         }
 
         protected Integer doInBackground(File... file){
-            Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
+            //Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
 
             Integer lines = 0;
             try{
                 BufferedReader reader = new BufferedReader(new FileReader(file[0]));
                 String sCurrentLine;
                 while((sCurrentLine = reader.readLine()) != null){
-                    fileSender.addGcodeCommand(sCurrentLine);
-                    lines++;
-                    if(lines%1000 == 0) publishProgress(lines);
+
+                    String commnet = GcodePreprocessorUtils.parseComment(sCurrentLine);
+                    if(commnet.length() > 0){
+                        sCurrentLine = GcodePreprocessorUtils.removeComment(sCurrentLine);
+                    }
+                    sCurrentLine = GcodePreprocessorUtils.removeWhiteSpace(sCurrentLine);
+                    if(sCurrentLine.length() > 0){
+                        lines++;
+                        if(sCurrentLine.length() >= 79){
+                            EventBus.getDefault().post(new UiToastEvent("WARNING! Gcode command with length upto 80 characters found at line " + String.valueOf(lines)));
+                            initFeileSenderListner();
+                            fileSender.setStatus(FileSenderListner.STATUS_IDLE);
+                            cancel(true);
+                        }
+                    }
+                    if(lines%2500 == 0) publishProgress(lines);
                 }
                 reader.close();
             }catch (IOException e){
@@ -354,15 +369,14 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         private void initFeileSenderListner(){
             fileSender.setRowsInFile(0);
             fileSender.setRowsSent(0);
-            fileSender.clearGcodeCommands();
         }
     }
 
     private void getFilePicker(){
-        String[] gcodeTypes = {".tap",".gcode", ".nc",};
+        String[] gcodeTypes = {".tap",".gcode", ".nc", ".ngc"};
         FilePickerBuilder.getInstance().setMaxCount(1)
                 .setActivityTheme(R.style.AppTheme)
-                .addFileSupport(".tap | .gcode | .nc", gcodeTypes, R.drawable.ic_insert_drive_file)
+                .addFileSupport(".tap | .gcode | .nc | .ngc", gcodeTypes, R.drawable.ic_insert_drive_file)
                 .enableDocSupport(false)
                 .pickFile(getActivity());
     }
