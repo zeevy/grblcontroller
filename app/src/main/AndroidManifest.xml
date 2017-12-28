@@ -8,16 +8,31 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:name=".GrblConttroller"
+        android:largeHeap="true"
+        android:name="in.co.gorest.grblcontroller.GrblConttroller"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_ic_notification" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+
+
         <activity
-            android:name=".SplashActivity"
+            android:name="in.co.gorest.grblcontroller.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -27,33 +42,46 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="in.co.gorest.grblcontroller.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".DeviceListActivity"
+            android:name="in.co.gorest.grblcontroller.DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="Select Paired Device"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Material.Light.Dialog"
             tools:targetApi="lollipop" />
 
-        <activity android:name=".SettingsActivity" android:screenOrientation="portrait" />
-        <activity android:name=".AboutActivity" android:screenOrientation="portrait" />
+        <activity android:name="in.co.gorest.grblcontroller.SettingsActivity" android:screenOrientation="portrait" />
+        <activity android:name="in.co.gorest.grblcontroller.AboutActivity" android:screenOrientation="portrait" />
 
 
         <service
-            android:name=".service.GrblSerialService"
+            android:name="in.co.gorest.grblcontroller.service.GrblSerialService"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".service.FileStreamerIntentService"
+            android:name="in.co.gorest.grblcontroller.service.FileStreamerIntentService"
             android:exported="false" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="6d7003aa8ac3717a95dc5c77c2da4bf5ad8c74ff" />
+        <service
+            android:name="in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="in.co.gorest.grblcontroller.service.MyFirebaseMessagingService"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
