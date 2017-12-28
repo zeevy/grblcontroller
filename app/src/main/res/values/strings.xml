@@ -82,5 +82,10 @@
     <string name="streaming_completed">Streaming Completed</string>
     <string name="no_bluetooth_permission">Unable to start bluetooth, please check permissions</string>
     <string name="file_reading_in_progress">File reading in progress</string>
+    <string name="firebase_cloud_messaging_token">firebase_cloud_messaging_token</string>
+    <string name="firebase_cloud_messaging_token_sent">firebase_cloud_messaging_token_sent</string>
+
+    <string name="default_notification_channel_id">General</string>
+    <string name="subscribe_to_notifications">subscribe_to_notifications</string>
 
 </resources>
