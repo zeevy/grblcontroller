@@ -14,6 +14,10 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
+configurations {
+    all*.exclude group: 'com.google.firebase', module: 'firebase-core'
+    all*.exclude group: 'com.google.firebase', module: 'firebase-iid'
+}
 
 android {
     compileSdkVersion 26
@@ -23,7 +27,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 12
-        versionName "2.0.1"
+        versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -48,28 +52,25 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-messaging:11.8.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.+'
-    compile 'com.android.support:cardview-v7:26.+'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
     compile 'org.apache.commons:commons-collections4:4.1'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
-    compile 'com.android.support:gridlayout-v7:26.+'
+    compile 'com.android.support:gridlayout-v7:26.1.0'
     compile 'com.droidninja:filepicker:2.1.1'
     compile 'org.greenrobot:eventbus:3.1.1'
-    compile 'com.xw.repo:bubbleseekbar:3.12'
-    compile 'com.github.michael-rapp:android-material-preferences:3.0.1'
-    compile 'com.android.support:support-vector-drawable:26.+'
+    compile 'com.xw.repo:bubbleseekbar:3.13'
+    compile 'com.github.michael-rapp:android-material-preferences:3.1.0'
+    compile 'com.android.support:support-vector-drawable:26.1.0'
     testCompile 'junit:junit:4.12'
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true
     }
 }
-
-apply plugin: 'com.google.gms.google-services'
