@@ -112,7 +112,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                     public void onClick(View view) {
                         final String tag = view.getTag().toString();
 
-                        if(tag.equals("$X")){
+                        if(tag.equals(GrblUtils.GRBL_KILL_ALARM_LOCK_COMMAND)){
                             if(!machineStatus.getState().equals(MachineStatusListner.STATE_RUN)) fragmentInteractionListener.onGcodeCommandReceived(tag);
                             return;
                         }
@@ -352,7 +352,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private void gotoAxisZero(final String axis){
         new AlertDialog.Builder(getActivity())
                 .setTitle("Move " + axis + " axis to zero position?")
-                .setMessage("goto axis zero position in current coordinate system | GO " + axis + "0")
+                .setMessage("goto axis zero position in current coordinate system | G0 " + axis + "0")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         sendCommandIfIdle("G0 " + axis + "0");

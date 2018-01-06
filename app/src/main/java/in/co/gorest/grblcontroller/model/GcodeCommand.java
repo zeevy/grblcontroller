@@ -28,14 +28,24 @@ import in.co.gorest.grblcontroller.util.GcodePreprocessorUtils;
 public class GcodeCommand {
 
     private String command;
-    private final String comment;
-    private final Boolean hasModalSet;
+    private String comment;
+
+    public GcodeCommand(){}
 
     public GcodeCommand(String command) {
+        this.command = command;
+        this.parseCommand();
+    }
+
+    public void setCommand(String command){
+        this.command = command;
+        this.parseCommand();
+    }
+
+    private void parseCommand(){
         this.command = GcodePreprocessorUtils.removeWhiteSpace(command);
         this.comment = GcodePreprocessorUtils.parseComment(command);
         if(this.getHasComment()) this.command = GcodePreprocessorUtils.removeComment(command);
-        this.hasModalSet = this.checkModalSet();
     }
 
     public String getCommandString() {
@@ -46,16 +56,16 @@ public class GcodeCommand {
         return this.comment != null && this.comment.length() != 0;
     }
 
-    public Boolean getHasModalSet(){
-        return this.hasModalSet;
+    public boolean hasModalSet(){
+        return this.command.contains("G54") || this.command.contains("G55") || this.command.contains("G56") || this.command.contains("G57") || this.command.contains("G58") || this.command.contains("G59")
+                || this.command.contains("G10") || this.command.contains("G28.1") || this.command.contains("G30.1")
+                || this.command.contains("G20") || this.command.contains("G21") || this.command.contains("G90") || this.command.contains("G91") || this.command.contains("G28") || this.command.contains("G30")
+                || this.hasTlo();
+
     }
 
-    private boolean checkModalSet(){
-        return this.command.contains("G54") || this.command.contains("G55") || this.command.contains("G56")
-                || this.command.contains("G57") || this.command.contains("G58") || this.command.contains("G59")
-                || this.command.contains("G59.1") || this.command.contains("G59.2") ||this.command.contains("G59.3") || this.command.contains("G10") || this.command.contains("G28.1") || this.command.contains("G30.1")
-                || this.command.contains("G20") || this.command.contains("G21") || this.command.contains("G90") || this.command.contains("G91") || this.command.contains("G28") || this.command.contains("G30");
-
+    public boolean hasTlo(){
+        return this.command.contains("G43.1") || this.command.contains("G49");
     }
 
 }

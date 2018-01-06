@@ -22,8 +22,13 @@
 package in.co.gorest.grblcontroller.service;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Process;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,6 +50,7 @@ import in.co.gorest.grblcontroller.events.GrblErrorEvent;
 import in.co.gorest.grblcontroller.events.GrblOkEvent;
 import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.listners.FileSenderListner;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
@@ -74,6 +80,8 @@ public class FileStreamerIntentService extends IntentService{
     private FileSenderListner fileSenderListner;
     private final Timer jobTimer = new Timer();
 
+    private static final int NOTIFICATION_ID = 101;
+
     public FileStreamerIntentService() {
         super(FileStreamerIntentService.class.getName());
     }
@@ -90,6 +98,7 @@ public class FileStreamerIntentService extends IntentService{
         clearBuffers();
         jobTimer.cancel();
         setIsServiceRunning(false);
+        stopForeground(true);
         EventBus.getDefault().unregister(this);
     }
 
@@ -124,8 +133,16 @@ public class FileStreamerIntentService extends IntentService{
         fileSenderListner.setStatus(FileSenderListner.STATUS_STREAMING);
 
         if(isCheckMode){
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+                startForeground(NOTIFICATION_ID, getNotification("File Checking Started", fileSenderListner.getGcodeFile().getName()));
+            }
+
             this.checkGcodeFile();
         }else{
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+                startForeground(NOTIFICATION_ID, getNotification("File Streaming Started", fileSenderListner.getGcodeFile().getName()));
+            }
+
             this.startStreaming();
         }
 
@@ -146,21 +163,25 @@ public class FileStreamerIntentService extends IntentService{
 
         EventBus.getDefault().post(streamingCompleteEvent);
 
+        stopSelf();
+
     }
 
     private void startStreaming(){
 
         BufferedReader br; String sCurrentLine;
+
         try{
             br = new BufferedReader(new FileReader(fileSenderListner.getGcodeFile()));
             int linesSent = 0;
+            GcodeCommand gcodeCommand = new GcodeCommand();
             while ((sCurrentLine = br.readLine()) != null) {
                 if(!shouldContinue) break;
 
-                GcodeCommand gcodeCommand = new GcodeCommand(sCurrentLine);
+                gcodeCommand.setCommand(sCurrentLine);
                 if(gcodeCommand.getCommandString().length() > 0){
 
-                    if(gcodeCommand.getHasModalSet()){
+                    if(gcodeCommand.hasModalSet()){
                         streamLine(gcodeCommand);
                         this.waitUntilBufferRunout();
                         streamLine(new GcodeCommand(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND));
@@ -172,7 +193,10 @@ public class FileStreamerIntentService extends IntentService{
                     linesSent++;
                 }
 
-                if(linesSent%5 == 0) fileSenderListner.setRowsSent(linesSent);
+                if(linesSent%5 == 0){
+                    fileSenderListner.setRowsSent(linesSent);
+                }
+
             }
 
             br.close();
@@ -186,13 +210,17 @@ public class FileStreamerIntentService extends IntentService{
 
     private void checkGcodeFile(){
 
-        BufferedReader br; String sCurrentLine;
+
         try{
-            br = new BufferedReader(new FileReader(fileSenderListner.getGcodeFile()));
+
+            BufferedReader br = new BufferedReader(new FileReader(fileSenderListner.getGcodeFile()));
             int linesSent = 0;
+            String sCurrentLine;
+            GcodeCommand gcodeCommand = new GcodeCommand();
+
             while ((sCurrentLine = br.readLine()) != null) {
                 if(!shouldContinue) break;
-                GcodeCommand gcodeCommand = new GcodeCommand(sCurrentLine);
+                gcodeCommand.setCommand(sCurrentLine);
                 if(gcodeCommand.getCommandString().length() > 0){
                     EventBus.getDefault().post(gcodeCommand);
                     linesSent++;
@@ -251,6 +279,15 @@ public class FileStreamerIntentService extends IntentService{
         CURRENT_RX_SERIAL_BUFFER = 0;
         if(activeCommandSizes.size() > 0) activeCommandSizes.clear();
         if(completedCommands.size() > 0) completedCommands.clear();
+    }
+
+    private Notification getNotification(String title, String message){
+        return new NotificationCompat.Builder(getApplicationContext(), NotificationHelper.CHANNEL_SERVICE_ID)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_stat_ic_notification)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setAutoCancel(true).build();
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

@@ -44,6 +44,7 @@ import in.co.gorest.grblcontroller.events.GrblSettingMessageEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listners.ConsoleLoggerListner;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblLookups;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
@@ -84,9 +85,12 @@ public class ConsoleTabFragment extends BaseFragment {
         sendCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String command = commandInput.getText().toString();
-                if(command.length() > 0){
-                    fragmentInteractionListener.onGcodeCommandReceived(command.trim());
+                String commandText = commandInput.getText().toString();
+                if(commandText.length() > 0){
+                    GcodeCommand gcodeCommand = new GcodeCommand(commandText);
+                    fragmentInteractionListener.onGcodeCommandReceived(gcodeCommand.getCommandString());
+                    if(gcodeCommand.hasModalSet()) fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+                    if(gcodeCommand.hasTlo()) fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
                     commandInput.setText(null);
                 }
             }

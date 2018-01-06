@@ -21,14 +21,18 @@
 
 package in.co.gorest.grblcontroller.service;
 
+import android.app.Notification;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,6 +46,7 @@ import java.util.UUID;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.listners.SerialCommunicationHandler;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.util.GrblUtils;
@@ -52,8 +57,8 @@ public abstract class SerialThreadService extends Service{
     private static final String TAG = SerialThreadService.class.getSimpleName();
 
     // Name for the SDP record when creating server socket
-    private static final String NAME_SECURE = "CNC3040";
-    private static final String NAME_INSECURE = "CNC3040";
+    private static final String NAME_SECURE = "HC-05";
+    private static final String NAME_INSECURE = "HC-05";
     private static final byte[] BYTE_NEWLINE = { 0x0A };
 
     // Unique UUID for this application
@@ -76,6 +81,8 @@ public abstract class SerialThreadService extends Service{
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
+    private static final int NOTIFICATION_ID = 100;
+
     public static volatile boolean isGrblFound = false;
 
     SerialCommunicationHandler serialCommunicationHandler;
@@ -91,6 +98,11 @@ public abstract class SerialThreadService extends Service{
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.bluetooth_adapter_error)));
             stopSelf();
         }
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+            startForeground(NOTIFICATION_ID, this.getNotification(null));
+        }
+
     }
 
     @Override
@@ -98,6 +110,11 @@ public abstract class SerialThreadService extends Service{
         super.onDestroy();
         mState = STATE_NONE;
         this.stop();
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+            stopForeground(true);
+        }
+
         updateUserInterfaceTitle();
     }
 
@@ -492,5 +509,16 @@ public abstract class SerialThreadService extends Service{
         serialWriteBytes(c);
     }
 
+    private Notification getNotification(String message){
+
+        if(message == null) message = "This will handle all bluetooth communication.";
+
+        return new NotificationCompat.Builder(getApplicationContext(), NotificationHelper.CHANNEL_SERVICE_ID)
+                .setContentTitle("Bluetooth service")
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_stat_ic_notification)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setAutoCancel(true).build();
+    }
 
 }

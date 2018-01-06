@@ -23,21 +23,9 @@ package in.co.gorest.grblcontroller;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-
-
 import android.preference.PreferenceFragment;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
-
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.greenrobot.eventbus.EventBus;
-
-import in.co.gorest.grblcontroller.events.UiToastEvent;
-import in.co.gorest.grblcontroller.model.Constants;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -77,16 +65,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            Preference preference = findPreference(key);
-
-            if(key == getString(R.string.subscribe_to_notifications)){
-                boolean isSubscribed = sharedPreferences.getBoolean(key, true);
-                if(isSubscribed){
-                    FirebaseMessaging.getInstance().subscribeToTopic(Constants.DEFAULT_NOTIFICATION_CHANNEL);
-                }else{
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.DEFAULT_NOTIFICATION_CHANNEL);
-                }
-            }
 
         }
 

@@ -25,6 +25,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ import in.co.gorest.grblcontroller.events.GrblProbeEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class ProbingTabFragment extends BaseFragment {
 
@@ -53,16 +55,14 @@ public class ProbingTabFragment extends BaseFragment {
     private MachineStatusListner machineStatus;
     private EnhancedSharedPreferences sharedPref;
 
+    private static final Integer PROBE_TYPE_NORMAL = 1;
+    private static final Integer PROBE_TYPE_TOOL_OFFSET = 2;
+
     private TextView probingFeedrate, probingPlateThickness, probingDistance;
-
-    private static final int PROBE_TYPE_AUTO_ZERO = 1;
-    private static final int PROBE_TYPE_TOOL_CHANGE = 2;
-
-    private Integer probeType = null;
     private Double probeStartPosition = null;
-    private Double lastProbePosition = null;
-
     private SwitchCompat autoZeroAfterProbe;
+    private Integer probeType;
+    private boolean autoZeroInLastProbe = false;
 
     public ProbingTabFragment() {}
 
@@ -129,23 +129,69 @@ public class ProbingTabFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
 
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("G38.3: Straight Probe")
+                        .setMessage("Probe toward workpiece, stop on contact.  \nEnsure your probe setup is correct and click Yes to start probing")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                probeType = PROBE_TYPE_NORMAL;
+                                doProbing();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
+            }
+        });
+
+        IconButton startToolOffset = view.findViewById(R.id.start_tool_length_offset);
+        startToolOffset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(machineStatus.getLastProbePosition() == null){
+                    EventBus.getDefault().post(new UiToastEvent("Last probe location is un known"));
+                    return;
+                }
+
+                if(autoZeroInLastProbe){
+                    EventBus.getDefault().post(new UiToastEvent("Warning! Auto Zero used in last probe."));
+                    return;
+                }
+
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("G43.1: Dynamic Tool Length Offset")
+                        .setMessage("TLO will be applied with the difference of last probe position and current probe position. \nG43.1 abs(lastProbe) - abs(currentProbe) \nClick Yes to continue.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                probeType = PROBE_TYPE_TOOL_OFFSET;
+                                doProbing();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            }
+        });
+
+        IconButton cancelToolOffset = view.findViewById(R.id.cancel_tool_offset);
+        cancelToolOffset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
-                    probeType = PROBE_TYPE_AUTO_ZERO;
-
-                    String probeDistance = probingDistance.getText().toString();
-                    String probeFeedrate = probingFeedrate.getText().toString();
-                    Double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
-                    probeStartPosition = machineStatus.getMachinePosition().getCordZ();
-
-                    String distanceMode = machineStatus.getParserState().distanceMode;
-                    String unitSelection = machineStatus.getParserState().unitSelection;
-
-                    fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe.toString() + " F" + probeFeedrate);
-                    fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("G49: Cancel Tool Length Offset")
+                            .setMessage("Do you want to cancel the current TLO")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GCODE_CANCEL_TOOL_OFFSETS);
+                                    fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
                 }else{
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
                 }
-
             }
         });
 
@@ -160,6 +206,33 @@ public class ProbingTabFragment extends BaseFragment {
         });
 
         return view;
+    }
+
+    private void doProbing(){
+        if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
+
+            fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+
+            String probeDistance = probingDistance.getText().toString();
+            final String probeFeedrate = probingFeedrate.getText().toString();
+            final Double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
+            probeStartPosition = machineStatus.getMachinePosition().getCordZ();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String distanceMode = machineStatus.getParserState().distanceMode;
+                    String unitSelection = machineStatus.getParserState().unitSelection;
+
+                    fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe.toString() + " F" + probeFeedrate);
+                    fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
+                }
+            }, 300);
+
+
+        }else{
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
+        }
     }
 
     private void setProbingDistance(){
@@ -267,7 +340,7 @@ public class ProbingTabFragment extends BaseFragment {
 
     private void showProbingHelp(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity())
-                .setTitle("Probing help")
+                .setTitle("Manual tool change")
                 .setMessage(R.string.probing_help_text)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) { }
@@ -277,26 +350,44 @@ public class ProbingTabFragment extends BaseFragment {
         alertDialogBuilder.show();
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblProbeEvent(GrblProbeEvent event){
+
         if(probeType == null || probeStartPosition == null) return;
         if(!event.getIsProbeSuccess()){
             EventBus.getDefault().post(new UiToastEvent("Probe failed, please try again"));
-            fragmentInteractionListener.onGcodeCommandReceived("G53 G0 Z" + probeStartPosition.toString());
+            fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + probeStartPosition.toString());
+            probeType = null;
             return;
         }
 
-        Double probePlateThickness = Double.parseDouble(probingPlateThickness.getText().toString());
-
-        if(probeType == PROBE_TYPE_AUTO_ZERO && autoZeroAfterProbe.isChecked()){
-            fragmentInteractionListener.onGcodeCommandReceived("G53 G0 Z" + event.getProbeCordZ().toString());
-            fragmentInteractionListener.onGcodeCommandReceived("G10 L20 P0 Z" + probePlateThickness);
+        if(probeType == PROBE_TYPE_NORMAL){
+            if(autoZeroAfterProbe.isChecked()){
+                Double probePlateThickness = Double.parseDouble(probingPlateThickness.getText().toString());
+                fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + event.getProbeCordZ().toString());
+                fragmentInteractionListener.onGcodeCommandReceived("G10L20P0Z" + probePlateThickness);
+                autoZeroAfterProbe.setChecked(false);
+                autoZeroInLastProbe = true;
+                EventBus.getDefault().post(new UiToastEvent("Probe success with auto adjust"));
+            }else{
+                autoZeroInLastProbe = false;
+                EventBus.getDefault().post(new UiToastEvent("Probe success"));
+            }
         }
 
-        fragmentInteractionListener.onGcodeCommandReceived("G53 G0 Z" + probeStartPosition.toString());
-        probeStartPosition = null;
-        probeType = null;
+        if(probeType == PROBE_TYPE_TOOL_OFFSET){
+            Double lastProbeCordZ = Math.abs(machineStatus.getLastProbePosition().getCordZ());
+            Double currentProbeCordZ = Math.abs(event.getProbeCordZ());
+
+            Double toolOffset =  lastProbeCordZ - currentProbeCordZ;
+            fragmentInteractionListener.onGcodeCommandReceived("G43.1Z" + toolOffset.toString());
+            fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+            EventBus.getDefault().post(new UiToastEvent("Probe success. Tool length offset applied"));
+        }
+
+        fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + probeStartPosition.toString());
+        probeStartPosition = null; probeType = null;
+        machineStatus.setLastProbePosition(event.getProbePosition());
     }
 
 }

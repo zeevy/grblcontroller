@@ -46,10 +46,12 @@ public class GrblUtils {
     public static final String GRBL_RUN_HOMING_CYCLE = "$H";
     public static final String GRBL_SLEEP_COMMAND = "$SLP";
     public static final String GRBL_BUILD_INFO_COMMAND = "$I";
+    public static final String GRBL_VIEW_GCODE_PARAMETERS_COMMAND = "$#";
 
     // Gcode Commands
     public static final String GCODE_RESET_COORDINATES_TO_ZERO = "G10 L20 P0 X0Y0Z0";
     public static final String GCODE_RESET_COORDINATE_TO_ZERO = "G10 P0 L20 %c0";
+    public static final String GCODE_CANCEL_TOOL_OFFSETS = "G49";
 
 
     private static final String GCODE_RETURN_TO_ZERO_LOCATION_XY = "G90 G0 X0 Y0";
@@ -87,10 +89,19 @@ public class GrblUtils {
         return retValue;
     }
 
+    private static final Pattern TLO_PATTERN = Pattern.compile("^\\[TLO:(.*)\\]$");
+    public static boolean isGrblToolLengthOffsetMessage(final String response){
+        return TLO_PATTERN.matcher(response).find();
+    }
+
+    public static Double getToolLengthOffset(final String response){
+        Matcher matcher = TLO_PATTERN.matcher(response);
+        return matcher.find() ? Double.valueOf(matcher.group(1)) : 0.0;
+    }
 
     private static final String PROBE_REGEX = "^\\[PRB:(.*)\\]$";
     private static final Pattern PROBE_PATTERN = Pattern.compile(PROBE_REGEX);
-    public static Boolean isGrblProbeMessage(final String response) {
+    public static boolean isGrblProbeMessage(final String response) {
         return PROBE_PATTERN.matcher(response).find();
     }
 
@@ -101,19 +112,19 @@ public class GrblUtils {
 
     private static final String STATUS_REGEX = "^\\<.*\\>$";
     private static final Pattern STATUS_PATTERN = Pattern.compile(STATUS_REGEX);
-    public static Boolean isGrblStatusString(final String response) {
+    public static boolean isGrblStatusString(final String response) {
         return STATUS_PATTERN.matcher(response).find();
     }
 
     private static final String FEEDBACK_REGEX = "^\\[MSG:.*\\]$";
     private static final Pattern FEEDBACK_PATTERN = Pattern.compile(FEEDBACK_REGEX);
-    public static Boolean isGrblFeedbackMessage(final String response) {
+    public static boolean isGrblFeedbackMessage(final String response) {
         return FEEDBACK_PATTERN.matcher(response).find();
     }
 
     private static final String BUILD_OPTIONS_REGEX = "^\\[OPT:(.*)\\]$";
     private static final Pattern BUILD_OPTIONS_PATTERN = Pattern.compile(BUILD_OPTIONS_REGEX);
-    public static Boolean isBuildOptionsMessage(final String response) {
+    public static boolean isBuildOptionsMessage(final String response) {
         return BUILD_OPTIONS_PATTERN.matcher(response).find();
     }
 
@@ -124,7 +135,7 @@ public class GrblUtils {
 
     private static final String PARSER_STATE_REGEX = "^\\[GC:(.*)\\]$";
     private static final Pattern PARSER_STATE_PARRERN = Pattern.compile(PARSER_STATE_REGEX);
-    public static Boolean isParserStateMessage(final String response){
+    public static boolean isParserStateMessage(final String response){
         return PARSER_STATE_PARRERN.matcher(response).find();
     }
 
@@ -135,19 +146,19 @@ public class GrblUtils {
 
     private static final String SETTING_REGEX = "^\\$\\d+=.+";
     private static final Pattern SETTING_PATTERN = Pattern.compile(SETTING_REGEX);
-    public static Boolean   isGrblSettingMessage(final String response) {
+    public static boolean   isGrblSettingMessage(final String response) {
         return SETTING_PATTERN.matcher(response).find();
     }
 
-    public static Boolean isGrblErrorMessage(final String response){
+    public static boolean isGrblErrorMessage(final String response){
         return response.toLowerCase().startsWith("error:");
     }
 
-    public static Boolean isGrblOkMessage(final String response){
+    public static boolean isGrblOkMessage(final String response){
         return response.toLowerCase().startsWith("ok");
     }
 
-    public static Boolean isGrblAlarmMessage(final String response){
+    public static boolean isGrblAlarmMessage(final String response){
         return response.toLowerCase().startsWith("alarm:");
     }
 

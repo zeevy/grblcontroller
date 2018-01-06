@@ -158,6 +158,7 @@ public class SerialCommunicationHandler extends Handler {
                 grblSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
                 grblSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
                 grblSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+                grblSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
                 startGrblStatusUpdateService(grblSerialService);
             }
 
@@ -167,15 +168,19 @@ public class SerialCommunicationHandler extends Handler {
             machineStatus.setCompileTimeOptions(GrblUtils.getCompileTimeOptionsFromString(buildOptions));
             EventBus.getDefault().post(new ConsoleMessageEvent(message));
 
-        }else if(GrblUtils.isParserStateMessage(message)){
+        }else if(GrblUtils.isParserStateMessage(message)) {
             String parserStateString = GrblUtils.getParserStateString(message);
             String[] parts = parserStateString.split("\\s+");
-            if(parts.length >= 6){
+            if (parts.length >= 6) {
                 machineStatus.setParserState(parserStateString);
                 EventBus.getDefault().post(new ConsoleMessageEvent(message));
             }
 
+        }else if(GrblUtils.isGrblToolLengthOffsetMessage(message)){
+            machineStatus.setToolLengthOffset(GrblUtils.getToolLengthOffset(message));
+            EventBus.getDefault().post(new ConsoleMessageEvent(message));
         }else{
+            EventBus.getDefault().post(new ConsoleMessageEvent(message));
             Log.d(TAG, "MESSAGE NOT HANDLED: " + message);
         }
 

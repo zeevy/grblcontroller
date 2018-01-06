@@ -34,5 +34,6 @@ public interface Constants {
     String TOAST = "toast";
 
     String DEFAULT_NOTIFICATION_CHANNEL = "General";
+    String DEFAULT_NLTIFICATION_CHANNEL_ABOUT = "Grbl Controller General Notification Channel";
 
 }

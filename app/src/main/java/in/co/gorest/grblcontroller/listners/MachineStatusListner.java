@@ -50,6 +50,8 @@ public class MachineStatusListner extends BaseObservable {
     private Integer serialRxBuffer = 0;
     private Double feedRate = 0.0;
     private Double spindleSpeed = 0.0;
+    private Position lastProbePosition = null;
+    private Double toolLengthOffset = 0.0;
 
     private Position machinePosition = new Position(0.00, 0.00, 0.00);
     private Position workPosition = new Position(0.00, 0.00, 0.00);
@@ -128,6 +130,21 @@ public class MachineStatusListner extends BaseObservable {
             notifyPropertyChanged(BR.spindleSpeed);
         }
     }
+
+    @Bindable
+    public Position getLastProbePosition(){ return this.lastProbePosition; }
+    public void setLastProbePosition(Position lastProbePosition){
+        this.lastProbePosition = lastProbePosition;
+        notifyPropertyChanged(BR.lastProbePosition);
+    }
+
+    @Bindable
+    public Double getToolLengthOffset(){ return this.toolLengthOffset; }
+    public void setToolLengthOffset(double toolLengthOffset){
+        this.toolLengthOffset = toolLengthOffset;
+        notifyPropertyChanged(BR.toolLengthOffset);
+    }
+
 
     @Bindable
     public Position getWorkCoordsOffset(){ return this.workCoordsOffset; }

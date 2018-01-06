@@ -24,6 +24,8 @@ package in.co.gorest.grblcontroller.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -52,6 +54,8 @@ import java.util.ArrayList;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
+import in.co.gorest.grblcontroller.GrblActivity;
+import in.co.gorest.grblcontroller.MainActivity;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentFileSenderTabBinding;
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
@@ -188,7 +192,12 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 FileStreamerIntentService.setShouldContinue(true);
                 Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
                 intent.putExtra(FileStreamerIntentService.CHECK_MODE_ENABLED, machineStatus.getState().equals(MachineStatusListner.STATE_CHECK));
-                getActivity().startService(intent);
+
+                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+                    getActivity().getApplicationContext().startForegroundService(intent);
+                }else{
+                    getActivity().startService(intent);
+                }
             }else{
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Starting GCODE streaming")
@@ -197,7 +206,12 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                             public void onClick(DialogInterface dialog, int which) {
                                 FileStreamerIntentService.setShouldContinue(true);
                                 Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
-                                getActivity().startService(intent);
+                                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+                                    getActivity().getApplicationContext().startForegroundService(intent);
+                                }else{
+                                    getActivity().startService(intent);
+                                }
+
                             }
                         })
                         .setNegativeButton("Cancel", null)
@@ -319,7 +333,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
         protected void onPreExecute(){
             fileSender.setStatus(FileSenderListner.STATUS_READING);
-            this.initFeileSenderListner();
+            this.initFileSenderListner();
         }
 
         protected Integer doInBackground(File... file){
@@ -329,10 +343,11 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             try{
                 BufferedReader reader = new BufferedReader(new FileReader(file[0]));
                 String sCurrentLine;
+                String comment;
                 while((sCurrentLine = reader.readLine()) != null){
 
-                    String commnet = GcodePreprocessorUtils.parseComment(sCurrentLine);
-                    if(commnet.length() > 0){
+                    comment = GcodePreprocessorUtils.parseComment(sCurrentLine);
+                    if(comment.length() > 0){
                         sCurrentLine = GcodePreprocessorUtils.removeComment(sCurrentLine);
                     }
                     sCurrentLine = GcodePreprocessorUtils.removeWhiteSpace(sCurrentLine);
@@ -340,7 +355,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                         lines++;
                         if(sCurrentLine.length() >= 79){
                             EventBus.getDefault().post(new UiToastEvent("WARNING! Gcode command with length upto 80 characters found at line " + String.valueOf(lines)));
-                            initFeileSenderListner();
+                            initFileSenderListner();
                             fileSender.setStatus(FileSenderListner.STATUS_IDLE);
                             cancel(true);
                         }
@@ -349,7 +364,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 }
                 reader.close();
             }catch (IOException e){
-                this.initFeileSenderListner();
+                this.initFileSenderListner();
                 fileSender.setStatus(FileSenderListner.STATUS_IDLE);
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -366,7 +381,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             fileSender.setStatus(FileSenderListner.STATUS_IDLE);
         }
 
-        private void initFeileSenderListner(){
+        private void initFileSenderListner(){
             fileSender.setRowsInFile(0);
             fileSender.setRowsSent(0);
         }

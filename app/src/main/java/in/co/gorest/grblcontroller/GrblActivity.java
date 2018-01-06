@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -41,24 +42,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
+import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblSerialService;
 import in.co.gorest.grblcontroller.service.GrblSerialService.GrblSerialServiceBinder;
-import in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public abstract class GrblActivity extends AppCompatActivity {
@@ -89,8 +88,19 @@ public abstract class GrblActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        sharedPref = EnhancedSharedPreferences.getInstance(GrblConttroller.getContext(), getString(R.string.shared_preference_key));
+        boolean notificationChannelCreated = sharedPref.getBoolean("notification_channel_created", false);
+
+        if(!notificationChannelCreated){
+            NotificationHelper notificationHelper = new NotificationHelper(this);
+            notificationHelper.createChannels();
+            sharedPref.edit().putBoolean("notification_channel_created", true).apply();
+        }
+
+
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter == null) {
+
             grblToast("No Bluetooth Adapter Found!");
             finish();
         }else{
@@ -98,24 +108,7 @@ public abstract class GrblActivity extends AppCompatActivity {
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         }
 
-        sharedPref = EnhancedSharedPreferences.getInstance(GrblConttroller.getContext(), getString(R.string.shared_preference_key));
-
-        boolean isTokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
-        final String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
-
-        if(!isTokenSent && fcmToken != null){
-            Thread thread = new Thread(){
-                @Override
-                public void run(){
-                    MyFirebaseInstanceIDService.sendRegistrationToServer(fcmToken);
-                }
-            };
-
-            thread.start();
-        }
-
         EventBus.getDefault().register(this);
-
     }
 
     @Override
@@ -148,7 +141,12 @@ public abstract class GrblActivity extends AppCompatActivity {
                     }else{
                         Intent intent = new Intent(getApplicationContext(), GrblSerialService.class);
                         intent.putExtra(GrblSerialService.KEY_MAC_ADDRESS, lastAddress);
-                        startService(intent);
+
+                        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+                            getApplicationContext().startForegroundService(intent);
+                        }else{
+                            startService(intent);
+                        }
                     }
                 }
             }
@@ -163,6 +161,9 @@ public abstract class GrblActivity extends AppCompatActivity {
             unbindService(serviceConnection);
             mBound = false;
         }
+
+        stopService(new Intent(this, GrblSerialService.class));
+        stopService(new Intent(this, FileStreamerIntentService.class));
 
         EventBus.getDefault().unregister(this);
         isAppRunning = false;
@@ -232,7 +233,6 @@ public abstract class GrblActivity extends AppCompatActivity {
         }
     }
 
-    //@SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -256,8 +256,6 @@ public abstract class GrblActivity extends AppCompatActivity {
         MenuItem actionConnect = menu.findItem(R.id.action_connect);
         MenuItem actionDisconnect = menu.findItem(R.id.action_disconnect);
         MenuItem actionGrblSoftReset = menu.findItem(R.id.action_grbl_reset);
-        MenuItem actionAppSettings = menu.findItem(R.id.app_settings);
-
 
         actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth_b).colorRes(R.color.colorWhite).sizeDp(24));
         actionDisconnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth).colorRes(R.color.colorWhite).sizeDp(24));
@@ -370,7 +368,7 @@ public abstract class GrblActivity extends AppCompatActivity {
 
     }
 
-    void grblToast(String message){
+    protected void grblToast(String message){
 
         if(toastMessage == null){
             toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
@@ -382,11 +380,11 @@ public abstract class GrblActivity extends AppCompatActivity {
         this.lastToastMessage = message;
     }
 
-    void onGcodeCommandReceived(String command) {
+    public void onGcodeCommandReceived(String command) {
         if(grblSerialService != null) grblSerialService.serialWriteString(command);
     }
 
-    void onGrblRealTimeCommandReceived(byte command) {
+    public void onGrblRealTimeCommandReceived(byte command) {
         if(grblSerialService != null) grblSerialService.serialWriteByte(command);
     }
 
