@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="paired_devices">Choose a paired device</string>
 
-    <string name="shared_preference_key">in.co.gorest.grblcontroller.f635f2e523d7c64f5b4ad9179b689432</string>
+    <string name="shared_preference_key">in.co.gorest.grblcontroller.f635f2e523d7c64f5b4ad9179b689433</string>
     <string name="auto_connect">auto_connect</string>
     <string name="console_verbose_mode">console_verbose_mode</string>
     <string name="jogging_step_size">jogging_step_size</string>
@@ -21,10 +21,8 @@
     <string name="probing_plate_thickness">probing_plate_thickness</string>
     <string name="probing_distance">probing_distance</string>
     <string name="probing_help_text">
-        <!-- To auto zero Z-Axis on work piece surface use \"Auto Zero\". \n\nTool Change: After the first job completes (don\'t remove the tool) move to a fixed probing location and click \"Tool Change\" wait for the tool change prompt. \n\nBoth methods needs proper probing plate setup -->
-        auto zero Z-Axis on work piece surface by using G10 L20 P0 Z(d) (d is probing plate thickness)
+        1. Disable auto adjust. \n2. Do probing with first tool. \n3. Change the tool. \n4. Press \"Probe + TLO\".
     </string>
-    <string name="show_probing_help">show_probing_help</string>
 
     <string name="grbl_alarm_format">Alarm:%d %s</string>
     <string name="grbl_error_format">Error:%d %s</string>
@@ -41,11 +39,11 @@
 
     <string name="verbose_output">Verbose output</string>
     <string name="steps_feed">Step | Feed</string>
-    <string name="probing_feedrate_text">Probing feedrate</string>
+    <string name="probing_feedrate_text">Feed rate</string>
     <string name="touch_plate_thickness">Plate thickness</string>
     <string name="distance_to_probe">Distance to probe</string>
-    <string name="auto_zero_z_axis_after_probe">Zero Z axis after probe</string>
-    <string name="start_probe">Start Probe</string>
+    <string name="auto_zero_z_axis_after_probe">Auto adjust Z axis</string>
+    <string name="start_probe">Probe</string>
     <string name="reset">Reset</string>
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
@@ -82,10 +80,5 @@
     <string name="streaming_completed">Streaming Completed</string>
     <string name="no_bluetooth_permission">Unable to start bluetooth, please check permissions</string>
     <string name="file_reading_in_progress">File reading in progress</string>
-    <string name="firebase_cloud_messaging_token">firebase_cloud_messaging_token</string>
-    <string name="firebase_cloud_messaging_token_sent">firebase_cloud_messaging_token_sent</string>
-
-    <string name="default_notification_channel_id">General</string>
-    <string name="subscribe_to_notifications">subscribe_to_notifications</string>
 
 </resources>

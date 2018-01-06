@@ -1,44 +1,48 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
 
-    <de.mrapp.android.preference.SwitchPreference
-        android:icon="@drawable/ic_bluetooth_connected_black_24dp"
-        android:defaultValue="false"
-        android:key="@string/auto_connect"
-        android:title="Auto connect"
-        android:summary="auto connect to last used device" />
+    <PreferenceCategory android:title="Application">
 
-    <de.mrapp.android.preference.SwitchPreference
-        android:icon="@drawable/ic_power_black_24dp"
-        android:title="Sleep after job"
-        android:defaultValue="false"
-        android:key="@string/sleep_after_job"
-        android:summary="puts machine into a de-powered sleep mode using $SLP command" />
+        <SwitchPreference
+            android:icon="@drawable/ic_bluetooth_connected_black_24dp"
+            android:defaultValue="false"
+            android:key="@string/auto_connect"
+            android:title="Auto connect"
+            android:summary="auto connect to last used device" />
 
-    <de.mrapp.android.preference.NumberPickerPreference
-        android:icon="@drawable/ic_format_list_numbered_black_24dp"
-        android:defaultValue="10"
-        custom:min="1"
-        android:max="100"
-        custom:unit="Steps"
-        android:key="@string/jogging_max_step_size"
-        android:title="Jogging max step size"
-        android:summary="jogging step seekbar maximum value" />
+        <SwitchPreference
+            android:icon="@drawable/ic_power_black_24dp"
+            android:title="Sleep after job"
+            android:defaultValue="false"
+            android:key="@string/sleep_after_job"
+            android:summary="puts machine into a de-powered sleep mode using $SLP command" />
 
-    <ListPreference
-        android:key="@string/streaming_stop_button_behaviour"
-        android:icon="@drawable/ic_stop_black_24dp"
-        android:title="Streaming stop button behaviour"
-        android:entries="@array/entries_stop_button_behaviour"
-        android:entryValues="@array/entriesvalues_stop_button_behaviour"
-        android:summary="%s"
-        android:defaultValue="1" />
+        <de.mrapp.android.preference.NumberPickerPreference
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:defaultValue="10"
+            custom:min="1"
+            android:max="100"
+            custom:unit="Steps"
+            android:key="@string/jogging_max_step_size"
+            android:title="Jogging max step size"
+            android:summary="jogging step seekbar maximum value" />
 
-    <de.mrapp.android.preference.SwitchPreference
-        android:key="@string/enable_custom_buttons"
-        android:icon="@drawable/ic_view_module_black_24dp"
-        android:title="Enable custom buttons"
-        android:defaultValue="false"
-        android:summary="enables four custom buttons in jogging control tab. (you may need to restart the application)"/>
+        <ListPreference
+            android:key="@string/streaming_stop_button_behaviour"
+            android:icon="@drawable/ic_stop_black_24dp"
+            android:title="Streaming stop button behaviour"
+            android:entries="@array/entries_stop_button_behaviour"
+            android:entryValues="@array/entriesvalues_stop_button_behaviour"
+            android:summary="%s"
+            android:defaultValue="1" />
+
+        <SwitchPreference
+            android:key="@string/enable_custom_buttons"
+            android:icon="@drawable/ic_view_module_black_24dp"
+            android:title="Enable custom buttons"
+            android:defaultValue="false"
+            android:summary="enables four custom buttons in jogging control tab. (you may need to restart the application)" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="Custom Buttons" android:dependency="@string/enable_custom_buttons">
         <Preference android:summary="you can add gcode commands upto 125 characters in length. multiple commands must be separated by a new line (as per grbl limit, max 80 characters in one line)" />
@@ -77,7 +81,7 @@
                     android:defaultValue="@string/value_empty"
                     android:summary="commands to send after the button long click"/>
 
-                <de.mrapp.android.preference.SwitchPreference
+                <SwitchPreference
                     android:key="@string/custom_button_one_confirm"
                     android:defaultValue="true"
                     android:title="Confirm first"
@@ -119,7 +123,7 @@
                     android:defaultValue="@string/value_empty"
                     android:summary="commands to send after the button long click"/>
 
-                <de.mrapp.android.preference.SwitchPreference
+                <SwitchPreference
                     android:key="@string/custom_button_two_confirm"
                     android:defaultValue="true"
                     android:title="Confirm first"
@@ -161,7 +165,7 @@
                     android:defaultValue="@string/value_empty"
                     android:summary="commands to send after the button long click"/>
 
-                <de.mrapp.android.preference.SwitchPreference
+                <SwitchPreference
                     android:key="@string/custom_button_three_confirm"
                     android:defaultValue="true"
                     android:title="Confirm first"
@@ -204,7 +208,7 @@
                     android:defaultValue="@string/value_empty"
                     android:summary="commands to send after the button long click"/>
 
-                <de.mrapp.android.preference.SwitchPreference
+                <SwitchPreference
                     android:key="@string/custom_button_four_confirm"
                     android:defaultValue="true"
                     android:title="Confirm first"

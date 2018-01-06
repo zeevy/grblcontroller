@@ -69,15 +69,15 @@
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="Y" android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text="Y" android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @color/colorBlack}" />
                         <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordY)}' />
                         <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordY)}' android:gravity="end"/>
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="Z" android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text="Z" android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @color/colorBlack}" />
                         <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordZ)}' />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordZ)}' android:gravity="end"/>
+                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordZ)}' android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tab_indicator_text}" android:gravity="end"/>
                     </TableRow>
 
                     <TableRow>
