@@ -102,6 +102,7 @@ public class GrblSerialService extends SerialThreadService{
 
     @Override
     public void onDestroy(){
+        disconnectService();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
