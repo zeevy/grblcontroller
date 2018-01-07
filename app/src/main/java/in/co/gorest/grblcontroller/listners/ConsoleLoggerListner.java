@@ -39,6 +39,10 @@ public class ConsoleLoggerListner extends BaseObservable{
         return consoleLoggerListner;
     }
 
+    public static void resetClass(){
+        consoleLoggerListner = new ConsoleLoggerListner();
+    }
+
     private ConsoleLoggerListner(){
         loggedMessaagesQueue = new CircularFifoQueue<>(128);
     }
