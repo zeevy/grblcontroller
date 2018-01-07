@@ -54,6 +54,10 @@ public class FileSenderListner extends BaseObservable {
         return fileSenderListner;
     }
 
+    public static void resetClass(){
+        fileSenderListner = new FileSenderListner();
+    }
+
     private FileSenderListner(){
         this.setStatus(STATUS_IDLE);
         this.gcodeFileName = "File types .tap | .gcode | .nc | .ngc";
