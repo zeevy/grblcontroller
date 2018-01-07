@@ -55,6 +55,8 @@ import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
+import in.co.gorest.grblcontroller.listners.ConsoleLoggerListner;
+import in.co.gorest.grblcontroller.listners.FileSenderListner;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
@@ -168,6 +170,11 @@ public abstract class GrblActivity extends AppCompatActivity {
         stopService(new Intent(this, FileStreamerIntentService.class));
 
         EventBus.getDefault().unregister(this);
+
+        ConsoleLoggerListner.resetClass();
+        FileSenderListner.resetClass();
+        MachineStatusListner.resetClass();
+
         isAppRunning = false;
     }
 
