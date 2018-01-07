@@ -115,7 +115,7 @@ public class FileStreamerIntentService extends IntentService{
 
         MachineStatusListner.CompileTimeOptions compileTimeOptions = MachineStatusListner.getInstance().getCompileTimeOptions();
         if(compileTimeOptions.serialRxBuffer > 0) MAX_RX_SERIAL_BUFFER = compileTimeOptions.serialRxBuffer - 3;
-        Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
+        Process.setThreadPriority(Process.THREAD_PRIORITY_FOREGROUND);
 
         boolean isCheckMode = intent.getBooleanExtra(CHECK_MODE_ENABLED, false);
 
