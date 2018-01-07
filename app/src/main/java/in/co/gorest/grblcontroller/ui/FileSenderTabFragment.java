@@ -238,7 +238,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
         if(fileSender.getStatus().equals(FileSenderListner.STATUS_STREAMING)){
             fileSender.setStatus(FileSenderListner.STATUS_IDLE);
-            fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GCODE_PROGRAM_END_COMMAND);
         }
     }
 
