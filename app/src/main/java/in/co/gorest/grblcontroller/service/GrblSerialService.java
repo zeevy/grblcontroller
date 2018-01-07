@@ -29,6 +29,8 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -78,6 +80,7 @@ public class GrblSerialService extends SerialThreadService{
                     this.connect(device, false);
                 }catch(RuntimeException e){
                     EventBus.getDefault().post(new UiToastEvent(e.getMessage()));
+                    Crashlytics.logException(e);
                     disconnectService();
                     stopSelf();
                 }
