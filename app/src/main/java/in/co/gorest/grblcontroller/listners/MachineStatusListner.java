@@ -71,6 +71,10 @@ public class MachineStatusListner extends BaseObservable {
         return machineStatus;
     }
 
+    public static void resetClass(){
+        machineStatus = new MachineStatusListner();
+    }
+
     private MachineStatusListner(){
         this.state = STATE_NOT_CONNECTED;
         this.compileTimeOptions = new CompileTimeOptions(emptyString, 15, 128);
