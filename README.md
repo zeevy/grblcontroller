@@ -11,6 +11,7 @@
 - Supports Sending G-Code files directly from mobile phone. (Supported extensions are .gcode, .nc and .tap. G-Code files can be placed anywhere in the phone or external storage).
 - Supports short text commands (You can send G-Code or GRBL commands from the mobile by typing).
 - Supports Probing (G38.3) and auto adjusts Z-Axis.
+- Manual tool change with G43.1
 - 4 Highly Configurable Custom Buttons which supports multi line commands (Supports both short click and long click).
 - Application can work in background mode, by utilizing the less resources there by consuming less power.
 
