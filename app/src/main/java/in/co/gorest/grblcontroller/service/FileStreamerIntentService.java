@@ -31,6 +31,8 @@ import android.os.Process;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -40,6 +42,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -240,8 +243,9 @@ public class FileStreamerIntentService extends IntentService{
         while(CURRENT_RX_SERIAL_BUFFER > 0){
             try {
                 completedCommands.take();
-                CURRENT_RX_SERIAL_BUFFER -= activeCommandSizes.removeFirst();
-            } catch (InterruptedException e) {
+                if(activeCommandSizes.size() > 0) CURRENT_RX_SERIAL_BUFFER -= activeCommandSizes.removeFirst();
+            } catch (Exception e) {
+                Crashlytics.logException(e);
                 Log.e(TAG, e.getMessage(), e);
                 return;
             }
