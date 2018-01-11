@@ -81,6 +81,7 @@ public class GrblSerialService extends SerialThreadService{
                 }catch(RuntimeException e){
                     EventBus.getDefault().post(new UiToastEvent(e.getMessage()));
                     Crashlytics.logException(e);
+                    Crashlytics.log("MAC ADDRESS: " + KEY_MAC_ADDRESS);
                     disconnectService();
                     stopSelf();
                 }
