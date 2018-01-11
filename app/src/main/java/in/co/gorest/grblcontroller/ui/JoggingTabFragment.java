@@ -87,7 +87,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             iconButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    sendJogCommand(iconButton.getTag().toString());
+                    if(isAdded()) sendJogCommand(iconButton.getTag().toString());
                 }
             });
 
