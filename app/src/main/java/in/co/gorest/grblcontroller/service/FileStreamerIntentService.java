@@ -27,6 +27,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.PowerManager;
 import android.os.Process;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -120,6 +121,9 @@ public class FileStreamerIntentService extends IntentService{
         boolean isCheckMode = intent.getBooleanExtra(CHECK_MODE_ENABLED, false);
 
         setIsServiceRunning(true);
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Grbl File Streaming");
+        wakeLock.acquire();
 
         clearBuffers();
         fileSenderListner.setRowsSent(0);
@@ -165,9 +169,9 @@ public class FileStreamerIntentService extends IntentService{
         streamingCompleteEvent.setTimeTaken(fileSenderListner.getElaspsedTime());
 
         EventBus.getDefault().post(streamingCompleteEvent);
+        wakeLock.release();
 
         stopSelf();
-
     }
 
     private void startStreaming(){
