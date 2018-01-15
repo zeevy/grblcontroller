@@ -175,7 +175,6 @@ public class MainActivity extends GrblActivity implements BaseFragment.OnFragmen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblAlarmEvent(GrblAlarmEvent event){
-        machineStatus.setState(MachineStatusListner.STATE_ALARM);
         consoleLogger.setMessages(event.toString());
     }
 

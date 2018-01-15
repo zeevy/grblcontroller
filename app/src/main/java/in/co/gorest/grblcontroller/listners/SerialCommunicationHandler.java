@@ -117,6 +117,7 @@ public class SerialCommunicationHandler extends Handler {
 
         }else if(GrblUtils.isGrblAlarmMessage(message)){
             GrblAlarmEvent alarmEvent = new GrblAlarmEvent(GrblAlarms, message);
+            machineStatus.setState(MachineStatusListner.STATE_ALARM);
             EventBus.getDefault().post(alarmEvent);
             EventBus.getDefault().post(new UiToastEvent(alarmEvent.getAlarmDescription()));
 
