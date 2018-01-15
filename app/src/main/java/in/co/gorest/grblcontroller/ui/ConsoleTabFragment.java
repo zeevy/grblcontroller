@@ -100,14 +100,14 @@ public class ConsoleTabFragment extends BaseFragment {
             @Override
             public boolean onLongClick(View view) {
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("Clear console messages?")
-                        .setMessage("this will clear all console history")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.clear_console_messages))
+                        .setMessage(getString(R.string.this_will_clear_all_history))
+                        .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 consoleLogger.clearMessages();
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(getString(R.string.no_confirm), null)
                         .show();
 
                 return true;

@@ -52,10 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView app:layout_gravity="left" android:text="Total lines | Sent" />
+                    <TextView app:layout_gravity="left" android:text="@string/text_lines_total_sent" />
                     <TextView app:layout_gravity="right" android:text='@{fileSender.rowsInFile.toString() + " | " + fileSender.rowsSent.toString()}' />
 
-                    <TextView app:layout_gravity="left" android:text="Time elapsed" />
+                    <TextView app:layout_gravity="left" android:text="@string/text_time_elapsed" />
                     <TextView app:layout_gravity="right" android:text="@{fileSender.elaspsedTime}" />
 
                     <TextView app:layout_gravity="left" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? "Overrides F:S:V" : "Overrides F:S"}' />

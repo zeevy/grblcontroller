@@ -4,7 +4,16 @@
     <Preference
         android:icon="@drawable/ic_android_black_36dp"
         android:key="pref_app_version"
-        android:title="Version"/>
+        android:title="Version Number"/>
+
+    <Preference
+        android:icon="@drawable/ic_live_help_black_36dp"
+        android:summary="linuxcnc.org"
+        android:title="Gcode Documentation">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="http://linuxcnc.org/docs/html/gcode/g-code.html"/>
+    </Preference>
 
     <Preference
         android:icon="@drawable/ic_star_half_black_36dp"
@@ -17,7 +26,7 @@
 
     <Preference
         android:icon="@drawable/ic_bug_report_black_36dp"
-        android:summary="github.com/zeevy/grblcontroller"
+        android:summary="github.com | wiki | issues | discussions"
         android:title="Source / Issue tracker">
         <intent
             android:action="android.intent.action.VIEW"

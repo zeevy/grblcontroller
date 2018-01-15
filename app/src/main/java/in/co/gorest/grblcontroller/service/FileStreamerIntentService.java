@@ -122,7 +122,7 @@ public class FileStreamerIntentService extends IntentService{
 
         setIsServiceRunning(true);
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Grbl File Streaming");
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getString(R.string.grbl_file_streaming));
         wakeLock.acquire();
 
         clearBuffers();
@@ -141,13 +141,13 @@ public class FileStreamerIntentService extends IntentService{
 
         if(isCheckMode){
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(NOTIFICATION_ID, getNotification("File Checking Started", fileSenderListner.getGcodeFile().getName()));
+                startForeground(NOTIFICATION_ID, getNotification(getString(R.string.file_checking_started), fileSenderListner.getGcodeFile().getName()));
             }
 
             this.checkGcodeFile();
         }else{
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(NOTIFICATION_ID, getNotification("File Streaming Started", fileSenderListner.getGcodeFile().getName()));
+                startForeground(NOTIFICATION_ID, getNotification(getString(R.string.file_streaming_started), fileSenderListner.getGcodeFile().getName()));
             }
 
             this.startStreaming();

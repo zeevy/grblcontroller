@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /*
+  ~  *  /**
+  ~  *  * Copyright (C) 2017  Grbl Controller Contributors
+  ~  *  *
+  ~  *  * This program is free software; you can redistribute it and/or modify
+  ~  *  * it under the terms of the GNU General Public License as published by
+  ~  *  * the Free Software Foundation; either version 2 of the License, or
+  ~  *  * (at your option) any later version.
+  ~  *  *
+  ~  *  * This program is distributed in the hope that it will be useful,
+  ~  *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  *  * GNU General Public License for more details.
+  ~  *  *
+  ~  *  * You should have received a copy of the GNU General Public License along
+  ~  *  * with this program; if not, write to the Free Software Foundation, Inc.,
+  ~  *  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  ~  *  * <http://www.gnu.org/licenses/>
+  ~  *
+  ~  */
+  -->
+
+<resources>
+    <string name="action_settings">Параметры</string>
+    <string name="paired_devices">Выбор сопряженного устройства</string>
+    <string name="machine_not_idle">Машина не простоя</string>
+    <string name="no_gcode_file_selected">Не выбран файл GCode</string>
+    <string name="no_external_read_permission">Не удается прочитать внешнее хранилище, проверить разрешения</string>
+    <string name="probing_help_text">1. Отключите автоматическую регулировку. \\n2. Сделать зондирования с первого инструмента. \\n3. Измените инструмент. \\n4. Нажмите \\ \"зонд + TLO \\\".</string>
+    <string name="grbl_alarm_format">Тревоги:%d %s</string>
+    <string name="grbl_error_format">Ошибка:%d %s</string>
+    <string name="verbose_output">Подробный вывод</string>
+    <string name="steps_feed">Шаг | Кормить</string>
+    <string name="probing_feedrate_text">Скорость подачи</string>
+    <string name="touch_plate_thickness">Толщина пластины</string>
+    <string name="distance_to_probe">Расстояние до зонда</string>
+    <string name="auto_zero_z_axis_after_probe">Автоматическая регулировка оси Z</string>
+    <string name="start_probe">Зонд</string>
+    <string name="reset">Сброс</string>
+    <string name="connect">Подключения</string>
+    <string name="disconnect">Отключить</string>
+    <string name="settings">Параметры</string>
+    <string name="grbl_unsupported">Поддерживается только Grbl версия 1,1 или выше</string>
+    <string name="pref_rate_app_summary">Если вам нравится Grbl контроллер, вы можете показать свою признательность здесь.</string>
+    <string name="rate_application">Применение тарифовРейтинг приложений</string>
+    <string name="mist_disabled">Не включено во время компиляции</string>
+    <string name="bluetooth_adapter_error">Ошибка адаптера Bluetooth, пожалуйста, перезагрузите телефон</string>
+    <string name="unable_to_connect_to_device">Не удается подключить устройство</string>
+    <string name="device_connection_was_lost">Подключение устройства утеряно</string>
+    <string name="unknown_error">Неизвестная ошибка: пожалуйста, перезапустите приложение</string>
+    <string name="streaming_completed">Потоковая передача завершена</string>
+    <string name="no_bluetooth_permission">Не удается запустить Bluetooth, проверьте разрешения</string>
+    <string name="file_reading_in_progress">Выполняется чтение файла</string>
+    <string name="grbl_file_streaming">Потоковая передача файлов Grbl</string>
+    <string name="file_checking_started">Проверка файлов запущена</string>
+    <string name="file_streaming_started">Потоковая передача файлов запущена</string>
+    <string name="this_will_handle_all_bt_communication">Это будет обрабатывать все Bluetooth связи.</string>
+    <string name="bt_service">Служба Bluetooth</string>
+    <string name="clear_console_messages">Очистить сообщения консоли?</string>
+    <string name="this_will_clear_all_history">Это позволит очистить всю историю консоли</string>
+    <string name="yes_confirm">Да</string>
+    <string name="no_confirm">Нет</string>
+    <string name="starting_gcode_streaming">Запуск GCODE потоковой передачи</string>
+    <string name="check_every_thing">проверяйте каждую вещь готова!</string>
+    <string name="continue_streaming">Продолжать</string>
+    <string name="cancel">Отмена</string>
+    <string name="gcode_command_over_length_warning">Предупреждение! GCode команда с длиной до 80 символов, найденных в строке</string>
+    <string name="zero_selected_axis">Нулевая выбранная ось</string>
+    <string name="set_axix_location_in_curret_wpos">установить выбранное положение оси в текущей системе координат на ноль |</string>
+    <string name="selected_coordinate_system">Выбранная система координат</string>
+    <string name="homin_cycle">Цикл самонаведения $H</string>
+    <string name="do_homing_cycle">Начать цикл самонаведения?</string>
+    <string name="set_coordinate_system">G10 L20 Настройка системы координат</string>
+    <string name="set_all_axes_zero">установить нулевое положение всех осей в текущей системе координат | G10 L20 P0 X0Y0Z0</string>
+    <string name="return_to_zero_position">Возврат к нулевой позиции</string>
+    <string name="go_to_zero_position_in_current_wpos">Переместить в положение X0 Y0 Z0 в текущей системе координат</string>
+    <string name="empty_command">Пустая команда</string>
+    <string name="long_click">Длинный щелчок</string>
+    <string name="short_click">Короткий щелчок</string>
+    <string name="custom_action">Настраиваемое действие</string>
+    <string name="send_custom_command">Отправка пользовательских команд для действия</string>
+    <string name="on_button">Кнопка вкл.</string>
+    <string name="text_send">Отправить</string>
+    <string name="total_commands">Количество линий не должно превышать 14</string>
+    <string name="text_move">Переместить</string>
+    <string name="axis_to_zero_position">Ось в нулевое положение?</string>
+    <string name="go_to_zero_position">Переход к нулевой позиции оси в текущей системе координат | G0</string>
+    <string name="save_coordinate_system">Сохранить систему координат</string>
+    <string name="save_coordinate_system_desc">Сохранить текущую позицию в системе координат</string>
+    <string name="joggin_step_and_fee">Бег трусцой и питчинг</string>
+    <string name="text_ok">Хорошо</string>
+    <string name="text_stright_probe">G38.3: Прямой зонд</string>
+    <string name="text_stright_probe_desc">Зонд к части работы, остановите на контакте.</string>
+    <string name="last_probe_location_unknown">Последнее местонахождение зонда неизвестно</string>
+    <string name="warning_auto_zero_last_probe">Предупреждение! Автоматический нуль, используемый в последнем зонде.</string>
+    <string name="dynamic_tool_length_offset">G43.1: Динамическое смещение длины инструмента</string>
+    <string name="dynamic_tlo_desc">TLO будет применяться с разностью последнего положения зонда и текущего положения зонда. G 43,1 ABS (последний зонд)-ABS (текущий зонд) нажмите кнопку Да, чтобы продолжить.</string>
+    <string name="cancel_tlo">Смещение длины инструмента отмены</string>
+    <string name="cancel_tlo_desc">Вы хотите отменить текущую TLO</string>
+    <string name="text_probing_distance">Зондирования расстояние</string>
+    <string name="text_plate_thickness">Толщина чувствительной пластины</string>
+    <string name="probing_feed_rate">Скорость подачи зонда</string>
+    <string name="text_manual_tool_change">Ручное изменение инструмента</string>
+    <string name="probe_failed">Сбой зонда, повторите попытку</string>
+    <string name="probe_success_auto_zero">Успех зонда с автоматической регулировкой</string>
+    <string name="probe_success">Успех зонда</string>
+    <string name="probe_success_with_tlo">Успех зонда. Применяется смещение длины инструмента</string>
+    <string name="text_about">О</string>
+    <string name="bt_adaptor_error">Ошибка адаптера Bluetooth!</string>
+    <string name="no_paired_devices">Нет сопряженных устройств</string>
+    <string name="select_paired_device">Выберите сопряженное устройство</string>
+    <string name="none_found">Ничего не найдено</string>
+    <string name="text_not_connected">Не подключен</string>
+    <string name="text_application_settings">Параметры приложения</string>
+    <string name="text_inches">Дюймов</string>
+    <string name="text_lines_total_sent">Всего строк | Послал</string>
+    <string name="text_time_elapsed">Время истекло</string>
+    <string name="text_overrides_fsv">Переопределяет F:S:V</string>
+    <string name="text_overrides_fs">Переопределяет F:S</string>
+    <string name="grbl_check_mode_on">Проверить {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="grbl_check_mode_off">Проверить {fa-toggle-off 16dp}</string>
+    <string name="probing_tab_heading">"Зондирования | {fa-info-circle 16dp @color/colorAccent} "</string>
+    <string name="text_last_probe_position">Последнее положение зонда</string>
+    <string name="text_current_tlo">Текущий TLO</string>
+</resources>

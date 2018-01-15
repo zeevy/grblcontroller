@@ -118,14 +118,14 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                         }
 
                         new AlertDialog.Builder(getActivity())
-                                .setTitle("Zero selected axis")
-                                .setMessage("set selected axis location in current coordinate system to zero | " + tag)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                .setTitle(getString(R.string.zero_selected_axis))
+                                .setMessage(getString(R.string.set_axix_location_in_curret_wpos) + tag)
+                                .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         sendCommandIfIdle(tag);
                                     }
                                 })
-                                .setNegativeButton("No", null)
+                                .setNegativeButton(getString(R.string.no_confirm), null)
                                 .show();
                     }
                 });
@@ -142,7 +142,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                         if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
                             sendCommandIfIdle(view.getTag().toString());
                             sendCommandIfIdle(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-                            EventBus.getDefault().post(new UiToastEvent("Selected coordinate system " + view.getTag().toString()));
+                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.selected_coordinate_system) + view.getTag().toString()));
                         }else{
                             EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
                         }
@@ -184,14 +184,14 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             case R.id.run_homing_cycle:
                 if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE) || machineStatus.getState().equals(MachineStatusListner.STATE_ALARM)){
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Homing cycle $H")
-                            .setMessage("Perform homing cycle?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            .setTitle(getString(R.string.homin_cycle))
+                            .setMessage(getString(R.string.do_homing_cycle))
+                            .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_RUN_HOMING_CYCLE);
                                 }
                             })
-                            .setNegativeButton("No", null)
+                            .setNegativeButton(getString(R.string.no_confirm), null)
                             .show();
                 }else{
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
@@ -222,29 +222,29 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
             case R.id.run_homing_cycle:
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("G10 L20 Set coordinate system")
-                        .setMessage("set all axis location in current coordinate system to zero | G10 L20 P0 X0Y0Z0")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.set_coordinate_system))
+                        .setMessage(getString(R.string.set_all_axes_zero))
+                        .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 sendCommandIfIdle(GrblUtils.GCODE_RESET_COORDINATES_TO_ZERO);
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(getString(R.string.no_confirm), null)
                         .show();
                 return true;
 
             case R.id.jog_cancel:
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("Return to zero postion")
-                        .setMessage("Go to position X0 Y0 Z0 in current coordinates system")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.return_to_zero_position))
+                        .setMessage(getString(R.string.go_to_zero_position_in_current_wpos))
+                        .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 for (String gCommand : GrblUtils.getReturnToHomeCommands(machineStatus.getWorkPosition())) {
                                     sendCommandIfIdle(gCommand);
                                 }
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(getString(R.string.no_confirm), null)
                         .show();
                 return true;
 
@@ -314,23 +314,23 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         }
 
         if(commands.trim().length() <= 0){
-            EventBus.getDefault().post(new UiToastEvent("Empty command"));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.empty_command)));
             return;
         }
 
         final String finalCommands = commands;
 
         if(confirmFirst){
-            String alertSummary = isLongClick ? "long click" : "short click";
+            String alertSummary = isLongClick ? getString(R.string.long_click) : getString(R.string.short_click);
             new AlertDialog.Builder(getActivity())
-                    .setTitle("Custom action " + title)
-                    .setMessage("send custom commands for the action " + alertSummary + " on button " + title)
-                    .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.custom_action) + title)
+                    .setMessage(getString(R.string.send_custom_command) + alertSummary + getString(R.string.on_button) + title)
+                    .setPositiveButton(getString(R.string.text_send), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             customButtonCommands(finalCommands);
                         }
                     })
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton(getString(R.string.cancel), null)
                     .show();
         }else{
             customButtonCommands(finalCommands);
@@ -341,7 +341,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private void customButtonCommands(String commands){
         String lines[] = commands.split("[\r\n]+");
         if(lines.length > 14){
-            EventBus.getDefault().post(new UiToastEvent("Total commands should not exceed 14"));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.total_commands)));
         }else{
             for(String command: lines){
                 fragmentInteractionListener.onGcodeCommandReceived(command);
@@ -351,14 +351,14 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
     private void gotoAxisZero(final String axis){
         new AlertDialog.Builder(getActivity())
-                .setTitle("Move " + axis + " axis to zero position?")
-                .setMessage("goto axis zero position in current coordinate system | G0 " + axis + "0")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.text_move) + axis + getString(R.string.axis_to_zero_position))
+                .setMessage(getString(R.string.go_to_zero_position) + axis + "0")
+                .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         sendCommandIfIdle("G0 " + axis + "0");
                     }
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no_confirm), null)
                 .show();
     }
 
@@ -384,14 +384,14 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         }
 
         new AlertDialog.Builder(getActivity())
-                .setTitle("Save coordinate system")
-                .setMessage("save current position to coordinate system " + wpos + "?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.save_coordinate_system)
+                .setMessage(getString(R.string.save_coordinate_system_desc) + wpos + "?")
+                .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         sendCommandIfIdle(String.format("G10 L20 %s X0Y0Z0", slot));
                     }
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no_confirm), null)
                 .show();
     }
 
@@ -467,9 +467,9 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(view);
-        alertDialogBuilder.setTitle("Jogging step and feed");
+        alertDialogBuilder.setTitle(getString(R.string.joggin_step_and_fee));
         alertDialogBuilder.setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                     }

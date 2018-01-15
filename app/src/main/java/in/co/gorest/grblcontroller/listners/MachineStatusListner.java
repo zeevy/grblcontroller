@@ -43,7 +43,7 @@ public class MachineStatusListner extends BaseObservable {
     public static final String STATE_SLEEP = "Sleep";
     public static final String STATE_DOOR = "Door";
     public static final String STATE_HOME = "Home";
-    public static final String STATE_NOT_CONNECTED = "Un known";
+    public static final String STATE_NOT_CONNECTED = "Unknown";
 
     private String state;
     private Integer plannerBuffer = 0;

@@ -77,7 +77,7 @@ public class MainActivity extends GrblActivity implements BaseFragment.OnFragmen
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) getSupportActionBar().setSubtitle("Not connected");
+        if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_not_connected));
 
         consoleLogger = ConsoleLoggerListner.getInstance();
         machineStatus = MachineStatusListner.getInstance();

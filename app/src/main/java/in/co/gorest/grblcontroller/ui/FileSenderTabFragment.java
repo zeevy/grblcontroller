@@ -200,9 +200,9 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 }
             }else{
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("Starting GCODE streaming")
-                        .setMessage("do check every thing is reaady!")
-                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.starting_gcode_streaming))
+                        .setMessage(getString(R.string.check_every_thing))
+                        .setPositiveButton(getString(R.string.continue_streaming), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 FileStreamerIntentService.setShouldContinue(true);
                                 Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
@@ -214,7 +214,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(getString(R.string.cancel), null)
                         .show();
             }
 
@@ -356,7 +356,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     if(sCurrentLine.length() > 0){
                         lines++;
                         if(sCurrentLine.length() >= 79){
-                            EventBus.getDefault().post(new UiToastEvent("WARNING! Gcode command with length upto 80 characters found at line " + String.valueOf(lines)));
+                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.gcode_command_over_length_warning) + String.valueOf(lines)));
                             initFileSenderListner();
                             fileSender.setStatus(FileSenderListner.STATUS_IDLE);
                             cancel(true);

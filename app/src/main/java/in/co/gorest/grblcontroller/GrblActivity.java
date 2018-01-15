@@ -93,14 +93,9 @@ public abstract class GrblActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         sharedPref = EnhancedSharedPreferences.getInstance(GrblConttroller.getContext(), getString(R.string.shared_preference_key));
-        boolean notificationChannelCreated = sharedPref.getBoolean("notification_channel_created", false);
 
-        if(!notificationChannelCreated){
-            NotificationHelper notificationHelper = new NotificationHelper(this);
-            notificationHelper.createChannels();
-            sharedPref.edit().putBoolean("notification_channel_created", true).apply();
-        }
-
+        NotificationHelper notificationHelper = new NotificationHelper(this);
+        notificationHelper.createChannels();
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter == null) {

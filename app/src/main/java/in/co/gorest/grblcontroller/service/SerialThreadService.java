@@ -511,10 +511,10 @@ public abstract class SerialThreadService extends Service{
 
     private Notification getNotification(String message){
 
-        if(message == null) message = "This will handle all bluetooth communication.";
+        if(message == null) message = getString(R.string.this_will_handle_all_bt_communication);
 
         return new NotificationCompat.Builder(getApplicationContext(), NotificationHelper.CHANNEL_SERVICE_ID)
-                .setContentTitle("Bluetooth service")
+                .setContentTitle(getString(R.string.bt_service))
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setColor(getResources().getColor(R.color.colorPrimary))

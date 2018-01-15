@@ -62,7 +62,7 @@ public class DeviceListActivity extends Activity {
 
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if(mBtAdapter == null){
-            EventBus.getDefault().post(new UiToastEvent("Bluetooth adapter error!"));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.bt_adaptor_error)));
             finish();
         }
 
@@ -89,7 +89,7 @@ public class DeviceListActivity extends Activity {
         try {
             pairedDevices = mBtAdapter.getBondedDevices();
         }catch (Exception e){
-            EventBus.getDefault().post(new UiToastEvent("Bluetooth adapter error!"));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.bt_adaptor_error)));
             finish();
         }
 
@@ -98,7 +98,7 @@ public class DeviceListActivity extends Activity {
                 pairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
         } else {
-            pairedDevicesArrayAdapter.add("No paired devices");
+            pairedDevicesArrayAdapter.add(getString(R.string.no_paired_devices));
         }
     }
 
@@ -142,9 +142,9 @@ public class DeviceListActivity extends Activity {
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 setProgressBarIndeterminateVisibility(false);
-                setTitle("Select Paired Device");
+                setTitle(getString(R.string.select_paired_device));
                 if (mNewDevicesArrayAdapter.getCount() == 0) {
-                    mNewDevicesArrayAdapter.add("None Found");
+                    mNewDevicesArrayAdapter.add(getString(R.string.none_found));
                 }
             }
         }
