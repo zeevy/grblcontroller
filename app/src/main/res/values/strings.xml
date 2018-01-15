@@ -49,7 +49,7 @@
 
     <string-array name="entries_stop_button_behaviour">
         <item>Just stop streaming</item>
-        <item>Stop streaming and do soft reset</item>
+        <item>Feed hold and do soft reset</item>
     </string-array>
 
     <string-array name="entriesvalues_stop_button_behaviour">
