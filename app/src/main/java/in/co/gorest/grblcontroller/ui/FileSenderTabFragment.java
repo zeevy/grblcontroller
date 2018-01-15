@@ -77,6 +77,9 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     private FileSenderListner fileSender;
     private EnhancedSharedPreferences sharedPref;
 
+    private final String JUST_STOP_STREAMING = "0";
+    private final String STOP_STREAMING_AND_RESET = "1";
+
     private final int REQUEST_CODE_ASK_EXTERNAL_READ_PERMISSIONS = 100;
 
     public FileSenderTabFragment() {}
@@ -229,11 +232,10 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
         getActivity().stopService(intent);
 
-        String stopButtonBehaviour = sharedPref.getString(getString(R.string.streaming_stop_button_behaviour), "0");
-        if(stopButtonBehaviour.equals("1") || machineStatus.getState().equals(MachineStatusListner.STATE_HOLD)){
-            if(machineStatus.getState().equals(MachineStatusListner.STATE_RUN) || machineStatus.getState().equals(MachineStatusListner.STATE_HOLD)){
-                fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
-            }
+        String stopButtonBehaviour = sharedPref.getString(getString(R.string.streaming_stop_button_behaviour), JUST_STOP_STREAMING);
+        if(stopButtonBehaviour.equals(STOP_STREAMING_AND_RESET) || machineStatus.getState().equals(MachineStatusListner.STATE_HOLD)){
+            if(!machineStatus.getState().equals(MachineStatusListner.STATE_HOLD)) fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_PAUSE_COMMAND);
+            fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
         }
 
         if(fileSender.getStatus().equals(FileSenderListner.STATUS_STREAMING)){
@@ -339,7 +341,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         }
 
         protected Integer doInBackground(File... file){
-            //Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
+            Process.setThreadPriority(Process.THREAD_PRIORITY_FOREGROUND);
 
             Integer lines = 0;
             try{
