@@ -6,25 +6,32 @@
             android:icon="@drawable/ic_bluetooth_connected_black_24dp"
             android:defaultValue="false"
             android:key="@string/auto_connect"
-            android:title="Auto connect"
-            android:summary="auto connect to last used device" />
+            android:title="@string/text_auto_connect"
+            android:summary="@string/text_auto_connect_desc" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:defaultValue="true"
+            android:key="@string/confirm_grbl_soft_reset"
+            android:title="@string/text_soft_reset_confirm"
+            android:summary="@string/text_soft_reset_confirm_desc" />
 
         <SwitchPreference
             android:icon="@drawable/ic_power_black_24dp"
-            android:title="Sleep after job"
+            android:title="@string/text_sleep_after_job"
             android:defaultValue="false"
             android:key="@string/sleep_after_job"
-            android:summary="puts machine into a de-powered sleep mode using $SLP command" />
+            android:summary="@string/text_sleep_aftetr_job_desc" />
 
         <de.mrapp.android.preference.NumberPickerPreference
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
             android:defaultValue="10"
             custom:min="1"
             android:max="100"
-            custom:unit="Steps"
+            custom:unit="@string/text_steps"
             android:key="@string/jogging_max_step_size"
-            android:title="Jogging max step size"
-            android:summary="jogging step seekbar maximum value" />
+            android:title="@string/text_joggin_max_steps"
+            android:summary="@string/text_jogging_max_steps_desc" />
 
         <ListPreference
             android:key="@string/streaming_stop_button_behaviour"
@@ -38,54 +45,54 @@
         <SwitchPreference
             android:key="@string/enable_custom_buttons"
             android:icon="@drawable/ic_view_module_black_24dp"
-            android:title="Enable custom buttons"
+            android:title="@string/text_enable_custom_buttons"
             android:defaultValue="false"
-            android:summary="enables four custom buttons in jogging control tab. (you may need to restart the application)" />
+            android:summary="@string/text_enable_custom_buttons_desc" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Custom Buttons" android:dependency="@string/enable_custom_buttons">
-        <Preference android:summary="you can add gcode commands upto 125 characters in length. multiple commands must be separated by a new line (as per grbl limit, max 80 characters in one line)" />
+    <PreferenceCategory android:title="@string/text_custom_buttons" android:dependency="@string/enable_custom_buttons">
+        <Preference android:summary="@string/text_custom_buttons_desc" />
 
         <PreferenceScreen
             android:key="custom_button_1_flashcard"
             android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
             android:defaultValue="false"
-            android:title="Custom button 1"
-            android:summary="configure buttom behaviour and commands">
+            android:title="@string/text_custom_button_1"
+            android:summary="@string/text_configure_custom_button">
 
-            <PreferenceCategory android:title="Custom Buttons">
+            <PreferenceCategory android:title="@string/text_custom_buttons">
 
-                <Preference android:summary="configure custom button 1 behaviour" />
+                <Preference android:summary="@string/text_button_1_behaviour" />
 
                 <EditTextPreference
                     android:key="@string/custom_button_one"
                     android:maxLength="3"
                     android:defaultValue="@string/value_na"
-                    android:title="Button label"
-                    android:summary="give a name for the button, maximum 3 characters"/>
+                    android:title="@string/text_button_label"
+                    android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_one_short_click"
                     android:lines="3"
-                    android:title="Short click commands"
+                    android:title="@string/text_short_click_commands"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
-                    android:summary="commands to send after the button short click"/>
+                    android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_one_long_click"
                     android:lines="3"
-                    android:title="Long click commands"
+                    android:title="@string/text_long_click_commands"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
-                    android:summary="commands to send after the button long click"/>
+                    android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
                     android:key="@string/custom_button_one_confirm"
                     android:defaultValue="true"
-                    android:title="Confirm first"
-                    android:summary="ask for confirmation before sending"/>
+                    android:title="@string/text_confim_first"
+                    android:summary="@string/text_confirm_first_desc"/>
 
             </PreferenceCategory>
         </PreferenceScreen>
@@ -94,40 +101,40 @@
             android:key="custom_button_2_flashcard"
             android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
             android:defaultValue="false"
-            android:title="Custom button 2"
-            android:summary="configure buttom behaviour and commands">
+            android:title="@string/text_custom_button_2"
+            android:summary="@string/text_configure_custom_button">
 
-            <PreferenceCategory android:title="Custom Buttons">
-                <Preference android:summary="configure custom button 2 behaviour" />
+            <PreferenceCategory android:title="@string/text_custom_buttons">
+                <Preference android:summary="@string/text_button_2_behaviour" />
 
                 <EditTextPreference
                     android:key="@string/custom_button_two"
                     android:maxLength="3"
                     android:defaultValue="@string/value_na"
-                    android:title="Button label"
-                    android:summary="give a name for the button, maximum 3 characters"/>
+                    android:title="@string/text_button_label"
+                    android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_two_short_click"
-                    android:title="Short click commands"
+                    android:title="@string/text_short_click_commands"
                     android:lines="3"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
-                    android:summary="commands to send after the button short click"/>
+                    android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_two_long_click"
                     android:lines="3"
-                    android:title="Long click commands"
+                    android:title="@string/text_long_click_commands"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
-                    android:summary="commands to send after the button long click"/>
+                    android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
                     android:key="@string/custom_button_two_confirm"
                     android:defaultValue="true"
-                    android:title="Confirm first"
-                    android:summary="ask for confirmation before sending"/>
+                    android:title="@string/text_confim_first"
+                    android:summary="@string/text_confirm_first_desc"/>
             </PreferenceCategory>
 
         </PreferenceScreen>
@@ -136,40 +143,40 @@
             android:key="custom_button_3_flashcard"
             android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
             android:defaultValue="false"
-            android:title="Custom button 3"
-            android:summary="configure buttom behaviour and commands">
+            android:title="@string/text_custom_button_3"
+            android:summary="@string/text_configure_custom_button">
 
-            <PreferenceCategory android:title="Custom Buttons">
-                <Preference android:summary="configure custom button 3 behaviour" />
+            <PreferenceCategory android:title="@string/text_custom_buttons">
+                <Preference android:summary="@string/text_button_3_behaviour" />
 
                 <EditTextPreference
                     android:key="@string/custom_button_three"
                     android:maxLength="3"
                     android:defaultValue="@string/value_na"
-                    android:title="Button label"
-                    android:summary="give a name for the button, maximum 3 characters"/>
+                    android:title="@string/text_button_label"
+                    android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_three_short_click"
-                    android:title="Short click commands"
+                    android:title="@string/text_short_click_commands"
                     android:lines="3"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
-                    android:summary="commands to send after the button short click"/>
+                    android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_three_long_click"
-                    android:title="Long click commands"
+                    android:title="@string/text_long_click_commands"
                     android:lines="3"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
-                    android:summary="commands to send after the button long click"/>
+                    android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
                     android:key="@string/custom_button_three_confirm"
                     android:defaultValue="true"
-                    android:title="Confirm first"
-                    android:summary="ask for confirmation before sending"/>
+                    android:title="@string/text_confim_first"
+                    android:summary="@string/text_confirm_first_desc"/>
 
             </PreferenceCategory>
 
@@ -179,40 +186,40 @@
             android:key="custom_button_4_flashcard"
             android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
             android:defaultValue="false"
-            android:title="Custom button 4"
-            android:summary="configure buttom behaviour and commands">
+            android:title="@string/text_custom_button_4"
+            android:summary="@string/text_configure_custom_button">
 
-            <PreferenceCategory android:title="Custom Buttons">
-                <Preference android:summary="configure custom button 4 behaviour" />
+            <PreferenceCategory android:title="@string/text_custom_buttons">
+                <Preference android:summary="@string/text_button_4_behaviour" />
 
                 <EditTextPreference
                     android:key="@string/custom_button_four"
                     android:maxLength="3"
                     android:defaultValue="@string/value_na"
-                    android:title="Button label"
-                    android:summary="give a name for the button, maximum 3 characters"/>
+                    android:title="@string/text_button_label"
+                    android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_four_short_click"
-                    android:title="Short click commands"
+                    android:title="@string/text_short_click_commands"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
                     android:lines="3"
-                    android:summary="commands to send after the button short click"/>
+                    android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_four_long_click"
-                    android:title="Long click commands"
+                    android:title="@string/text_long_click_commands"
                     android:lines="3"
                     android:maxLength="125"
                     android:defaultValue="@string/value_empty"
-                    android:summary="commands to send after the button long click"/>
+                    android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
                     android:key="@string/custom_button_four_confirm"
                     android:defaultValue="true"
-                    android:title="Confirm first"
-                    android:summary="ask for confirmation before sending"/>
+                    android:title="@string/text_confim_first"
+                    android:summary="@string/text_confirm_first_desc"/>
             </PreferenceCategory>
         </PreferenceScreen>
 

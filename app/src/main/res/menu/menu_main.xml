@@ -16,12 +16,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_disconnect"
-        android:orderInCategory="12"
-        android:title="@string/disconnect"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:icon="@drawable/ic_settings_black_20dp"
         android:title="@string/settings"
         android:orderInCategory="13"

@@ -100,7 +100,7 @@ public abstract class GrblActivity extends AppCompatActivity {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter == null) {
 
-            grblToast("No Bluetooth Adapter Found!");
+            grblToast(getString(R.string.text_no_bt_adapter));
             finish();
         }else{
             Intent intent = new Intent(getApplicationContext(), GrblSerialService.class);
@@ -209,7 +209,7 @@ public abstract class GrblActivity extends AppCompatActivity {
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    grblToast("Connected to " + mConnectedDeviceName);
+                    grblToast(getString(R.string.text_connected_to) + mConnectedDeviceName);
                     break;
                 case Constants.MESSAGE_TOAST:
                     grblToast(msg.getData().getString(Constants.TOAST));
@@ -221,17 +221,17 @@ public abstract class GrblActivity extends AppCompatActivity {
     private void onBluetoothStateChange(int currentState){
         switch (currentState){
             case GrblSerialService.STATE_CONNECTED:
-                if(getSupportActionBar() != null) getSupportActionBar().setSubtitle((mConnectedDeviceName != null) ? mConnectedDeviceName : "Connected");
+                if(getSupportActionBar() != null) getSupportActionBar().setSubtitle((mConnectedDeviceName != null) ? mConnectedDeviceName : getString(R.string.text_connected));
                 invalidateOptionsMenu();
                 break;
             case GrblSerialService.STATE_CONNECTING:
-                if(getSupportActionBar() != null) getSupportActionBar().setSubtitle("Connecting... ");
+                if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connecting));
                 break;
             case GrblSerialService.STATE_LISTEN:
             case GrblSerialService.STATE_NONE:
-                EventBus.getDefault().post(new BluetoothDisconnectEvent("Connection lost"));
+                EventBus.getDefault().post(new BluetoothDisconnectEvent(getString(R.string.text_connection_lost)));
                 MachineStatusListner.getInstance().setState(MachineStatusListner.STATE_NOT_CONNECTED);
-                if(getSupportActionBar() != null) getSupportActionBar().setSubtitle("Not Connected");
+                if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_not_connected));
                 invalidateOptionsMenu();
                 break;
         }
@@ -258,21 +258,18 @@ public abstract class GrblActivity extends AppCompatActivity {
         }
 
         MenuItem actionConnect = menu.findItem(R.id.action_connect);
-        MenuItem actionDisconnect = menu.findItem(R.id.action_disconnect);
         MenuItem actionGrblSoftReset = menu.findItem(R.id.action_grbl_reset);
 
-        actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth_b).colorRes(R.color.colorWhite).sizeDp(24));
-        actionDisconnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth).colorRes(R.color.colorWhite).sizeDp(24));
         actionGrblSoftReset.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_power_off).colorRes(R.color.colorWhite).sizeDp(24));
 
         if(grblSerialService != null){
             if(grblSerialService.getState() == GrblSerialService.STATE_CONNECTED){
-                actionConnect.setVisible(false);
-                actionDisconnect.setVisible(true);
+                actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth).colorRes(R.color.colorWhite).sizeDp(24));
             }else{
-                actionConnect.setVisible(true);
-                actionDisconnect.setVisible(false);
+                actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth_b).colorRes(R.color.colorWhite).sizeDp(24));
             }
+        }else{
+            actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth_b).colorRes(R.color.colorWhite).sizeDp(24));
         }
         return true;
     }
@@ -284,42 +281,55 @@ public abstract class GrblActivity extends AppCompatActivity {
         switch (id){
             case R.id.action_connect:
                 if(bluetoothAdapter.isEnabled()){
-                    Intent serverIntent = new Intent(this, DeviceListActivity.class);
-                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+
+                    if(grblSerialService != null){
+                        if(grblSerialService.getState() == GrblSerialService.STATE_CONNECTED){
+                            new AlertDialog.Builder(this)
+                                    .setTitle(R.string.text_disconnect)
+                                    .setMessage(getString(R.string.text_disconnect_confirm))
+                                    .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if(grblSerialService != null) grblSerialService.disconnectService();
+                                        }
+                                    })
+                                    .setNegativeButton(getString(R.string.cancel), null)
+                                    .show();
+
+                        }else{
+                            Intent serverIntent = new Intent(this, DeviceListActivity.class);
+                            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+                        }
+                    }else{
+                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bt_service_not_running)));
+                    }
+
                 }else{
-                    grblToast("Bluetooth is not enabled!");
+                    grblToast(getString(R.string.text_bt_not_enabled));
                 }
                 return true;
 
-            case R.id.action_disconnect:
-                new AlertDialog.Builder(this)
-                        .setTitle("Disconnect!")
-                        .setMessage("do you really want to disconnect?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(grblSerialService != null) grblSerialService.disconnectService();
-                            }
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .show();
-                return true;
-
             case R.id.action_grbl_reset:
-                new AlertDialog.Builder(this)
-                        .setTitle("Grbl soft reset!")
-                        .setMessage("do you want to soft reset the machine?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(FileStreamerIntentService.getIsServiceRunning()){
-                                    FileStreamerIntentService.setShouldContinue(false);
-                                    Intent intent = new Intent(getApplicationContext(), FileStreamerIntentService.class);
-                                    stopService(intent);
+                boolean resetConfirm = sharedPref.getBoolean(getString(R.string.confirm_grbl_soft_reset), true);
+                if(resetConfirm){
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.text_grbl_soft_reset)
+                            .setMessage(R.string.text_grbl_soft_reset_desc)
+                            .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(FileStreamerIntentService.getIsServiceRunning()){
+                                        FileStreamerIntentService.setShouldContinue(false);
+                                        Intent intent = new Intent(getApplicationContext(), FileStreamerIntentService.class);
+                                        stopService(intent);
+                                    }
+                                    onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
                                 }
-                                onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
-                            }
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .show();
+                            })
+                            .setNegativeButton(getString(R.string.cancel), null)
+                            .show();
+
+                }else{
+                    onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
+                }
                 return true;
 
             case R.id.app_settings:

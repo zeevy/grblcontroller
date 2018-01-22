@@ -68,6 +68,8 @@ public class MainActivity extends GrblActivity implements BaseFragment.OnFragmen
     private ConsoleLoggerListner consoleLogger = null;
     private MachineStatusListner machineStatus = null;
 
+    private int MAX_PLANNER_BUFFER = 14;
+
     private final CircularFifoQueue<JogCommandEvent> jogCommandQueue = new CircularFifoQueue<>(1);
 
     @Override
@@ -94,6 +96,8 @@ public class MainActivity extends GrblActivity implements BaseFragment.OnFragmen
                 return true;
             }
         });
+
+        if(machineStatus.getCompileTimeOptions().plannerBuffer > 0) MAX_PLANNER_BUFFER = machineStatus.getCompileTimeOptions().plannerBuffer - 1;
 
         Iconify.with(new FontAwesomeModule());
         this.setupTabLayout();
@@ -188,6 +192,7 @@ public class MainActivity extends GrblActivity implements BaseFragment.OnFragmen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public synchronized void onJogCommandEvent(JogCommandEvent event){
+
         if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE) || machineStatus.getState().equals(MachineStatusListner.STATE_JOG) && jogCommandQueue.size() == 0){
             jogCommandQueue.offer(event);
             onGcodeCommandReceived(event.getCommand());

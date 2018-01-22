@@ -43,9 +43,9 @@ public class GcodeCommand {
     }
 
     private void parseCommand(){
-        this.command = GcodePreprocessorUtils.removeWhiteSpace(command);
         this.comment = GcodePreprocessorUtils.parseComment(command);
         if(this.getHasComment()) this.command = GcodePreprocessorUtils.removeComment(command);
+        this.command = GcodePreprocessorUtils.removeWhiteSpace(command);
     }
 
     public String getCommandString() {

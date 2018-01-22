@@ -48,8 +48,8 @@
     <string name="grbl_error_format">Error:%d %s</string>
 
     <string-array name="entries_stop_button_behaviour">
-        <item>Just stop streaming</item>
-        <item>Feed hold and do soft reset</item>
+        <item>just stop streaming</item>
+        <item>stop streaming and do soft reset</item>
     </string-array>
 
     <string-array name="entriesvalues_stop_button_behaviour">
@@ -151,5 +151,48 @@
     <string name="probing_tab_heading">Probing | Tool length offset {fa-info-circle 16dp @color/colorAccent}</string>
     <string name="text_last_probe_position">Last probe position</string>
     <string name="text_current_tlo">Current TLO</string>
+    <string name="text_no_bt_adapter">No Bluetooth Adapter Found!</string>
+    <string name="text_connected_to">Connected to</string>
+    <string name="text_connected">Connected</string>
+    <string name="text_connecting">Connecting...</string>
+    <string name="text_connection_lost">Connection lost</string>
+    <string name="text_disconnect">Disconnect!</string>
+    <string name="text_disconnect_confirm">do you really want to disconnect?</string>
+    <string name="text_bt_service_not_running">Bluetooth service not running!</string>
+    <string name="text_bt_not_enabled">Bluetooth is not enabled!</string>
+    <string name="confirm_grbl_soft_reset">confirm_grbl_soft_reset</string>
+    <string name="text_grbl_soft_reset">Grbl soft reset!</string>
+    <string name="text_grbl_soft_reset_desc">do you want to soft reset the machine?</string>
+    <string name="text_auto_connect">Auto connect</string>
+    <string name="text_auto_connect_desc">auto connect to last used device</string>
+    <string name="text_soft_reset_confirm">Soft reset confirmation</string>
+    <string name="text_soft_reset_confirm_desc">ask for confirmation before doing soft reset</string>
+    <string name="text_sleep_after_job">Sleep after job</string>
+    <string name="text_sleep_aftetr_job_desc">puts machine into a de-powered sleep mode using $SLP command</string>
+    <string name="text_joggin_max_steps">Jogging max step size</string>
+    <string name="text_jogging_max_steps_desc">jogging step seekbar maximum value</string>
+    <string name="text_steps">Steps</string>
+    <string name="text_enable_custom_buttons">Enable custom buttons</string>
+    <string name="text_enable_custom_buttons_desc">enables four custom buttons in jogging control tab. (you may need to restart the application)</string>
+    <string name="text_custom_buttons">Custom Buttons</string>
+    <string name="text_custom_buttons_desc">you can add gcode commands upto 125 characters in length. multiple commands must be separated by a new line (as per grbl limit, max 80 characters in one line)</string>
+    <string name="text_custom_button_1">Custom button 1</string>
+    <string name="text_configure_custom_button">configure buttom behaviour and commands</string>
+    <string name="text_button_1_behaviour">configure custom button 1 behaviour</string>
+    <string name="text_button_label">Button label</string>
+    <string name="text_button_label_desc">give a name for the button, maximum 3 characters</string>
+    <string name="text_short_click_commands">Short click commands</string>
+    <string name="text_short_click_desc">commands to send after the button short click</string>
+    <string name="text_long_click_commands">Long click commands</string>
+    <string name="text_long_click_desc">commands to send after the button long click</string>
+    <string name="text_confim_first">Confirm first</string>
+    <string name="text_confirm_first_desc">ask for confirmation before sending</string>
+    <string name="text_custom_button_2">Custom button 2</string>
+    <string name="text_button_2_behaviour">configure custom button 2 behaviour</string>
+    <string name="text_custom_button_3">Custom button 3</string>
+    <string name="text_button_3_behaviour">configure custom button 3 behaviour</string>
+    <string name="text_custom_button_4">Custom button 4</string>
+    <string name="text_button_4_behaviour">configure custom button 4 behaviour</string>
+    <string name="file_not_found">File not found!</string>
 
 </resources>

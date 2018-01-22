@@ -28,7 +28,7 @@ public class GcodePreprocessorUtils {
 
     private static final String EMPTY = "";
     private static final Pattern WHITE_SPACE = Pattern.compile("\\s");
-    private static final Pattern COMMENT = Pattern.compile("\\([^\\(]*\\)|\\s*;.*|%$");
+    private static final Pattern COMMENT = Pattern.compile("\\(.*\\)|\\s*;.*|%$");
     private static final Pattern COMMENTPARSE = Pattern.compile("(?<=\\()[^\\(\\)]*|(?<=\\;).*|%");
 
     public static String removeWhiteSpace(String command){

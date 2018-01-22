@@ -24,16 +24,17 @@ package in.co.gorest.grblcontroller.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,8 +55,7 @@ import java.util.ArrayList;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
-import in.co.gorest.grblcontroller.GrblActivity;
-import in.co.gorest.grblcontroller.MainActivity;
+import droidninja.filepicker.utils.MediaStoreHelper;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentFileSenderTabBinding;
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
@@ -64,7 +64,6 @@ import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listners.FileSenderListner;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
-import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.model.Overrides;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.util.GcodePreprocessorUtils;
@@ -232,9 +231,12 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
         getActivity().stopService(intent);
 
+        if(machineStatus.getState().equals(MachineStatusListner.STATE_HOLD)){
+            fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
+        }
+
         String stopButtonBehaviour = sharedPref.getString(getString(R.string.streaming_stop_button_behaviour), JUST_STOP_STREAMING);
-        if(stopButtonBehaviour.equals(STOP_STREAMING_AND_RESET) || machineStatus.getState().equals(MachineStatusListner.STATE_HOLD)){
-            if(!machineStatus.getState().equals(MachineStatusListner.STATE_HOLD)) fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_PAUSE_COMMAND);
+        if(machineStatus.getState().equals(MachineStatusListner.STATE_RUN) && stopButtonBehaviour.equals(STOP_STREAMING_AND_RESET)){
             fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
         }
 
@@ -251,7 +253,17 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     ArrayList<String> pickedFiles = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
                     if(pickedFiles.size() > 0){
                         fileSender.setGcodeFile(new File(pickedFiles.get(0)));
-                        new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
+                        if(fileSender.getGcodeFile().exists()){
+                            new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
+                        }else{
+                            MediaScannerConnection.scanFile(getActivity().getApplicationContext(), new String[] { fileSender.getGcodeFile().getAbsolutePath() }, null,
+                                    new MediaScannerConnection.OnScanCompletedListener() {
+                                        public void onScanCompleted(String path, Uri uri) {}
+                                    }
+                            );
+
+                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.file_not_found)));
+                        }
                     }
                 }
                 break;
@@ -392,6 +404,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     }
 
     private void getFilePicker(){
+
         String[] gcodeTypes = {".tap",".gcode", ".nc", ".ngc"};
         FilePickerBuilder.getInstance().setMaxCount(1)
                 .setActivityTheme(R.style.AppTheme)
