@@ -13,7 +13,7 @@
 - Supports Probing (G38.3) and auto adjusts Z-Axis.
 - Manual tool change with G43.1
 - 4 Highly Configurable Custom Buttons which supports multi line commands (Supports both short click and long click).
-- Application can work in background mode, by utilizing the less resources there by consuming less power.
+- Application can work in background mode, by utilizing the less resources, there by consuming less power.
 
 #### Notes:
 - For android versions Marshmallow or above, use your OS permission manager and grant "Read External Storage" permission in order to get file streaming working.
@@ -22,6 +22,9 @@
 - For more information on changing baud rate, pass code of HC-05 Bluetooth module you may visit this link http://www.buildlog.net/blog/2017/10/using-the-hc-05-bluetooth-module/.
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/>](https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller "Download from play store").
+
+#### Known Bugs:
+- Some times jog stop button will not work effectively, need to press the jog stop button two times.
 
 #### Special thanks to
 
