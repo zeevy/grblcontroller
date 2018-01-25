@@ -25,7 +25,7 @@
 
 #### Special thanks to
 
-1. winder https://github.com/winder/Universal-G-Code-Sender (for most of the core logic and code)
+1. Will Winder https://github.com/winder/Universal-G-Code-Sender (for most of the core logic and code)
 2. Felipe Herranz https://github.com/felHR85/UsbSerial
 3. Michael Rapp  https://github.com/michael-rapp/AndroidMaterialPreferences
 4. Xiao https://github.com/woxingxiao/BubbleSeekBar
