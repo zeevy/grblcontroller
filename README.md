@@ -1,5 +1,5 @@
 # Grbl Controller
-### A android mobile based compact GUI for GRBL powered CNC machine.
+### Android mobile compact GUI for GRBL powered CNC machine.
 
 ![Axis Control](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090425.png "Axis Controll Panel") ![File Streaming](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090518.png "File Streaming Panel").
 
