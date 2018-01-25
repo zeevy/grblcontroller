@@ -1,5 +1,5 @@
-# Grbl Bluetooth Controller for Android Mobile
-#### Use bluetooth enabled mobile phone to stream G-code and control your GRBL powered CNC machine.
+# Grbl Controller for Android Mobile
+#### Use your mobile phone to stream G-code and control your GRBL powered CNC machine.
 
 ![Axis Control](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090425.png "Axis Controll Panel") ![File Streaming](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090518.png "File Streaming Panel").
 
