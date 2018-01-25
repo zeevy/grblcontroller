@@ -27,8 +27,8 @@
 
 1. winder https://github.com/winder/Universal-G-Code-Sender (for most of the core logic and code)
 2. Felipe Herranz https://github.com/felHR85/UsbSerial
-2. Michael Rapp  https://github.com/michael-rapp/AndroidMaterialPreferences
-3. Xiao https://github.com/woxingxiao/BubbleSeekBar
-4. Markus Junginger https://github.com/greenrobot/EventBus
-5. Arun Sharma https://github.com/DroidNinja/Android-FilePicker
-6. Joan Zapata https://github.com/JoanZapata/android-iconify
+3. Michael Rapp  https://github.com/michael-rapp/AndroidMaterialPreferences
+4. Xiao https://github.com/woxingxiao/BubbleSeekBar
+5. Markus Junginger https://github.com/greenrobot/EventBus
+6. Arun Sharma https://github.com/DroidNinja/Android-FilePicker
+7. Joan Zapata https://github.com/JoanZapata/android-iconify
