@@ -240,8 +240,8 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 }
 
                 if(customCommandsAsyncTask != null && customCommandsAsyncTask.getStatus() == AsyncTask.Status.RUNNING){
-                    fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
                     customCommandsAsyncTask.cancel(true);
+                    fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
                 }
 
                 break;
