@@ -75,12 +75,13 @@ public class NotificationHelper extends ContextWrapper {
             mChannelTwo.setShowBadge(true);
             getNotificationManager().createNotificationChannel(mChannelTwo);
 
-            NotificationChannel mChannelThree = new NotificationChannel(CHANNEL_SERVICE_ID, CHANNEL_SERVICE_NAME, NotificationManager.IMPORTANCE_MIN);
+            NotificationChannel mChannelThree = new NotificationChannel(CHANNEL_SERVICE_ID, CHANNEL_SERVICE_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             mChannelThree.setDescription(CHANNEL_SERVICE_ABOUT);
             mChannelThree.enableLights(false);
             mChannelThree.enableVibration(false);
             mChannelThree.setLightColor(getColor(R.color.colorPrimary));
-            mChannelThree.setShowBadge(false);
+            mChannelThree.setShowBadge(true);
+            mChannelThree.setSound(null, null);
             getNotificationManager().createNotificationChannel(mChannelThree);
         }
 

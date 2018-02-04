@@ -26,10 +26,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import in.co.gorest.grblcontroller.BR;
-import in.co.gorest.grblcontroller.model.GcodeCommand;
 
 public class FileSenderListner extends BaseObservable {
 

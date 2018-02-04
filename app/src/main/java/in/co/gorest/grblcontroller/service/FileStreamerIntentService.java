@@ -23,7 +23,6 @@ package in.co.gorest.grblcontroller.service;
 
 import android.app.IntentService;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -33,6 +32,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,7 +44,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -57,6 +57,7 @@ import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.listners.FileSenderListner;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
@@ -66,11 +67,12 @@ public class FileStreamerIntentService extends IntentService{
     private static final String TAG = FileStreamerIntentService.class.getSimpleName();
 
     public static final String CHECK_MODE_ENABLED = "CHECK_MODE_ENABLED";
-    private static int MAX_RX_SERIAL_BUFFER = 125;
+    public static final String SERIAL_CONNECTION_TYPE = "SERIAL_CONNECTION_TYPE";
+    private static int MAX_RX_SERIAL_BUFFER = Constants.DEFAULT_SERIAL_RX_BUFFER - 3;
     private static int CURRENT_RX_SERIAL_BUFFER = 0;
 
     private final LinkedList<Integer> activeCommandSizes = new LinkedList<>();
-    private final BlockingQueue<Integer> completedCommands = new ArrayBlockingQueue<>(64);
+    private final BlockingQueue<Integer> completedCommands = new ArrayBlockingQueue<>(Constants.DEFAULT_SERIAL_RX_BUFFER);
 
     private static volatile boolean isServiceRunning = false;
     private static volatile boolean shouldContinue = true;
@@ -83,8 +85,6 @@ public class FileStreamerIntentService extends IntentService{
 
     private FileSenderListner fileSenderListner;
     private final Timer jobTimer = new Timer();
-
-    private static final int NOTIFICATION_ID = 101;
 
     public FileStreamerIntentService() {
         super(FileStreamerIntentService.class.getName());
@@ -119,6 +119,7 @@ public class FileStreamerIntentService extends IntentService{
         Process.setThreadPriority(Process.THREAD_PRIORITY_FOREGROUND);
 
         boolean isCheckMode = intent.getBooleanExtra(CHECK_MODE_ENABLED, false);
+        String defaultConnectionType = intent.getStringExtra(SERIAL_CONNECTION_TYPE);
 
         setIsServiceRunning(true);
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -141,16 +142,20 @@ public class FileStreamerIntentService extends IntentService{
 
         if(isCheckMode){
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(NOTIFICATION_ID, getNotification(getString(R.string.file_checking_started), fileSenderListner.getGcodeFile().getName()));
+                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.file_checking_started), fileSenderListner.getGcodeFile().getName()));
             }
 
-            this.checkGcodeFile();
+            if(defaultConnectionType != null && defaultConnectionType.equals(Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH)){
+                this.checkGcodeFile();
+            }else{
+                this.startStreaming(555);
+            }
         }else{
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(NOTIFICATION_ID, getNotification(getString(R.string.file_streaming_started), fileSenderListner.getGcodeFile().getName()));
+                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.file_streaming_started), fileSenderListner.getGcodeFile().getName()));
             }
 
-            this.startStreaming();
+            this.startStreaming(5);
         }
 
         this.waitUntilBufferRunout();
@@ -168,13 +173,17 @@ public class FileStreamerIntentService extends IntentService{
         streamingCompleteEvent.setTimeMillis(fileSenderListner.getJobEndTime() - fileSenderListner.getJobStartTime());
         streamingCompleteEvent.setTimeTaken(fileSenderListner.getElaspsedTime());
 
+        Answers.getInstance().logCustom(new CustomEvent("Job Completed")
+                .putCustomAttribute("lines sent", fileSenderListner.getRowsSent())
+                .putCustomAttribute("time taken", streamingCompleteEvent.getTimeMillis()/1000));
+
         EventBus.getDefault().post(streamingCompleteEvent);
         wakeLock.release();
 
         stopSelf();
     }
 
-    private void startStreaming(){
+    private void startStreaming(int statusUpdateInterval){
 
         BufferedReader br; String sCurrentLine;
 
@@ -200,7 +209,7 @@ public class FileStreamerIntentService extends IntentService{
                     linesSent++;
                 }
 
-                if(linesSent%5 == 0){
+                if(linesSent%statusUpdateInterval == 0){
                     fileSenderListner.setRowsSent(linesSent);
                 }
 
@@ -216,7 +225,6 @@ public class FileStreamerIntentService extends IntentService{
     }
 
     private void checkGcodeFile(){
-
 
         try{
 
@@ -260,10 +268,9 @@ public class FileStreamerIntentService extends IntentService{
 
         String command = gcodeCommand.getCommandString();
         int commandSize = command.length() + 1;
-        if(commandSize <= 1) return;
 
         // Wait until there is room, if necessary.
-        while (MAX_RX_SERIAL_BUFFER < (CURRENT_RX_SERIAL_BUFFER + command.length() + 1)) {
+        while (MAX_RX_SERIAL_BUFFER < (CURRENT_RX_SERIAL_BUFFER + commandSize)) {
             try {
                 completedCommands.take();
                 if(activeCommandSizes.size() > 0) CURRENT_RX_SERIAL_BUFFER -= activeCommandSizes.removeFirst();

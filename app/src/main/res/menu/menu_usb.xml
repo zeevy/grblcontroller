@@ -13,7 +13,6 @@
         android:id="@+id/action_connect"
         android:orderInCategory="11"
         android:title="@string/connect"
-        android:icon="@drawable/ic_bluetooth_connected_black_24dp"
         app:showAsAction="always" />
 
     <item

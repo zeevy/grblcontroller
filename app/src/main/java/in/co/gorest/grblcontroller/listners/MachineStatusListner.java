@@ -25,6 +25,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import in.co.gorest.grblcontroller.BR;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.Position;
 
 public class MachineStatusListner extends BaseObservable {
@@ -32,18 +33,18 @@ public class MachineStatusListner extends BaseObservable {
     private static final String TAG = MachineStatusListner.class.getSimpleName();
 
     private final String emptyString = "";
-    private final Double DEFAULT_FEEDRATE = 2400.0;
+    private final Double DEFAULT_FEEDRATE = Constants.DEFAULT_JOGGIN_FEED_RATE;
 
-    public static final String STATE_IDLE = "Idle";
-    public static final String STATE_JOG = "Jog";
-    public static final String STATE_RUN = "Run";
-    public static final String STATE_HOLD = "Hold";
-    public static final String STATE_ALARM = "Alarm";
-    public static final String STATE_CHECK = "Check";
-    public static final String STATE_SLEEP = "Sleep";
-    public static final String STATE_DOOR = "Door";
-    public static final String STATE_HOME = "Home";
-    public static final String STATE_NOT_CONNECTED = "Unknown";
+    public static final String STATE_IDLE           = Constants.MACHINE_STATUS_IDLE;
+    public static final String STATE_JOG            = Constants.MACHINE_STATUS_JOG;
+    public static final String STATE_RUN            = Constants.MACHINE_STATUS_RUN;
+    public static final String STATE_HOLD           = Constants.MACHINE_STATUS_HOLD;
+    public static final String STATE_ALARM          = Constants.MACHINE_STATUS_ALARM;
+    public static final String STATE_CHECK          = Constants.MACHINE_STATUS_CHECK;
+    public static final String STATE_SLEEP          = Constants.MACHINE_STATUS_SLEEP;
+    public static final String STATE_DOOR           = Constants.MACHINE_STATUS_DOOR;
+    public static final String STATE_HOME           = Constants.MACHINE_STATUS_HOME;
+    public static final String STATE_NOT_CONNECTED  = Constants.MACHINE_STATUS_NOT_CONNECTED;
 
     private String state;
     private Integer plannerBuffer = 0;
@@ -77,7 +78,7 @@ public class MachineStatusListner extends BaseObservable {
 
     private MachineStatusListner(){
         this.state = STATE_NOT_CONNECTED;
-        this.compileTimeOptions = new CompileTimeOptions(emptyString, 15, 128);
+        this.compileTimeOptions = new CompileTimeOptions(emptyString, Constants.DEFAULT_PLANNER_BUFFER, Constants.DEFAULT_SERIAL_RX_BUFFER);
         this.parserState = new ParserState("G0 G54 G17 G21 G90 G94");
     }
 

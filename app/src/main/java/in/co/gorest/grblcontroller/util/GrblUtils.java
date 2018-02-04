@@ -53,10 +53,6 @@ public class GrblUtils {
     public static final String GCODE_RESET_COORDINATE_TO_ZERO = "G10 P0 L20 %c0";
     public static final String GCODE_CANCEL_TOOL_OFFSETS = "G49";
 
-    // Machine control commands
-    public static final String GCODE_PROGRAM_END_COMMAND = "M02";
-
-
     private static final String GCODE_RETURN_TO_ZERO_LOCATION_XY = "G90 G0 X0 Y0";
     private static final String GCODE_RETURN_TO_ZERO_LOCATION_Z0 = "G90 G0 Z0";
     private static final String GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS = "G53 G0 Z0";

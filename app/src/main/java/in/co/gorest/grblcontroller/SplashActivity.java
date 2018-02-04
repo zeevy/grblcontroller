@@ -26,16 +26,38 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 
+import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
+import in.co.gorest.grblcontroller.model.Constants;
+
 public class SplashActivity extends AppCompatActivity {
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    private EnhancedSharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
+        sharedPref = EnhancedSharedPreferences.getInstance(GrblConttroller.getContext(), getString(R.string.shared_preference_key));
+
+        String defaultConnection = sharedPref.getString(getString(R.string.default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
+
+        switch (defaultConnection){
+            case Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH:
+                startActivity(new Intent(SplashActivity.this, BluetoothConnectionActivity.class));
+                break;
+
+            case Constants.SERIAL_CONNECTION_TYPE_USBOTG:
+                startActivity(new Intent(SplashActivity.this, UsbConnectionActivity.class));
+                break;
+
+            default:
+                startActivity(new Intent(SplashActivity.this, BluetoothConnectionActivity.class));
+        }
+
         finish();
     }
 

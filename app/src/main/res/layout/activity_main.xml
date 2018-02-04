@@ -9,7 +9,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="in.co.gorest.grblcontroller.MainActivity">
+        tools:context="in.co.gorest.grblcontroller.BluetoothConnectionActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="in.co.gorest.grblcontroller.MainActivity"
+        tools:context="in.co.gorest.grblcontroller.BluetoothConnectionActivity"
         tools:showIn="@layout/activity_main">
 
         <LinearLayout

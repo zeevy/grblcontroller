@@ -9,10 +9,19 @@
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
         android:summary="linuxcnc.org"
-        android:title="Gcode Documentation">
+        android:title="Gcode documentation">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="http://linuxcnc.org/docs/html/gcode/g-code.html"/>
+    </Preference>
+
+    <Preference
+        android:icon="@drawable/ic_live_help_black_36dp"
+        android:summary="Application wiki page"
+        android:title="Interface Documentation">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://github.com/zeevy/grblcontroller/wiki/interface-documentation"/>
     </Preference>
 
     <Preference

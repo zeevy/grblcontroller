@@ -2,26 +2,21 @@
 
     <PreferenceCategory android:title="Application">
 
+        <ListPreference
+            android:key="@string/default_serial_connection_type"
+            android:icon="@drawable/ic_device_hub_black_24dp"
+            android:title="Default Connection"
+            android:entries="@array/entries_default_connection"
+            android:entryValues="@array/values_default_connection"
+            android:summary="%s"
+            android:defaultValue="bluetooth" />
+
         <SwitchPreference
             android:icon="@drawable/ic_bluetooth_connected_black_24dp"
             android:defaultValue="false"
             android:key="@string/auto_connect"
             android:title="@string/text_auto_connect"
             android:summary="@string/text_auto_connect_desc" />
-
-        <SwitchPreference
-            android:icon="@drawable/ic_power_settings_new_black_24dp"
-            android:defaultValue="true"
-            android:key="@string/confirm_grbl_soft_reset"
-            android:title="@string/text_soft_reset_confirm"
-            android:summary="@string/text_soft_reset_confirm_desc" />
-
-        <SwitchPreference
-            android:icon="@drawable/ic_power_black_24dp"
-            android:title="@string/text_sleep_after_job"
-            android:defaultValue="false"
-            android:key="@string/sleep_after_job"
-            android:summary="@string/text_sleep_aftetr_job_desc" />
 
         <de.mrapp.android.preference.NumberPickerPreference
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
@@ -41,6 +36,27 @@
             android:entryValues="@array/entriesvalues_stop_button_behaviour"
             android:summary="%s"
             android:defaultValue="1" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:defaultValue="true"
+            android:key="@string/confirm_grbl_soft_reset"
+            android:title="@string/text_soft_reset_confirm"
+            android:summary="@string/text_soft_reset_confirm_desc" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_check_circle_black_24dp"
+            android:defaultValue="false"
+            android:key="@string/check_machine_position_before_job"
+            android:title="@string/text_check_machine_position"
+            android:summary="@string/desc_check_machine_position" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_power_black_24dp"
+            android:title="@string/text_sleep_after_job"
+            android:defaultValue="false"
+            android:key="@string/sleep_after_job"
+            android:summary="@string/text_sleep_aftetr_job_desc" />
 
         <SwitchPreference
             android:key="@string/enable_custom_buttons"
@@ -74,17 +90,17 @@
 
                 <EditTextPreference
                     android:key="@string/custom_button_one_short_click"
-                    android:lines="3"
+                    android:lines="5"
                     android:title="@string/text_short_click_commands"
-                    android:maxLength="125"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_one_long_click"
-                    android:lines="3"
+                    android:lines="5"
                     android:title="@string/text_long_click_commands"
-                    android:maxLength="125"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
                     android:summary="@string/text_long_click_desc"/>
 
@@ -117,16 +133,16 @@
                 <EditTextPreference
                     android:key="@string/custom_button_two_short_click"
                     android:title="@string/text_short_click_commands"
-                    android:lines="3"
-                    android:maxLength="125"
+                    android:lines="5"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_two_long_click"
-                    android:lines="3"
+                    android:lines="5"
                     android:title="@string/text_long_click_commands"
-                    android:maxLength="125"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
                     android:summary="@string/text_long_click_desc"/>
 
@@ -159,16 +175,16 @@
                 <EditTextPreference
                     android:key="@string/custom_button_three_short_click"
                     android:title="@string/text_short_click_commands"
-                    android:lines="3"
-                    android:maxLength="125"
+                    android:lines="5"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_three_long_click"
                     android:title="@string/text_long_click_commands"
-                    android:lines="3"
-                    android:maxLength="125"
+                    android:lines="5"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
                     android:summary="@string/text_long_click_desc"/>
 
@@ -202,16 +218,16 @@
                 <EditTextPreference
                     android:key="@string/custom_button_four_short_click"
                     android:title="@string/text_short_click_commands"
-                    android:maxLength="125"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
-                    android:lines="3"
+                    android:lines="5"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_four_long_click"
                     android:title="@string/text_long_click_commands"
-                    android:lines="3"
-                    android:maxLength="125"
+                    android:lines="5"
+                    android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
                     android:summary="@string/text_long_click_desc"/>
 

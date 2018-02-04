@@ -30,10 +30,6 @@ public class GrblAlarmEvent {
 
     private final String message;
 
-    public static final int ALARM_HARD_LIMIT = 1;
-    public static final int ALARM_SOFT_LIMIT = 2;
-    public static final int ALARM_ABORT_DURING_CYCLE = 3;
-
     private int alarmCode;
     private String alarmName;
     private String alarmDescription;

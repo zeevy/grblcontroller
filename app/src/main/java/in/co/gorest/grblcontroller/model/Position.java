@@ -53,4 +53,8 @@ public class Position {
         return (position.getCordX().compareTo(this.cordX) != 0) || (position.getCordY().compareTo(this.cordY) != 0) || (position.getCordZ().compareTo(this.cordZ) != 0);
     }
 
+    public boolean atZero(){
+        return Math.abs(this.cordX) == 0 && Math.abs(this.cordY) == 0 && Math.abs(this.cordZ) == 0;
+    }
+
 }

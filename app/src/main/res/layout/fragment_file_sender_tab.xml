@@ -148,7 +148,7 @@
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-fast-backward 18dp} S10"
+                        android:text="{fa-fast-backward 16dp} S10"
                         android:id="@+id/spindle_override_coarse_minus"
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
@@ -156,7 +156,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-backward 18dp} S1"
+                        android:text="{fa-backward 16dp} S1"
                         android:id="@+id/spindle_override_fine_minus"
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
@@ -164,7 +164,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-forward 18dp} S1"
+                        android:text="{fa-forward 16dp} S1"
                         android:id="@+id/spindle_override_fine_plus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -173,7 +173,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-fast-forward 18dp} S10"
+                        android:text="{fa-fast-forward 16dp} S10"
                         android:id="@+id/spindle_override_coarse_plus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -186,7 +186,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 18dp @color/colorAccent} R100" : "{fa-rocket 18dp} R100"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 18dp @color/colorAccent} R100" : "{fa-rocket 16dp} R100"}'
                         android:id="@+id/rapid_overrides_reset"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -195,7 +195,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 18dp @color/colorAccent} R50" : "{fa-rocket 18dp} R50"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 18dp @color/colorAccent} R50" : "{fa-rocket 16dp} R50"}'
                         android:id="@+id/rapid_override_medium"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -204,7 +204,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 18dp} R25"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 16dp} R25"}'
                         android:id="@+id/rapid_overrirde_low"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -216,7 +216,7 @@
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? "Spindle {fa-toggle-on 18dp @color/colorAccent}" : "Spindle {fa-toggle-off 18dp}"}'
+                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? "Spindle {fa-toggle-on 16dp @color/colorAccent}" : "Spindle {fa-toggle-off 18dp}"}'
                         android:id="@+id/toggle_spindle"
                         android:layout_weight="0.33"
                         android:gravity="center"
@@ -225,7 +225,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.flood ? "Flood {fa-toggle-on 18dp @color/colorAccent}" : "Flood {fa-toggle-off 18dp}"}'
+                        android:text='@{machineStatus.accessoryStates.flood ? "Flood {fa-toggle-on 18dp @color/colorAccent}" : "Flood {fa-toggle-off 16dp}"}'
                         android:id="@+id/toggle_flood_coolant"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -234,7 +234,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.mist ? "Mist {fa-toggle-on 18dp @color/colorAccent}" : "Mist {fa-toggle-off 18dp}"}'
+                        android:text='@{machineStatus.accessoryStates.mist ? "Mist {fa-toggle-on 18dp @color/colorAccent}" : "Mist {fa-toggle-off 16dp}"}'
                         android:id="@+id/toggle_mist_coolant"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"

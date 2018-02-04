@@ -35,6 +35,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.widget.IconButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,6 +49,7 @@ import in.co.gorest.grblcontroller.events.GrblProbeEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class ProbingTabFragment extends BaseFragment {
@@ -54,9 +57,6 @@ public class ProbingTabFragment extends BaseFragment {
     private static final String TAG = ProbingTabFragment.class.getSimpleName();
     private MachineStatusListner machineStatus;
     private EnhancedSharedPreferences sharedPref;
-
-    private static final Integer PROBE_TYPE_NORMAL = 1;
-    private static final Integer PROBE_TYPE_TOOL_OFFSET = 2;
 
     private TextView probingFeedrate, probingPlateThickness, probingDistance;
     private Double probeStartPosition = null;
@@ -116,13 +116,13 @@ public class ProbingTabFragment extends BaseFragment {
         });
 
         probingFeedrate = view.findViewById(R.id.probing_feedrate);
-        probingFeedrate.setText(sharedPref.getString(getString(R.string.probing_feedrate), "10.0"));
+        probingFeedrate.setText(sharedPref.getString(getString(R.string.probing_feedrate), String.valueOf(Constants.PROBING_FEED_RATE)));
 
         probingPlateThickness = view.findViewById(R.id.probing_plate_thickness);
-        probingPlateThickness.setText(sharedPref.getString(getString(R.string.probing_plate_thickness), "10.0"));
+        probingPlateThickness.setText(sharedPref.getString(getString(R.string.probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
 
         probingDistance = view.findViewById(R.id.probing_distance);
-        probingDistance.setText(sharedPref.getString(getString(R.string.probing_distance), "10.0"));
+        probingDistance.setText(sharedPref.getString(getString(R.string.probing_distance), String.valueOf(Constants.PROBING_DISTANCE)));
 
         IconButton startProbe = view.findViewById(R.id.start_probe);
         startProbe.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +134,7 @@ public class ProbingTabFragment extends BaseFragment {
                         .setMessage(getString(R.string.text_stright_probe_desc))
                         .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                probeType = PROBE_TYPE_NORMAL;
+                                probeType = Constants.PROBE_TYPE_NORMAL;
                                 doProbing();
                             }
                         })
@@ -164,7 +164,7 @@ public class ProbingTabFragment extends BaseFragment {
                         .setMessage(getString(R.string.dynamic_tlo_desc))
                         .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                probeType = PROBE_TYPE_TOOL_OFFSET;
+                                probeType = Constants.PROBE_TYPE_TOOL_OFFSET;
                                 doProbing();
                             }
                         })
@@ -177,7 +177,7 @@ public class ProbingTabFragment extends BaseFragment {
         cancelToolOffset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
+                if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
                     new AlertDialog.Builder(getActivity())
                             .setTitle(getString(R.string.cancel_tlo))
                             .setMessage(getString(R.string.cancel_tlo_desc))
@@ -209,7 +209,7 @@ public class ProbingTabFragment extends BaseFragment {
     }
 
     private void doProbing(){
-        if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
+        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
 
             fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
 
@@ -352,8 +352,12 @@ public class ProbingTabFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblProbeEvent(GrblProbeEvent event){
-
         if(probeType == null || probeStartPosition == null) return;
+
+        Answers.getInstance().logCustom(new CustomEvent("Probing")
+                .putCustomAttribute("type", (probeType == 1) ? "G38.3" : "G43.1")
+                .putCustomAttribute("status", event.getIsProbeSuccess() ? "success" : "failed"));
+
         if(!event.getIsProbeSuccess()){
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.probe_failed)));
             fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + probeStartPosition.toString());
@@ -361,7 +365,7 @@ public class ProbingTabFragment extends BaseFragment {
             return;
         }
 
-        if(probeType == PROBE_TYPE_NORMAL){
+        if(probeType == Constants.PROBE_TYPE_NORMAL){
             if(autoZeroAfterProbe.isChecked()){
                 Double probePlateThickness = Double.parseDouble(probingPlateThickness.getText().toString());
                 fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + event.getProbeCordZ().toString());
@@ -375,7 +379,7 @@ public class ProbingTabFragment extends BaseFragment {
             }
         }
 
-        if(probeType == PROBE_TYPE_TOOL_OFFSET){
+        if(probeType == Constants.PROBE_TYPE_TOOL_OFFSET){
             Double lastProbeCordZ = Math.abs(machineStatus.getLastProbePosition().getCordZ());
             Double currentProbeCordZ = Math.abs(event.getProbeCordZ());
 

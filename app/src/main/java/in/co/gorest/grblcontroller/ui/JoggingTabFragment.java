@@ -24,8 +24,10 @@ package in.co.gorest.grblcontroller.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,19 +36,29 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconToggleButton;
 import com.xw.repo.BubbleSeekBar;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.LinkedList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentJoggingTabBinding;
+import in.co.gorest.grblcontroller.events.GrblOkEvent;
 import in.co.gorest.grblcontroller.events.JogCommandEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.RepeatListener;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class JoggingTabFragment extends BaseFragment implements View.OnClickListener, View.OnLongClickListener{
@@ -54,6 +66,8 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private static final String TAG = JoggingTabFragment.class.getSimpleName();
     private MachineStatusListner machineStatus;
     private EnhancedSharedPreferences sharedPref;
+    private BlockingQueue<Integer> completedCommands;
+    private CustomCommandsAsyncTask customCommandsAsyncTask;
 
     public JoggingTabFragment() {}
 
@@ -66,6 +80,19 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         machineStatus = MachineStatusListner.getInstance();
         sharedPref = EnhancedSharedPreferences.getInstance(getActivity().getApplicationContext(), getString(R.string.shared_preference_key));
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        SetCustomButtons(getView());
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -113,7 +140,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                         final String tag = view.getTag().toString();
 
                         if(tag.equals(GrblUtils.GRBL_KILL_ALARM_LOCK_COMMAND)){
-                            if(!machineStatus.getState().equals(MachineStatusListner.STATE_RUN)) fragmentInteractionListener.onGcodeCommandReceived(tag);
+                            if(!machineStatus.getState().equals(Constants.MACHINE_STATUS_RUN)) fragmentInteractionListener.onGcodeCommandReceived(tag);
                             return;
                         }
 
@@ -139,7 +166,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 wposLayoutView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
+                        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
                             sendCommandIfIdle(view.getTag().toString());
                             sendCommandIfIdle(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
                             EventBus.getDefault().post(new UiToastEvent(getString(R.string.selected_coordinate_system) + view.getTag().toString()));
@@ -152,7 +179,16 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             }
         }
 
+        SetCustomButtons(view);
+
+        return view;
+    }
+
+    private void SetCustomButtons(View view){
         TableRow customButtonLayout = view.findViewById(R.id.custom_button_layout);
+
+        if(customButtonLayout == null) return;
+
         if(sharedPref.getBoolean(getString(R.string.enable_custom_buttons), false)){
             customButtonLayout.setVisibility(View.VISIBLE);
 
@@ -167,9 +203,9 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 iconButton.setOnLongClickListener(this);
                 iconButton.setOnClickListener(this);
             }
+        }else{
+            customButtonLayout.setVisibility(View.GONE);
         }
-
-        return view;
     }
 
     @Override
@@ -182,7 +218,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 return;
 
             case R.id.run_homing_cycle:
-                if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE) || machineStatus.getState().equals(MachineStatusListner.STATE_ALARM)){
+                if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_ALARM)){
                     new AlertDialog.Builder(getActivity())
                             .setTitle(getString(R.string.homin_cycle))
                             .setMessage(getString(R.string.do_homing_cycle))
@@ -199,9 +235,15 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.jog_cancel:
-                if(machineStatus.getState().equals(MachineStatusListner.STATE_JOG)){
+                if(machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
                     fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_JOG_CANCEL_COMMAND);
                 }
+
+                if(customCommandsAsyncTask != null && customCommandsAsyncTask.getStatus() == AsyncTask.Status.RUNNING){
+                    fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
+                    customCommandsAsyncTask.cancel(true);
+                }
+
                 break;
 
             case R.id.custom_buton_1:
@@ -280,7 +322,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
     private void customButton(int resourceId, boolean isLongClick){
 
-        if(!machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
+        if(!machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
             return;
         }
@@ -327,26 +369,75 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                     .setMessage(getString(R.string.send_custom_command) + alertSummary + getString(R.string.on_button) + title)
                     .setPositiveButton(getString(R.string.text_send), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            customButtonCommands(finalCommands);
+                            customCommandsAsyncTask = new CustomCommandsAsyncTask();
+                            customCommandsAsyncTask.execute(finalCommands);
                         }
                     })
                     .setNegativeButton(getString(R.string.cancel), null)
                     .show();
         }else{
-            customButtonCommands(finalCommands);
+            customCommandsAsyncTask = new CustomCommandsAsyncTask();
+            customCommandsAsyncTask.execute(finalCommands);
         }
 
     }
 
-    private void customButtonCommands(String commands){
-        String lines[] = commands.split("[\r\n]+");
-        if(lines.length > 14){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.total_commands)));
-        }else{
-            for(String command: lines){
-                fragmentInteractionListener.onGcodeCommandReceived(command);
-            }
+    private class CustomCommandsAsyncTask extends AsyncTask<String, Integer, Integer>{
+
+        private int MAX_RX_SERIAL_BUFFER = Constants.DEFAULT_SERIAL_RX_BUFFER - 3;
+        private int CURRENT_RX_SERIAL_BUFFER;
+        private LinkedList<Integer> activeCommandSizes;
+
+        protected void onPreExecute(){
+            MachineStatusListner.CompileTimeOptions compileTimeOptions = MachineStatusListner.getInstance().getCompileTimeOptions();
+            if(compileTimeOptions.serialRxBuffer > 0) MAX_RX_SERIAL_BUFFER = compileTimeOptions.serialRxBuffer - 3;
+
+            completedCommands = new ArrayBlockingQueue<>(Constants.DEFAULT_SERIAL_RX_BUFFER);
+            activeCommandSizes = new LinkedList<>();
+            CURRENT_RX_SERIAL_BUFFER = 0;
         }
+
+        protected Integer doInBackground(String... commands){
+
+            long startTime = System.currentTimeMillis();
+
+            String lines[] = commands[0].split("[\r\n]+");
+            for(String command: lines){
+                if(isCancelled()) break;
+                streamLine(command);
+            }
+
+            long endTime = System.currentTimeMillis();
+            long timeTaken = (endTime - startTime)/1000;
+
+            Answers.getInstance().logCustom(new CustomEvent("Custom Button")
+                    .putCustomAttribute("lines", lines.length)
+                    .putCustomAttribute("size", commands[0].length())
+                    .putCustomAttribute("time", timeTaken));
+
+            return 1;
+        }
+
+        private void streamLine(String gcodeCommand){
+
+            int commandSize = gcodeCommand.length() + 1;
+
+            // Wait until there is room, if necessary.
+            while (MAX_RX_SERIAL_BUFFER < (CURRENT_RX_SERIAL_BUFFER + commandSize)) {
+                try {
+                    completedCommands.take();
+                    if(activeCommandSizes.size() > 0) CURRENT_RX_SERIAL_BUFFER -= activeCommandSizes.removeFirst();
+                } catch (InterruptedException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    return;
+                }
+            }
+
+            activeCommandSizes.offer(commandSize);
+            CURRENT_RX_SERIAL_BUFFER += commandSize;
+            fragmentInteractionListener.onGcodeCommandReceived(gcodeCommand);
+        }
+
     }
 
     private void gotoAxisZero(final String axis){
@@ -396,7 +487,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     }
 
     private void sendJogCommand(String tag){
-        if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE) || machineStatus.getState().equals(MachineStatusListner.STATE_JOG)){
+        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
             String units = machineStatus.getJogging().inches ? "G20" : "G21";
             String jog = String.format(tag, units, machineStatus.getJogging().step, machineStatus.getJogging().feed);
             EventBus.getDefault().post(new JogCommandEvent(jog));
@@ -480,11 +571,19 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     }
 
     private void sendCommandIfIdle(String command){
-        if(machineStatus.getState().equals(MachineStatusListner.STATE_IDLE)){
+        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
             fragmentInteractionListener.onGcodeCommandReceived(command);
         }else{
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onGrblOkEvent(GrblOkEvent event){
+        if(customCommandsAsyncTask != null && customCommandsAsyncTask.getStatus() == AsyncTask.Status.RUNNING){
+            completedCommands.offer(1);
+        }
+    }
+
 
 }

@@ -27,6 +27,11 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 
+import org.greenrobot.eventbus.EventBus;
+
+import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.model.Constants;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private static final String TAG = SettingsActivity.class.getSimpleName();
@@ -54,6 +59,11 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onResume() {
             super.onResume();
+            String defaultConnectionType = getPreferenceManager().getSharedPreferences().getString(getString(R.string.default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
+            if(defaultConnectionType.equals(Constants.SERIAL_CONNECTION_TYPE_USBOTG)){
+                getPreferenceScreen().findPreference(getString(R.string.auto_connect)).setEnabled(false);
+            }
+
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         }
 
@@ -65,7 +75,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
+            if(key.equals(getString(R.string.default_serial_connection_type))){
+                EventBus.getDefault().post(new UiToastEvent("Application restart required"));
+            }
         }
 
     }

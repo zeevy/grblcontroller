@@ -36,16 +36,12 @@ import android.widget.TextView;
 
 import com.joanzapata.iconify.widget.IconButton;
 
-import org.greenrobot.eventbus.EventBus;
-
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentConsoleTabBinding;
-import in.co.gorest.grblcontroller.events.GrblSettingMessageEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listners.ConsoleLoggerListner;
 import in.co.gorest.grblcontroller.listners.MachineStatusListner;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
-import in.co.gorest.grblcontroller.util.GrblLookups;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class ConsoleTabFragment extends BaseFragment {
