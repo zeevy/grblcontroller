@@ -1,5 +1,5 @@
-# Grbl Bluetooth Controller for Android Mobile
-#### Use bluetooth enabled mobile phone to stream G-code and control your GRBL powered CNC machine.
+# Grbl Controller
+### Compact android mobile application for GRBL powered CNC machine.
 
 ![Axis Control](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090425.png "Axis Controll Panel") ![File Streaming](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090518.png "File Streaming Panel").
 
@@ -13,7 +13,7 @@
 - Supports Probing (G38.3) and auto adjusts Z-Axis.
 - Manual tool change with G43.1
 - 4 Highly Configurable Custom Buttons which supports multi line commands (Supports both short click and long click).
-- Application can work in background mode, by utilizing the less resources there by consuming less power.
+- Application can work in background mode, by utilizing the less resources, there by consuming less power.
 
 #### Notes:
 - For android versions Marshmallow or above, use your OS permission manager and grant "Read External Storage" permission in order to get file streaming working.
@@ -23,11 +23,15 @@
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/>](https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller "Download from play store").
 
+#### Known Bugs:
+- Some times jog stop button will not work effectively, need to press the jog stop button two times.
+
 #### Special thanks to
 
-1. winder https://github.com/winder/Universal-G-Code-Sender (for most of the core logic and code)
-2. michael-rapp  https://github.com/michael-rapp/AndroidMaterialPreferences
-3. woxingxiao https://github.com/woxingxiao/BubbleSeekBar
-4. greenrobot https://github.com/greenrobot/EventBus
-5. DroidNinja https://github.com/DroidNinja/Android-FilePicker
-6. JoanZapata https://github.com/JoanZapata/android-iconify
+1. Will Winder https://github.com/winder/Universal-G-Code-Sender (for most of the core logic and code)
+2. Felipe Herranz https://github.com/felHR85/UsbSerial
+3. Michael Rapp  https://github.com/michael-rapp/AndroidMaterialPreferences
+4. Xiao https://github.com/woxingxiao/BubbleSeekBar
+5. Markus Junginger https://github.com/greenrobot/EventBus
+6. Arun Sharma https://github.com/DroidNinja/Android-FilePicker
+7. Joan Zapata https://github.com/JoanZapata/android-iconify
