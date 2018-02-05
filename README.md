@@ -1,7 +1,7 @@
 # Grbl Controller
 ### Compact android mobile application for GRBL powered CNC machine.
 
-![Axis Control](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090425.png "Axis Controll Panel") ![File Streaming](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/resized/Screenshot_20171001-090518.png "File Streaming Panel").
+![Axis Control](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/JoggingTab.png "Axis Controll Panel") ![File Streaming](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/FileSenderTab.png "File Streaming Panel").
 
 #### Features:
 - Supports GRBL 1.1 real time feed, spindle and rapid overrides.
