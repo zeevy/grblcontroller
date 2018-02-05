@@ -20,7 +20,8 @@
 - For android versions Marshmallow or above, use your OS permission manager and grant "Read External Storage" permission in order to get file streaming working.
 - G-Code files can be placed anywhere in the phone or external storage, but they must end with one of the following extensions .gcode or .nc or .tap.
 - If you are connecting Bluetooth module first time to your machine, then make sure you have changed the baud rate of the BT module to 115200. (Default baud rate of the GRBL 1.1v firmware is 115200 as 8-N-1 (8-bits, no parity, and 1-stop bit)).
-- For more information on changing baud rate, pass code of HC-05 Bluetooth module you may visit this link http://www.buildlog.net/blog/2017/10/using-the-hc-05-bluetooth-module/.
+- HC-05 Bluetooth module setup http://www.buildlog.net/blog/2017/10/using-the-hc-05-bluetooth-module/
+- HC-06 Bluetooth module setup https://github.com/zeevy/grblcontroller/wiki/Bluetooth-Setup-HC-06
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/>](https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller "Download from play store").
 
