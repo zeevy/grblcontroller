@@ -232,6 +232,6 @@
     <string name="web_socket_address">web_socket_address</string>
     <string name="enable_haptic_feedback">enable_haptic_feedback</string>
     <string name="haptic_feedback">Haptic feedback</string>
-    <string name="haptic_feedback_desc">enables short vibration when some buttons are touched</string>
+    <string name="haptic_feedback_desc">enables short vibration when buttons are touched</string>
 
 </resources>
