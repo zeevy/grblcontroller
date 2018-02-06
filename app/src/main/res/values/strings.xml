@@ -119,6 +119,7 @@
     <string name="this_will_handle_all_usb_communication">This will handle all Usb communication.</string>
     <string name="bt_service">Bluetooth service</string>
     <string name="usb_service">USB otg service</string>
+    <string name="web_socket_service">Web socket service</string>
     <string name="clear_console_messages">Clear console messages?</string>
     <string name="this_will_clear_all_history">this will clear all console history</string>
     <string name="yes_confirm">Yes</string>
@@ -228,5 +229,9 @@
     <string name="check_machine_position_before_job">check_machine_position_before_job</string>
     <string name="text_check_machine_position">Check machine position</string>
     <string name="desc_check_machine_position">prevents file streaming, if machine is not at zero position</string>
+    <string name="web_socket_address">web_socket_address</string>
+    <string name="enable_haptic_feedback">enable_haptic_feedback</string>
+    <string name="haptic_feedback">Haptic feedback</string>
+    <string name="haptic_feedback_desc">enables short vibration when some buttons are touched</string>
 
 </resources>

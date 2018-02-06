@@ -25,6 +25,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -83,6 +84,13 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     private Toast toastMessage;
     public static boolean isAppRunning;
 
+    private static final int VIBRATION_LENGTH_SHORT = 80;
+    private static final int VIBRATION_LENGTH_LOING = 500;
+    private static final int VIBRATION_LENGTH_VERY_LOING = 1500;
+    private Vibrator vibrator;
+    private boolean vibrationEnabled = false;
+
+
     protected final CircularFifoQueue<JogCommandEvent> jogCommandQueue = new CircularFifoQueue<>(1);
 
     @Override
@@ -109,8 +117,16 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         });
 
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         Iconify.with(new FontAwesomeModule());
         setupTabLayout(R.id.tab_layout, R.id.tab_layout_pager);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        vibrationEnabled = sharedPref.getBoolean(getString(R.string.enable_haptic_feedback), false);
     }
 
     @Override
@@ -224,6 +240,18 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         toastMessage.setText(message);
         toastMessage.show();
         this.lastToastMessage = message;
+    }
+
+    public void vibrateShort(){
+        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_SHORT);
+    }
+
+    public void vibrateLong(){
+        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_LOING);
+    }
+
+    public void vibrateVeryLong(){
+        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_VERY_LOING);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

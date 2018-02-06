@@ -67,7 +67,7 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
                         singleThreadExecutor.submit(new Runnable() {
                             @Override
                             public void run() {
-                                onBluetoothSerialRead(message.trim(), grblUsbSerialService);
+                                onUsbSerialRead(message.trim(), grblUsbSerialService);
                             }
                         });
                     }
@@ -82,7 +82,7 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
 
     }
 
-    private void onBluetoothSerialRead(String message, GrblUsbSerialService grblUsbSerialService){
+    private void onUsbSerialRead(String message, GrblUsbSerialService grblUsbSerialService){
         if(onSerialRead(message)){
             double versionDouble =  GrblUtils.getVersionDouble(message);
             Character versionLetter = GrblUtils.getVersionLetter(message);

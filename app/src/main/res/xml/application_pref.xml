@@ -18,12 +18,16 @@
             android:title="@string/text_auto_connect"
             android:summary="@string/text_auto_connect_desc" />
 
-        <de.mrapp.android.preference.NumberPickerPreference
+        <SwitchPreference
+            android:icon="@drawable/ic_vibration_black_24dp"
+            android:defaultValue="false"
+            android:key="@string/enable_haptic_feedback"
+            android:title="@string/haptic_feedback"
+            android:summary="@string/haptic_feedback_desc" />
+
+        <in.co.gorest.grblcontroller.helpers.NumberPickerPreference
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
             android:defaultValue="10"
-            custom:min="1"
-            android:max="100"
-            custom:unit="@string/text_steps"
             android:key="@string/jogging_max_step_size"
             android:title="@string/text_joggin_max_steps"
             android:summary="@string/text_jogging_max_steps_desc" />

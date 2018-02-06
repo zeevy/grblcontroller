@@ -41,6 +41,8 @@ public class BaseFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onGcodeCommandReceived(String command);
         void onGrblRealTimeCommandReceived(byte command);
+        void vibrateShort();
+        void vibrateLong();
     }
 
 }

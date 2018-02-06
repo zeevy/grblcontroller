@@ -114,7 +114,10 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             iconButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(isAdded()) sendJogCommand(iconButton.getTag().toString());
+                    if(isAdded()){
+                        fragmentInteractionListener.vibrateShort();
+                        sendJogCommand(iconButton.getTag().toString());
+                    }
                 }
             });
 
@@ -138,9 +141,12 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void onClick(View view) {
                         final String tag = view.getTag().toString();
+                        fragmentInteractionListener.vibrateShort();
 
                         if(tag.equals(GrblUtils.GRBL_KILL_ALARM_LOCK_COMMAND)){
-                            if(!machineStatus.getState().equals(Constants.MACHINE_STATUS_RUN)) fragmentInteractionListener.onGcodeCommandReceived(tag);
+                            if(!machineStatus.getState().equals(Constants.MACHINE_STATUS_RUN)){
+                                fragmentInteractionListener.onGcodeCommandReceived(tag);
+                            }
                             return;
                         }
 
@@ -166,6 +172,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 wposLayoutView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        fragmentInteractionListener.vibrateShort();
                         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
                             sendCommandIfIdle(view.getTag().toString());
                             sendCommandIfIdle(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
@@ -218,6 +225,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 return;
 
             case R.id.run_homing_cycle:
+                fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_ALARM)){
                     new AlertDialog.Builder(getActivity())
                             .setTitle(getString(R.string.homin_cycle))
@@ -235,6 +243,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.jog_cancel:
+                fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
                     fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_JOG_CANCEL_COMMAND);
                 }
@@ -250,6 +259,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             case R.id.custom_buton_2:
             case R.id.custom_buton_3:
             case R.id.custom_buton_4:
+                fragmentInteractionListener.vibrateShort();
                 customButton(id, false);
                 break;
         }
@@ -259,6 +269,8 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     @Override
     public boolean onLongClick(View view) {
         int id = view.getId();
+
+        fragmentInteractionListener.vibrateShort();
 
         switch(id){
 
