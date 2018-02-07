@@ -198,9 +198,12 @@ public class FileStreamerIntentService extends IntentService{
                 if(gcodeCommand.getCommandString().length() > 0){
 
                     if(gcodeCommand.hasModalSet()){
+                        streamLine(new GcodeCommand("G4 P0.05"));
+                        this.waitUntilBufferRunout();
                         streamLine(gcodeCommand);
                         this.waitUntilBufferRunout();
                         streamLine(new GcodeCommand(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND));
+                        streamLine(new GcodeCommand("G4 P0.05"));
                         this.waitUntilBufferRunout();
                     }else{
                         streamLine(gcodeCommand);
