@@ -263,28 +263,26 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
-            case FilePickerConst.REQUEST_CODE_DOC:
-                if(resultCode == Activity.RESULT_OK && data != null){
-                    ArrayList<String> pickedFiles = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
-                    if(pickedFiles.size() > 0){
-                        fileSender.setGcodeFile(new File(pickedFiles.get(0)));
-                        if(fileSender.getGcodeFile().exists()){
-                            new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
-                        }else{
-                            MediaScannerConnection.scanFile(getActivity().getApplicationContext(), new String[] { fileSender.getGcodeFile().getAbsolutePath() }, null,
-                                    new MediaScannerConnection.OnScanCompletedListener() {
-                                        public void onScanCompleted(String path, Uri uri) {}
-                                    }
-                            );
+        if(requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null){
+            ArrayList<String> pickedFiles = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
+            if(pickedFiles.size() > 0){
+                fileSender.setGcodeFile(new File(pickedFiles.get(0)));
+                if(fileSender.getGcodeFile().exists()){
+                    new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
+                }else{
+                    MediaScannerConnection.scanFile(getActivity().getApplicationContext(), new String[] { fileSender.getGcodeFile().getAbsolutePath() }, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                public void onScanCompleted(String path, Uri uri) {}
+                            }
+                    );
 
-                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.file_not_found)));
-                        }
-                    }
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.file_not_found)));
                 }
-                break;
+            }
         }
+
     }
 
     @Override
@@ -447,18 +445,20 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     }
 
     private void getFilePicker(){
-        String[] gcodeTypes = {".tap",".gcode", ".nc", ".ngc"};
+
         FilePickerBuilder.getInstance().setMaxCount(1)
-                .setActivityTheme(R.style.AppTheme)
-                .addFileSupport(".tap | .gcode | .nc | .ngc", gcodeTypes, R.drawable.ic_insert_drive_file)
+                .setActivityTheme(R.style.FilePickerTheme)
+                .addFileSupport(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES), Constants.SUPPORTED_FILE_TYPES)
                 .enableDocSupport(false)
+                .showFolderView(false)
                 .pickFile(getActivity());
+
     }
 
     private Boolean hasExternalStorageReadPermission(){
         Boolean hasPermission = true;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if(getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 hasPermission = false;
             }
         }
@@ -467,7 +467,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     private void askExternalReadPermission(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.REQUEST_READ_PERMISSIONS);
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUEST_READ_PERMISSIONS);
         }else{
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_external_read_permission)));
         }
@@ -475,6 +475,9 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         if(requestCode == Constants.REQUEST_READ_PERMISSIONS){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getFilePicker();

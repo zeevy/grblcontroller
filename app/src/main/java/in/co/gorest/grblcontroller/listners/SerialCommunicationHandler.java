@@ -32,7 +32,11 @@ import com.crashlytics.android.answers.CustomEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import in.co.gorest.grblcontroller.GrblConttroller;
+import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
 import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
 import in.co.gorest.grblcontroller.events.GrblErrorEvent;
@@ -40,6 +44,7 @@ import in.co.gorest.grblcontroller.events.GrblOkEvent;
 import in.co.gorest.grblcontroller.events.GrblProbeEvent;
 import in.co.gorest.grblcontroller.events.GrblSettingMessageEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.Position;
 import in.co.gorest.grblcontroller.util.GrblLookups;
 import in.co.gorest.grblcontroller.util.GrblUtils;
@@ -47,8 +52,6 @@ import in.co.gorest.grblcontroller.util.GrblUtils;
 import static org.greenrobot.eventbus.EventBus.TAG;
 
 public abstract class SerialCommunicationHandler extends Handler {
-
-    protected static final long GRBL_STATUS_UPDATE_INTERVAL = 200;
 
     protected final MachineStatusListner machineStatus;
 
@@ -67,7 +70,6 @@ public abstract class SerialCommunicationHandler extends Handler {
     protected boolean onSerialRead(String message){
         boolean isVersionString = false;
         if(GrblUtils.isGrblOkMessage(message)){
-            //if(!machineStatus.getState().equals(MachineStatusListner.STATE_CHECK)) EventBus.getDefault().post(new GrblOkEvent(message));
             EventBus.getDefault().post(new GrblOkEvent(message));
 
         }else if(GrblUtils.isGrblStatusString(message)){
@@ -126,7 +128,22 @@ public abstract class SerialCommunicationHandler extends Handler {
             EventBus.getDefault().post(new ConsoleMessageEvent(message));
 
         }else if(GrblUtils.isGrblVersionString(message)){
-            isVersionString = true;
+
+            EventBus.getDefault().post(new ConsoleMessageEvent(message));
+            double versionDouble =  GrblUtils.getVersionDouble(message);
+            Character versionLetter = GrblUtils.getVersionLetter(message);
+
+            MachineStatusListner.BuildInfo buildInfo = new MachineStatusListner.BuildInfo(versionDouble, versionLetter);
+
+            if(buildInfo.versionDouble == Constants.MIN_SUPPORTED_VERSION){
+                machineStatus.setBuildInfo(buildInfo);
+                isVersionString = true;
+            }else{
+                String messageNotSupported = GrblConttroller.getContext().getString(R.string.grbl_unsupported, String.valueOf(Constants.MIN_SUPPORTED_VERSION));
+                EventBus.getDefault().post(new UiToastEvent(messageNotSupported));
+                EventBus.getDefault().post(new ConsoleMessageEvent(messageNotSupported));
+            }
+
         }else{
             EventBus.getDefault().post(new ConsoleMessageEvent(message));
             Log.d(TAG, "MESSAGE NOT HANDLED: " + message);
@@ -214,6 +231,7 @@ public abstract class SerialCommunicationHandler extends Handler {
         if(hasOverrides){
             if(!accessoryStatesChanged) machineStatus.setAccessoryStates("");
         }
+
     }
 
     public abstract void handleMessage(Message msg);

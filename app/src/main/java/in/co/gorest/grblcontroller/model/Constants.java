@@ -25,6 +25,8 @@ public interface Constants {
 
     double MIN_SUPPORTED_VERSION        = 1.1;
 
+    long GRBL_STATUS_UPDATE_INTERVAL    = 200;
+
     // Message types sent from the BluetoothService Handler
     int MESSAGE_STATE_CHANGE            = 1;
     int MESSAGE_READ                    = 2;
@@ -58,19 +60,22 @@ public interface Constants {
     String MACHINE_STATUS_HOME          = "Home";
     String MACHINE_STATUS_NOT_CONNECTED = "Unknown";
 
+    String[] SUPPORTED_FILE_TYPES       = {".tap",".gcode", ".nc", ".ngc"};
+
     String JUST_STOP_STREAMING          = "0";
     String STOP_STREAMING_AND_RESET     = "1";
-    String DEVICE_NAME = "device_name";
-    String TOAST = "toast";
+    String DEVICE_NAME                  = "device_name";
+    String TOAST                        = "toast";
 
-    String DEFAULT_NOTIFICATION_CHANNEL = "General";
-    String DEFAULT_NLTIFICATION_CHANNEL_ABOUT = "Grbl Controller General Notification Channel";
 
-    String SERIAL_CONNECTION_TYPE_BLUETOOTH     = "bluetooth";
-    String SERIAL_CONNECTION_TYPE_USBOTG        = "usbotg";
+    String DEFAULT_NOTIFICATION_CHANNEL             = "General";
+    String DEFAULT_NLTIFICATION_CHANNEL_ABOUT       = "Grbl Controller General Notification Channel";
 
-    int FILE_STREAMING_NOTIFICATION_ID = 101;
-    int BLUETOOTH_SERVICE_NOTIFICATION_ID = 100;
-    int USB_OTG_SERVICE_NOTIFICATION_ID = 102;
+    String SERIAL_CONNECTION_TYPE_BLUETOOTH         = "bluetooth";
+    String SERIAL_CONNECTION_TYPE_USBOTG            = "usbotg";
+
+    int FILE_STREAMING_NOTIFICATION_ID              = 101;
+    int BLUETOOTH_SERVICE_NOTIFICATION_ID           = 100;
+    int USB_OTG_SERVICE_NOTIFICATION_ID             = 102;
 
 }

@@ -83,25 +83,16 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
     }
 
     private void onUsbSerialRead(String message, GrblUsbSerialService grblUsbSerialService){
-        if(onSerialRead(message)){
-            double versionDouble =  GrblUtils.getVersionDouble(message);
-            Character versionLetter = GrblUtils.getVersionLetter(message);
 
-            BuildInfo buildInfo = new BuildInfo(versionDouble, versionLetter);
-            machineStatus.setBuildInfo(buildInfo);
+        boolean isVersionString = onSerialRead(message);
 
-            if(machineStatus.getBuildInfo().versionDouble < Constants.MIN_SUPPORTED_VERSION){
-                EventBus.getDefault().post(new UiToastEvent(GrblConttroller.getContext().getString(R.string.grbl_unsupported)));
-            }else{
-                GrblUsbSerialService.isGrblFound = true;
-                EventBus.getDefault().post(new ConsoleMessageEvent(message));
-
-                grblUsbSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
-                grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
-                grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-                grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
-                startGrblStatusUpdateService(grblUsbSerialService);
-            }
+        if(isVersionString){
+            GrblUsbSerialService.isGrblFound = true;
+            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
+            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
+            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+            startGrblStatusUpdateService(grblUsbSerialService);
         }
     }
 
@@ -114,7 +105,7 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
             public void run() {
                 grblUsbSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
             }
-        }, GRBL_STATUS_UPDATE_INTERVAL, GRBL_STATUS_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
+        }, Constants.GRBL_STATUS_UPDATE_INTERVAL, Constants.GRBL_STATUS_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
 
     }
 

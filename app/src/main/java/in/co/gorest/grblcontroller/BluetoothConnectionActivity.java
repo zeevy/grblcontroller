@@ -109,19 +109,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
             public void run() {
                 if(grblBluetoothSerialService != null && grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_NONE && bluetoothAdapter.isEnabled() && sharedPref.getBoolean(getString(R.string.auto_connect), false)){
                     String lastAddress = sharedPref.getString(getString(R.string.last_connected_device), null);
-                    if(lastAddress == null){
-                        Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
-                        startActivityForResult(serverIntent, Constants.CONNECT_DEVICE_INSECURE);
-                    }else{
-                        Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
-                        intent.putExtra(GrblBluetoothSerialService.KEY_MAC_ADDRESS, lastAddress);
-
-                        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                            getApplicationContext().startForegroundService(intent);
-                        }else{
-                            startService(intent);
-                        }
-                    }
+                    connectToDevice(lastAddress);
                 }
             }
         }, 700);
@@ -144,6 +132,22 @@ public class BluetoothConnectionActivity extends GrblActivity {
     public void onResume(){
         super.onResume();
         if(grblBluetoothSerialService != null) onBluetoothStateChange(grblBluetoothSerialService.getState());
+    }
+
+    private void connectToDevice(String macAddress){
+        if(macAddress == null){
+            Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
+            startActivityForResult(serverIntent, Constants.CONNECT_DEVICE_INSECURE);
+        }else{
+            Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
+            intent.putExtra(GrblBluetoothSerialService.KEY_MAC_ADDRESS, macAddress);
+
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+                getApplicationContext().startForegroundService(intent);
+            }else{
+                startService(intent);
+            }
+        }
     }
 
     @Override
@@ -293,17 +297,6 @@ public class BluetoothConnectionActivity extends GrblActivity {
         }
     }
 
-    private void connectDevice(Intent data, boolean secure) {
-        String address = data.getExtras().getString(DeviceListActivity . EXTRA_DEVICE_ADDRESS);
-        if(grblBluetoothSerialService != null && bluetoothAdapter.isEnabled()){
-            Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
-            intent.putExtra(GrblBluetoothSerialService.KEY_MAC_ADDRESS, address);
-            sharedPref.edit().putString(getString(R.string.last_connected_device), address).apply();
-            startService(intent);
-        }
-
-    }
-
     @Override
     public void onGcodeCommandReceived(String command) {
         if(grblBluetoothSerialService != null) grblBluetoothSerialService.serialWriteString(command);
@@ -337,6 +330,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblSettingMessageEvent(GrblSettingMessageEvent event){
+
         if(event.getSetting().equals("$10") && !event.getValue().equals("2")){
             onGcodeCommandReceived("$10=2");
         }
@@ -356,11 +350,15 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
         switch (requestCode) {
             case Constants.CONNECT_DEVICE_SECURE:
-                if(resultCode == Activity.RESULT_OK) connectDevice(data, true);
-                return;
-
             case Constants.CONNECT_DEVICE_INSECURE:
-                if(resultCode == Activity.RESULT_OK) connectDevice(data, false);
+                if(resultCode == Activity.RESULT_OK){
+
+                    String macAddress = data.getExtras().getString(DeviceListActivity . EXTRA_DEVICE_ADDRESS);
+                    if(grblBluetoothSerialService != null && bluetoothAdapter.isEnabled()){
+                        sharedPref.edit().putString(getString(R.string.last_connected_device), macAddress).apply();
+                        connectToDevice(macAddress);
+                    }
+                }
                 return;
         }
     }

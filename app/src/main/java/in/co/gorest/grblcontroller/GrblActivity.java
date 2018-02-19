@@ -194,7 +194,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         NotificationHelper notificationHelper = new NotificationHelper(this);
         notificationHelper.createChannels();
 
-
         consoleLogger = ConsoleLoggerListner.getInstance();
         machineStatus = MachineStatusListner.getInstance();
         machineStatus.setJogging(sharedPref.getDouble(getString(R.string.jogging_step_size), 1.0), sharedPref.getDouble(getString(R.string.jogging_feed_rate), 2400.0), sharedPref.getBoolean(getString(R.string.jogging_in_inches), false));

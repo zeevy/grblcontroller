@@ -28,6 +28,8 @@ import android.databinding.Bindable;
 import java.io.File;
 
 import in.co.gorest.grblcontroller.BR;
+import in.co.gorest.grblcontroller.model.Constants;
+import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class FileSenderListner extends BaseObservable {
 
@@ -58,7 +60,7 @@ public class FileSenderListner extends BaseObservable {
 
     private FileSenderListner(){
         this.setStatus(STATUS_IDLE);
-        this.gcodeFileName = "File types .tap | .gcode | .nc | .ngc";
+        this.gcodeFileName = "File types " + GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES);
         this.gcodeFile = null;
         this.rowsInFile = 0;
         this.rowsSent = 0;

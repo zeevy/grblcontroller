@@ -154,11 +154,6 @@ public class ProbingTabFragment extends BaseFragment {
                     return;
                 }
 
-                if(autoZeroInLastProbe){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.warning_auto_zero_last_probe)));
-                    return;
-                }
-
                 new AlertDialog.Builder(getActivity())
                         .setTitle(getString(R.string.dynamic_tool_length_offset))
                         .setMessage(getString(R.string.dynamic_tlo_desc))
@@ -219,6 +214,7 @@ public class ProbingTabFragment extends BaseFragment {
             final Double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
             probeStartPosition = machineStatus.getMachinePosition().getCordZ();
 
+            // Wait for few milliseconds, just to make sure we got the parser state
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -228,7 +224,7 @@ public class ProbingTabFragment extends BaseFragment {
                     fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe.toString() + " F" + probeFeedrate);
                     fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
                 }
-            }, 300);
+            }, (Constants.GRBL_STATUS_UPDATE_INTERVAL + 100));
 
 
         }else{

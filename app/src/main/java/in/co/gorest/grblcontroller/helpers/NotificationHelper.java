@@ -37,15 +37,15 @@ public class NotificationHelper extends ContextWrapper {
 
     private NotificationManager notificationManager;
 
-    public static final String CHANNEL_GENERAL_ID               = "in.co.gorest.grblcontroller.GENERAL";
+    public static final String CHANNEL_GENERAL_ID               = "in.co.gorest.grblcontroller.GENERAL_SERVICE";
     public static final String CHANNEL_GENERAL_NAME             = "General";
     public static final String CHANNEL_GENERAL_ABOUT            = "application specific news, features and updates information.";
 
-    public static final String CHANNEL_BUG_TRACKER_ID           = "in.co.gorest.grblcontroller.BUG_TRACKER";
+    public static final String CHANNEL_BUG_TRACKER_ID           = "in.co.gorest.grblcontroller.BUG_TRACKER_SERVICE";
     public static final String CHANNEL_BUG_TRACKER_NAME         = "BugTracker";
     public static final String CHANNEL_BUG_TRACKER_ABOUT        = "notifications about recent application bugs, issues and resolutions.";
 
-    public static final String CHANNEL_SERVICE_ID               = "in.co.gorest.grblcontroller.SERVICE";
+    public static final String CHANNEL_SERVICE_ID               = "in.co.gorest.grblcontroller.APPLICATION_SERVICE";
     public static final String CHANNEL_SERVICE_NAME             = "Service";
     public static final String CHANNEL_SERVICE_ABOUT            = "Service notification when app is working in foreground.";
 

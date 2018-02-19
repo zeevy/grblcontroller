@@ -22,6 +22,7 @@
 package in.co.gorest.grblcontroller.listners;
 
 import android.os.Message;
+import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -81,27 +82,17 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
     }
 
     private void onBluetoothSerialRead(String message, GrblBluetoothSerialService grblBluetoothSerialService){
-        if(onSerialRead(message)){
-            double versionDouble =  GrblUtils.getVersionDouble(message);
-            Character versionLetter = GrblUtils.getVersionLetter(message);
 
-            BuildInfo buildInfo = new BuildInfo(versionDouble, versionLetter);
-            machineStatus.setBuildInfo(buildInfo);
-
-            if(machineStatus.getBuildInfo().versionDouble < Constants.MIN_SUPPORTED_VERSION){
-                EventBus.getDefault().post(new UiToastEvent(GrblConttroller.getContext().getString(R.string.grbl_unsupported)));
-                grblBluetoothSerialService.disconnectService();
-            }else{
-                GrblBluetoothSerialService.isGrblFound = true;
-                EventBus.getDefault().post(new ConsoleMessageEvent(message));
-
-                grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
-                grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
-                grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-                grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
-                startGrblStatusUpdateService(grblBluetoothSerialService);
-            }
+        boolean isVersionString = onSerialRead(message);
+        if(isVersionString){
+            GrblBluetoothSerialService.isGrblFound = true;
+            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
+            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
+            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+            startGrblStatusUpdateService(grblBluetoothSerialService);
         }
+
     }
 
     private void startGrblStatusUpdateService(final GrblBluetoothSerialService grblBluetoothSerialService){
@@ -114,7 +105,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
             public void run() {
                 if(grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_CONNECTED) grblBluetoothSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
             }
-        }, GRBL_STATUS_UPDATE_INTERVAL, GRBL_STATUS_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
+        }, Constants.GRBL_STATUS_UPDATE_INTERVAL, Constants.GRBL_STATUS_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
 
     }
 

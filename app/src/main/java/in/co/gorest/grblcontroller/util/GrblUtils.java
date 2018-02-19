@@ -198,6 +198,17 @@ public class GrblUtils {
         return new CompileTimeOptions(buildOptions, plannerBuffer, serialRxBuffer);
     }
 
+    public static String implode(String glue, String[] array) {
+        if(array == null || array.length == 0) return "";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(array[0]);
+        for(int i = 1; i < array.length; i++) sb.append(glue).append(array[i]);
+
+        return sb.toString();
+    }
+
+
     static public Byte getOverrideForEnum(final Overrides command) {
         switch (command) {
             //CMD_DEBUG_REPORT, // 0x85 // Only when DEBUG enabled, sends debug report in '{}' braces.

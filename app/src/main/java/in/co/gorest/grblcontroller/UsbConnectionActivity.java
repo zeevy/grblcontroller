@@ -291,6 +291,7 @@ public class UsbConnectionActivity extends GrblActivity{
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblSettingMessageEvent(GrblSettingMessageEvent event){
+
         if(event.getSetting().equals("$10") && !event.getValue().equals("2")){
             onGcodeCommandReceived("$10=2");
         }
