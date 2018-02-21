@@ -20,7 +20,7 @@
         android:title="@string/settings"
         android:orderInCategory="13"
         android:id="@+id/app_settings"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/share"
@@ -28,13 +28,13 @@
         android:icon="@drawable/ic_share_black_20dp"
         android:title="Share"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:icon="@drawable/ic_android_black_20dp"
         android:title="About"
         android:orderInCategory="15"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         android:id="@+id/app_about" />
 
 
