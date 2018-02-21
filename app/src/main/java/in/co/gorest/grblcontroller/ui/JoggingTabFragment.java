@@ -87,6 +87,16 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     public void onResume(){
         super.onResume();
         SetCustomButtons(getView());
+
+        String joggingPadRotateAngle = sharedPref.getString(getString(R.string.xy_jog_pad_rotation), "0");
+        String[] joggingPadTags = rotateJogPad(Integer.valueOf(joggingPadRotateAngle));
+        int jogPadIndex = 0;
+        for(int resourceId : new Integer[]{R.id.jog_xy_top_left, R.id.jog_y_positive, R.id.jog_xy_top_right, R.id.jog_x_negative, R.id.jog_x_positive, R.id.jog_xy_bottom_left, R.id.jog_y_negative, R.id.jog_xy_bottom_right}){
+            final IconButton jogButton = getView().findViewById(resourceId);
+            jogButton.setTag(joggingPadTags[jogPadIndex]);
+            jogPadIndex++;
+        }
+
     }
 
     @Override
@@ -186,14 +196,11 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             }
         }
 
-        SetCustomButtons(view);
-
         return view;
     }
 
     private void SetCustomButtons(View view){
         TableRow customButtonLayout = view.findViewById(R.id.custom_button_layout);
-
         if(customButtonLayout == null) return;
 
         if(sharedPref.getBoolean(getString(R.string.enable_custom_buttons), false)){
@@ -580,6 +587,24 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         AlertDialog dialog = alertDialogBuilder.create();
         dialog.show();
+    }
+
+    private String[] rotateJogPad(int angle) {
+
+        switch (angle){
+
+            case 90:
+                return new String[]{"$J=%1$sG91X-%2$sY-%2$sF%3$s", "$J=%sG91X-%sF%s", "$J=%1$sG91X-%2$sY%2$sF%3$s", "$J=%sG91Y-%sF%s", "$J=%sG91Y%sF%s", "$J=%1$sG91X%2$sY-%2$sF%3$s", "$J=%sG91X%sF%s", "$J=%1$sG91X%2$sY%2$sF%3$s"};
+
+            case 180:
+                return new String[]{"$J=%1$sG91X%2$sY-%2$sF%3$s", "$J=%sG91Y-%sF%s", "$J=%1$sG91X-%2$sY-%2$sF%3$s", "$J=%sG91X%sF%s", "$J=%sG91X-%sF%s", "$J=%1$sG91X%2$sY%2$sF%3$s", "$J=%sG91Y%sF%s", "$J=%1$sG91X-%2$sY%2$sF%3$s"};
+
+            case 270:
+                return new String[]{"$J=%1$sG91X%2$sY%2$sF%3$s", "$J=%sG91X%sF%s", "$J=%1$sG91X%2$sY-%2$sF%3$s", "$J=%sG91Y%sF%s", "$J=%sG91Y-%sF%s", "$J=%1$sG91X-%2$sY%2$sF%3$s", "$J=%sG91X-%sF%s", "$J=%1$sG91X-%2$sY-%2$sF%3$s"};
+
+            default:
+                return new String[]{"$J=%1$sG91X-%2$sY%2$sF%3$s", "$J=%sG91Y%sF%s", "$J=%1$sG91X%2$sY%2$sF%3$s", "$J=%sG91X-%sF%s", "$J=%sG91X%sF%s", "$J=%1$sG91X-%2$sY-%2$sF%3$s", "$J=%sG91Y-%sF%s", "$J=%1$sG91X%2$sY-%2$sF%3$s"};
+        }
     }
 
     private void sendCommandIfIdle(String command){

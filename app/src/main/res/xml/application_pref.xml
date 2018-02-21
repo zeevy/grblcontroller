@@ -25,22 +25,6 @@
             android:title="@string/haptic_feedback"
             android:summary="@string/haptic_feedback_desc" />
 
-        <in.co.gorest.grblcontroller.helpers.NumberPickerPreference
-            android:icon="@drawable/ic_format_list_numbered_black_24dp"
-            android:defaultValue="10"
-            android:key="@string/jogging_max_step_size"
-            android:title="@string/text_joggin_max_steps"
-            android:summary="@string/text_jogging_max_steps_desc" />
-
-        <ListPreference
-            android:key="@string/streaming_stop_button_behaviour"
-            android:icon="@drawable/ic_stop_black_24dp"
-            android:title="Streaming stop button behaviour"
-            android:entries="@array/entries_stop_button_behaviour"
-            android:entryValues="@array/entriesvalues_stop_button_behaviour"
-            android:summary="%s"
-            android:defaultValue="1" />
-
         <SwitchPreference
             android:icon="@drawable/ic_power_settings_new_black_24dp"
             android:defaultValue="true"
@@ -61,6 +45,31 @@
             android:defaultValue="false"
             android:key="@string/sleep_after_job"
             android:summary="@string/text_sleep_aftetr_job_desc" />
+
+        <in.co.gorest.grblcontroller.helpers.NumberPickerPreference
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:defaultValue="10"
+            android:key="@string/jogging_max_step_size"
+            android:title="@string/text_joggin_max_steps"
+            android:summary="@string/text_jogging_max_steps_desc" />
+
+        <ListPreference
+            android:key="@string/xy_jog_pad_rotation"
+            android:icon="@drawable/ic_rotate_right_black_24dp"
+            android:title="Rotate XY jogging pag"
+            android:entries="@array/entries_rotate_xy_jogging_pad"
+            android:entryValues="@array/entry_values_rotate_xy_joggin_pad"
+            android:summary="%s"
+            android:defaultValue="0"/>
+
+        <ListPreference
+            android:key="@string/streaming_stop_button_behaviour"
+            android:icon="@drawable/ic_stop_black_24dp"
+            android:title="Streaming stop button behaviour"
+            android:entries="@array/entries_stop_button_behaviour"
+            android:entryValues="@array/entriesvalues_stop_button_behaviour"
+            android:summary="%s"
+            android:defaultValue="1" />
 
         <SwitchPreference
             android:key="@string/enable_custom_buttons"
@@ -94,18 +103,28 @@
 
                 <EditTextPreference
                     android:key="@string/custom_button_one_short_click"
-                    android:lines="5"
+                    android:lines="6"
                     android:title="@string/text_short_click_commands"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:hint="@string/text_short_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_one_long_click"
-                    android:lines="5"
+                    android:lines="6"
+                    android:textSize="14sp"
                     android:title="@string/text_long_click_commands"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:hint="@string/text_long_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
@@ -137,17 +156,27 @@
                 <EditTextPreference
                     android:key="@string/custom_button_two_short_click"
                     android:title="@string/text_short_click_commands"
-                    android:lines="5"
+                    android:lines="6"
+                    android:textSize="14sp"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:hint="@string/text_short_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_two_long_click"
-                    android:lines="5"
+                    android:lines="6"
+                    android:textSize="14sp"
                     android:title="@string/text_long_click_commands"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:hint="@string/text_long_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
@@ -179,17 +208,27 @@
                 <EditTextPreference
                     android:key="@string/custom_button_three_short_click"
                     android:title="@string/text_short_click_commands"
-                    android:lines="5"
+                    android:lines="6"
+                    android:textSize="14sp"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:hint="@string/text_short_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_three_long_click"
                     android:title="@string/text_long_click_commands"
-                    android:lines="5"
+                    android:lines="6"
+                    android:textSize="14sp"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:hint="@string/text_long_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
@@ -224,15 +263,25 @@
                     android:title="@string/text_short_click_commands"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
-                    android:lines="5"
+                    android:lines="6"
+                    android:textSize="14sp"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:hint="@string/text_short_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
                     android:key="@string/custom_button_four_long_click"
                     android:title="@string/text_long_click_commands"
-                    android:lines="5"
+                    android:lines="6"
+                    android:textSize="14sp"
                     android:maxLength="2048"
                     android:defaultValue="@string/value_empty"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:hint="@string/text_long_click_desc"
+                    android:background="@drawable/rounded_border_edittext"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference

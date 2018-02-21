@@ -64,7 +64,7 @@
     <string name="no_external_read_permission">Unable to read external storage, check permissions</string>
 
     <string name="probing_help_text">
-        1. Disable auto adjust. \n2. Do probing with first tool. \n3. Change the tool. \n4. Press \"Probe + TLO\".
+        1. Do probing with first tool. \n2. Change the tool. \n3. Probe again with \"Probe + TLO\".
     </string>
 
     <string name="grbl_alarm_format">Alarm:%d %s</string>
@@ -90,6 +90,20 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="entries_rotate_xy_jogging_pad">
+        <item>0 degree clockwise</item>
+        <item>90 degree clockwise</item>
+        <item>180 degree clockwise</item>
+        <item>270 degree clockwise</item>
+    </string-array>
+
+    <string-array name="entry_values_rotate_xy_joggin_pad">
+        <item>0</item>
+        <item>90</item>
+        <item>180</item>
+        <item>270</item>
+    </string-array>
+
     <string name="verbose_output">Verbose output</string>
     <string name="steps_feed">Step | Feed</string>
     <string name="probing_feedrate_text">Feed rate</string>
@@ -100,7 +114,7 @@
     <string name="reset">Reset</string>
     <string name="connect">Connect</string>
     <string name="settings">Settings</string>
-    <string name="grbl_unsupported">Only Grbl version 1.1 or Above is supported</string>
+    <string name="grbl_unsupported">Only grbl version %s or above is supported</string>
 
     <string name="pref_rate_app_summary">If you like Grbl Controller, you can show your appreciation here.</string>
     <string name="rate_application">Rate application</string>
@@ -233,5 +247,6 @@
     <string name="enable_haptic_feedback">enable_haptic_feedback</string>
     <string name="haptic_feedback">Haptic feedback</string>
     <string name="haptic_feedback_desc">enables short vibration when buttons are touched</string>
+    <string name="xy_jog_pad_rotation">xy_jog_pad_rotation</string>
 
 </resources>
