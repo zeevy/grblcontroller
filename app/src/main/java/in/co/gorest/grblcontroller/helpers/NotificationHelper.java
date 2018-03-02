@@ -49,7 +49,6 @@ public class NotificationHelper extends ContextWrapper {
     public static final String CHANNEL_SERVICE_NAME             = "Service";
     public static final String CHANNEL_SERVICE_ABOUT            = "Service notification when app is working in foreground.";
 
-
     public NotificationHelper(Context base) {
         super(base);
     }
@@ -84,6 +83,7 @@ public class NotificationHelper extends ContextWrapper {
             mChannelThree.setSound(null, null);
             getNotificationManager().createNotificationChannel(mChannelThree);
         }
+
 
 
     }

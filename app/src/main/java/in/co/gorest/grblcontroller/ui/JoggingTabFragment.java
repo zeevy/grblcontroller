@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -119,7 +120,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 R.id.jog_y_negative, R.id.jog_x_negative, R.id.jog_z_negative}){
 
             final IconButton iconButton = view.findViewById(resourceId);
-            iconButton.setOnTouchListener(new RepeatListener(false, 300, 25));
+            iconButton.setOnTouchListener(new RepeatListener(false, 300, 30));
 
             iconButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -253,6 +254,13 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
                     fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_JOG_CANCEL_COMMAND);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_JOG_CANCEL_COMMAND);
+                        }
+                    }, 100);
                 }
 
                 if(customCommandsAsyncTask != null && customCommandsAsyncTask.getStatus() == AsyncTask.Status.RUNNING){

@@ -315,7 +315,7 @@ public class GrblUsbSerialService extends Service {
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(ACTION_USB_DETACHED);
         filter.addAction(ACTION_USB_ATTACHED);
-        registerReceiver(usbReceiver, filter);
+        if(usbReceiver != null) registerReceiver(usbReceiver, filter);
     }
 
     /*

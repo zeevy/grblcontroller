@@ -67,10 +67,6 @@ public interface Constants {
     String DEVICE_NAME                  = "device_name";
     String TOAST                        = "toast";
 
-
-    String DEFAULT_NOTIFICATION_CHANNEL             = "General";
-    String DEFAULT_NLTIFICATION_CHANNEL_ABOUT       = "Grbl Controller General Notification Channel";
-
     String SERIAL_CONNECTION_TYPE_BLUETOOTH         = "bluetooth";
     String SERIAL_CONNECTION_TYPE_USBOTG            = "usbotg";
 

@@ -49,8 +49,6 @@ import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Method;
-
 import in.co.gorest.grblcontroller.databinding.ActivityMainBinding;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
 import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
@@ -115,7 +113,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                 return true;
             }
         });
-
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 

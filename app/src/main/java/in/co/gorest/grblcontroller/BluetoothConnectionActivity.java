@@ -82,6 +82,17 @@ public class BluetoothConnectionActivity extends GrblActivity {
         }
 
         grblServiceMessageHandler = new BluetoothConnectionActivity.GrblServiceMessageHandler(this);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(grblBluetoothSerialService != null && grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_NONE && bluetoothAdapter.isEnabled() && sharedPref.getBoolean(getString(R.string.auto_connect), false)){
+                    String lastAddress = sharedPref.getString(getString(R.string.last_connected_device), null);
+                    connectToDevice(lastAddress);
+                }
+            }
+        }, 1500);
+
         EventBus.getDefault().register(this);
     }
 
@@ -103,16 +114,6 @@ public class BluetoothConnectionActivity extends GrblActivity {
             };
             thread.start();
         }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(grblBluetoothSerialService != null && grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_NONE && bluetoothAdapter.isEnabled() && sharedPref.getBoolean(getString(R.string.auto_connect), false)){
-                    String lastAddress = sharedPref.getString(getString(R.string.last_connected_device), null);
-                    connectToDevice(lastAddress);
-                }
-            }
-        }, 700);
     }
 
     @Override
@@ -264,7 +265,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     mActivity.get().mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    mActivity.get().grblToast(mActivity.get().getString(R.string.text_connected_to) + mActivity.get().mConnectedDeviceName);
+                    mActivity.get().grblToast(mActivity.get().getString(R.string.text_connected_to) + " " + mActivity.get().mConnectedDeviceName);
                     break;
                 case Constants.MESSAGE_TOAST:
                     mActivity.get().grblToast(msg.getData().getString(Constants.TOAST));

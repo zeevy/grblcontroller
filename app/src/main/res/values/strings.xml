@@ -248,5 +248,8 @@
     <string name="haptic_feedback">Haptic feedback</string>
     <string name="haptic_feedback_desc">enables short vibration when buttons are touched</string>
     <string name="xy_jog_pad_rotation">xy_jog_pad_rotation</string>
+    <string name="firebase_cloud_messaging_token">firebase_cloud_messaging_token</string>
+    <string name="firebase_cloud_messaging_token_sent">firebase_cloud_messaging_token_sent</string>
+    <string name="subscribe_to_notifications">subscribe_to_notifications</string>
 
 </resources>

@@ -36,10 +36,10 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_about));
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new AppAboutFragment()).commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragment{
+    public static class AppAboutFragment extends PreferenceFragment{
 
         @Override
         public void onCreate(Bundle savedInstanceState) {

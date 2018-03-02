@@ -67,6 +67,7 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false" />
+
         <activity
             android:name=".AboutActivity"
             android:resizeableActivity="false"
@@ -86,7 +87,6 @@
         <service
             android:name=".service.FileStreamerIntentService"
             android:exported="false" />
-        <service android:name=".service.WebSocketService" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
