@@ -56,7 +56,7 @@
         <ListPreference
             android:key="@string/xy_jog_pad_rotation"
             android:icon="@drawable/ic_rotate_right_black_24dp"
-            android:title="Rotate XY jogging pag"
+            android:title="Rotate XY jogging pad"
             android:entries="@array/entries_rotate_xy_jogging_pad"
             android:entryValues="@array/entry_values_rotate_xy_joggin_pad"
             android:summary="%s"
