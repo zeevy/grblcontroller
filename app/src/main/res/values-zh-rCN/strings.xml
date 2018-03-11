@@ -24,6 +24,7 @@
 
 <resources>
 
+    <string name="text_yes_confirm">是</string>
     <string name="text_cancel">取消</string>
     <string name="text_reset">重置</string>
     <string name="text_connect">连接</string>
