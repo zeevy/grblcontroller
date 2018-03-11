@@ -1,8 +1,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listners.MachineStatusListner" />
-        <variable name="fileSender" type="in.co.gorest.grblcontroller.listners.FileSenderListner" />
+        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
+        <variable name="fileSender" type="in.co.gorest.grblcontroller.listeners.FileSenderListener" />
     </data>
 
     <ScrollView
@@ -25,7 +25,7 @@
                 <TextView
                     android:layout_toStartOf="@+id/select_gcode_file"
                     android:layout_alignParentStart="true"
-                    android:text="@{fileSender.gcodeFileName}"
+                    android:text="@{@string/text_file_types + fileSender.gcodeFileName}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -56,9 +56,9 @@
                     <TextView app:layout_gravity="right" android:text='@{fileSender.rowsInFile.toString() + " | " + fileSender.rowsSent.toString()}' />
 
                     <TextView app:layout_gravity="left" android:text="@string/text_time_elapsed" />
-                    <TextView app:layout_gravity="right" android:text="@{fileSender.elaspsedTime}" />
+                    <TextView app:layout_gravity="right" android:text="@{fileSender.elapsedTime}" />
 
-                    <TextView app:layout_gravity="left" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? "Overrides F:S:V" : "Overrides F:S"}' />
+                    <TextView app:layout_gravity="left" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? @string/text_overrides_fsv : @string/text_overrides_fs}' />
                     <TextView app:layout_gravity="right" android:text='@{machineStatus.overridePercents.feed.toString() + ":" + machineStatus.overridePercents.spindle.toString() + (machineStatus.compileTimeOptions.variableSpindle ? ":" + machineStatus.spindleSpeed : "")}' />
 
                 </android.support.v7.widget.GridLayout>
@@ -75,7 +75,7 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/enable_checking"
-                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? "Check {fa-toggle-on 16dp @color/colorAccent}" : "Check {fa-toggle-off 16dp}"}'
+                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on : @string/text_check_mode_off}'
                         android:layout_weight="0.33"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -137,7 +137,7 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:text="{fa-fast-forward 16dp} F10"
-                        android:id="@+id/feed_overrirde_coarse_pluse"
+                        android:id="@+id/feed_override_coarse_plus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
                         android:gravity="center"
@@ -205,7 +205,7 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 16dp} R25"}'
-                        android:id="@+id/rapid_overrirde_low"
+                        android:id="@+id/rapid_override_low"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
                         android:gravity="center"
@@ -216,7 +216,7 @@
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? "Spindle {fa-toggle-on 16dp @color/colorAccent}" : "Spindle {fa-toggle-off 18dp}"}'
+                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on : @string/text_spindle_off}'
                         android:id="@+id/toggle_spindle"
                         android:layout_weight="0.33"
                         android:gravity="center"
@@ -225,7 +225,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.flood ? "Flood {fa-toggle-on 18dp @color/colorAccent}" : "Flood {fa-toggle-off 16dp}"}'
+                        android:text='@{machineStatus.accessoryStates.flood ? @string/text_flood_on : @string/text_flood_off}'
                         android:id="@+id/toggle_flood_coolant"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -234,7 +234,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.mist ? "Mist {fa-toggle-on 18dp @color/colorAccent}" : "Mist {fa-toggle-off 16dp}"}'
+                        android:text='@{machineStatus.accessoryStates.mist ? @string/text_mist_on : @string/text_mist_off}'
                         android:id="@+id/toggle_mist_coolant"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"

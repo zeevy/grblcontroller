@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listners.MachineStatusListner" />
+        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
     </data>
 
     <ScrollView
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content">
 
                 <com.joanzapata.iconify.widget.IconTextView
-                    android:text="@string/probing_tab_heading"
+                    android:text="@string/text_probing_tab_heading"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -40,7 +40,7 @@
             <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
 
             <RelativeLayout
-                android:id="@+id/probing_feedrate_view"
+                android:id="@+id/probing_feed_rate_view"
                 android:clickable="true" android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:padding="4dp"
@@ -49,14 +49,14 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_toStartOf="@+id/probing_feedrate"
-                    android:text="@string/probing_feedrate_text"
+                    android:layout_toStartOf="@+id/probing_feed_rate"
+                    android:text="@string/text_probing_feed_rate"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/probing_feedrate"
+                    android:id="@+id/probing_feed_rate"
                     android:text="10"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
 
                 <TextView
                     android:layout_toStartOf="@+id/probing_plate_thickness"
-                    android:text="@string/touch_plate_thickness"
+                    android:text="@string/text_touch_plate_thickness"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -100,7 +100,7 @@
 
                 <TextView
                     android:layout_toStartOf="@+id/probing_distance"
-                    android:text="@string/distance_to_probe"
+                    android:text="@string/text_distance_to_probe"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text='@{(machineStatus.lastProbePosition != null) ? machineStatus.lastProbePosition.cordZ.toString() : "Unknown"}'
+                    android:text='@{(machineStatus.lastProbePosition != null) ? machineStatus.lastProbePosition.cordZ.toString() : @string/text_unknown}'
                     android:id="@+id/last_probe_position"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
 
                 <TextView
                     android:layout_toStartOf="@+id/auto_zero_after_probe"
-                    android:text="@string/auto_zero_z_axis_after_probe"
+                    android:text="@string/text_auto_zero_z_axis_after_probe"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -194,7 +194,7 @@
                         android:enabled="@{machineStatus.state.equals(machineStatus.STATE_IDLE)}"
                         android:layout_weight="0.33"
                         android:id="@+id/start_probe"
-                        android:text="@string/start_probe"
+                        android:text="@string/text_start_probe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

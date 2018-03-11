@@ -48,21 +48,20 @@ import in.co.gorest.grblcontroller.databinding.FragmentProbingTabBinding;
 import in.co.gorest.grblcontroller.events.GrblProbeEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
-import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class ProbingTabFragment extends BaseFragment {
 
     private static final String TAG = ProbingTabFragment.class.getSimpleName();
-    private MachineStatusListner machineStatus;
+    private MachineStatusListener machineStatus;
     private EnhancedSharedPreferences sharedPref;
 
-    private TextView probingFeedrate, probingPlateThickness, probingDistance;
+    private TextView probingFeedRate, probingPlateThickness, probingDistance;
     private Double probeStartPosition = null;
     private SwitchCompat autoZeroAfterProbe;
     private Integer probeType;
-    private boolean autoZeroInLastProbe = false;
 
     public ProbingTabFragment() {}
 
@@ -73,7 +72,7 @@ public class ProbingTabFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        machineStatus = MachineStatusListner.getInstance();
+        machineStatus = MachineStatusListener.getInstance();
         sharedPref = EnhancedSharedPreferences.getInstance(getActivity().getApplicationContext(), getString(R.string.shared_preference_key));
         EventBus.getDefault().register(this);
     }
@@ -91,11 +90,11 @@ public class ProbingTabFragment extends BaseFragment {
         binding.setMachineStatus(machineStatus);
         View view = binding.getRoot();
 
-        final RelativeLayout probingFeedrateView = view.findViewById(R.id.probing_feedrate_view);
-        probingFeedrateView.setOnClickListener(new View.OnClickListener() {
+        final RelativeLayout probingFeedRateView = view.findViewById(R.id.probing_feed_rate_view);
+        probingFeedRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setProbingFeedrate();
+                setProbingFeedRate();
             }
         });
 
@@ -115,14 +114,14 @@ public class ProbingTabFragment extends BaseFragment {
             }
         });
 
-        probingFeedrate = view.findViewById(R.id.probing_feedrate);
-        probingFeedrate.setText(sharedPref.getString(getString(R.string.probing_feedrate), String.valueOf(Constants.PROBING_FEED_RATE)));
+        probingFeedRate = view.findViewById(R.id.probing_feed_rate);
+        probingFeedRate.setText(sharedPref.getString(getString(R.string.preference_probing_feed_rate), String.valueOf(Constants.PROBING_FEED_RATE)));
 
         probingPlateThickness = view.findViewById(R.id.probing_plate_thickness);
-        probingPlateThickness.setText(sharedPref.getString(getString(R.string.probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
+        probingPlateThickness.setText(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
 
         probingDistance = view.findViewById(R.id.probing_distance);
-        probingDistance.setText(sharedPref.getString(getString(R.string.probing_distance), String.valueOf(Constants.PROBING_DISTANCE)));
+        probingDistance.setText(sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE)));
 
         IconButton startProbe = view.findViewById(R.id.start_probe);
         startProbe.setOnClickListener(new View.OnClickListener() {
@@ -130,15 +129,15 @@ public class ProbingTabFragment extends BaseFragment {
             public void onClick(View view) {
                 fragmentInteractionListener.vibrateShort();
                 new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.text_stright_probe))
-                        .setMessage(getString(R.string.text_stright_probe_desc))
-                        .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.text_straight_probe))
+                        .setMessage(getString(R.string.text_straight_probe_desc))
+                        .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 probeType = Constants.PROBE_TYPE_NORMAL;
                                 doProbing();
                             }
                         })
-                        .setNegativeButton(getString(R.string.cancel), null)
+                        .setNegativeButton(getString(R.string.text_cancel), null)
                         .show();
 
             }
@@ -150,20 +149,20 @@ public class ProbingTabFragment extends BaseFragment {
             public void onClick(View view) {
                 fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getLastProbePosition() == null){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.last_probe_location_unknown)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_last_probe_location_unknown)));
                     return;
                 }
 
                 new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.dynamic_tool_length_offset))
-                        .setMessage(getString(R.string.dynamic_tlo_desc))
+                        .setTitle(getString(R.string.text_dynamic_tool_length_offset))
+                        .setMessage(getString(R.string.text_dynamic_tlo_desc))
                         .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 probeType = Constants.PROBE_TYPE_TOOL_OFFSET;
                                 doProbing();
                             }
                         })
-                        .setNegativeButton(getString(R.string.cancel), null)
+                        .setNegativeButton(getString(R.string.text_cancel), null)
                         .show();
             }
         });
@@ -175,18 +174,18 @@ public class ProbingTabFragment extends BaseFragment {
                 fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
                     new AlertDialog.Builder(getActivity())
-                            .setTitle(getString(R.string.cancel_tlo))
-                            .setMessage(getString(R.string.cancel_tlo_desc))
-                            .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                            .setTitle(getString(R.string.text_cancel_tlo))
+                            .setMessage(getString(R.string.text_cancel_tlo_desc))
+                            .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GCODE_CANCEL_TOOL_OFFSETS);
                                     fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
                                 }
                             })
-                            .setNegativeButton(getString(R.string.no_confirm), null)
+                            .setNegativeButton(getString(R.string.text_no_confirm), null)
                             .show();
                 }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
                 }
             }
         });
@@ -210,7 +209,7 @@ public class ProbingTabFragment extends BaseFragment {
             fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
 
             String probeDistance = probingDistance.getText().toString();
-            final String probeFeedrate = probingFeedrate.getText().toString();
+            final String probeFeedRate = probingFeedRate.getText().toString();
             final Double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
             probeStartPosition = machineStatus.getMachinePosition().getCordZ();
 
@@ -221,14 +220,14 @@ public class ProbingTabFragment extends BaseFragment {
                     String distanceMode = machineStatus.getParserState().distanceMode;
                     String unitSelection = machineStatus.getParserState().unitSelection;
 
-                    fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe.toString() + " F" + probeFeedrate);
+                    fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe.toString() + " F" + probeFeedRate);
                     fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
                 }
             }, (Constants.GRBL_STATUS_UPDATE_INTERVAL + 100));
 
 
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.machine_not_idle)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
         }
     }
 
@@ -242,18 +241,18 @@ public class ProbingTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_probing_distance));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.probing_distance), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_probing_distance), "10.0"));
         editText.setSelection(editText.getText().length());
 
         alertDialogBuilder.setCancelable(true)
-                .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String feedRate = editText.getText().toString();
-                        sharedPref.edit().putString(getString(R.string.probing_distance), feedRate).apply();
+                        sharedPref.edit().putString(getString(R.string.preference_probing_distance), feedRate).apply();
                         probingDistance.setText(feedRate);
                     }
                 })
-                .setNegativeButton(getString(R.string.cancel),
+                .setNegativeButton(getString(R.string.text_cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -275,21 +274,21 @@ public class ProbingTabFragment extends BaseFragment {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(v);
-        alertDialogBuilder.setTitle(getString(R.string.text_plate_thickness));
+        alertDialogBuilder.setTitle(getString(R.string.text_touch_plate_thickness));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.probing_plate_thickness), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), "10.0"));
         editText.setSelection(editText.getText().length());
 
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String feedRate = editText.getText().toString();
-                        sharedPref.edit().putString(getString(R.string.probing_plate_thickness), feedRate).apply();
+                        sharedPref.edit().putString(getString(R.string.preference_probing_plate_thickness), feedRate).apply();
                         probingPlateThickness.setText(feedRate);
                     }
                 })
-                .setNegativeButton(getString(R.string.cancel),
+                .setNegativeButton(getString(R.string.text_cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -302,28 +301,28 @@ public class ProbingTabFragment extends BaseFragment {
 
     }
 
-    private void setProbingFeedrate(){
+    private void setProbingFeedRate(){
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final ViewGroup nullParent = null;
         View v = inflater.inflate(R.layout.dialog_input_decimal, nullParent, false);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(v);
-        alertDialogBuilder.setTitle(getString(R.string.probing_feed_rate));
+        alertDialogBuilder.setTitle(getString(R.string.text_probing_feed_rate));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.probing_feedrate), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_probing_feed_rate), "10.0"));
         editText.setSelection(editText.getText().length());
 
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String feedRate = editText.getText().toString();
-                        sharedPref.edit().putString(getString(R.string.probing_feedrate), feedRate).apply();
-                        probingFeedrate.setText(feedRate);
+                        sharedPref.edit().putString(getString(R.string.preference_probing_feed_rate), feedRate).apply();
+                        probingFeedRate.setText(feedRate);
                     }
                 })
-                .setNegativeButton(getString(R.string.cancel),
+                .setNegativeButton(getString(R.string.text_cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -338,7 +337,7 @@ public class ProbingTabFragment extends BaseFragment {
     private void showProbingHelp(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.text_manual_tool_change))
-                .setMessage(R.string.probing_help_text)
+                .setMessage(R.string.text_probing_help)
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) { }
                 })
@@ -356,7 +355,7 @@ public class ProbingTabFragment extends BaseFragment {
                 .putCustomAttribute("status", event.getIsProbeSuccess() ? "success" : "failed"));
 
         if(!event.getIsProbeSuccess()){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.probe_failed)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_failed)));
             fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + probeStartPosition.toString());
             probeType = null;
             return;
@@ -368,11 +367,9 @@ public class ProbingTabFragment extends BaseFragment {
                 fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + event.getProbeCordZ().toString());
                 fragmentInteractionListener.onGcodeCommandReceived("G10L20P0Z" + probePlateThickness);
                 autoZeroAfterProbe.setChecked(false);
-                autoZeroInLastProbe = true;
-                EventBus.getDefault().post(new UiToastEvent(getString(R.string.probe_success_auto_zero)));
+                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_success_auto_zero)));
             }else{
-                autoZeroInLastProbe = false;
-                EventBus.getDefault().post(new UiToastEvent(getString(R.string.probe_success)));
+                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_success)));
             }
         }
 
@@ -383,7 +380,7 @@ public class ProbingTabFragment extends BaseFragment {
             Double toolOffset =  lastProbeCordZ - currentProbeCordZ;
             fragmentInteractionListener.onGcodeCommandReceived("G43.1Z" + toolOffset.toString());
             fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.probe_success_with_tlo)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_success_with_tlo)));
         }
 
         fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + probeStartPosition.toString());

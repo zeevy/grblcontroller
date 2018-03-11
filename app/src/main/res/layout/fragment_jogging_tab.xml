@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listners.MachineStatusListner" />
+        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
     </data>
 
     <ScrollView
@@ -24,7 +24,7 @@
                 <TextView
                     android:layout_toStartOf="@+id/jogging_step_feed"
                     android:layout_alignParentStart="true"
-                    android:text="@string/steps_feed"
+                    android:text="@string/text_steps_feed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -253,36 +253,36 @@
                 <TableRow android:id="@+id/custom_button_layout" android:visibility="gone">
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/custom_buton_1"
+                        android:id="@+id/custom_button_1"
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="@string/value_na"
+                        android:text="@string/text_value_na"
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_width="0dp"/>
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/custom_buton_2"
+                        android:id="@+id/custom_button_2"
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="@string/value_na"
+                        android:text="@string/text_value_na"
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_width="0dp"/>
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/custom_buton_3"
+                        android:id="@+id/custom_button_3"
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="@string/value_na"
+                        android:text="@string/text_value_na"
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_width="0dp"/>
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/custom_buton_4"
+                        android:id="@+id/custom_button_4"
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="@string/value_na"
+                        android:text="@string/text_value_na"
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"

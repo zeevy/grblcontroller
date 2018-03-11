@@ -39,7 +39,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,7 +55,7 @@ import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.GrblRealTimeCommandEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
-import in.co.gorest.grblcontroller.listners.SerialBluetoothCommunicationHandler;
+import in.co.gorest.grblcontroller.listeners.SerialBluetoothCommunicationHandler;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
@@ -103,7 +102,7 @@ public class GrblBluetoothSerialService extends Service{
         mNewState = mState;
 
         if(mAdapter == null){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.bluetooth_adapter_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adapter_error)));
             stopSelf();
         }else{
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
@@ -148,7 +147,7 @@ public class GrblBluetoothSerialService extends Service{
                 }
             }
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.unknown_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_unknown_error)));
             disconnectService();
             stopSelf();
         }
@@ -311,7 +310,7 @@ public class GrblBluetoothSerialService extends Service{
         if(mHandler != null){
             Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
             Bundle bundle = new Bundle();
-            bundle.putString(Constants.TOAST, getString(R.string.unable_to_connect_to_device));
+            bundle.putString(Constants.TOAST, getString(R.string.text_unable_to_connect_to_device));
             msg.setData(bundle);
             mHandler.sendMessage(msg);
         }
@@ -327,7 +326,7 @@ public class GrblBluetoothSerialService extends Service{
         if(mHandler != null){
             Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
             Bundle bundle = new Bundle();
-            bundle.putString(Constants.TOAST, getString(R.string.device_connection_was_lost));
+            bundle.putString(Constants.TOAST, getString(R.string.text_device_connection_was_lost));
             msg.setData(bundle);
             mHandler.sendMessage(msg);
         }
@@ -567,10 +566,10 @@ public class GrblBluetoothSerialService extends Service{
 
     private Notification getNotification(String message){
 
-        if(message == null) message = getString(R.string.this_will_handle_all_bt_communication);
+        if(message == null) message = getString(R.string.text_bluetooth_service_foreground_message);
 
         return new NotificationCompat.Builder(getApplicationContext(), NotificationHelper.CHANNEL_SERVICE_ID)
-                .setContentTitle(getString(R.string.bt_service))
+                .setContentTitle(getString(R.string.text_bluetooth_service))
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setColor(getResources().getColor(R.color.colorPrimary))
@@ -584,7 +583,7 @@ public class GrblBluetoothSerialService extends Service{
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onGrblRelatimeCommandEvent(GrblRealTimeCommandEvent grblRealTimeCommandEvent){
+    public void onGrblRealTimeCommandEvent(GrblRealTimeCommandEvent grblRealTimeCommandEvent){
         serialWriteByte(grblRealTimeCommandEvent.getCommand());
     }
 

@@ -39,15 +39,15 @@ import com.joanzapata.iconify.widget.IconButton;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentConsoleTabBinding;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
-import in.co.gorest.grblcontroller.listners.ConsoleLoggerListner;
-import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.listeners.ConsoleLoggerListener;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class ConsoleTabFragment extends BaseFragment {
 
-    private MachineStatusListner machineStatus;
-    private ConsoleLoggerListner consoleLogger;
+    private MachineStatusListener machineStatus;
+    private ConsoleLoggerListener consoleLogger;
     private EnhancedSharedPreferences sharedPref;
 
     public ConsoleTabFragment() {}
@@ -60,8 +60,8 @@ public class ConsoleTabFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = EnhancedSharedPreferences.getInstance(getActivity(), getString(R.string.shared_preference_key));
-        consoleLogger = ConsoleLoggerListner.getInstance();
-        machineStatus = MachineStatusListner.getInstance();
+        consoleLogger = ConsoleLoggerListener.getInstance();
+        machineStatus = MachineStatusListener.getInstance();
     }
 
     @Override
@@ -98,14 +98,14 @@ public class ConsoleTabFragment extends BaseFragment {
             public boolean onLongClick(View view) {
                 fragmentInteractionListener.vibrateShort();
                 new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.clear_console_messages))
-                        .setMessage(getString(R.string.this_will_clear_all_history))
-                        .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.text_clear_console))
+                        .setMessage(getString(R.string.text_clear_console_description))
+                        .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 consoleLogger.clearMessages();
                             }
                         })
-                        .setNegativeButton(getString(R.string.no_confirm), null)
+                        .setNegativeButton(getString(R.string.text_no_confirm), null)
                         .show();
 
                 return true;
@@ -113,12 +113,12 @@ public class ConsoleTabFragment extends BaseFragment {
         });
 
         final SwitchCompat consoleVerboseOutput = view.findViewById(R.id.console_verbose_output);
-        consoleVerboseOutput.setChecked(sharedPref.getBoolean(getString(R.string.console_verbose_mode), false));
+        consoleVerboseOutput.setChecked(sharedPref.getBoolean(getString(R.string.preference_console_verbose_mode), false));
         consoleVerboseOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                MachineStatusListner.getInstance().setVerboseOutput(b);
-                sharedPref.edit().putBoolean(getString(R.string.console_verbose_mode), b).apply();
+                MachineStatusListener.getInstance().setVerboseOutput(b);
+                sharedPref.edit().putBoolean(getString(R.string.preference_console_verbose_mode), b).apply();
             }
         });
 

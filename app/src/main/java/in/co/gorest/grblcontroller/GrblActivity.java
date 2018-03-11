@@ -59,9 +59,9 @@ import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.helpers.ReaderViewPagerTransformer;
-import in.co.gorest.grblcontroller.listners.ConsoleLoggerListner;
-import in.co.gorest.grblcontroller.listners.FileSenderListner;
-import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.listeners.ConsoleLoggerListener;
+import in.co.gorest.grblcontroller.listeners.FileSenderListener;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
@@ -74,8 +74,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     }
 
     protected EnhancedSharedPreferences sharedPref;
-    protected ConsoleLoggerListner consoleLogger = null;
-    protected MachineStatusListner machineStatus = null;
+    protected ConsoleLoggerListener consoleLogger = null;
+    protected MachineStatusListener machineStatus = null;
     protected GrblBluetoothSerialService grblBluetoothSerialService = null;
 
     String lastToastMessage = null;
@@ -83,8 +83,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     public static boolean isAppRunning;
 
     private static final int VIBRATION_LENGTH_SHORT = 80;
-    private static final int VIBRATION_LENGTH_LOING = 500;
-    private static final int VIBRATION_LENGTH_VERY_LOING = 1500;
+    private static final int VIBRATION_LENGTH_LONG = 500;
+    private static final int VIBRATION_LENGTH_VERY_LONG = 1500;
     private Vibrator vibrator;
     private boolean vibrationEnabled = false;
 
@@ -96,7 +96,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         super.onCreate(savedInstanceState);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        sharedPref = EnhancedSharedPreferences.getInstance(GrblConttroller.getContext(), getString(R.string.shared_preference_key));
+        sharedPref = EnhancedSharedPreferences.getInstance(GrblController.getContext(), getString(R.string.shared_preference_key));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -123,7 +123,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     @Override
     public void onResume(){
         super.onResume();
-        vibrationEnabled = sharedPref.getBoolean(getString(R.string.enable_haptic_feedback), false);
+        vibrationEnabled = sharedPref.getBoolean(getString(R.string.preference_enable_haptic_feedback), false);
     }
 
     @Override
@@ -131,9 +131,9 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         super.onDestroy();
 
         stopService(new Intent(this, FileStreamerIntentService.class));
-        ConsoleLoggerListner.resetClass();
-        FileSenderListner.resetClass();
-        MachineStatusListner.resetClass();
+        ConsoleLoggerListener.resetClass();
+        FileSenderListener.resetClass();
+        MachineStatusListener.resetClass();
         isAppRunning = false;
     }
 
@@ -191,10 +191,10 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         NotificationHelper notificationHelper = new NotificationHelper(this);
         notificationHelper.createChannels();
 
-        consoleLogger = ConsoleLoggerListner.getInstance();
-        machineStatus = MachineStatusListner.getInstance();
-        machineStatus.setJogging(sharedPref.getDouble(getString(R.string.jogging_step_size), 1.0), sharedPref.getDouble(getString(R.string.jogging_feed_rate), 2400.0), sharedPref.getBoolean(getString(R.string.jogging_in_inches), false));
-        machineStatus.setVerboseOutput(sharedPref.getBoolean(getString(R.string.console_verbose_mode), false));
+        consoleLogger = ConsoleLoggerListener.getInstance();
+        machineStatus = MachineStatusListener.getInstance();
+        machineStatus.setJogging(sharedPref.getDouble(getString(R.string.preference_jogging_step_size), 1.0), sharedPref.getDouble(getString(R.string.preference_jogging_feed_rate), 2400.0), sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+        machineStatus.setVerboseOutput(sharedPref.getBoolean(getString(R.string.preference_console_verbose_mode), false));
 
     }
 
@@ -243,11 +243,11 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     }
 
     public void vibrateLong(){
-        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_LOING);
+        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_LONG);
     }
 
     public void vibrateVeryLong(){
-        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_VERY_LOING);
+        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_VERY_LONG);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

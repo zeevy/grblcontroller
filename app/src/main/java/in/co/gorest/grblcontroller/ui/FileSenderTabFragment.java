@@ -56,15 +56,15 @@ import java.util.ArrayList;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
-import in.co.gorest.grblcontroller.GrblConttroller;
+import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentFileSenderTabBinding;
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
 import in.co.gorest.grblcontroller.events.GrblErrorEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
-import in.co.gorest.grblcontroller.listners.FileSenderListner;
-import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.listeners.FileSenderListener;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.Overrides;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
@@ -74,8 +74,8 @@ import in.co.gorest.grblcontroller.util.GrblUtils;
 public class FileSenderTabFragment extends BaseFragment implements View.OnClickListener, View.OnLongClickListener{
 
     private static final String TAG = FileSenderTabFragment.class.getSimpleName();
-    private MachineStatusListner machineStatus;
-    private FileSenderListner fileSender;
+    private MachineStatusListener machineStatus;
+    private FileSenderListener fileSender;
     private EnhancedSharedPreferences sharedPref;
 
     public FileSenderTabFragment() {}
@@ -87,8 +87,8 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        machineStatus = MachineStatusListner.getInstance();
-        fileSender = FileSenderListner.getInstance();
+        machineStatus = MachineStatusListener.getInstance();
+        fileSender = FileSenderListener.getInstance();
         sharedPref = EnhancedSharedPreferences.getInstance(getActivity().getApplicationContext(), getString(R.string.shared_preference_key));
     }
 
@@ -143,12 +143,12 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             public void onClick(View view) {
                 fragmentInteractionListener.vibrateShort();
                 if(fileSender.getGcodeFile() == null){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_gcode_file_selected)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_gcode_file_selected)));
                     return;
                 }
 
-                if(fileSender.getStatus().equals(FileSenderListner.STATUS_READING)){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.file_reading_in_progress)));
+                if(fileSender.getStatus().equals(FileSenderListener.STATUS_READING)){
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_reading_in_progress)));
                     return;
                 }
 
@@ -165,11 +165,11 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             }
         });
 
-        for(int resourseId: new Integer[]{R.id.feed_override_fine_minus, R.id.feed_override_fine_plus, R.id.feed_override_coarse_minus, R.id.feed_overrirde_coarse_pluse,
+        for(int resourceId: new Integer[]{R.id.feed_override_fine_minus, R.id.feed_override_fine_plus, R.id.feed_override_coarse_minus, R.id.feed_override_coarse_plus,
             R.id.spindle_override_fine_minus, R.id.spindle_override_fine_plus, R.id.spindle_override_coarse_minus, R.id.spindle_override_coarse_plus,
-            R.id.rapid_overrides_reset, R.id.rapid_override_medium, R.id.rapid_overrirde_low,
+            R.id.rapid_overrides_reset, R.id.rapid_override_medium, R.id.rapid_override_low,
             R.id.toggle_spindle, R.id.toggle_flood_coolant, R.id.toggle_mist_coolant }){
-            IconButton iconButton = view.findViewById(resourseId);
+            IconButton iconButton = view.findViewById(resourceId);
             iconButton.setOnClickListener(this);
             iconButton.setOnLongClickListener(this);
         }
@@ -197,7 +197,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
                 intent.putExtra(FileStreamerIntentService.CHECK_MODE_ENABLED, machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK));
 
-                String defaultConnection = sharedPref.getString(getString(R.string.default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
+                String defaultConnection = sharedPref.getString(getString(R.string.preference_default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
                 intent.putExtra(FileStreamerIntentService.SERIAL_CONNECTION_TYPE, defaultConnection);
 
                 if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
@@ -207,16 +207,16 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 }
             }else{
 
-                boolean checkMachinePosition = sharedPref.getBoolean(getString(R.string.check_machine_position_before_job), false);
+                boolean checkMachinePosition = sharedPref.getBoolean(getString(R.string.preference_check_machine_position_before_job), false);
                 if(checkMachinePosition && !machineStatus.getWorkPosition().atZero()){
                     EventBus.getDefault().post(new UiToastEvent("Machine is not at zero position"));
                     return;
                 }
 
                 new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.starting_gcode_streaming))
-                        .setMessage(getString(R.string.check_every_thing))
-                        .setPositiveButton(getString(R.string.continue_streaming), new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.text_starting_streaming))
+                        .setMessage(getString(R.string.text_check_every_thing))
+                        .setPositiveButton(getString(R.string.text_continue_streaming), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 FileStreamerIntentService.setShouldContinue(true);
                                 Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
@@ -232,7 +232,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
                             }
                         })
-                        .setNegativeButton(getString(R.string.cancel), null)
+                        .setNegativeButton(getString(R.string.text_cancel), null)
                         .show();
             }
 
@@ -251,13 +251,13 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
         }
 
-        String stopButtonBehaviour = sharedPref.getString(getString(R.string.streaming_stop_button_behaviour), Constants.JUST_STOP_STREAMING);
+        String stopButtonBehaviour = sharedPref.getString(getString(R.string.preference_streaming_stop_button_behaviour), Constants.JUST_STOP_STREAMING);
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_RUN) && stopButtonBehaviour.equals(Constants.STOP_STREAMING_AND_RESET)){
             fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
         }
 
-        if(fileSender.getStatus().equals(FileSenderListner.STATUS_STREAMING)){
-            fileSender.setStatus(FileSenderListner.STATUS_IDLE);
+        if(fileSender.getStatus().equals(FileSenderListener.STATUS_STREAMING)){
+            fileSender.setStatus(FileSenderListener.STATUS_IDLE);
         }
     }
 
@@ -278,7 +278,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                             }
                     );
 
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.file_not_found)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found)));
                 }
             }
         }
@@ -293,7 +293,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         switch(id){
 
             case R.id.feed_override_coarse_minus:
-            case R.id.feed_overrirde_coarse_pluse:
+            case R.id.feed_override_coarse_plus:
             case R.id.feed_override_fine_minus:
             case R.id.feed_override_fine_plus:
                 sendRealTimeCommand(Overrides.CMD_FEED_OVR_RESET);
@@ -328,7 +328,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 sendRealTimeCommand(Overrides.CMD_FEED_OVR_COARSE_MINUS);
                 break;
 
-            case R.id.feed_overrirde_coarse_pluse:
+            case R.id.feed_override_coarse_plus:
                 sendRealTimeCommand(Overrides.CMD_FEED_OVR_COARSE_PLUS);
                 break;
 
@@ -348,7 +348,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 sendRealTimeCommand(Overrides.CMD_SPINDLE_OVR_COARSE_PLUS);
                 break;
 
-            case R.id.rapid_overrirde_low:
+            case R.id.rapid_override_low:
                 sendRealTimeCommand(Overrides.CMD_RAPID_OVR_LOW);
                 break;
 
@@ -372,7 +372,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 if(machineStatus.getCompileTimeOptions().mistCoolant){
                     sendRealTimeCommand(Overrides.CMD_TOGGLE_MIST_COOLANT);
                 }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.mist_disabled)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_mist_disabled)));
                 }
                 break;
         }
@@ -389,8 +389,8 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     private static class ReadFileAsyncTask extends AsyncTask<File, Integer, Integer> {
 
         protected void onPreExecute(){
-            FileSenderListner.getInstance().setStatus(FileSenderListner.STATUS_READING);
-            this.initFileSenderListner();
+            FileSenderListener.getInstance().setStatus(FileSenderListener.STATUS_READING);
+            this.initFileSenderListener();
         }
 
         protected Integer doInBackground(File... file){
@@ -411,9 +411,9 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     if(sCurrentLine.length() > 0){
                         lines++;
                         if(sCurrentLine.length() >= 79){
-                            EventBus.getDefault().post(new UiToastEvent(GrblConttroller.getContext().getString(R.string.gcode_command_over_length_warning) + String.valueOf(lines)));
-                            initFileSenderListner();
-                            FileSenderListner.getInstance().setStatus(FileSenderListner.STATUS_IDLE);
+                            EventBus.getDefault().post(new UiToastEvent(GrblController.getContext().getString(R.string.text_gcode_length_warning) + String.valueOf(lines)));
+                            initFileSenderListener();
+                            FileSenderListener.getInstance().setStatus(FileSenderListener.STATUS_IDLE);
                             cancel(true);
                         }
                     }
@@ -421,8 +421,8 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 }
                 reader.close();
             }catch (IOException e){
-                this.initFileSenderListner();
-                FileSenderListner.getInstance().setStatus(FileSenderListner.STATUS_IDLE);
+                this.initFileSenderListener();
+                FileSenderListener.getInstance().setStatus(FileSenderListener.STATUS_IDLE);
                 Log.e(TAG, e.getMessage(), e);
             }
 
@@ -430,17 +430,17 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         }
 
         public void onProgressUpdate(Integer... progress){
-            FileSenderListner.getInstance().setRowsInFile(progress[0]);
+            FileSenderListener.getInstance().setRowsInFile(progress[0]);
         }
 
         public void onPostExecute(Integer lines){
-            FileSenderListner.getInstance().setRowsInFile(lines);
-            FileSenderListner.getInstance().setStatus(FileSenderListner.STATUS_IDLE);
+            FileSenderListener.getInstance().setRowsInFile(lines);
+            FileSenderListener.getInstance().setStatus(FileSenderListener.STATUS_IDLE);
         }
 
-        private void initFileSenderListner(){
-            FileSenderListner.getInstance().setRowsInFile(0);
-            FileSenderListner.getInstance().setRowsSent(0);
+        private void initFileSenderListener(){
+            FileSenderListener.getInstance().setRowsInFile(0);
+            FileSenderListener.getInstance().setRowsSent(0);
         }
     }
 
@@ -469,7 +469,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUEST_READ_PERMISSIONS);
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_external_read_permission)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission)));
         }
     }
 
@@ -482,7 +482,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getFilePicker();
             }else{
-                EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_external_read_permission)));
+                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission)));
             }
         }
     }

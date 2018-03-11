@@ -16,7 +16,7 @@
         android:required="true" />
 
     <application
-        android:name=".GrblConttroller"
+        android:name=".GrblController"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"

@@ -19,7 +19,7 @@
  *
  */
 
-package in.co.gorest.grblcontroller.listners;
+package in.co.gorest.grblcontroller.listeners;
 
 
 import android.databinding.BaseObservable;
@@ -30,38 +30,38 @@ import org.apache.commons.collections4.queue.CircularFifoQueue;
 import in.co.gorest.grblcontroller.BR;
 import in.co.gorest.grblcontroller.model.Constants;
 
-public class ConsoleLoggerListner extends BaseObservable{
+public class ConsoleLoggerListener extends BaseObservable{
 
-    private final CircularFifoQueue<String> loggedMessaagesQueue;
+    private final CircularFifoQueue<String> loggedMessagesQueue;
 
-    private static ConsoleLoggerListner consoleLoggerListner = null;
-    public static ConsoleLoggerListner getInstance(){
-        if(consoleLoggerListner == null) consoleLoggerListner = new ConsoleLoggerListner();
-        return consoleLoggerListner;
+    private static ConsoleLoggerListener consoleLoggerListener = null;
+    public static ConsoleLoggerListener getInstance(){
+        if(consoleLoggerListener == null) consoleLoggerListener = new ConsoleLoggerListener();
+        return consoleLoggerListener;
     }
 
     public static void resetClass(){
-        consoleLoggerListner = new ConsoleLoggerListner();
+        consoleLoggerListener = new ConsoleLoggerListener();
     }
 
-    private ConsoleLoggerListner(){
-        loggedMessaagesQueue = new CircularFifoQueue<>(Constants.CONSOLE_LOGGER_MAX_SIZE);
+    private ConsoleLoggerListener(){
+        loggedMessagesQueue = new CircularFifoQueue<>(Constants.CONSOLE_LOGGER_MAX_SIZE);
     }
 
     @Bindable
     public synchronized String getMessages(){
         StringBuilder messages = new StringBuilder();
-        for(String msg: loggedMessaagesQueue) messages.append(msg);
+        for(String msg: loggedMessagesQueue) messages.append(msg);
         return messages.toString();
     }
 
     public synchronized void setMessages(String newMessage){
-        this.loggedMessaagesQueue.offer("\n" + newMessage);
+        this.loggedMessagesQueue.offer("\n" + newMessage);
         notifyPropertyChanged(BR.messages);
     }
 
     public void clearMessages(){
-        this.loggedMessaagesQueue.clear();
+        this.loggedMessagesQueue.clear();
         notifyPropertyChanged(BR.messages);
     }
 

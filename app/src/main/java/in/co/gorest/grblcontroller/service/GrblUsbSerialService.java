@@ -76,7 +76,7 @@ import java.util.Map;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.GrblRealTimeCommandEvent;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
-import in.co.gorest.grblcontroller.listners.SerialUsbCommunicationHandler;
+import in.co.gorest.grblcontroller.listeners.SerialUsbCommunicationHandler;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
@@ -398,16 +398,16 @@ public class GrblUsbSerialService extends Service {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onGrblRelatimeCommandEvent(GrblRealTimeCommandEvent grblRealTimeCommandEvent){
+    public void onGrblRealTimeCommandEvent(GrblRealTimeCommandEvent grblRealTimeCommandEvent){
         serialWriteByte(grblRealTimeCommandEvent.getCommand());
     }
 
     private Notification getNotification(String message){
 
-        if(message == null) message = getString(R.string.this_will_handle_all_usb_communication);
+        if(message == null) message = getString(R.string.text_usb_service_foreground_message);
 
         return new NotificationCompat.Builder(getApplicationContext(), NotificationHelper.CHANNEL_SERVICE_ID)
-                .setContentTitle(getString(R.string.usb_service))
+                .setContentTitle(getString(R.string.text_usb_service))
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setColor(getResources().getColor(R.color.colorPrimary))

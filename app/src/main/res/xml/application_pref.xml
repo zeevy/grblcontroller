@@ -3,76 +3,76 @@
     <PreferenceCategory android:title="Application">
 
         <ListPreference
-            android:key="@string/default_serial_connection_type"
+            android:key="@string/preference_default_serial_connection_type"
             android:icon="@drawable/ic_device_hub_black_24dp"
-            android:title="Default Connection"
-            android:entries="@array/entries_default_connection"
-            android:entryValues="@array/values_default_connection"
+            android:title="@string/text_default_connection"
+            android:entries="@array/preference_entries_default_connection"
+            android:entryValues="@array/preference_values_default_connection"
             android:summary="%s"
             android:defaultValue="bluetooth" />
 
         <SwitchPreference
             android:icon="@drawable/ic_bluetooth_connected_black_24dp"
             android:defaultValue="false"
-            android:key="@string/auto_connect"
+            android:key="@string/preference_auto_connect"
             android:title="@string/text_auto_connect"
             android:summary="@string/text_auto_connect_desc" />
 
         <SwitchPreference
             android:icon="@drawable/ic_vibration_black_24dp"
             android:defaultValue="false"
-            android:key="@string/enable_haptic_feedback"
-            android:title="@string/haptic_feedback"
-            android:summary="@string/haptic_feedback_desc" />
+            android:key="@string/preference_enable_haptic_feedback"
+            android:title="@string/text_haptic_feedback"
+            android:summary="@string/text_haptic_feedback_description" />
 
         <SwitchPreference
             android:icon="@drawable/ic_power_settings_new_black_24dp"
             android:defaultValue="true"
-            android:key="@string/confirm_grbl_soft_reset"
+            android:key="@string/preference_confirm_grbl_soft_reset"
             android:title="@string/text_soft_reset_confirm"
             android:summary="@string/text_soft_reset_confirm_desc" />
 
         <SwitchPreference
             android:icon="@drawable/ic_check_circle_black_24dp"
             android:defaultValue="false"
-            android:key="@string/check_machine_position_before_job"
+            android:key="@string/preference_check_machine_position_before_job"
             android:title="@string/text_check_machine_position"
-            android:summary="@string/desc_check_machine_position" />
+            android:summary="@string/text_check_machine_position_description" />
 
         <SwitchPreference
             android:icon="@drawable/ic_power_black_24dp"
             android:title="@string/text_sleep_after_job"
             android:defaultValue="false"
-            android:key="@string/sleep_after_job"
-            android:summary="@string/text_sleep_aftetr_job_desc" />
+            android:key="@string/preference_sleep_after_job"
+            android:summary="@string/text_sleep_after_job_desc" />
 
         <in.co.gorest.grblcontroller.helpers.NumberPickerPreference
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
             android:defaultValue="10"
-            android:key="@string/jogging_max_step_size"
-            android:title="@string/text_joggin_max_steps"
+            android:key="@string/preference_jogging_max_step_size"
+            android:title="@string/text_jogging_max_steps"
             android:summary="@string/text_jogging_max_steps_desc" />
 
         <ListPreference
-            android:key="@string/xy_jog_pad_rotation"
+            android:key="@string/preference_xy_jog_pad_rotation"
             android:icon="@drawable/ic_rotate_right_black_24dp"
-            android:title="Rotate XY jogging pad"
-            android:entries="@array/entries_rotate_xy_jogging_pad"
-            android:entryValues="@array/entry_values_rotate_xy_joggin_pad"
+            android:title="@string/text_rotate_jogging_pad"
+            android:entries="@array/preference_entries_rotate_xy_jogging_pad"
+            android:entryValues="@array/preference_values_rotate_xy_jogging_pad"
             android:summary="%s"
             android:defaultValue="0"/>
 
         <ListPreference
-            android:key="@string/streaming_stop_button_behaviour"
+            android:key="@string/preference_streaming_stop_button_behaviour"
             android:icon="@drawable/ic_stop_black_24dp"
-            android:title="Streaming stop button behaviour"
-            android:entries="@array/entries_stop_button_behaviour"
-            android:entryValues="@array/entriesvalues_stop_button_behaviour"
+            android:title="@string/text_streaming_stop_button_behaviour"
+            android:entries="@array/preference_entries_stop_button_behaviour"
+            android:entryValues="@array/preference_values_stop_button_behaviour"
             android:summary="%s"
             android:defaultValue="1" />
 
         <SwitchPreference
-            android:key="@string/enable_custom_buttons"
+            android:key="@string/preference_enable_custom_buttons"
             android:icon="@drawable/ic_view_module_black_24dp"
             android:title="@string/text_enable_custom_buttons"
             android:defaultValue="false"
@@ -80,7 +80,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/text_custom_buttons" android:dependency="@string/enable_custom_buttons">
+    <PreferenceCategory android:title="@string/text_custom_buttons" android:dependency="@string/preference_enable_custom_buttons">
         <Preference android:summary="@string/text_custom_buttons_desc" />
 
         <PreferenceScreen
@@ -95,42 +95,42 @@
                 <Preference android:summary="@string/text_button_1_behaviour" />
 
                 <EditTextPreference
-                    android:key="@string/custom_button_one"
+                    android:key="@string/preference_custom_button_one"
                     android:maxLength="3"
-                    android:defaultValue="@string/value_na"
+                    android:defaultValue="@string/text_value_na"
                     android:title="@string/text_button_label"
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_one_short_click"
+                    android:key="@string/preference_custom_button_one_short_click"
                     android:lines="6"
                     android:title="@string/text_short_click_commands"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:gravity="top"
                     android:padding="8dp"
                     android:textSize="14sp"
                     android:hint="@string/text_short_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_one_long_click"
+                    android:key="@string/preference_custom_button_one_long_click"
                     android:lines="6"
                     android:textSize="14sp"
                     android:title="@string/text_long_click_commands"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:gravity="top"
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
-                    android:key="@string/custom_button_one_confirm"
+                    android:key="@string/preference_custom_button_one_confirm"
                     android:defaultValue="true"
-                    android:title="@string/text_confim_first"
+                    android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
 
             </PreferenceCategory>
@@ -147,42 +147,42 @@
                 <Preference android:summary="@string/text_button_2_behaviour" />
 
                 <EditTextPreference
-                    android:key="@string/custom_button_two"
+                    android:key="@string/preference_custom_button_two"
                     android:maxLength="3"
-                    android:defaultValue="@string/value_na"
+                    android:defaultValue="@string/text_value_na"
                     android:title="@string/text_button_label"
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_two_short_click"
+                    android:key="@string/preference_custom_button_two_short_click"
                     android:title="@string/text_short_click_commands"
                     android:lines="6"
                     android:textSize="14sp"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:gravity="top"
                     android:padding="8dp"
                     android:hint="@string/text_short_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_two_long_click"
+                    android:key="@string/preference_custom_button_two_long_click"
                     android:lines="6"
                     android:textSize="14sp"
                     android:title="@string/text_long_click_commands"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:gravity="top"
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
-                    android:key="@string/custom_button_two_confirm"
+                    android:key="@string/preference_custom_button_two_confirm"
                     android:defaultValue="true"
-                    android:title="@string/text_confim_first"
+                    android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
             </PreferenceCategory>
 
@@ -199,42 +199,42 @@
                 <Preference android:summary="@string/text_button_3_behaviour" />
 
                 <EditTextPreference
-                    android:key="@string/custom_button_three"
+                    android:key="@string/preference_custom_button_three"
                     android:maxLength="3"
-                    android:defaultValue="@string/value_na"
+                    android:defaultValue="@string/text_value_na"
                     android:title="@string/text_button_label"
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_three_short_click"
+                    android:key="@string/preference_custom_button_three_short_click"
                     android:title="@string/text_short_click_commands"
                     android:lines="6"
                     android:textSize="14sp"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:gravity="top"
                     android:padding="8dp"
                     android:hint="@string/text_short_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_three_long_click"
+                    android:key="@string/preference_custom_button_three_long_click"
                     android:title="@string/text_long_click_commands"
                     android:lines="6"
                     android:textSize="14sp"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:gravity="top"
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
-                    android:key="@string/custom_button_three_confirm"
+                    android:key="@string/preference_custom_button_three_confirm"
                     android:defaultValue="true"
-                    android:title="@string/text_confim_first"
+                    android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
 
             </PreferenceCategory>
@@ -252,42 +252,42 @@
                 <Preference android:summary="@string/text_button_4_behaviour" />
 
                 <EditTextPreference
-                    android:key="@string/custom_button_four"
+                    android:key="@string/preference_custom_button_four"
                     android:maxLength="3"
-                    android:defaultValue="@string/value_na"
+                    android:defaultValue="@string/text_value_na"
                     android:title="@string/text_button_label"
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_four_short_click"
+                    android:key="@string/preference_custom_button_four_short_click"
                     android:title="@string/text_short_click_commands"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:lines="6"
                     android:textSize="14sp"
                     android:gravity="top"
                     android:padding="8dp"
                     android:hint="@string/text_short_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
-                    android:key="@string/custom_button_four_long_click"
+                    android:key="@string/preference_custom_button_four_long_click"
                     android:title="@string/text_long_click_commands"
                     android:lines="6"
                     android:textSize="14sp"
                     android:maxLength="2048"
-                    android:defaultValue="@string/value_empty"
+                    android:defaultValue="@string/text_value_empty"
                     android:gravity="top"
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:background="@drawable/rounded_border_edit_text"
                     android:summary="@string/text_long_click_desc"/>
 
                 <SwitchPreference
-                    android:key="@string/custom_button_four_confirm"
+                    android:key="@string/preference_custom_button_four_confirm"
                     android:defaultValue="true"
-                    android:title="@string/text_confim_first"
+                    android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
             </PreferenceCategory>
         </PreferenceScreen>

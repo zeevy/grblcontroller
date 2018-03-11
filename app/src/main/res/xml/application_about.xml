@@ -26,8 +26,8 @@
 
     <Preference
         android:icon="@drawable/ic_star_half_black_36dp"
-        android:summary="@string/pref_rate_app_summary"
-        android:title="@string/rate_application">
+        android:summary="@string/text_app_rating_summary"
+        android:title="@string/text_app_rating">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="market://details?id=in.co.gorest.grblcontroller"/>

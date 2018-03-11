@@ -19,7 +19,7 @@
  *
  */
 
-package in.co.gorest.grblcontroller.listners;
+package in.co.gorest.grblcontroller.listeners;
 
 
 import android.databinding.BaseObservable;
@@ -31,7 +31,7 @@ import in.co.gorest.grblcontroller.BR;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
-public class FileSenderListner extends BaseObservable {
+public class FileSenderListener extends BaseObservable {
 
     private String gcodeFileName;
     private File gcodeFile;
@@ -46,21 +46,21 @@ public class FileSenderListner extends BaseObservable {
 
     private long jobStartTime = 0L;
     private long jobEndTime = 0L;
-    private String elaspsedTime = "00:00:00";
+    private String elapsedTime = "00:00:00";
 
-    private static FileSenderListner fileSenderListner = null;
-    public static FileSenderListner getInstance(){
-        if(fileSenderListner == null) fileSenderListner = new FileSenderListner();
-        return fileSenderListner;
+    private static FileSenderListener fileSenderListener = null;
+    public static FileSenderListener getInstance(){
+        if(fileSenderListener == null) fileSenderListener = new FileSenderListener();
+        return fileSenderListener;
     }
 
     public static void resetClass(){
-        fileSenderListner = new FileSenderListner();
+        fileSenderListener = new FileSenderListener();
     }
 
-    private FileSenderListner(){
+    private FileSenderListener(){
         this.setStatus(STATUS_IDLE);
-        this.gcodeFileName = "File types " + GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES);
+        this.gcodeFileName = " " + GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES);
         this.gcodeFile = null;
         this.rowsInFile = 0;
         this.rowsSent = 0;
@@ -110,10 +110,10 @@ public class FileSenderListner extends BaseObservable {
     }
 
     @Bindable
-    public String getElaspsedTime(){ return this.elaspsedTime; }
-    public void setElaspsedTime(String elaspsedTime){
-        this.elaspsedTime = elaspsedTime;
-        notifyPropertyChanged(BR.elaspsedTime);
+    public String getElapsedTime(){ return this.elapsedTime; }
+    public void setElapsedTime(String elapsedTime){
+        this.elapsedTime = elapsedTime;
+        notifyPropertyChanged(BR.elapsedTime);
     }
 
     @Bindable

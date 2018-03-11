@@ -23,241 +23,207 @@
   -->
 
 <resources>
-    <string name="app_name">Grbl安卓控制台</string>
 
-    <!-- 主界面抬头栏 -->
-    <string name="reset">重置</string>
-    <string name="text_grbl_soft_reset">重置机器！</string>
-    <string name="text_grbl_soft_reset_desc">确定要重置机器吗？</string>
-
-    <string name="connect">连接</string>
+    <string name="text_cancel">取消</string>
+    <string name="text_reset">重置</string>
+    <string name="text_connect">连接</string>
+    <string name="text_grbl_unsupported">仅支持 %s 版本以上的grbl固件</string>
+    <string name="text_app_rating_summary">如果你喜欢这个app，可以在这里留言评论哦～</string>
+    <string name="text_app_rating">给软件评分！</string>
+    <string name="text_bluetooth_adapter_error">蓝牙出错，重启手机试试</string>
+    <string name="text_unable_to_connect_to_device">无法连接到这个设备</string>
+    <string name="text_device_connection_was_lost">连接已断开</string>
+    <string name="text_unknown_error">不知道哪里出错啦，尝试重新打开应用</string>
+    <string name="text_no_bluetooth_permission">无法打开蓝牙，请检查app权限</string>
+    <string name="text_bluetooth_adaptor_error">蓝牙连接出错！</string>
+    <string name="text_no_paired_devices">还没有配对的蓝牙</string>
+    <string name="text_select_paired_device">请选择已配对的蓝牙设备</string>
+    <string name="text_none_found">这里空空如也</string>
     <string name="text_not_connected">蓝牙未连接</string>
-    <string name="text_bt_service_not_running">未运行蓝牙服务！</string>
-    <string name="text_bt_not_enabled">请先开启蓝牙功能～</string>
-    <string name="paired_devices">先选择一个蓝牙设备</string>
-    <string name="text_no_bt_adapter">未发现本机蓝牙！</string>
-    <string name="no_paired_devices">还没有配对的蓝牙</string>
-    <string name="unable_to_connect_to_device">无法连接到这个设备</string>
-    <string name="bt_adaptor_error">蓝牙连接出错！</string>
-    <string name="text_connecting">正在连接...</string>
+    <string name="text_application_settings">应用设置</string>
+    <string name="text_no_bluetooth_adapter">未发现本机蓝牙！</string>
+    <string name="text_connected_to">"已连接到 "</string>
     <string name="text_connected">蓝牙已连接上</string>
-    <string name="text_connected_to">已连接到 </string>
+    <string name="text_connecting">正在连接…</string>
+    <string name="text_connection_lost">蓝牙连接断开</string>
     <string name="text_disconnect">断开连接</string>
     <string name="text_disconnect_confirm">确认要断开连接？</string>
-    <string name="device_connection_was_lost">连接已断开</string>
-    <string name="text_connection_lost">蓝牙连接断开</string>
-    <string name="bluetooth_adapter_error">蓝牙出错，重启手机试试</string>
-    <string name="no_bluetooth_permission">无法打开蓝牙，请检查app权限</string>
-    <string name="select_paired_device">请选择已配对的蓝牙设备</string>
+    <string name="text_bt_service_not_running">未运行蓝牙服务！</string>
+    <string name="text_bt_not_enabled">请先开启蓝牙功能～</string>
+    <string name="text_grbl_soft_reset">重置机器！</string>
+    <string name="text_grbl_soft_reset_desc">确定要重置机器吗？</string>
+    <string name="text_unknown">未知</string>
 
-
-    <!-- 设置界面 -->
-    <string name="settings">设置</string>
-    <string name="action_settings">设置</string>
-    <string name="text_application_settings">应用设置</string>
-
-    <string-array name="entries_default_connection">
-        <item>蓝牙连接</item>
-        <item>USB OTG 连接(波特率115200)</item>
-    </string-array>
-    <string-array name="values_default_connection">
-        <item>蓝牙</item>
-        <item>OTG</item>
-    </string-array>
-
+    <!-- Settings -->
+    <string name="text_app_share">分享</string>
+    <string name="text_app_about">关于</string>
+    <string name="text_settings">设置</string>
+    <string name="text_custom_action">自定义按钮 %s</string>
+    <string name="text_send_custom_command">发送自定义命令</string>
     <string name="text_auto_connect">自动连接</string>
     <string name="text_auto_connect_desc">尝试连接上一次的蓝牙设备</string>
-
-    <string name="haptic_feedback">触觉反馈</string>
-    <string name="haptic_feedback_desc">启用按键时短暂震动</string>
-
     <string name="text_soft_reset_confirm">重置确认</string>
     <string name="text_soft_reset_confirm_desc">重置机器前需要确认</string>
-    
-    <string name="text_check_machine_position">安全启动</string>
-    <string name="desc_check_machine_position">如果机器不在原点则不发送gcode文件</string>
-    
     <string name="text_sleep_after_job">自动休眠</string>
-    <string name="text_sleep_aftetr_job_desc">完成任务后进入低功耗的睡眠状态(v1.1后才支持$SLP命令)</string>
-
-    <string name="text_joggin_max_steps">微动最大距离</string>
+    <string name="text_sleep_after_job_desc">完成任务后进入低功耗的睡眠状态(v1.1后才支持$SLP命令)</string>
+    <string name="text_jogging_max_steps">微动最大距离</string>
     <string name="text_jogging_max_steps_desc">点击按钮移动的最大步数</string>
-
-    <string-array name="entries_stop_button_behaviour">
-        <item>仅停止发送命令</item>
-        <item>停止发送命令并重置机器</item>
-    </string-array>
-    <string-array name="entriesvalues_stop_button_behaviour">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
-    <string-array name="entries_rotate_xy_jogging_pad">
-        <item>顺时针旋转0度</item>
-        <item>顺时针旋转90度</item>
-        <item>顺时针旋转180度</item>
-        <item>顺时针旋转270度</item>
-    </string-array>
-    <string-array name="entry_values_rotate_xy_joggin_pad">
-        <item>0</item>
-        <item>90</item>
-        <item>180</item>
-        <item>270</item>
-    </string-array>
-    
     <string name="text_enable_custom_buttons">启用自定义按键</string>
     <string name="text_enable_custom_buttons_desc">微动界面将提供四个可配置按键</string>
-
     <string name="text_custom_buttons">自定义按键</string>
     <string name="text_custom_buttons_desc">多条命令必须分行！</string>
-
-    <string name="text_configure_custom_button">设置按键的效果和命令</string>
     <string name="text_custom_button_1">自定义按键 1</string>
+    <string name="text_configure_custom_button">设置按键的效果和命令</string>
     <string name="text_button_1_behaviour">设置按键 1 的效果</string>
-    <string name="text_custom_button_2">自定义按键 2</string>
-    <string name="text_button_2_behaviour">设置按键 2 的效果</string>
-    <string name="text_custom_button_3">自定义按键 3</string>
-    <string name="text_button_3_behaviour">设置按键 3 的效果</string>
-    <string name="text_custom_button_4">自定义按键 4</string>
-    <string name="text_button_4_behaviour">设置按键 4 的效果</string>
-
-
-    <!-- 自定义按钮 -->
     <string name="text_button_label">按键名称</string>
     <string name="text_button_label_desc">自定义按键名，最多三个字</string>
     <string name="text_short_click_commands">短按效果</string>
     <string name="text_short_click_desc">短按按键将发送的命令</string>
     <string name="text_long_click_commands">长按效果</string>
     <string name="text_long_click_desc">长按按键将发送的命令</string>
-    <string name="text_confim_first">命令确认</string>
+    <string name="text_confirm_first">命令确认</string>
     <string name="text_confirm_first_desc">发送命令前需要确认</string>
+    <string name="text_custom_button_2">自定义按键 2</string>
+    <string name="text_button_2_behaviour">设置按键 2 的效果</string>
+    <string name="text_custom_button_3">自定义按键 3</string>
+    <string name="text_button_3_behaviour">设置按键 3 的效果</string>
+    <string name="text_custom_button_4">自定义按键 4</string>
+    <string name="text_button_4_behaviour">设置按键 4 的效果</string>
+    <string name="text_default_connection">默认连接</string>
+    <string name="text_rotate_jogging_pad">旋转XY慢跑板</string>
+    <string name="text_streaming_stop_button_behaviour">流媒体停止按钮行为</string>
+    <string name="text_check_machine_position">安全启动</string>
+    <string name="text_check_machine_position_description">如果机器不在原点则不发送gcode文件</string>
+    <string name="text_haptic_feedback">触觉反馈</string>
+    <string name="text_haptic_feedback_description">启用按键时短暂震动</string>
+
+    <string-array name="preference_entries_default_connection">
+        <item>蓝牙连接</item>
+        <item>USB OTG 连接(波特率115200)</item>
+    </string-array>
+
+    <string-array name="preference_values_default_connection">
+        <item>bluetooth</item>
+        <item>usbotg</item>
+    </string-array>
+
+    <string-array name="preference_entries_stop_button_behaviour">
+        <item>仅停止发送命令</item>
+        <item>停止发送命令并重置机器</item>
+    </string-array>
+
+    <string-array name="preference_values_stop_button_behaviour">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="text_value_empty" translatable="false" />
+    <string name="text_action_settings">设置</string>
+    <string name="text_paired_devices">先选择一个蓝牙设备</string>
+    <string name="text_machine_not_idle">机器正忙…</string>
+    <string name="text_no_gcode_file_selected">未选择gcode文件</string>
+    <string name="text_no_external_read_permission">无法读取外部SD卡，请检查app权限</string>
+    <string name="text_grbl_alarm_format">警告:%d %s</string>
+    <string name="text_grbl_error_format">错误:%d %s</string>
+    <string name="text_bluetooth_service_foreground_message">这将处理所有蓝牙通信</string>
+    <string name="text_usb_service_foreground_message">这将处理所有USB OTG通信</string>
+    <string name="text_bluetooth_service">蓝牙服务</string>
+    <string name="text_usb_service">USB OTG服务</string>
+    <string name="text_ok">是</string>
 
 
-    <!-- 关于 -->
-    <string name="text_about">相关信息</string>
+    <!-- Probing Tab -->
+    <string name="text_probing_help">1. 使用第一个探头探测到表面\n2. 更换探头\n3. 点击\\\"Probe + TLO\\\"再次探测，从而计算TLO</string>
+    <string name="text_probing_feed_rate">移动速率</string>
+    <string name="text_touch_plate_thickness">探头板厚</string>
+    <string name="text_distance_to_probe">最大探测深度</string>
+    <string name="text_auto_zero_z_axis_after_probe">探测后Z轴自动设为零点</string>
+    <string name="text_start_probe">探测</string>
+    <string name="text_straight_probe">G38.3: 直探头(CNC专用)</string>
+    <string name="text_straight_probe_desc">探头向工件方向移动，碰到则停止，请检查各项设置并点击 是 开始探测</string>
+    <string name="text_last_probe_location_unknown">上次探测位置未知</string>
+    <string name="text_dynamic_tool_length_offset">G43.1: 动态探头偏移补偿</string>
+    <string name="text_dynamic_tlo_desc">探头偏移补偿将应用到上次探测位置与本次探测位置之差 G43.1 abs(上次位置) - abs(本次位置)  点击 是 继续</string>
+    <string name="text_cancel_tlo">G49: 取消探头偏移补偿</string>
+    <string name="text_cancel_tlo_desc">是否取消当前探头偏移补偿？</string>
+    <string name="text_probing_distance">最大探测深度</string>
+    <string name="text_manual_tool_change">手动更换探头</string>
+    <string name="text_probe_failed">探测时的移动速率</string>
+    <string name="text_probe_success_auto_zero">探测成功，Z轴自动设为零点！</string>
+    <string name="text_probe_success">探测成功！</string>
+    <string name="text_probe_success_with_tlo">探测成功，探头长度偏移量已计入！</string>
+    <string name="text_probing_tab_heading">探测 | 探头偏移补偿 {fa-info-circle 16dp @color/colorAccent}</string>
+    <string name="text_last_probe_position">上一个探测点</string>
+    <string name="text_current_tlo">当前探头偏移补偿</string>
 
-    <string name="rate_application">给软件评分！</string>
-    <string name="pref_rate_app_summary">如果你喜欢这个app，可以在这里留言评论哦～</string>
 
+    <!-- Jogging Tab -->
 
-    <!-- jogging tab -->
-    <string name="steps_feed">步数 | 速度</string>
-    <string name="joggin_step_and_fee">微动步数及速度设置</string>
-    <string name="text_inches">x10英寸</string>
+    <string-array name="preference_entries_rotate_xy_jogging_pad">
+        <item>顺时针旋转0度</item>
+        <item>顺时针旋转90度</item>
+        <item>顺时针旋转180度</item>
+        <item>顺时针旋转270度</item>
+    </string-array>
 
-    <!-- home short click -->
-    <string name="homin_cycle">回归原点</string>
-    <string name="do_homing_cycle">发送 $H 命令，XYZ三轴回到原始坐标系MPos零点</string>
-    <!-- home long click -->
-    <string name="set_coordinate_system">保存三轴零点</string>
-    <string name="set_all_axes_zero">将现在XYZ三轴的位置设为当前坐标系WPos的零点 | G10 L20 P0 X0 Y0 Z0</string>
-    <!-- stop long click -->
-    <string name="return_to_zero_position">三轴归零</string>
-    <string name="go_to_zero_position_in_current_wpos">XYZ三轴回到当前坐标系零点 | G90 X0 Y0 Z0</string>
-    <!-- zero short click -->
-    <string name="zero_selected_axis">该轴设为零点</string>
-    <string name="set_axix_location_in_curret_wpos">将现在该轴位置在当前坐标系内设为零点 | %s</string>
-    <!-- zero long click -->
-    <string name="axis_to_zero_position">%s 轴归零？</string>
-    <string name="go_to_zero_position">当前坐标系内该轴回到零点 | G0 %s</string>
-    <!-- coordinate system short click -->
-    <string name="selected_coordinate_system">当前坐标系为 %s</string>
-    <!-- coordinate system long click -->
-    <string name="save_coordinate_system">设为坐标系零点</string>
-    <string name="save_coordinate_system_desc">将当前位置设为 %s 坐标系的零点？</string>
-    <!-- custom button -->
-    <string name="empty_command">空命令！</string>
-    
-    <string name="machine_not_idle">机器正忙...</string>
-    
-    <string name="custom_action">自定义按钮 %s</string>
-    <string name="send_custom_command">发送自定义的 %s </string>
-    <string name="long_click">长按</string>
-    <string name="short_click">短按</string>
-    <string name="on_button">对应的命令</string>
-    
-    
+    <string-array name="preference_values_rotate_xy_jogging_pad">
+        <item>0</item>
+        <item>90</item>
+        <item>180</item>
+        <item>270</item>
+    </string-array>
 
-    <!-- file tab -->
-    <string name="no_external_read_permission">无法读取外部SD卡，请检查app权限</string>
-    <string name="none_found">这里空空如也</string>
+    <string name="text_steps_feed">步数 | 速度</string>
+    <string name="text_zero_selected_axis">该轴设为零点</string>
+    <string name="text_set_axis_location_in_current_wpos">将现在该轴位置在当前坐标系内设为零点 |</string>
+    <string name="text_selected_coordinate_system">"当前坐标系为 "</string>
+    <string name="text_homing_cycle">回归原点</string>
+    <string name="text_do_homing_cycle">发送 $H 命令，XYZ三轴回到原始坐标系MPos零点</string>
+    <string name="text_set_coordinate_system">G10 L20 保存三轴零点</string>
+    <string name="text_set_all_axes_zero">将现在XYZ三轴的位置设为当前坐标系WPos的零点 | G10 L20 P0 X0Y0Z0</string>
+    <string name="text_return_to_zero_position">三轴归零</string>
+    <string name="text_go_to_zero_position_in_current_wpos">XYZ三轴回到当前坐标系零点 | G90 X0 Y0 Z0</string>
+    <string name="text_empty_command">空命令！</string>
+    <string name="text_long_click">长按</string>
+    <string name="text_short_click">短按</string>
+    <string name="text_on_button">对应的命令</string>
+    <string name="text_send">发送</string>
+    <string name="text_move">移动</string>
+    <string name="text_axis_to_zero_position">轴归零？</string>
+    <string name="text_go_to_zero_position">"当前坐标系内该轴回到零点 | G0 "</string>
+    <string name="text_save_coordinate_system">设为坐标系零点</string>
+    <string name="text_save_coordinate_system_desc">将当前位置保存到坐标系统</string>
+    <string name="text_jogging_step_and_feed">微动步数及速度设置</string>
+    <string name="text_inches">英寸</string>
+
+    <!-- File Sender Tab -->
+    <string name="text_mist_disabled">无法启用雾化冷却液</string>
+    <string name="text_file_reading_in_progress">正在读取文件</string>
+    <string name="text_file_checking_started">已开启文件检查</string>
+    <string name="text_file_streaming_started">开始发送文件</string>
+    <string name="text_starting_streaming">开始发送命令</string>
+    <string name="text_check_every_thing">开启安全检查</string>
+    <string name="text_continue_streaming">继续发送</string>
+    <string name="text_gcode_length_warning">警告！发现本行Gcode长于80个字符</string>
     <string name="text_lines_total_sent">总行数 | 已发送</string>
     <string name="text_time_elapsed">已用时间</string>
-    <string name="check_every_thing">开启安全检查</string>
-    <string name="starting_gcode_streaming">开始发送命令</string>
-    <string name="no_gcode_file_selected">未选择gcode文件</string>
-    <string name="continue_streaming">继续发送</string>
-    <string name="streaming_completed">命令发送完毕～</string>
-    <string name="gcode_command_over_length_warning">警告！发现本行Gcode长于80个字符</string>
-    <string name="file_reading_in_progress">正在读取文件</string>
-    <string name="grbl_file_streaming">正在发送命令</string>
-    <string name="file_checking_started">已开启文件检查</string>
-    <string name="file_streaming_started">开始发送文件</string>
-    
-    <string name="mist_disabled">无法启用雾化冷却液</string>
+    <string name="text_file_not_found">未找到！</string>
+    <string name="text_overrides_fsv">覆盖 F:S:V</string>
+    <string name="text_overrides_fs">覆盖 F:S</string>
+    <string name="text_check_mode_on">检查 {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_check_mode_off">检查 {fa-toggle-off 16dp}</string>
+    <string name="text_spindle_on">纺锤 {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_spindle_off">纺锤 {fa-toggle-off 18dp}</string>
+    <string name="text_flood_on">洪水 {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_flood_off">洪水 {fa-toggle-off 16dp}"}</string>
+    <string name="text_mist_on">薄雾 {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_mist_off">薄雾 {fa-toggle-off 16dp}</string>
+    <string name="text_file_types">文件类型:</string>
 
-
-    <!-- probe tab -->
-    <string name="text_manual_tool_change">手动更换探头</string>
-    <string name="probing_help_text">1. 使用第一个探头探测到表面\n2. 更换探头\n3. 点击\"Probe + TLO\"再次探测，从而计算TLO</string>
-    
-    <string name="probing_feedrate_text">移动速率</string>
-    <string name="probing_feed_rate">探测时的移动速率</string>
-    
-    <string name="touch_plate_thickness">探头板厚</string>
-    <string name="text_plate_thickness">探头板度</string>
-    
-    <string name="distance_to_probe">探测深度</string>
-    <string name="text_probing_distance">最大探测深度</string>
-    
-    <string name="text_last_probe_position">上一个探测点</string>
-    <string name="last_probe_location_unknown">上次探测位置未知</string>
-    
-    <string name="text_current_tlo">当前探头偏移补偿</string>
-    
-    <string name="auto_zero_z_axis_after_probe">探测后Z轴自动设为零点</string>
-    
-    <string name="start_probe">探测</string>
-    <string name="text_stright_probe">G38.3: 直探头(CNC专用)</string>
-    <string name="text_stright_probe_desc">探头向工件方向移动，碰到则停止，请检查各项设置并点击 是 开始探测</string>
-
-    <string name="cancel_tlo">G49: 取消探头偏移补偿</string>
-    <string name="cancel_tlo_desc">是否取消当前探头偏移补偿？</string>
-
-    <string name="probe_failed">探测失败，请再次尝试</string>
-    <string name="probe_success">探测成功！</string>
-    <string name="probe_success_auto_zero">探测成功，Z轴自动设为零点！</string>
-    <string name="probe_success_with_tlo">探测成功，探头长度偏移量已计入！</string>
-    <string name="warning_auto_zero_last_probe">警告！上次探测后Z轴自动设为零点</string>
-    <string name="dynamic_tool_length_offset">G43.1: 动态探头偏移补偿</string>
-    <string name="dynamic_tlo_desc">探头偏移补偿将应用到上次探测位置与本次探测位置之差 G43.1 abs(上次位置) - abs(本次位置)  点击 是 继续</string>
-    <string name="probing_tab_heading">探测 | 探头偏移补偿 {fa-info-circle 16dp @color/colorAccent}</string>
-
-
-    <!-- console tab -->
-    <string name="verbose_output">输出详细信息</string>
-    <string name="clear_console_messages">清空历史信息？</string>
-    <string name="this_will_clear_all_history">这将清除控制台的所有历史</string>
-    <string name="grbl_unsupported">仅支持 %s 版本以上的grbl固件</string>
-
-
-    <!-- common -->
-    <string name="text_ok">是</string>
-    <string name="cancel">取消</string>
-    <string name="yes_confirm">是</string>
-    <string name="no_confirm">否</string>
-    <string name="text_move">移动</string>
-    <string name="text_send">发送</string>
-    <string name="grbl_alarm_format">警告:%d %s</string>
-    <string name="grbl_error_format">错误:%d %s</string>
-    <string name="unknown_error">不知道哪里出错啦，尝试重新打开应用</string>
-    <string name="bt_service">蓝牙服务</string>
-    <string name="usb_service">USB OTG服务</string>
-    <string name="web_socket_service">网络接口服务</string>
-    <string name="text_steps">步数</string>
-    <string name="this_will_handle_all_bt_communication">这将处理所有蓝牙通信</string>
-    <string name="this_will_handle_all_usb_communication">这将处理所有USB OTG通信</string>
-    <string name="total_commands">最多支持14条命令！</string>
-
+    <!-- Console Tab -->
+    <string name="text_clear_console">清空历史信息？</string>
+    <string name="text_clear_console_description">这将清除控制台的所有历史</string>
+    <string name="text_verbose_output">输出详细信息</string>
+    <string name="text_no_confirm">否</string>
 
 </resources>

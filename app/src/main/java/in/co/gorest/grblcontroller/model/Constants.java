@@ -40,7 +40,7 @@ public interface Constants {
     int CONNECT_DEVICE_INSECURE         = 10;
 
     int CONSOLE_LOGGER_MAX_SIZE         = 128;
-    double DEFAULT_JOGGIN_FEED_RATE     = 2400.0;
+    double DEFAULT_JOGGING_FEED_RATE    = 2400.0;
     int DEFAULT_PLANNER_BUFFER          = 15;
     int DEFAULT_SERIAL_RX_BUFFER        = 128;
     int PROBING_FEED_RATE               = 50;
@@ -68,7 +68,7 @@ public interface Constants {
     String TOAST                        = "toast";
 
     String SERIAL_CONNECTION_TYPE_BLUETOOTH         = "bluetooth";
-    String SERIAL_CONNECTION_TYPE_USBOTG            = "usbotg";
+    String SERIAL_CONNECTION_TYPE_USB_OTG           = "usb otg";
 
     int FILE_STREAMING_NOTIFICATION_ID              = 101;
     int BLUETOOTH_SERVICE_NOTIFICATION_ID           = 100;

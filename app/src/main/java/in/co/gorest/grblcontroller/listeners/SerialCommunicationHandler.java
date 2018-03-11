@@ -21,7 +21,7 @@
  *
  */
 
-package in.co.gorest.grblcontroller.listners;
+package in.co.gorest.grblcontroller.listeners;
 
 import android.os.Handler;
 import android.os.Message;
@@ -32,10 +32,7 @@ import com.crashlytics.android.answers.CustomEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import in.co.gorest.grblcontroller.GrblConttroller;
+import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
 import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
@@ -53,7 +50,7 @@ import static org.greenrobot.eventbus.EventBus.TAG;
 
 public abstract class SerialCommunicationHandler extends Handler {
 
-    protected final MachineStatusListner machineStatus;
+    protected final MachineStatusListener machineStatus;
 
     private static GrblLookups GrblErrors;
     private static GrblLookups GrblAlarms;
@@ -61,10 +58,10 @@ public abstract class SerialCommunicationHandler extends Handler {
 
     public SerialCommunicationHandler(){
 
-        machineStatus = MachineStatusListner.getInstance();
-        GrblAlarms = new GrblLookups(GrblConttroller.getContext(), "alarm_codes");
-        GrblErrors = new GrblLookups(GrblConttroller.getContext(), "error_codes");
-        GrblSettings = new GrblLookups(GrblConttroller.getContext(), "setting_codes");
+        machineStatus = MachineStatusListener.getInstance();
+        GrblAlarms = new GrblLookups(GrblController.getContext(), "alarm_codes");
+        GrblErrors = new GrblLookups(GrblController.getContext(), "error_codes");
+        GrblSettings = new GrblLookups(GrblController.getContext(), "setting_codes");
     }
 
     protected boolean onSerialRead(String message){
@@ -78,7 +75,7 @@ public abstract class SerialCommunicationHandler extends Handler {
 
         }else if(GrblUtils.isGrblAlarmMessage(message)){
             GrblAlarmEvent alarmEvent = new GrblAlarmEvent(GrblAlarms, message);
-            machineStatus.setState(MachineStatusListner.STATE_ALARM);
+            machineStatus.setState(MachineStatusListener.STATE_ALARM);
             EventBus.getDefault().post(alarmEvent);
             EventBus.getDefault().post(new UiToastEvent(alarmEvent.getAlarmDescription()));
 
@@ -133,13 +130,13 @@ public abstract class SerialCommunicationHandler extends Handler {
             double versionDouble =  GrblUtils.getVersionDouble(message);
             Character versionLetter = GrblUtils.getVersionLetter(message);
 
-            MachineStatusListner.BuildInfo buildInfo = new MachineStatusListner.BuildInfo(versionDouble, versionLetter);
+            MachineStatusListener.BuildInfo buildInfo = new MachineStatusListener.BuildInfo(versionDouble, versionLetter);
 
             if(buildInfo.versionDouble == Constants.MIN_SUPPORTED_VERSION){
                 machineStatus.setBuildInfo(buildInfo);
                 isVersionString = true;
             }else{
-                String messageNotSupported = GrblConttroller.getContext().getString(R.string.grbl_unsupported, String.valueOf(Constants.MIN_SUPPORTED_VERSION));
+                String messageNotSupported = GrblController.getContext().getString(R.string.text_grbl_unsupported, String.valueOf(Constants.MIN_SUPPORTED_VERSION));
                 EventBus.getDefault().post(new UiToastEvent(messageNotSupported));
                 EventBus.getDefault().post(new ConsoleMessageEvent(messageNotSupported));
             }

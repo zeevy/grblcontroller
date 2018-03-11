@@ -35,7 +35,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_about));
+        if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_app_about));
         getFragmentManager().beginTransaction().replace(android.R.id.content, new AppAboutFragment()).commit();
     }
 

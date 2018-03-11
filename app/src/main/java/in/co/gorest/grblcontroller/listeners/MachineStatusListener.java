@@ -19,7 +19,7 @@
  *
  */
 
-package in.co.gorest.grblcontroller.listners;
+package in.co.gorest.grblcontroller.listeners;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -28,12 +28,12 @@ import in.co.gorest.grblcontroller.BR;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.Position;
 
-public class MachineStatusListner extends BaseObservable {
+public class MachineStatusListener extends BaseObservable {
 
-    private static final String TAG = MachineStatusListner.class.getSimpleName();
+    private static final String TAG = MachineStatusListener.class.getSimpleName();
 
     private final String emptyString = "";
-    private final Double DEFAULT_FEEDRATE = Constants.DEFAULT_JOGGIN_FEED_RATE;
+    private final Double DEFAULT_FEED_RATE          = Constants.DEFAULT_JOGGING_FEED_RATE;
 
     public static final String STATE_IDLE           = Constants.MACHINE_STATUS_IDLE;
     public static final String STATE_JOG            = Constants.MACHINE_STATUS_JOG;
@@ -57,7 +57,7 @@ public class MachineStatusListner extends BaseObservable {
     private Position machinePosition = new Position(0.00, 0.00, 0.00);
     private Position workPosition = new Position(0.00, 0.00, 0.00);
     private Position workCoordsOffset = new Position(0.00, 0.00, 0.00);
-    private Jogging jogging = new Jogging(0.0, DEFAULT_FEEDRATE, false);
+    private Jogging jogging = new Jogging(0.0, DEFAULT_FEED_RATE, false);
     private OverridePercents overridePercents = new OverridePercents(100, 100, 100);
     private EnabledPins enabledPins = new EnabledPins(emptyString);
     private AccessoryStates accessoryStates = new AccessoryStates(emptyString);
@@ -66,17 +66,17 @@ public class MachineStatusListner extends BaseObservable {
     private ParserState parserState = null;
     private Boolean verboseOutput = false;
 
-    private static MachineStatusListner machineStatus = null;
-    public static MachineStatusListner getInstance(){
-        if(machineStatus == null) machineStatus = new MachineStatusListner();
+    private static MachineStatusListener machineStatus = null;
+    public static MachineStatusListener getInstance(){
+        if(machineStatus == null) machineStatus = new MachineStatusListener();
         return machineStatus;
     }
 
     public static void resetClass(){
-        machineStatus = new MachineStatusListner();
+        machineStatus = new MachineStatusListener();
     }
 
-    private MachineStatusListner(){
+    private MachineStatusListener(){
         this.state = STATE_NOT_CONNECTED;
         this.compileTimeOptions = new CompileTimeOptions(emptyString, Constants.DEFAULT_PLANNER_BUFFER, Constants.DEFAULT_SERIAL_RX_BUFFER);
         this.parserState = new ParserState("G0 G54 G17 G21 G90 G94");
@@ -375,7 +375,7 @@ public class MachineStatusListner extends BaseObservable {
         public final boolean mistCoolant;
         public final boolean coreXY;
         public final boolean parkingMotion;
-        public final boolean homingForceOrgin;
+        public final boolean homingForceOrigin;
         public final boolean homingSingleAxis;
         public final boolean twoLimitSwitchesOnAxis;
         public final boolean feedRageOverrideInProbeCycles;
@@ -397,7 +397,7 @@ public class MachineStatusListner extends BaseObservable {
             mistCoolant = enabledUpper.contains("M");
             coreXY = enabledUpper.contains("C");
             parkingMotion = enabledUpper.contains("P");
-            homingForceOrgin = enabledUpper.contains("Z");
+            homingForceOrigin = enabledUpper.contains("Z");
             homingSingleAxis = enabledUpper.contains("H");
             twoLimitSwitchesOnAxis = enabledUpper.contains("T");
             feedRageOverrideInProbeCycles = enabledUpper.contains("A");

@@ -55,8 +55,8 @@ import in.co.gorest.grblcontroller.events.GrblOkEvent;
 import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
-import in.co.gorest.grblcontroller.listners.FileSenderListner;
-import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.listeners.FileSenderListener;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
@@ -83,7 +83,7 @@ public class FileStreamerIntentService extends IntentService{
     public synchronized static boolean getShouldContinue(){ return shouldContinue; }
     public synchronized static void setShouldContinue(boolean b){ shouldContinue = b; }
 
-    private FileSenderListner fileSenderListner;
+    private FileSenderListener fileSenderListener;
     private final Timer jobTimer = new Timer();
 
     public FileStreamerIntentService() {
@@ -108,41 +108,41 @@ public class FileStreamerIntentService extends IntentService{
 
     @Override
     protected void onHandleIntent(Intent intent){
-        fileSenderListner = FileSenderListner.getInstance();
-        if(fileSenderListner.getGcodeFile() == null){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_gcode_file_selected)));
+        fileSenderListener = FileSenderListener.getInstance();
+        if(fileSenderListener.getGcodeFile() == null){
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_gcode_file_selected)));
             return;
         }
 
-        MachineStatusListner.CompileTimeOptions compileTimeOptions = MachineStatusListner.getInstance().getCompileTimeOptions();
+        MachineStatusListener.CompileTimeOptions compileTimeOptions = MachineStatusListener.getInstance().getCompileTimeOptions();
         if(compileTimeOptions.serialRxBuffer > 0) MAX_RX_SERIAL_BUFFER = compileTimeOptions.serialRxBuffer - 3;
         Process.setThreadPriority(Process.THREAD_PRIORITY_FOREGROUND);
 
         boolean isCheckMode = intent.getBooleanExtra(CHECK_MODE_ENABLED, false);
         String defaultConnectionType = intent.getStringExtra(SERIAL_CONNECTION_TYPE);
 
-        setIsServiceRunning(true);
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getString(R.string.grbl_file_streaming));
-        wakeLock.acquire();
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Grbl File Streaming");
+        wakeLock.acquire(24*60*60*1000);
 
         clearBuffers();
-        fileSenderListner.setRowsSent(0);
-        fileSenderListner.setJobStartTime(System.currentTimeMillis());
+        fileSenderListener.setRowsSent(0);
+        fileSenderListener.setJobStartTime(System.currentTimeMillis());
 
         jobTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                int elapsedTimeSeconds = (int) (System.currentTimeMillis() - fileSenderListner.getJobStartTime())/1000;
-                fileSenderListner.setElaspsedTime(String.format(Locale.US ,"%02d:%02d:%02d", elapsedTimeSeconds / 3600, (elapsedTimeSeconds % 3600) / 60, (elapsedTimeSeconds % 60)));
+                int elapsedTimeSeconds = (int) (System.currentTimeMillis() - fileSenderListener.getJobStartTime())/1000;
+                fileSenderListener.setElapsedTime(String.format(Locale.US ,"%02d:%02d:%02d", elapsedTimeSeconds / 3600, (elapsedTimeSeconds % 3600) / 60, (elapsedTimeSeconds % 60)));
             }
         }, 0, 1000);
 
-        fileSenderListner.setStatus(FileSenderListner.STATUS_STREAMING);
+        fileSenderListener.setStatus(FileSenderListener.STATUS_STREAMING);
+        setIsServiceRunning(true);
 
         if(isCheckMode){
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.file_checking_started), fileSenderListner.getGcodeFile().getName()));
+                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.text_file_checking_started), fileSenderListener.getGcodeFile().getName()));
             }
 
             if(defaultConnectionType != null && defaultConnectionType.equals(Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH)){
@@ -152,29 +152,29 @@ public class FileStreamerIntentService extends IntentService{
             }
         }else{
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.file_streaming_started), fileSenderListner.getGcodeFile().getName()));
+                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.text_file_streaming_started), fileSenderListener.getGcodeFile().getName()));
             }
 
             this.startStreaming(5);
         }
 
-        this.waitUntilBufferRunout();
+        this.waitUntilBufferRunOut();
 
         jobTimer.cancel();
-        fileSenderListner.setJobEndTime(System.currentTimeMillis());
-        fileSenderListner.setStatus(FileSenderListner.STATUS_IDLE);
+        fileSenderListener.setJobEndTime(System.currentTimeMillis());
+        fileSenderListener.setStatus(FileSenderListener.STATUS_IDLE);
 
         clearBuffers();
         setIsServiceRunning(false);
 
-        StreamingCompleteEvent streamingCompleteEvent = new StreamingCompleteEvent(getString(R.string.streaming_completed));
-        streamingCompleteEvent.setFileName(fileSenderListner.getGcodeFileName());
-        streamingCompleteEvent.setRowsSent(fileSenderListner.getRowsSent());
-        streamingCompleteEvent.setTimeMillis(fileSenderListner.getJobEndTime() - fileSenderListner.getJobStartTime());
-        streamingCompleteEvent.setTimeTaken(fileSenderListner.getElaspsedTime());
+        StreamingCompleteEvent streamingCompleteEvent = new StreamingCompleteEvent("Streaming Completed");
+        streamingCompleteEvent.setFileName(fileSenderListener.getGcodeFileName());
+        streamingCompleteEvent.setRowsSent(fileSenderListener.getRowsSent());
+        streamingCompleteEvent.setTimeMillis(fileSenderListener.getJobEndTime() - fileSenderListener.getJobStartTime());
+        streamingCompleteEvent.setTimeTaken(fileSenderListener.getElapsedTime());
 
         Answers.getInstance().logCustom(new CustomEvent("Job Completed")
-                .putCustomAttribute("lines sent", fileSenderListner.getRowsSent())
+                .putCustomAttribute("lines sent", fileSenderListener.getRowsSent())
                 .putCustomAttribute("time taken", streamingCompleteEvent.getTimeMillis()/1000));
 
         EventBus.getDefault().post(streamingCompleteEvent);
@@ -188,7 +188,7 @@ public class FileStreamerIntentService extends IntentService{
         BufferedReader br; String sCurrentLine;
 
         try{
-            br = new BufferedReader(new FileReader(fileSenderListner.getGcodeFile()));
+            br = new BufferedReader(new FileReader(fileSenderListener.getGcodeFile()));
             int linesSent = 0;
             GcodeCommand gcodeCommand = new GcodeCommand();
             while ((sCurrentLine = br.readLine()) != null) {
@@ -199,12 +199,12 @@ public class FileStreamerIntentService extends IntentService{
 
                     if(gcodeCommand.hasModalSet()){
                         streamLine(new GcodeCommand("G4 P0.05"));
-                        this.waitUntilBufferRunout();
+                        this.waitUntilBufferRunOut();
                         streamLine(gcodeCommand);
-                        this.waitUntilBufferRunout();
+                        this.waitUntilBufferRunOut();
                         streamLine(new GcodeCommand(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND));
                         streamLine(new GcodeCommand("G4 P0.05"));
-                        this.waitUntilBufferRunout();
+                        this.waitUntilBufferRunOut();
                     }else{
                         streamLine(gcodeCommand);
                     }
@@ -213,13 +213,13 @@ public class FileStreamerIntentService extends IntentService{
                 }
 
                 if(linesSent%statusUpdateInterval == 0){
-                    fileSenderListner.setRowsSent(linesSent);
+                    fileSenderListener.setRowsSent(linesSent);
                 }
 
             }
 
             br.close();
-            fileSenderListner.setRowsSent(linesSent);
+            fileSenderListener.setRowsSent(linesSent);
 
         }catch (IOException | NullPointerException e){
             Log.e(TAG, e.getMessage(), e);
@@ -231,7 +231,7 @@ public class FileStreamerIntentService extends IntentService{
 
         try{
 
-            BufferedReader br = new BufferedReader(new FileReader(fileSenderListner.getGcodeFile()));
+            BufferedReader br = new BufferedReader(new FileReader(fileSenderListener.getGcodeFile()));
             int linesSent = 0;
             String sCurrentLine;
             GcodeCommand gcodeCommand = new GcodeCommand();
@@ -243,18 +243,18 @@ public class FileStreamerIntentService extends IntentService{
                     EventBus.getDefault().post(gcodeCommand);
                     linesSent++;
                 }
-                if(linesSent%555 == 0) fileSenderListner.setRowsSent(linesSent);
+                if(linesSent%555 == 0) fileSenderListener.setRowsSent(linesSent);
             }
             br.close();
 
-            fileSenderListner.setRowsSent(linesSent);
+            fileSenderListener.setRowsSent(linesSent);
 
         }catch (IOException | NullPointerException e){
             Log.e(TAG, e.getMessage(), e);
         }
     }
 
-    private void waitUntilBufferRunout(){
+    private void waitUntilBufferRunOut(){
         while(CURRENT_RX_SERIAL_BUFFER > 0){
             try {
                 completedCommands.take();

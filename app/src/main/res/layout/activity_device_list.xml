@@ -21,7 +21,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="@string/paired_devices"
+        android:text="@string/text_paired_devices"
         android:textSize="20sp"
         android:padding="4dp"
         android:textColor="@color/colorBlack"

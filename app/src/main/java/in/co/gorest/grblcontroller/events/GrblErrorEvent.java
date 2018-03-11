@@ -22,7 +22,7 @@
 package in.co.gorest.grblcontroller.events;
 
 
-import in.co.gorest.grblcontroller.GrblConttroller;
+import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.util.GrblLookups;
 
@@ -50,7 +50,7 @@ public class GrblErrorEvent {
 
     @Override
     public String toString(){
-        return GrblConttroller.getContext().getString(R.string.grbl_error_format, errorCode, errorDescription);
+        return GrblController.getContext().getString(R.string.text_grbl_error_format, errorCode, errorDescription);
     }
 
     public String getMessage(){ return this.message; }

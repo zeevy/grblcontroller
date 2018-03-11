@@ -59,9 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onResume() {
             super.onResume();
-            String defaultConnectionType = getPreferenceManager().getSharedPreferences().getString(getString(R.string.default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
-            if(defaultConnectionType.equals(Constants.SERIAL_CONNECTION_TYPE_USBOTG)){
-                getPreferenceScreen().findPreference(getString(R.string.auto_connect)).setEnabled(false);
+            String defaultConnectionType = getPreferenceManager().getSharedPreferences().getString(getString(R.string.preference_default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
+            if(defaultConnectionType.equals(Constants.SERIAL_CONNECTION_TYPE_USB_OTG)){
+                getPreferenceScreen().findPreference(getString(R.string.preference_auto_connect)).setEnabled(false);
             }
 
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if(key.equals(getString(R.string.default_serial_connection_type))){
+            if(key.equals(getString(R.string.preference_default_serial_connection_type))){
                 EventBus.getDefault().post(new UiToastEvent("Application restart required"));
             }
         }

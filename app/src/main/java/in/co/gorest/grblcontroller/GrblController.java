@@ -30,7 +30,7 @@ import com.crashlytics.android.answers.Answers;
 
 import io.fabric.sdk.android.Fabric;
 
-public class GrblConttroller extends Application {
+public class GrblController extends Application {
 
     private static Context context;
 

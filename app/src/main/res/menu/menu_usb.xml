@@ -6,18 +6,18 @@
     <item
         android:id="@+id/action_grbl_reset"
         android:orderInCategory="10"
-        android:title="@string/reset"
+        android:title="@string/text_reset"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_connect"
         android:orderInCategory="11"
-        android:title="@string/connect"
+        android:title="@string/text_connect"
         app:showAsAction="always" />
 
     <item
         android:icon="@drawable/ic_settings_black_20dp"
-        android:title="@string/settings"
+        android:title="@string/text_settings"
         android:orderInCategory="13"
         android:id="@+id/app_settings"
         app:showAsAction="ifRoom" />
@@ -26,13 +26,13 @@
         android:id="@+id/share"
         android:orderInCategory="14"
         android:icon="@drawable/ic_share_black_20dp"
-        android:title="Share"
+        android:title="@string/text_app_share"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         app:showAsAction="ifRoom" />
 
     <item
         android:icon="@drawable/ic_android_black_20dp"
-        android:title="About"
+        android:title="@string/text_app_about"
         android:orderInCategory="15"
         app:showAsAction="ifRoom"
         android:id="@+id/app_about" />

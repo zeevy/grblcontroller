@@ -62,7 +62,7 @@ public class DeviceListActivity extends Activity {
 
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if(mBtAdapter == null){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.bt_adaptor_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adapter_error)));
             finish();
         }
 
@@ -89,7 +89,7 @@ public class DeviceListActivity extends Activity {
         try {
             pairedDevices = mBtAdapter.getBondedDevices();
         }catch (Exception e){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.bt_adaptor_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adaptor_error)));
             finish();
         }
 
@@ -98,7 +98,7 @@ public class DeviceListActivity extends Activity {
                 pairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
         } else {
-            pairedDevicesArrayAdapter.add(getString(R.string.no_paired_devices));
+            pairedDevicesArrayAdapter.add(getString(R.string.text_no_paired_devices));
         }
     }
 
@@ -142,9 +142,9 @@ public class DeviceListActivity extends Activity {
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 setProgressBarIndeterminateVisibility(false);
-                setTitle(getString(R.string.select_paired_device));
+                setTitle(getString(R.string.text_select_paired_device));
                 if (mNewDevicesArrayAdapter.getCount() == 0) {
-                    mNewDevicesArrayAdapter.add(getString(R.string.none_found));
+                    mNewDevicesArrayAdapter.add(getString(R.string.text_none_found));
                 }
             }
         }

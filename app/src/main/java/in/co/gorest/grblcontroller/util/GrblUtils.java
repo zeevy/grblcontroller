@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import in.co.gorest.grblcontroller.listners.MachineStatusListner.CompileTimeOptions;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener.CompileTimeOptions;
 import in.co.gorest.grblcontroller.model.Overrides;
 import in.co.gorest.grblcontroller.model.Position;
 
@@ -133,13 +133,13 @@ public class GrblUtils {
     }
 
     private static final String PARSER_STATE_REGEX = "^\\[GC:(.*)\\]$";
-    private static final Pattern PARSER_STATE_PARRERN = Pattern.compile(PARSER_STATE_REGEX);
+    private static final Pattern PARSER_STATE_PATTERN = Pattern.compile(PARSER_STATE_REGEX);
     public static boolean isParserStateMessage(final String response){
-        return PARSER_STATE_PARRERN.matcher(response).find();
+        return PARSER_STATE_PATTERN.matcher(response).find();
     }
 
     public static String getParserStateString(final String response){
-        Matcher matcher = PARSER_STATE_PARRERN.matcher(response);
+        Matcher matcher = PARSER_STATE_PATTERN.matcher(response);
         return matcher.find() ? matcher.group(1) : "";
     }
 

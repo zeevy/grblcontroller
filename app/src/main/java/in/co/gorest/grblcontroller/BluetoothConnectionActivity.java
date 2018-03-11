@@ -53,7 +53,7 @@ import in.co.gorest.grblcontroller.events.GrblSettingMessageEvent;
 import in.co.gorest.grblcontroller.events.JogCommandEvent;
 import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
-import in.co.gorest.grblcontroller.listners.MachineStatusListner;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
@@ -74,7 +74,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter == null) {
-            grblToast(getString(R.string.text_no_bt_adapter));
+            grblToast(getString(R.string.text_no_bluetooth_adapter));
             finish();
         }else{
             Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
@@ -86,8 +86,8 @@ public class BluetoothConnectionActivity extends GrblActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(grblBluetoothSerialService != null && grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_NONE && bluetoothAdapter.isEnabled() && sharedPref.getBoolean(getString(R.string.auto_connect), false)){
-                    String lastAddress = sharedPref.getString(getString(R.string.last_connected_device), null);
+                if(grblBluetoothSerialService != null && grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_NONE && bluetoothAdapter.isEnabled() && sharedPref.getBoolean(getString(R.string.preference_auto_connect), false)){
+                    String lastAddress = sharedPref.getString(getString(R.string.preference_last_connected_device), null);
                     connectToDevice(lastAddress);
                 }
             }
@@ -107,7 +107,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                     try{
                         bluetoothAdapter.enable();
                     }catch (RuntimeException e){
-                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.no_bluetooth_permission)));
+                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_bluetooth_permission)));
                         finish();
                     }
                 }
@@ -182,12 +182,12 @@ public class BluetoothConnectionActivity extends GrblActivity {
                             new AlertDialog.Builder(this)
                                     .setTitle(R.string.text_disconnect)
                                     .setMessage(getString(R.string.text_disconnect_confirm))
-                                    .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             if(grblBluetoothSerialService != null) grblBluetoothSerialService.disconnectService();
                                         }
                                     })
-                                    .setNegativeButton(getString(R.string.cancel), null)
+                                    .setNegativeButton(getString(R.string.text_cancel), null)
                                     .show();
 
                         }else{
@@ -204,12 +204,12 @@ public class BluetoothConnectionActivity extends GrblActivity {
                 return true;
 
             case R.id.action_grbl_reset:
-                boolean resetConfirm = sharedPref.getBoolean(getString(R.string.confirm_grbl_soft_reset), true);
+                boolean resetConfirm = sharedPref.getBoolean(getString(R.string.preference_confirm_grbl_soft_reset), true);
                 if(resetConfirm){
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.text_grbl_soft_reset)
                             .setMessage(R.string.text_grbl_soft_reset_desc)
-                            .setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                            .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     if(FileStreamerIntentService.getIsServiceRunning()){
                                         FileStreamerIntentService.setShouldContinue(false);
@@ -220,7 +220,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                                     onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
                                 }
                             })
-                            .setNegativeButton(getString(R.string.cancel), null)
+                            .setNegativeButton(getString(R.string.text_cancel), null)
                             .show();
 
                 }else{
@@ -291,7 +291,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                 break;
             case GrblBluetoothSerialService.STATE_NONE:
                 EventBus.getDefault().post(new BluetoothDisconnectEvent(getString(R.string.text_connection_lost)));
-                MachineStatusListner.getInstance().setState(Constants.MACHINE_STATUS_NOT_CONNECTED);
+                MachineStatusListener.getInstance().setState(Constants.MACHINE_STATUS_NOT_CONNECTED);
                 if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_not_connected));
                 invalidateOptionsMenu();
                 break;
@@ -324,7 +324,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void OnStreamingCompleteEvent(StreamingCompleteEvent event){
-        if(sharedPref.getBoolean(getString(R.string.sleep_after_job), false) && !machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
+        if(sharedPref.getBoolean(getString(R.string.preference_sleep_after_job), false) && !machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
             onGcodeCommandReceived(GrblUtils.GRBL_SLEEP_COMMAND);
         }
     }
@@ -338,8 +338,8 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
         if(event.getSetting().equals("$110") || event.getSetting().equals("$111") || event.getSetting().equals("$112")){
             Double maxFeedRate = Double.parseDouble(event.getValue());
-            if(maxFeedRate > sharedPref.getDouble(getString(R.string.jogging_max_feed_rate), machineStatus.getJogging().feed)){
-                sharedPref.edit().putDouble(getString(R.string.jogging_max_feed_rate), maxFeedRate).apply();
+            if(maxFeedRate > sharedPref.getDouble(getString(R.string.preference_jogging_max_feed_rate), machineStatus.getJogging().feed)){
+                sharedPref.edit().putDouble(getString(R.string.preference_jogging_max_feed_rate), maxFeedRate).apply();
             }
         }
 
@@ -356,11 +356,10 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
                     String macAddress = data.getExtras().getString(DeviceListActivity . EXTRA_DEVICE_ADDRESS);
                     if(grblBluetoothSerialService != null && bluetoothAdapter.isEnabled()){
-                        sharedPref.edit().putString(getString(R.string.last_connected_device), macAddress).apply();
+                        sharedPref.edit().putString(getString(R.string.preference_last_connected_device), macAddress).apply();
                         connectToDevice(macAddress);
                     }
                 }
-                return;
         }
     }
 

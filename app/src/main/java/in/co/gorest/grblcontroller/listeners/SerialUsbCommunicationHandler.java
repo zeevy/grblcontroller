@@ -21,7 +21,7 @@
  *
  */
 
-package in.co.gorest.grblcontroller.listners;
+package in.co.gorest.grblcontroller.listeners;
 
 import android.os.Message;
 
@@ -33,11 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import in.co.gorest.grblcontroller.GrblConttroller;
-import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
-import in.co.gorest.grblcontroller.events.UiToastEvent;
-import in.co.gorest.grblcontroller.listners.MachineStatusListner.BuildInfo;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.GrblUsbSerialService;
 import in.co.gorest.grblcontroller.util.GrblUtils;
