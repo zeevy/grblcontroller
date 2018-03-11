@@ -118,7 +118,6 @@
         <item>1</item>
     </string-array>
 
-    <string name="text_value_empty" translatable="false" />
     <string name="text_action_settings">设置</string>
     <string name="text_paired_devices">先选择一个蓝牙设备</string>
     <string name="text_machine_not_idle">机器正忙…</string>
