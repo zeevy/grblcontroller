@@ -255,7 +255,7 @@
     <string name="text_spindle_on">Spindle {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_spindle_off">Spindle {fa-toggle-off 18dp}</string>
     <string name="text_flood_on">Flood {fa-toggle-on 18dp @color/colorAccent}</string>
-    <string name="text_flood_off">Flood {fa-toggle-off 16dp}"}</string>
+    <string name="text_flood_off">Flood {fa-toggle-off 16dp}</string>
     <string name="text_mist_on">Mist {fa-toggle-on 18dp @color/colorAccent}</string>
     <string name="text_mist_off">Mist {fa-toggle-off 16dp}</string>
     <string name="text_file_types">File Types:</string>

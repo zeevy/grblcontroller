@@ -133,7 +133,7 @@
 
 
     <!-- Probing Tab -->
-    <string name="text_probing_help">1. 使用第一个探头探测到表面\n2. 更换探头\n3. 点击\\\"Probe + TLO\\\"再次探测，从而计算TLO</string>
+    <string name="text_probing_help">1. 使用第一个探头探测到表面\n2. 更换探头\n3. 点击 \"Probe + TLO\" 再次探测，从而计算TLO</string>
     <string name="text_probing_feed_rate">移动速率</string>
     <string name="text_touch_plate_thickness">探头板厚</string>
     <string name="text_distance_to_probe">最大探测深度</string>
@@ -215,7 +215,7 @@
     <string name="text_spindle_on">纺锤 {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_spindle_off">纺锤 {fa-toggle-off 18dp}</string>
     <string name="text_flood_on">洪水 {fa-toggle-on 18dp @color/colorAccent}</string>
-    <string name="text_flood_off">洪水 {fa-toggle-off 16dp}"}</string>
+    <string name="text_flood_off">洪水 {fa-toggle-off 16dp}</string>
     <string name="text_mist_on">薄雾 {fa-toggle-on 18dp @color/colorAccent}</string>
     <string name="text_mist_off">薄雾 {fa-toggle-off 16dp}</string>
     <string name="text_file_types">文件类型:</string>
