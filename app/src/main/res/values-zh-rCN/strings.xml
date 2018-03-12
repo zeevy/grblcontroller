@@ -66,7 +66,7 @@
     <string name="text_soft_reset_confirm">重置确认</string>
     <string name="text_soft_reset_confirm_desc">重置机器前需要确认</string>
     <string name="text_sleep_after_job">自动休眠</string>
-    <string name="text_sleep_after_job_desc">完成任务后进入低功耗的睡眠状态(v1.1后才支持$SLP命令)</string>
+    <string name="text_sleep_after_job_desc">完成任务后进入低功耗的睡眠状态</string>
     <string name="text_jogging_max_steps">微动最大距离</string>
     <string name="text_jogging_max_steps_desc">点击按钮移动的最大步数</string>
     <string name="text_enable_custom_buttons">启用自定义按键</string>
@@ -91,12 +91,12 @@
     <string name="text_custom_button_4">自定义按键 4</string>
     <string name="text_button_4_behaviour">设置按键 4 的效果</string>
     <string name="text_default_connection">默认连接</string>
-    <string name="text_rotate_jogging_pad">旋转XY慢跑板</string>
-    <string name="text_streaming_stop_button_behaviour">流媒体停止按钮行为</string>
+    <string name="text_rotate_jogging_pad">旋转XY坐标轴</string>
+    <string name="text_streaming_stop_button_behaviour">紧急停止按钮</string>
     <string name="text_check_machine_position">安全启动</string>
-    <string name="text_check_machine_position_description">如果机器不在原点则不发送gcode文件</string>
+    <string name="text_check_machine_position_description">若当前不在原点则不发送gcode文件</string>
     <string name="text_haptic_feedback">触觉反馈</string>
-    <string name="text_haptic_feedback_description">启用按键时短暂震动</string>
+    <string name="text_haptic_feedback_description">按下按钮时将短暂震动</string>
 
     <string-array name="preference_entries_default_connection">
         <item>蓝牙连接</item>
@@ -119,7 +119,7 @@
     </string-array>
 
     <string name="text_action_settings">设置</string>
-    <string name="text_paired_devices">先选择一个蓝牙设备</string>
+    <string name="text_paired_devices">请选择一个蓝牙设备</string>
     <string name="text_machine_not_idle">机器正忙…</string>
     <string name="text_no_gcode_file_selected">未选择gcode文件</string>
     <string name="text_no_external_read_permission">无法读取外部SD卡，请检查app权限</string>
@@ -133,28 +133,28 @@
 
 
     <!-- Probing Tab -->
-    <string name="text_probing_help">1. 使用第一个探头探测到表面\n2. 更换探头\n3. 点击 \"Probe + TLO\" 再次探测，从而计算TLO</string>
+    <string name="text_probing_help">1. 使用一个探头探测到表面\n2. 更换另一个探头\n3. 点击 \"Probe + TLO\" 再次探测，从而计算TLO</string>
     <string name="text_probing_feed_rate">移动速率</string>
-    <string name="text_touch_plate_thickness">探头板厚</string>
+    <string name="text_touch_plate_thickness">探测板厚</string>
     <string name="text_distance_to_probe">最大探测深度</string>
-    <string name="text_auto_zero_z_axis_after_probe">探测后Z轴自动设为零点</string>
+    <string name="text_auto_zero_z_axis_after_probe">自动设置Z轴零点</string>
     <string name="text_start_probe">探测</string>
     <string name="text_straight_probe">G38.3: 直探头(CNC专用)</string>
     <string name="text_straight_probe_desc">探头向工件方向移动，碰到则停止，请检查各项设置并点击 是 开始探测</string>
     <string name="text_last_probe_location_unknown">上次探测位置未知</string>
-    <string name="text_dynamic_tool_length_offset">G43.1: 动态探头偏移补偿</string>
-    <string name="text_dynamic_tlo_desc">探头偏移补偿将应用到上次探测位置与本次探测位置之差 G43.1 abs(上次位置) - abs(本次位置)  点击 是 继续</string>
+    <string name="text_dynamic_tool_length_offset">G43.1: 动态TLO</string>
+    <string name="text_dynamic_tlo_desc">G43.1: TLO的值将等于上次探测位置与本次探测位置之差，点击 是 继续</string>
     <string name="text_cancel_tlo">G49: 取消探头偏移补偿</string>
-    <string name="text_cancel_tlo_desc">是否取消当前探头偏移补偿？</string>
+    <string name="text_cancel_tlo_desc">是否清零当前探头偏移补偿值？</string>
     <string name="text_probing_distance">最大探测深度</string>
     <string name="text_manual_tool_change">手动更换探头</string>
-    <string name="text_probe_failed">探测时的移动速率</string>
-    <string name="text_probe_success_auto_zero">探测成功，Z轴自动设为零点！</string>
+    <string name="text_probe_failed">移动速率</string>
+    <string name="text_probe_success_auto_zero">探测成功，Z轴自动计算零点！</string>
     <string name="text_probe_success">探测成功！</string>
     <string name="text_probe_success_with_tlo">探测成功，探头长度偏移量已计入！</string>
     <string name="text_probing_tab_heading">探测 | 探头偏移补偿 {fa-info-circle 16dp @color/colorAccent}</string>
     <string name="text_last_probe_position">上一个探测点</string>
-    <string name="text_current_tlo">当前探头偏移补偿</string>
+    <string name="text_current_tlo">探头偏移补偿</string>
 
 
     <!-- Jogging Tab -->
@@ -174,14 +174,14 @@
     </string-array>
 
     <string name="text_steps_feed">步数 | 速度</string>
-    <string name="text_zero_selected_axis">该轴设为零点</string>
-    <string name="text_set_axis_location_in_current_wpos">将现在该轴位置在当前坐标系内设为零点 |</string>
+    <string name="text_zero_selected_axis">保存零点</string>
+    <string name="text_set_axis_location_in_current_wpos">将当前位置设为该轴零点 | </string>
     <string name="text_selected_coordinate_system">"当前坐标系为 "</string>
     <string name="text_homing_cycle">回归原点</string>
-    <string name="text_do_homing_cycle">发送 $H 命令，XYZ三轴回到原始坐标系MPos零点</string>
-    <string name="text_set_coordinate_system">G10 L20 保存三轴零点</string>
-    <string name="text_set_all_axes_zero">将现在XYZ三轴的位置设为当前坐标系WPos的零点 | G10 L20 P0 X0Y0Z0</string>
-    <string name="text_return_to_zero_position">三轴归零</string>
+    <string name="text_do_homing_cycle">发送 $H 命令，XYZ三轴负向移动直到触发限位开关</string>
+    <string name="text_set_coordinate_system">保存零点</string>
+    <string name="text_set_all_axes_zero">将现在的位置设为当前工作坐标系的零点 | G10 L20 P0 X0 Y0 Z0</string>
+    <string name="text_return_to_zero_position">移动XYZ三轴归零</string>
     <string name="text_go_to_zero_position_in_current_wpos">XYZ三轴回到当前坐标系零点 | G90 X0 Y0 Z0</string>
     <string name="text_empty_command">空命令！</string>
     <string name="text_long_click">长按</string>
@@ -189,10 +189,10 @@
     <string name="text_on_button">对应的命令</string>
     <string name="text_send">发送</string>
     <string name="text_move">移动</string>
-    <string name="text_axis_to_zero_position">轴归零？</string>
+    <string name="text_axis_to_zero_position">轴归零</string>
     <string name="text_go_to_zero_position">"当前坐标系内该轴回到零点 | G0 "</string>
-    <string name="text_save_coordinate_system">设为坐标系零点</string>
-    <string name="text_save_coordinate_system_desc">将当前位置保存到坐标系统</string>
+    <string name="text_save_coordinate_system">保存零点</string>
+    <string name="text_save_coordinate_system_desc">将当前位置保存为坐标系 %s 的零点</string>
     <string name="text_jogging_step_and_feed">微动步数及速度设置</string>
     <string name="text_inches">英寸</string>
 
@@ -202,27 +202,27 @@
     <string name="text_file_checking_started">已开启文件检查</string>
     <string name="text_file_streaming_started">开始发送文件</string>
     <string name="text_starting_streaming">开始发送命令</string>
-    <string name="text_check_every_thing">开启安全检查</string>
+    <string name="text_check_every_thing">请检查机器是否准备好开始！</string>
     <string name="text_continue_streaming">继续发送</string>
     <string name="text_gcode_length_warning">警告！发现本行Gcode长于80个字符</string>
     <string name="text_lines_total_sent">总行数 | 已发送</string>
     <string name="text_time_elapsed">已用时间</string>
     <string name="text_file_not_found">未找到！</string>
-    <string name="text_overrides_fsv">覆盖 F:S:V</string>
-    <string name="text_overrides_fs">覆盖 F:S</string>
+    <string name="text_overrides_fsv">当前 F:S:V</string>
+    <string name="text_overrides_fs">当前 F:S</string>
     <string name="text_check_mode_on">检查 {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_check_mode_off">检查 {fa-toggle-off 16dp}</string>
-    <string name="text_spindle_on">纺锤 {fa-toggle-on 16dp @color/colorAccent}</string>
-    <string name="text_spindle_off">纺锤 {fa-toggle-off 18dp}</string>
-    <string name="text_flood_on">洪水 {fa-toggle-on 18dp @color/colorAccent}</string>
-    <string name="text_flood_off">洪水 {fa-toggle-off 16dp}</string>
-    <string name="text_mist_on">薄雾 {fa-toggle-on 18dp @color/colorAccent}</string>
-    <string name="text_mist_off">薄雾 {fa-toggle-off 16dp}</string>
+    <string name="text_spindle_on">主轴 {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_spindle_off">主轴 {fa-toggle-off 18dp}</string>
+    <string name="text_flood_on">水冷 {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_flood_off">水冷 {fa-toggle-off 16dp}</string>
+    <string name="text_mist_on">雾化 {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_mist_off">雾化 {fa-toggle-off 16dp}</string>
     <string name="text_file_types">文件类型:</string>
 
     <!-- Console Tab -->
-    <string name="text_clear_console">清空历史信息？</string>
-    <string name="text_clear_console_description">这将清除控制台的所有历史</string>
+    <string name="text_clear_console">清空？</string>
+    <string name="text_clear_console_description">这将清除console所有信息</string>
     <string name="text_verbose_output">输出详细信息</string>
     <string name="text_no_confirm">否</string>
 
