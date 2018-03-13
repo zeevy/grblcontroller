@@ -155,6 +155,7 @@
     <string name="text_probing_tab_heading">探测 | 探头偏移补偿 {fa-info-circle 16dp @color/colorAccent}</string>
     <string name="text_last_probe_position">上一个探测点</string>
     <string name="text_current_tlo">探头偏移补偿</string>
+    <string name="probe_plus_tlo">探测 {fa-plus 14dp} TLO</string>
 
 
     <!-- Jogging Tab -->
