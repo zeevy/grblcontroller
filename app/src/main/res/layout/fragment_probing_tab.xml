@@ -202,7 +202,7 @@
                         android:enabled="@{machineStatus.state.equals(machineStatus.STATE_IDLE) &amp;&amp; (machineStatus.lastProbePosition != null)}"
                         android:layout_weight="0.33"
                         android:id="@+id/start_tool_length_offset"
-                        android:text="Probe {fa-plus 14dp} TLO"
+                        android:text="@string/probe_plus_tlo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

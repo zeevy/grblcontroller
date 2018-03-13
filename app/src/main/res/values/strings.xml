@@ -195,6 +195,7 @@
     <string name="text_probing_tab_heading">Probing | Tool length offset {fa-info-circle 16dp @color/colorAccent}</string>
     <string name="text_last_probe_position">Last probe position</string>
     <string name="text_current_tlo">Current TLO</string>
+    <string name="probe_plus_tlo">Probe {fa-plus 14dp} TLO</string>
 
 
     <!-- Jogging Tab -->
