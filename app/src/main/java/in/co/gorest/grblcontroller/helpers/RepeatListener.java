@@ -41,7 +41,7 @@ public class RepeatListener implements OnTouchListener {
         @Override
         public void run() {
             haveClicked = true;
-            downView.performClick();
+            if(downView != null) downView.performClick();
             handler.postDelayed(this, normalInterval);
         }
     };
@@ -67,12 +67,12 @@ public class RepeatListener implements OnTouchListener {
                 handler.removeCallbacks(handlerRunnable);
                 handler.postDelayed(handlerRunnable, initialInterval);
                 downView = view;
-                if (immediateClick) downView.performClick();
+                if (immediateClick && downView != null) downView.performClick();
                 haveClicked = immediateClick;
                 return true;
             case MotionEvent.ACTION_UP:
                 // If we haven't clicked yet, click now
-                if (!haveClicked) downView.performClick();
+                if (!haveClicked && downView != null) downView.performClick();
 
             case MotionEvent.ACTION_CANCEL:
                 handler.removeCallbacks(handlerRunnable);
