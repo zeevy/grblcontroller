@@ -20,12 +20,12 @@ configurations {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "in.co.gorest.grblcontroller"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 16
         versionName "2.1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -57,18 +57,18 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:appcompat-v7:27.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:design:27.1.0'
+    compile 'com.android.support:cardview-v7:27.1.0'
     compile 'org.apache.commons:commons-collections4:4.1'
-    compile 'com.android.support:gridlayout-v7:26.1.0'
+    compile 'com.android.support:gridlayout-v7:27.1.0'
+    compile 'com.android.support:support-vector-drawable:27.1.0'
 
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
     compile 'com.droidninja:filepicker:2.1.0'
     compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.xw.repo:bubbleseekbar:3.14'
-    compile 'com.android.support:support-vector-drawable:26.1.0'
     compile 'com.github.felHR85:UsbSerial:4.5.2'
 
     testCompile 'junit:junit:4.12'
