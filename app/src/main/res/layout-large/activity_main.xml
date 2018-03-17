@@ -1,0 +1,146 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="in.co.gorest.grblcontroller.BluetoothConnectionActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="in.co.gorest.grblcontroller.BluetoothConnectionActivity"
+        tools:showIn="@layout/activity_main">
+
+        <LinearLayout
+            android:paddingTop="8dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent" android:layout_height="wrap_content" app:cardElevation="4dp" android:layout_margin="8dp"
+                android:focusable="true" android:clickable="true" android:id="@+id/view_last_toast"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <TableLayout
+                    android:id="@+id/view_toast"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="match_parent"
+                    android:stretchColumns="0,1,2"
+                    android:padding="16dp"
+                    android:layout_height="wrap_content">
+
+                    <TableRow>
+                        <TextView android:text="@{machineStatus.state}" />
+                        <TextView android:text="Machine Position" />
+                        <TextView android:text="Work Position" android:gravity="end" />
+                    </TableRow>
+
+                    <TableRow>
+                        <View android:layout_weight="1" android:layout_marginBottom="16dp" android:layout_marginTop="16dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:text="X-Axis" android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordX)}' />
+                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordX)}' android:gravity="end"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <View android:layout_weight="1" android:layout_marginBottom="4dp" android:layout_marginTop="4dp" android:layout_height="0.2dp" android:layout_width="fill_parent" />
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:text="Y-Axis" android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordY)}' />
+                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordY)}' android:gravity="end"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <View android:layout_weight="1" android:layout_marginBottom="4dp" android:layout_marginTop="4dp" android:layout_height="0.2dp" android:layout_width="fill_parent" />
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:text="Z-Axis" android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordZ)}' />
+                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordZ)}' android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tab_indicator_text}" android:gravity="end"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <View android:layout_weight="1" android:layout_marginBottom="16dp" android:layout_marginTop="16dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:text='@{machineStatus.parserState.coordinateSystem + " " + machineStatus.parserState.unitSelection + " " + machineStatus.parserState.distanceMode}' />
+                        <TextView android:text="@{machineStatus.feedRate.toString()}" />
+                        <TextView android:text='@{machineStatus.plannerBuffer.toString() + " | " + machineStatus.serialRxBuffer.toString()}' android:gravity="end"/>
+                    </TableRow>
+
+                </TableLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent" android:layout_height="wrap_content" app:cardElevation="4dp" android:layout_margin="8dp"
+                android:focusable="false" android:clickable="false"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tab_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </android.support.design.widget.TabLayout>
+
+                    <View android:layout_marginBottom="8dp" android:id="@+id/tab_layout_spacer" android:layout_below="@id/tab_layout" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/tab_layout_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        android:layout_below="@id/tab_layout_spacer"
+                        android:background="@android:color/white" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
+
+</layout>

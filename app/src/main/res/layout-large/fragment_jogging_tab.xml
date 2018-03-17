@@ -1,0 +1,334 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
+    </data>
+
+    <ScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/jogging_step_feed_view"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_toStartOf="@+id/jogging_step_feed"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/text_steps_feed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/jogging_step_feed"
+                    android:layout_alignParentEnd="true"
+                    android:text='@{machineStatus.jogging.step.toString() + " | " + machineStatus.jogging.feed.toString()}'
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <View android:layout_margin="8dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+
+            <TableLayout
+                android:layout_centerHorizontal="true"
+                android:stretchColumns="*"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <in.co.gorest.grblcontroller.helpers.AngledTextTopLeft
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_xy_top_left"
+                        android:tag="$J=%1$sG91X-%2$sY%2$sF%3$s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-up 52dp}"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_y_positive"
+                        android:tag="$J=%sG91Y%sF%s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-up 52dp}"/>
+
+                    <in.co.gorest.grblcontroller.helpers.AngledText45
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_xy_top_right"
+                        android:tag="$J=%1$sG91X%2$sY%2$sF%3$s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-up 52dp}"/>
+
+                    <Space android:layout_weight="0.1" android:layout_gravity="fill" android:layout_width="0dp" />
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_z_positive"
+                        android:tag="$J=%sG91Z%sF%s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-up 52dp}"/>
+
+                </TableRow>
+
+                <TableRow>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_x_negative"
+                        android:tag="$J=%sG91X-%sF%s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="26dp"
+                        android:text="{fa-caret-left 52dp}"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/run_homing_cycle"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="26dp"
+                        android:text="{fa-home 40dp}"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_x_positive"
+                        android:tag="$J=%sG91X%sF%s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="26dp"
+                        android:text="{fa-caret-right 52dp}"/>
+
+                    <Space android:layout_weight="0.1" android:layout_gravity="fill" android:layout_width="0dp" />
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_cancel"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="26dp"
+                        android:text="{fa-stop-circle-o 40dp @color/colorPrimary}"/>
+
+                </TableRow>
+
+                <TableRow>
+
+                    <in.co.gorest.grblcontroller.helpers.AngledTextBottomLeft
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_xy_bottom_left"
+                        android:tag="$J=%1$sG91X-%2$sY-%2$sF%3$s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-down 52dp}"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_y_negative"
+                        android:tag="$J=%sG91Y-%sF%s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-down 52dp}"/>
+
+                    <in.co.gorest.grblcontroller.helpers.AngledText225
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_xy_bottom_right"
+                        android:tag="$J=%1$sG91X%2$sY-%2$sF%3$s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-down 52dp}"/>
+
+                    <Space android:layout_weight="0.1" android:layout_gravity="fill" android:layout_width="0dp" />
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/jog_z_negative"
+                        android:tag="$J=%sG91Z-%sF%s"
+                        android:layout_weight="0.22"
+                        android:layout_width="0dp"
+                        android:padding="34dp"
+                        android:text="{fa-caret-down 52dp}"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <View android:layout_margin="8dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+
+            <TableLayout
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow android:id="@+id/reset_zero_layout">
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:gravity="center"
+                        android:tag="$X"
+                        android:layout_weight="0.25"
+                        android:textSize="24sp"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:text='@{machineStatus.state.equals(machineStatus.STATE_ALARM) ? "{fa-bell 24dp @color/colorPrimary}" : "{fa-bell-slash-o 24dp}"}'
+                        android:layout_height="wrap_content"
+                        android:padding="22dp"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/goto_x_zero"
+                        android:layout_weight="0.25"
+                        android:text="X {fa-dot-circle-o 24dp}"
+                        android:textSize="24sp"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:tag="G10 L20 P0 X0"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="18dp"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/goto_y_zero"
+                        android:layout_weight="0.25"
+                        android:text="Y {fa-dot-circle-o 24dp}"
+                        android:padding="18dp"
+                        android:textSize="24sp"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:tag="G10 L20 P0 Y0"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/goto_z_zero"
+                        android:layout_weight="0.25"
+                        android:text="Z {fa-dot-circle-o 24dp}"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:tag="G10 L20 P0 Z0"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+                </TableRow>
+
+                <TableRow android:id="@+id/wpos_layout">
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/wpos_g54"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:tag="G54"
+                        android:text="G54"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/wpos_g55"
+                        android:tag="G55"
+                        android:text="G55"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/wpos_g56"
+                        android:tag="G56"
+                        android:text="G56"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:id="@+id/wpos_g57"
+                        android:tag="G57"
+                        android:text="G57"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+                </TableRow>
+
+                <TableRow android:id="@+id/custom_button_layout" android:visibility="gone">
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/custom_button_1"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:text="@string/text_value_na"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/custom_button_2"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:text="@string/text_value_na"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/custom_button_3"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:text="@string/text_value_na"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/custom_button_4"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:text="@string/text_value_na"
+                        android:textSize="24sp"
+                        android:padding="18dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="0dp"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

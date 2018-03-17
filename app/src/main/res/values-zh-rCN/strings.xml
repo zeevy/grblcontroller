@@ -156,6 +156,7 @@
     <string name="text_last_probe_position">上一个探测点</string>
     <string name="text_current_tlo">探头偏移补偿</string>
     <string name="probe_plus_tlo">探测 {fa-plus 14dp} TLO</string>
+    <string name="probe_plus_tlo_large">探测 {fa-plus 24dp} TLO</string>
 
 
     <!-- Jogging Tab -->
@@ -213,12 +214,20 @@
     <string name="text_overrides_fs">当前 F:S</string>
     <string name="text_check_mode_on">检查 {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_check_mode_off">检查 {fa-toggle-off 16dp}</string>
+    <string name="text_check_mode_on_large">检查 {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_check_mode_off_large">检查 {fa-toggle-off 24dp}</string>
     <string name="text_spindle_on">主轴 {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_spindle_off">主轴 {fa-toggle-off 18dp}</string>
-    <string name="text_flood_on">水冷 {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_spindle_on_large">主轴 {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_spindle_off_large">主轴 {fa-toggle-off 24dp}</string>
+    <string name="text_flood_on">水冷 {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_flood_off">水冷 {fa-toggle-off 16dp}</string>
-    <string name="text_mist_on">雾化 {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_flood_on_large">水冷 {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_flood_off_large">水冷 {fa-toggle-off 24dp}</string>
+    <string name="text_mist_on">雾化 {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_mist_off">雾化 {fa-toggle-off 16dp}</string>
+    <string name="text_mist_on_large">雾化 {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_mist_off_large">雾化 {fa-toggle-off 24dp}</string>
     <string name="text_file_types">文件类型:</string>
 
     <!-- Console Tab -->

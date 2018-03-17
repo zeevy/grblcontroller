@@ -13,7 +13,7 @@
         <LinearLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -31,7 +31,7 @@
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:enabled="@{(machineStatus.state.equals(machineStatus.STATE_IDLE) || machineStatus.state.equals(machineStatus.STATE_CHECK)) &amp;&amp; fileSender.status.equals(fileSender.STATUS_IDLE)}"
-                    android:text="{fa-folder-open 24dp}"
+                    android:text="{fa-folder-open 32dp}"
                     android:id="@+id/select_gcode_file"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
 
             </RelativeLayout>
 
-            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+            <View android:layout_margin="8dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -52,14 +52,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView app:layout_gravity="left" android:text="@string/text_lines_total_sent" />
-                    <TextView app:layout_gravity="right" android:text='@{fileSender.rowsInFile.toString() + " | " + fileSender.rowsSent.toString()}' />
+                    <TextView app:layout_gravity="left" android:layout_marginBottom="8dp" android:text="@string/text_lines_total_sent" />
+                    <TextView app:layout_gravity="right" android:layout_marginBottom="8dp" android:text='@{fileSender.rowsInFile.toString() + " | " + fileSender.rowsSent.toString()}' />
 
-                    <TextView app:layout_gravity="left" android:text="@string/text_time_elapsed" />
-                    <TextView app:layout_gravity="right" android:text="@{fileSender.elapsedTime}" />
+                    <TextView app:layout_gravity="left" android:layout_marginBottom="8dp" android:text="@string/text_time_elapsed" />
+                    <TextView app:layout_gravity="right" android:layout_marginBottom="8dp" android:text="@{fileSender.elapsedTime}" />
 
-                    <TextView app:layout_gravity="left" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? @string/text_overrides_fsv : @string/text_overrides_fs}' />
-                    <TextView app:layout_gravity="right" android:text='@{machineStatus.overridePercents.feed.toString() + ":" + machineStatus.overridePercents.spindle.toString() + (machineStatus.compileTimeOptions.variableSpindle ? ":" + machineStatus.spindleSpeed : "")}' />
+                    <TextView app:layout_gravity="left" android:layout_marginBottom="8dp" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? @string/text_overrides_fsv : @string/text_overrides_fs}' />
+                    <TextView app:layout_gravity="right" android:layout_marginBottom="8dp" android:text='@{machineStatus.overridePercents.feed.toString() + ":" + machineStatus.overridePercents.spindle.toString() + (machineStatus.compileTimeOptions.variableSpindle ? ":" + machineStatus.spindleSpeed : "")}' />
 
                 </android.support.v7.widget.GridLayout>
 
@@ -75,8 +75,10 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/enable_checking"
-                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on : @string/text_check_mode_off}'
+                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on_large : @string/text_check_mode_off_large}'
                         android:layout_weight="0.33"
+                        android:textSize="24sp"
+                        android:padding="16dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_width="0dp"/>
@@ -84,8 +86,10 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/start_streaming"
-                        android:text="{fa-play 16dp} {fa-pause 16dp}"
+                        android:text="{fa-play 24dp} {fa-pause 24dp}"
+                        android:textSize="24sp"
                         android:layout_weight="0.33"
+                        android:padding="16dp"
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"/>
@@ -93,8 +97,9 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/stop_streaming"
-                        android:layout_gravity="center_vertical"
-                        android:text=" {fa-stop 16dp @color/colorPrimary} "
+                        android:text="{fa-stop 24dp @color/colorPrimary}"
+                        android:textSize="24sp"
+                        android:padding="22dp"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
                         android:gravity="center"
@@ -103,13 +108,15 @@
                 </TableRow>
 
                 <TableRow>
-                    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:layout_weight="1" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+                    <View android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:layout_marginTop="8dp" android:layout_marginBottom="16dp" android:layout_height="0.2dp" android:layout_weight="1" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
                 </TableRow>
 
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-fast-backward 16dp} F10"
+                        android:text="{fa-fast-backward 24dp} F10"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/feed_override_coarse_minus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -118,7 +125,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-backward 16dp} F1"
+                        android:text="{fa-backward 24dp} F1"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/feed_override_fine_minus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -127,7 +136,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-forward 16dp} F1"
+                        android:text="{fa-forward 24dp} F1"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/feed_override_fine_plus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -136,7 +147,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-fast-forward 16dp} F10"
+                        android:text="{fa-fast-forward 24dp} F10"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/feed_override_coarse_plus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -146,9 +159,15 @@
                 </TableRow>
 
                 <TableRow>
+                    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:layout_weight="1" android:layout_width="fill_parent"/>
+                </TableRow>
+
+                <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-fast-backward 16dp} S10"
+                        android:text="{fa-fast-backward 24dp} S10"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/spindle_override_coarse_minus"
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
@@ -156,7 +175,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-backward 16dp} S1"
+                        android:text="{fa-backward 24dp} S1"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/spindle_override_fine_minus"
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
@@ -164,7 +185,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-forward 16dp} S1"
+                        android:text="{fa-forward 24dp} S1"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/spindle_override_fine_plus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -173,7 +196,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="{fa-fast-forward 16dp} S10"
+                        android:text="{fa-fast-forward 24dp} S10"
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/spindle_override_coarse_plus"
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
@@ -183,10 +208,16 @@
                 </TableRow>
 
                 <TableRow>
+                    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:layout_weight="1" android:layout_width="fill_parent"/>
+                </TableRow>
+
+                <TableRow>
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 18dp @color/colorAccent} R100" : "{fa-rocket 16dp} R100"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 24dp @color/colorAccent} R100" : "{fa-rocket 24dp} R100"}'
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/rapid_overrides_reset"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -195,7 +226,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 18dp @color/colorAccent} R50" : "{fa-rocket 16dp} R50"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 24dp @color/colorAccent} R50" : "{fa-rocket 24dp} R50"}'
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/rapid_override_medium"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -204,7 +237,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 16dp} R25"}'
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 24dp @color/colorAccent} R25" : "{fa-rocket 24dp} R25"}'
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/rapid_override_low"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -214,9 +249,15 @@
                 </TableRow>
 
                 <TableRow>
+                    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:layout_weight="1" android:layout_width="fill_parent"/>
+                </TableRow>
+
+                <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on : @string/text_spindle_off}'
+                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on_large : @string/text_spindle_off_large}'
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/toggle_spindle"
                         android:layout_weight="0.33"
                         android:gravity="center"
@@ -225,7 +266,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.flood ? @string/text_flood_on : @string/text_flood_off}'
+                        android:text='@{machineStatus.accessoryStates.flood ? @string/text_flood_on_large : @string/text_flood_off_large}'
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/toggle_flood_coolant"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
@@ -234,7 +277,9 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.mist ? @string/text_mist_on : @string/text_mist_off}'
+                        android:text='@{machineStatus.accessoryStates.mist ? @string/text_mist_on_large : @string/text_mist_off_large}'
+                        android:padding="16dp"
+                        android:textSize="24sp"
                         android:id="@+id/toggle_mist_coolant"
                         android:layout_weight="0.33"
                         android:layout_width="0dp"

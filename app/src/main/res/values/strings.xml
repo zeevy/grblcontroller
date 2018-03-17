@@ -196,6 +196,7 @@
     <string name="text_last_probe_position">Last probe position</string>
     <string name="text_current_tlo">Current TLO</string>
     <string name="probe_plus_tlo">Probe {fa-plus 14dp} TLO</string>
+    <string name="probe_plus_tlo_large">Probe {fa-plus 24dp} TLO</string>
 
 
     <!-- Jogging Tab -->
@@ -253,12 +254,20 @@
     <string name="text_overrides_fs">Overrides F:S</string>
     <string name="text_check_mode_on">Check {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_check_mode_off">Check {fa-toggle-off 16dp}</string>
+    <string name="text_check_mode_on_large">Check {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_check_mode_off_large">Check {fa-toggle-off 24dp}</string>
     <string name="text_spindle_on">Spindle {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_spindle_off">Spindle {fa-toggle-off 18dp}</string>
-    <string name="text_flood_on">Flood {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_spindle_on_large">Spindle {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_spindle_off_large">Spindle {fa-toggle-off 24dp}</string>
+    <string name="text_flood_on">Flood {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_flood_off">Flood {fa-toggle-off 16dp}</string>
-    <string name="text_mist_on">Mist {fa-toggle-on 18dp @color/colorAccent}</string>
+    <string name="text_flood_on_large">Flood {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_flood_off_large">Flood {fa-toggle-off 24dp}</string>
+    <string name="text_mist_on">Mist {fa-toggle-on 16dp @color/colorAccent}</string>
     <string name="text_mist_off">Mist {fa-toggle-off 16dp}</string>
+    <string name="text_mist_on_large">Mist {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_mist_off_large">Mist {fa-toggle-off 24dp}</string>
     <string name="text_file_types">File Types:</string>
 
     <!-- Console Tab -->

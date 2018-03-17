@@ -49,8 +49,8 @@
             android:name=".UsbConnectionActivity"
             android:label="@string/app_name"
             android:resizeableActivity="false"
-            android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
@@ -58,7 +58,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="Select Paired Device"
             android:resizeableActivity="false"
-            android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
             android:theme="@android:style/Theme.Material.Light.Dialog"
             tools:targetApi="lollipop" />
