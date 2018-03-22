@@ -44,19 +44,20 @@ public class SplashActivity extends AppCompatActivity {
         EnhancedSharedPreferences sharedPref = EnhancedSharedPreferences.getInstance(GrblController.getContext(), getString(R.string.shared_preference_key));
 
         String defaultConnection = sharedPref.getString(getString(R.string.preference_default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
+        startActivity(new Intent(SplashActivity.this, UsbConnectionActivity.class));
 
-        switch (defaultConnection){
-            case Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH:
-                startActivity(new Intent(SplashActivity.this, BluetoothConnectionActivity.class));
-                break;
-
-            case Constants.SERIAL_CONNECTION_TYPE_USB_OTG:
-                startActivity(new Intent(SplashActivity.this, UsbConnectionActivity.class));
-                break;
-
-            default:
-                startActivity(new Intent(SplashActivity.this, BluetoothConnectionActivity.class));
-        }
+//        switch (defaultConnection){
+//            case Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH:
+//                startActivity(new Intent(SplashActivity.this, BluetoothConnectionActivity.class));
+//                break;
+//
+//            case Constants.SERIAL_CONNECTION_TYPE_USB_OTG:
+//                startActivity(new Intent(SplashActivity.this, UsbConnectionActivity.class));
+//                break;
+//
+//            default:
+//                startActivity(new Intent(SplashActivity.this, BluetoothConnectionActivity.class));
+//        }
 
         finish();
     }
