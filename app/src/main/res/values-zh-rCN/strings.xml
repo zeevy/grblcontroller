@@ -118,7 +118,6 @@
         <item>1</item>
     </string-array>
 
-    <string name="text_action_settings">设置</string>
     <string name="text_paired_devices">请选择一个蓝牙设备</string>
     <string name="text_machine_not_idle">机器正忙…</string>
     <string name="text_no_gcode_file_selected">未选择gcode文件</string>
@@ -156,8 +155,6 @@
     <string name="text_last_probe_position">上一个探测点</string>
     <string name="text_current_tlo">探头偏移补偿</string>
     <string name="probe_plus_tlo">探测 {fa-plus 14dp} TLO</string>
-    <string name="probe_plus_tlo_large">探测 {fa-plus 24dp} TLO</string>
-
 
     <!-- Jogging Tab -->
 
@@ -228,7 +225,6 @@
     <string name="text_mist_off">雾化 {fa-toggle-off 16dp}</string>
     <string name="text_mist_on_large">雾化 {fa-toggle-on 24dp @color/colorAccent}</string>
     <string name="text_mist_off_large">雾化 {fa-toggle-off 24dp}</string>
-    <string name="text_file_types">文件类型:</string>
 
     <!-- Console Tab -->
     <string name="text_clear_console">清空？</string>
