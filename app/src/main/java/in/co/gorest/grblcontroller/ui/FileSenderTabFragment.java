@@ -56,6 +56,7 @@ import java.util.ArrayList;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
+import droidninja.filepicker.models.sort.SortingTypes;
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentFileSenderTabBinding;
@@ -451,6 +452,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 .addFileSupport(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES), Constants.SUPPORTED_FILE_TYPES)
                 .enableDocSupport(false)
                 .showFolderView(false)
+                .sortDocumentsBy(SortingTypes.name)
                 .pickFile(getActivity());
 
     }
