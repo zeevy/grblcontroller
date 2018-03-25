@@ -7,7 +7,8 @@
         android:id="@+id/action_grbl_reset"
         android:orderInCategory="10"
         android:title="@string/text_reset"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/action_connect"

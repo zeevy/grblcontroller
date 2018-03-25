@@ -23,13 +23,15 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".SplashActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            tools:targetApi="n">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +45,8 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="n" />
 
         <activity
             android:name=".UsbConnectionActivity"
@@ -51,7 +54,8 @@
             android:resizeableActivity="false"
             android:supportsPictureInPicture="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="n" />
 
         <activity
             android:name=".DeviceListActivity"
@@ -60,18 +64,20 @@
             android:resizeableActivity="false"
             android:supportsPictureInPicture="false"
             android:theme="@android:style/Theme.Material.Light.Dialog"
-            tools:targetApi="lollipop" />
+            tools:targetApi="n" />
         <activity
             android:name=".SettingsActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:supportsPictureInPicture="false" />
+            android:supportsPictureInPicture="false"
+            tools:targetApi="n" />
 
         <activity
             android:name=".AboutActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:supportsPictureInPicture="false" />
+            android:supportsPictureInPicture="false"
+            tools:targetApi="n" />
 
         <service
             android:name=".service.GrblUsbSerialService"

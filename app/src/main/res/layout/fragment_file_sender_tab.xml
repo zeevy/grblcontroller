@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
@@ -69,7 +70,8 @@
                 android:layout_centerHorizontal="true"
                 android:stretchColumns="*"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="ObsoleteLayoutParam">
 
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
@@ -88,7 +90,8 @@
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -98,7 +101,8 @@
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 
@@ -114,7 +118,8 @@
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -123,7 +128,8 @@
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -132,7 +138,8 @@
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -141,7 +148,8 @@
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 
@@ -152,7 +160,8 @@
                         android:id="@+id/spindle_override_coarse_minus"
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -160,7 +169,8 @@
                         android:id="@+id/spindle_override_fine_minus"
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -169,7 +179,8 @@
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -178,7 +189,8 @@
                         android:layout_weight="0.25"
                         android:layout_width="0dp"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 

@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
@@ -43,7 +44,8 @@
                 android:layout_centerHorizontal="true"
                 android:stretchColumns="*"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="ObsoleteLayoutParam">
 
                 <TableRow>
 
@@ -53,7 +55,8 @@
                         android:tag="$J=%1$sG91X-%2$sY%2$sF%3$s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-up 32dp}"/>
+                        android:text="{fa-caret-up 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -61,7 +64,8 @@
                         android:tag="$J=%sG91Y%sF%s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-up 32dp}"/>
+                        android:text="{fa-caret-up 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <in.co.gorest.grblcontroller.helpers.AngledText45
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -69,7 +73,8 @@
                         android:tag="$J=%1$sG91X%2$sY%2$sF%3$s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-up 32dp}"/>
+                        android:text="{fa-caret-up 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <Space android:layout_weight="0.1" android:layout_gravity="fill" android:layout_width="0dp" />
 
@@ -79,7 +84,8 @@
                         android:tag="$J=%sG91Z%sF%s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-up 32dp}"/>
+                        android:text="{fa-caret-up 32dp}"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 
@@ -91,14 +97,16 @@
                         android:tag="$J=%sG91X-%sF%s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-left 32dp}"/>
+                        android:text="{fa-caret-left 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/run_homing_cycle"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-home 26dp}"/>
+                        android:text="{fa-home 26dp}"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -106,7 +114,8 @@
                         android:tag="$J=%sG91X%sF%s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-right 32dp}"/>
+                        android:text="{fa-caret-right 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <Space android:layout_weight="0.1" android:layout_gravity="fill" android:layout_width="0dp" />
 
@@ -115,7 +124,8 @@
                         android:id="@+id/jog_cancel"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-stop-circle-o 26dp @color/colorPrimary}"/>
+                        android:text="{fa-stop-circle-o 26dp @color/colorPrimary}"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 
@@ -127,7 +137,8 @@
                         android:tag="$J=%1$sG91X-%2$sY-%2$sF%3$s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-down 32dp}"/>
+                        android:text="{fa-caret-down 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -135,7 +146,8 @@
                         android:tag="$J=%sG91Y-%sF%s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-down 32dp}"/>
+                        android:text="{fa-caret-down 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <in.co.gorest.grblcontroller.helpers.AngledText225
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -143,7 +155,8 @@
                         android:tag="$J=%1$sG91X%2$sY-%2$sF%3$s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-down 32dp}"/>
+                        android:text="{fa-caret-down 32dp}"
+                        tools:ignore="HardcodedText" />
 
                     <Space android:layout_weight="0.1" android:layout_gravity="fill" android:layout_width="0dp" />
 
@@ -153,7 +166,8 @@
                         android:tag="$J=%sG91Z-%sF%s"
                         android:layout_weight="0.22"
                         android:layout_width="0dp" android:layout_height="65dp"
-                        android:text="{fa-caret-down 32dp}"/>
+                        android:text="{fa-caret-down 32dp}"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 
@@ -164,7 +178,8 @@
             <TableLayout
                 android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="ObsoleteLayoutParam">
 
                 <TableRow android:id="@+id/reset_zero_layout">
                     <com.joanzapata.iconify.widget.IconButton
@@ -184,7 +199,8 @@
                         android:tag="G10 L20 P0 X0"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/goto_y_zero"
@@ -194,7 +210,8 @@
                         android:tag="G10 L20 P0 Y0"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/goto_z_zero"
@@ -204,7 +221,8 @@
                         android:tag="G10 L20 P0 Z0"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        tools:ignore="HardcodedText" />
                 </TableRow>
 
                 <TableRow android:id="@+id/wpos_layout">
@@ -217,7 +235,8 @@
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -227,7 +246,8 @@
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -237,7 +257,8 @@
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -247,7 +268,8 @@
                         android:layout_weight="0.25"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        tools:ignore="HardcodedText" />
                 </TableRow>
 
                 <TableRow android:id="@+id/custom_button_layout" android:visibility="gone">

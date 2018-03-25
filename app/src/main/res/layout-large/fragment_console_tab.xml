@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable name="console" type="in.co.gorest.grblcontroller.listeners.ConsoleLoggerListener" />
@@ -67,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TableRow>
+                <TableRow tools:ignore="UselessParent">
 
                     <android.support.v7.widget.AppCompatEditText
                         android:id="@+id/command_input"
@@ -92,7 +93,8 @@
                         android:layout_weight="0.3"
                         android:gravity="center"
                         android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 
