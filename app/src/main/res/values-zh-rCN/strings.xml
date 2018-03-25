@@ -59,7 +59,7 @@
     <string name="text_app_share">分享</string>
     <string name="text_app_about">关于</string>
     <string name="text_settings">设置</string>
-    <string name="text_custom_action">自定义按钮 %s</string>
+    <string name="text_custom_action">自定义按钮</string>
     <string name="text_send_custom_command">发送自定义命令</string>
     <string name="text_auto_connect">自动连接</string>
     <string name="text_auto_connect_desc">尝试连接上一次的蓝牙设备</string>
@@ -194,7 +194,7 @@
     <string name="text_axis_to_zero_position">轴归零</string>
     <string name="text_go_to_zero_position">"当前坐标系内该轴回到零点 | G0 "</string>
     <string name="text_save_coordinate_system">保存零点</string>
-    <string name="text_save_coordinate_system_desc">将当前位置保存为坐标系 %s 的零点</string>
+    <string name="text_save_coordinate_system_desc">将当前位置保存为坐标系</string>
     <string name="text_jogging_step_and_feed">微动步数及速度设置</string>
     <string name="text_inches">英寸</string>
 
