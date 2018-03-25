@@ -158,7 +158,6 @@
 
     <string name="text_value_na" translatable="false">NA</string>
     <string name="text_value_empty" translatable="false" />
-    <string name="text_action_settings">Settings</string>
     <string name="text_paired_devices">Choose a paired device</string>
     <string name="text_machine_not_idle">Machine not idle</string>
     <string name="text_no_gcode_file_selected">No gcode file selected</string>
@@ -196,8 +195,6 @@
     <string name="text_last_probe_position">Last probe position</string>
     <string name="text_current_tlo">Current TLO</string>
     <string name="probe_plus_tlo">Probe {fa-plus 14dp} TLO</string>
-    <string name="probe_plus_tlo_large">Probe {fa-plus 24dp} TLO</string>
-
 
     <!-- Jogging Tab -->
 
@@ -268,7 +265,6 @@
     <string name="text_mist_off">Mist {fa-toggle-off 16dp}</string>
     <string name="text_mist_on_large">Mist {fa-toggle-on 24dp @color/colorAccent}</string>
     <string name="text_mist_off_large">Mist {fa-toggle-off 24dp}</string>
-    <string name="text_file_types">File Types:</string>
 
     <!-- Console Tab -->
     <string name="text_clear_console">Clear console messages?</string>
