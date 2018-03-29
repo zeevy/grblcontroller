@@ -75,7 +75,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter == null) {
             grblToast(getString(R.string.text_no_bluetooth_adapter));
-            finish();
+            restartInUsbMode();
         }else{
             Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
@@ -108,7 +108,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                         bluetoothAdapter.enable();
                     }catch (RuntimeException e){
                         EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_bluetooth_permission)));
-                        finish();
+                        restartInUsbMode();
                     }
                 }
             };
@@ -133,6 +133,12 @@ public class BluetoothConnectionActivity extends GrblActivity {
     public void onResume(){
         super.onResume();
         if(grblBluetoothSerialService != null) onBluetoothStateChange(grblBluetoothSerialService.getState());
+    }
+
+    private void restartInUsbMode(){
+        sharedPref.edit().putString(getString(R.string.text_default_connection), Constants.SERIAL_CONNECTION_TYPE_USB_OTG).apply();
+        startActivity(new Intent(this, UsbConnectionActivity.class));
+        finish();
     }
 
     private void connectToDevice(String macAddress){

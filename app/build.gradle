@@ -21,7 +21,7 @@ configurations {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.3'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "in.co.gorest.grblcontroller"
         minSdkVersion 19
