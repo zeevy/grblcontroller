@@ -21,6 +21,7 @@
 
 package in.co.gorest.grblcontroller.listeners;
 
+import android.os.Handler;
 import android.os.Message;
 
 import org.greenrobot.eventbus.EventBus;
@@ -76,15 +77,42 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
 
     }
 
-    private void onBluetoothSerialRead(String message, GrblBluetoothSerialService grblBluetoothSerialService){
+    private void onBluetoothSerialRead(String message, final GrblBluetoothSerialService grblBluetoothSerialService){
 
         boolean isVersionString = onSerialRead(message);
         if(isVersionString){
             GrblBluetoothSerialService.isGrblFound = true;
-            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
-            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
-            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-            grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+
+            Handler handler = new Handler();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
+                }
+            }, 60);
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
+                }
+            }, 120);
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+                }
+            }, 180);
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+                }
+            }, 240);
+
             startGrblStatusUpdateService(grblBluetoothSerialService);
         }
 

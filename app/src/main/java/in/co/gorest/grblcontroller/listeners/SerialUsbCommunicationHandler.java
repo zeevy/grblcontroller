@@ -23,6 +23,7 @@
 
 package in.co.gorest.grblcontroller.listeners;
 
+import android.os.Handler;
 import android.os.Message;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,16 +79,43 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
 
     }
 
-    private void onUsbSerialRead(String message, GrblUsbSerialService grblUsbSerialService){
+    private void onUsbSerialRead(String message, final GrblUsbSerialService grblUsbSerialService){
 
         boolean isVersionString = onSerialRead(message);
 
         if(isVersionString){
             GrblUsbSerialService.isGrblFound = true;
-            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
-            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
-            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-            grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+
+            Handler handler = new Handler();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblUsbSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
+                }
+            }, 60);
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
+                }
+            }, 120);
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+                }
+            }, 180);
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    grblUsbSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+                }
+            }, 240);
+
             startGrblStatusUpdateService(grblUsbSerialService);
         }
     }
