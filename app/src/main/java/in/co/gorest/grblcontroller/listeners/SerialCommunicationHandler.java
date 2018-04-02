@@ -56,6 +56,8 @@ public abstract class SerialCommunicationHandler extends Handler {
     private static GrblLookups GrblAlarms;
     private static GrblLookups GrblSettings;
 
+    private String[] startUpCommands = {GrblUtils.GRBL_BUILD_INFO_COMMAND, GrblUtils.GRBL_VIEW_SETTINGS_COMMAND, GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND, GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND};
+
     public SerialCommunicationHandler(){
 
         machineStatus = MachineStatusListener.getInstance();
@@ -229,6 +231,10 @@ public abstract class SerialCommunicationHandler extends Handler {
             if(!accessoryStatesChanged) machineStatus.setAccessoryStates("");
         }
 
+    }
+
+    public String[] getStartUpCommands(){
+        return this.startUpCommands;
     }
 
     public abstract void handleMessage(Message msg);

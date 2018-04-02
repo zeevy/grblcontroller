@@ -85,33 +85,17 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
 
             Handler handler = new Handler();
 
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_BUILD_INFO_COMMAND);
-                }
-            }, 60);
+            long delayMillis = 60;
+            for(final String startUpCommand: this.getStartUpCommands()){
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        grblBluetoothSerialService.serialWriteString(startUpCommand);
+                    }
+                }, delayMillis);
 
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_SETTINGS_COMMAND);
-                }
-            }, 120);
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-                }
-            }, 180);
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    grblBluetoothSerialService.serialWriteString(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
-                }
-            }, 240);
+                delayMillis = delayMillis + 60;
+            }
 
             startGrblStatusUpdateService(grblBluetoothSerialService);
         }
