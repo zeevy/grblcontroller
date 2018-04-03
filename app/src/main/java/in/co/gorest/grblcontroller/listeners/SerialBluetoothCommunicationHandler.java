@@ -111,7 +111,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
         grblStatusUpdater.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                if(grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_CONNECTED) grblBluetoothSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
+                grblBluetoothSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
             }
         }, Constants.GRBL_STATUS_UPDATE_INTERVAL, Constants.GRBL_STATUS_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
 
