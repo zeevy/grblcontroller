@@ -24,6 +24,7 @@
 package in.co.gorest.grblcontroller.listeners;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import org.greenrobot.eventbus.EventBus;
@@ -86,9 +87,9 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
         if(isVersionString){
             GrblUsbSerialService.isGrblFound = true;
 
-            Handler handler = new Handler();
+            Handler handler = new Handler(Looper.getMainLooper());
 
-            long delayMillis = 60;
+            long delayMillis = Constants.GRBL_STATUS_UPDATE_INTERVAL;
             for(final String startUpCommand: this.getStartUpCommands()){
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -97,7 +98,7 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
                     }
                 }, delayMillis);
 
-                delayMillis = delayMillis + 60;
+                delayMillis = delayMillis + Constants.GRBL_STATUS_UPDATE_INTERVAL;
             }
             startGrblStatusUpdateService(grblUsbSerialService);
         }

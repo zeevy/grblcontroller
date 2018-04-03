@@ -22,6 +22,7 @@
 package in.co.gorest.grblcontroller.listeners;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import org.greenrobot.eventbus.EventBus;
@@ -83,9 +84,9 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
         if(isVersionString){
             GrblBluetoothSerialService.isGrblFound = true;
 
-            Handler handler = new Handler();
+            Handler handler = new Handler(Looper.getMainLooper());
 
-            long delayMillis = 60;
+            long delayMillis = Constants.GRBL_STATUS_UPDATE_INTERVAL;
             for(final String startUpCommand: this.getStartUpCommands()){
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -94,7 +95,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
                     }
                 }, delayMillis);
 
-                delayMillis = delayMillis + 60;
+                delayMillis = delayMillis + Constants.GRBL_STATUS_UPDATE_INTERVAL;
             }
 
             startGrblStatusUpdateService(grblBluetoothSerialService);
