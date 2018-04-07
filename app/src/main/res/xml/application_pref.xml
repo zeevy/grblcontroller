@@ -71,6 +71,15 @@
             android:summary="%s"
             android:defaultValue="1" />
 
+        <ListPreference
+            android:key="@string/preference_gcode_file_picker_type"
+            android:icon="@drawable/ic_folder_open_black_24dp"
+            android:title="@string/text_gcode_file_picker_type"
+            android:defaultValue="simple"
+            android:entries="@array/preference_entries_gcode_file_picker_types"
+            android:entryValues="@array/preference_values_gcode_file_picker_types"
+            android:summary="%s" />
+
         <SwitchPreference
             android:key="@string/preference_enable_custom_buttons"
             android:icon="@drawable/ic_view_module_black_24dp"

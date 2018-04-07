@@ -38,6 +38,7 @@ public interface Constants {
     int PROBE_TYPE_TOOL_OFFSET          = 8;
     int CONNECT_DEVICE_SECURE           = 9;
     int CONNECT_DEVICE_INSECURE         = 10;
+    int FILE_PICKER_REQUEST_CODE        = 11;
 
     int CONSOLE_LOGGER_MAX_SIZE         = 128;
     double DEFAULT_JOGGING_FEED_RATE    = 2400.0;
@@ -46,8 +47,6 @@ public interface Constants {
     int PROBING_FEED_RATE               = 50;
     int PROBING_PLATE_THICKNESS         = 20;
     int PROBING_DISTANCE                = 15;
-
-
 
     String MACHINE_STATUS_IDLE          = "Idle";
     String MACHINE_STATUS_JOG           = "Jog";
@@ -61,6 +60,7 @@ public interface Constants {
     String MACHINE_STATUS_NOT_CONNECTED = "Unknown";
 
     String[] SUPPORTED_FILE_TYPES       = {".tap",".gcode", ".nc", ".ngc"};
+    String SUPPORTED_FILE_TYPES_STRING  = "^.*\\.(tap|gcode|nc|ngc)$";
 
     String JUST_STOP_STREAMING          = "0";
     String STOP_STREAMING_AND_RESET     = "1";
@@ -69,6 +69,9 @@ public interface Constants {
 
     String SERIAL_CONNECTION_TYPE_BLUETOOTH         = "bluetooth";
     String SERIAL_CONNECTION_TYPE_USB_OTG           = "usbotg";
+
+    String GCODE_FILE_PICKER_TYPE_FULL              = "full";
+    String GCODE_FILE_PICKER_TYPE_SIMPLE            = "simple";
 
     int BLUETOOTH_SERVICE_NOTIFICATION_ID           = 100;
     int FILE_STREAMING_NOTIFICATION_ID              = 101;

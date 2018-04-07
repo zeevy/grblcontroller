@@ -43,6 +43,8 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,6 +55,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
@@ -284,6 +287,19 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             }
         }
 
+        if(requestCode == Constants.FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+
+            if(filePath != null){
+                fileSender.setGcodeFile(new File(filePath));
+                if(fileSender.getGcodeFile().exists()){
+                    new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
+                }else{
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found)));
+                }
+            }
+        }
+
     }
 
     @Override
@@ -447,14 +463,28 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     private void getFilePicker(){
 
-        FilePickerBuilder.getInstance().setMaxCount(1)
-                .setActivityTheme(R.style.FilePickerTheme)
-                .addFileSupport(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES), Constants.SUPPORTED_FILE_TYPES)
-                .enableDocSupport(false)
-                .showFolderView(false)
-                .sortDocumentsBy(SortingTypes.name)
-                .pickFile(getActivity());
+        String filePickerType = sharedPref.getString(getString(R.string.preference_gcode_file_picker_type), Constants.GCODE_FILE_PICKER_TYPE_SIMPLE);
 
+        if(filePickerType.equals(Constants.GCODE_FILE_PICKER_TYPE_FULL)){
+
+            new MaterialFilePicker()
+                    .withActivity(getActivity())
+                    .withRequestCode(Constants.FILE_PICKER_REQUEST_CODE)
+                    .withHiddenFiles(false)
+                    .withFilter(Pattern.compile(Constants.SUPPORTED_FILE_TYPES_STRING, Pattern.CASE_INSENSITIVE))
+                    .withTitle(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES))
+                    .start();
+
+        }else{
+
+            FilePickerBuilder.getInstance().setMaxCount(1)
+                    .setActivityTheme(R.style.FilePickerTheme)
+                    .addFileSupport(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES), Constants.SUPPORTED_FILE_TYPES)
+                    .enableDocSupport(false)
+                    .showFolderView(false)
+                    .sortDocumentsBy(SortingTypes.name)
+                    .pickFile(getActivity());
+        }
     }
 
     private Boolean hasExternalStorageReadPermission(){

@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content" />
 
                 <com.joanzapata.iconify.widget.IconTextView
-                    android:enabled="@{(machineStatus.state.equals(machineStatus.STATE_IDLE) || machineStatus.state.equals(machineStatus.STATE_CHECK)) &amp;&amp; fileSender.status.equals(fileSender.STATUS_IDLE)}"
+
                     android:text="{fa-folder-open 24dp}"
                     android:id="@+id/select_gcode_file"
                     android:layout_alignParentEnd="true"

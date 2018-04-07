@@ -118,6 +118,16 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="preference_entries_gcode_file_picker_types">
+        <item>简单的文件选择器</item>
+        <item>完整的文件选择器</item>
+    </string-array>
+
+    <string-array name="preference_values_gcode_file_picker_types">
+        <item>simple</item>
+        <item>full</item>
+    </string-array>
+
     <string name="text_paired_devices">请选择一个蓝牙设备</string>
     <string name="text_machine_not_idle">机器正忙…</string>
     <string name="text_no_gcode_file_selected">未选择gcode文件</string>
@@ -231,5 +241,6 @@
     <string name="text_clear_console_description">这将清除console所有信息</string>
     <string name="text_verbose_output">输出详细信息</string>
     <string name="text_no_confirm">否</string>
+    <string name="text_gcode_file_picker_type">Gcode 文件选择器类型</string>
 
 </resources>
