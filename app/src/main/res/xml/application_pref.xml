@@ -107,6 +107,7 @@
                     android:key="@string/preference_custom_button_one"
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
+                    android:inputType="textCapCharacters"
                     android:title="@string/text_button_label"
                     android:summary="@string/text_button_label_desc"/>
 
@@ -134,7 +135,7 @@
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
                     android:background="@drawable/rounded_border_edit_text"
-                    android:summary="@string/text_long_click_desc"/>
+                    android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
                     android:key="@string/preference_custom_button_one_confirm"
@@ -160,6 +161,7 @@
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
                     android:title="@string/text_button_label"
+                    android:inputType="textCapCharacters"
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
@@ -186,13 +188,14 @@
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
                     android:background="@drawable/rounded_border_edit_text"
-                    android:summary="@string/text_long_click_desc"/>
+                    android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
                     android:key="@string/preference_custom_button_two_confirm"
                     android:defaultValue="true"
                     android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
+
             </PreferenceCategory>
 
         </PreferenceScreen>
@@ -212,6 +215,7 @@
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
                     android:title="@string/text_button_label"
+                    android:inputType="textCapCharacters"
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
@@ -238,7 +242,7 @@
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
                     android:background="@drawable/rounded_border_edit_text"
-                    android:summary="@string/text_long_click_desc"/>
+                    android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
                     android:key="@string/preference_custom_button_three_confirm"
@@ -265,6 +269,7 @@
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
                     android:title="@string/text_button_label"
+                    android:inputType="textCapCharacters"
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
@@ -291,13 +296,14 @@
                     android:padding="8dp"
                     android:hint="@string/text_long_click_desc"
                     android:background="@drawable/rounded_border_edit_text"
-                    android:summary="@string/text_long_click_desc"/>
+                    android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
                     android:key="@string/preference_custom_button_four_confirm"
                     android:defaultValue="true"
                     android:title="@string/text_confirm_first"
-                    android:summary="@string/text_confirm_first_desc"/>
+                    android:summary="@string/text_confirm_first_desc" />
+
             </PreferenceCategory>
         </PreferenceScreen>
 
