@@ -60,7 +60,7 @@
     <string name="preference_enable_haptic_feedback" translatable="false">enable_haptic_feedback</string>
     <string name="preference_xy_jog_pad_rotation" translatable="false">xy_jog_pad_rotation</string>
     <string name="preference_confirm_grbl_soft_reset" translatable="false">confirm_grbl_soft_reset</string>
-    <string name="preference_gcode_file_picker_type" translatable="false">file_picker_type</string>
+    <string name="preference_gcode_file_picker_type" translatable="false">gcode_file_picker_type</string>
 
     <string name="text_yes_confirm">Yes</string>
     <string name="text_no_confirm">No</string>
