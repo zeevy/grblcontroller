@@ -12,12 +12,12 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
-    maven {url 'http://dl.bintray.com/lukaville/maven' }
+    maven { url 'http://dl.bintray.com/lukaville/maven' }
 }
 
 configurations {
-    all*.exclude group: 'com.google.firebase', module: 'firebase-core'
-    all*.exclude group: 'com.google.firebase', module: 'firebase-iid'
+    //all*.exclude group: 'com.google.firebase', module: 'firebase-core'
+    //all*.exclude group: 'com.google.firebase', module: 'firebase-iid'
 }
 
 android {
@@ -54,6 +54,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.firebase:firebase-messaging:12.0.1'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -72,9 +73,13 @@ dependencies {
     implementation 'com.xw.repo:bubbleseekbar:3.14'
     implementation 'com.github.felHR85:UsbSerial:4.5.2'
     implementation 'com.nbsp:library:1.8'
+    implementation 'com.android.volley:volley:1.1.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
 
     testImplementation 'junit:junit:4.12'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true
     }
 }
+
+apply plugin: 'com.google.gms.google-services'

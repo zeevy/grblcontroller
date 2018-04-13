@@ -25,25 +25,68 @@ package in.co.gorest.grblcontroller;
 import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
+import android.text.TextUtils;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 
+import in.co.gorest.grblcontroller.util.GoRestBitmapCache;
 import io.fabric.sdk.android.Fabric;
 
 public class GrblController extends Application {
 
-    private static Context context;
+    private final String TAG = GrblController.class.getSimpleName();
+    private static GrblController grblController;
+    private RequestQueue requestQueue;
+    private ImageLoader imageLoader;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics(), new Answers());
-        context = this;
+        grblController = this;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    public static Context getContext(){
-        return context;
+    public static synchronized GrblController getInstance(){
+        return grblController;
     }
+
+    public RequestQueue getRequestQueue(){
+        if(requestQueue == null) requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        return requestQueue;
+    }
+
+    public ImageLoader getImageLoader(){
+        getRequestQueue();
+        if(imageLoader == null){
+            imageLoader = new ImageLoader(this.requestQueue, new GoRestBitmapCache());
+        }
+
+        return this.imageLoader;
+    }
+
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
+        // set the default tag if tag is empty
+        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+        getRequestQueue().add(req);
+    }
+
+    public <T> void addToRequestQueue(Request<T> req) {
+        req.setTag(TAG);
+        getRequestQueue().add(req);
+    }
+
+    public void cancelPendingRequests(Object tag) {
+        if (requestQueue != null) {
+            requestQueue.cancelAll(tag);
+        }
+    }
+
 
 }

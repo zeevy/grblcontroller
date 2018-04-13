@@ -21,14 +21,19 @@
 
 package in.co.gorest.grblcontroller;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -42,6 +47,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.crashlytics.android.Crashlytics;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
@@ -51,6 +58,7 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import in.co.gorest.grblcontroller.databinding.ActivityMainBinding;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
@@ -67,6 +75,7 @@ import in.co.gorest.grblcontroller.listeners.FileSenderListener;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
+import in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;
 
@@ -75,6 +84,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
+
+    private static final String TAG = GrblActivity.class.getSimpleName();
 
     protected EnhancedSharedPreferences sharedPref;
     protected ConsoleLoggerListener consoleLogger = null;
@@ -91,7 +102,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     private Vibrator vibrator;
     private boolean vibrationEnabled = false;
 
-
     protected final CircularFifoQueue<JogCommandEvent> jogCommandQueue = new CircularFifoQueue<>(1);
 
     @Override
@@ -100,7 +110,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        sharedPref = EnhancedSharedPreferences.getInstance(GrblController.getContext(), getString(R.string.shared_preference_key));
+        sharedPref = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), getString(R.string.shared_preference_key));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -122,6 +132,12 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         Iconify.with(new FontAwesomeModule());
         setupTabLayout(R.id.tab_layout, R.id.tab_layout_pager);
+        checkPowerManagement();
+
+        String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
+        boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
+        if(fcmToken != null && !tokenSent) MyFirebaseInstanceIDService.sendRegistrationToServer(fcmToken);
+
     }
 
     @Override
@@ -139,6 +155,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         FileSenderListener.resetClass();
         MachineStatusListener.resetClass();
         isAppRunning = false;
+
+        GrblController.getInstance().cancelPendingRequests(GrblController.class.getSimpleName());
     }
 
     @Override
@@ -266,6 +284,34 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     public static boolean isTablet(Context context){
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    private void checkPowerManagement(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+
+            if(pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())){
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Warning! battery optimisation is enabled")
+                        .setMessage("For long running jobs, disable android battery optimisation for this application.")
+                        .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    Intent myIntent = new Intent();
+                                    myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                                    startActivity(myIntent);
+                                } catch (RuntimeException e) {
+                                    Crashlytics.logException(e);
+                                }
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.text_cancel), null)
+                        .setCancelable(false)
+                        .show();
+
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

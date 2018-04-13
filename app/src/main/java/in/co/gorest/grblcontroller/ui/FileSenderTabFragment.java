@@ -428,7 +428,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     if(sCurrentLine.length() > 0){
                         lines++;
                         if(sCurrentLine.length() >= 79){
-                            EventBus.getDefault().post(new UiToastEvent(GrblController.getContext().getString(R.string.text_gcode_length_warning) + String.valueOf(lines)));
+                            EventBus.getDefault().post(new UiToastEvent(GrblController.getInstance().getString(R.string.text_gcode_length_warning) + String.valueOf(lines)));
                             initFileSenderListener();
                             FileSenderListener.getInstance().setStatus(FileSenderListener.STATUS_IDLE);
                             cancel(true);

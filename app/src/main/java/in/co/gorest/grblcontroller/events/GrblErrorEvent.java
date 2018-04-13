@@ -50,7 +50,7 @@ public class GrblErrorEvent {
 
     @Override
     public String toString(){
-        return GrblController.getContext().getString(R.string.text_grbl_error_format, errorCode, errorDescription);
+        return GrblController.getInstance().getString(R.string.text_grbl_error_format, errorCode, errorDescription);
     }
 
     public String getMessage(){ return this.message; }

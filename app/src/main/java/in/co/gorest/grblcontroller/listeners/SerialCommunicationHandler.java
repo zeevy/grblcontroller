@@ -61,9 +61,9 @@ public abstract class SerialCommunicationHandler extends Handler {
     public SerialCommunicationHandler(){
 
         machineStatus = MachineStatusListener.getInstance();
-        GrblAlarms = new GrblLookups(GrblController.getContext(), "alarm_codes");
-        GrblErrors = new GrblLookups(GrblController.getContext(), "error_codes");
-        GrblSettings = new GrblLookups(GrblController.getContext(), "setting_codes");
+        GrblAlarms = new GrblLookups(GrblController.getInstance(), "alarm_codes");
+        GrblErrors = new GrblLookups(GrblController.getInstance(), "error_codes");
+        GrblSettings = new GrblLookups(GrblController.getInstance(), "setting_codes");
     }
 
     protected boolean onSerialRead(String message){
@@ -138,7 +138,7 @@ public abstract class SerialCommunicationHandler extends Handler {
                 machineStatus.setBuildInfo(buildInfo);
                 isVersionString = true;
             }else{
-                String messageNotSupported = GrblController.getContext().getString(R.string.text_grbl_unsupported, String.valueOf(Constants.MIN_SUPPORTED_VERSION));
+                String messageNotSupported = GrblController.getInstance().getString(R.string.text_grbl_unsupported, String.valueOf(Constants.MIN_SUPPORTED_VERSION));
                 EventBus.getDefault().post(new UiToastEvent(messageNotSupported));
                 EventBus.getDefault().post(new ConsoleMessageEvent(messageNotSupported));
             }

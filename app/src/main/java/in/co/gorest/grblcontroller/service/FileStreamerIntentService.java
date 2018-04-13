@@ -102,6 +102,7 @@ public class FileStreamerIntentService extends IntentService{
         clearBuffers();
         jobTimer.cancel();
         setIsServiceRunning(false);
+        fileSenderListener.setStatus(FileSenderListener.STATUS_IDLE);
         stopForeground(true);
         EventBus.getDefault().unregister(this);
     }

@@ -93,9 +93,22 @@
             android:name=".service.FileStreamerIntentService"
             android:exported="false" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="6d7003aa8ac3717a95dc5c77c2da4bf5ad8c74ff" />
+        <service
+            android:name=".service.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <meta-data android:name="io.fabric.ApiKey" android:value="6d7003aa8ac3717a95dc5c77c2da4bf5ad8c74ff" />
+        <meta-data android:name="firebase_analytics_collection_deactivated" android:value="true" />
 
     </application>
 

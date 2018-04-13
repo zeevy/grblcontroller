@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EnhancedSharedPreferences sharedPref = EnhancedSharedPreferences.getInstance(GrblController.getContext(), getString(R.string.shared_preference_key));
+        EnhancedSharedPreferences sharedPref = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), getString(R.string.shared_preference_key));
 
         String defaultConnection = sharedPref.getString(getString(R.string.preference_default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
 

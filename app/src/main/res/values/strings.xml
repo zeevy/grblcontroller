@@ -61,6 +61,9 @@
     <string name="preference_xy_jog_pad_rotation" translatable="false">xy_jog_pad_rotation</string>
     <string name="preference_confirm_grbl_soft_reset" translatable="false">confirm_grbl_soft_reset</string>
     <string name="preference_gcode_file_picker_type" translatable="false">gcode_file_picker_type</string>
+    <string name="preference_ignore_error_20" translatable="false">preference_ignore_error_20</string>
+    <string name="firebase_cloud_messaging_token" translatable="false">firebase_cloud_messaging_token</string>
+    <string name="firebase_cloud_messaging_token_sent" translatable="false">firebase_cloud_messaging_token_sent</string>
 
     <string name="text_yes_confirm">Yes</string>
     <string name="text_no_confirm">No</string>
@@ -136,6 +139,8 @@
     <string name="text_check_machine_position_description">prevents file streaming, if machine is not at zero position</string>
     <string name="text_haptic_feedback">Haptic feedback</string>
     <string name="text_haptic_feedback_description">enables short vibration when buttons are touched</string>
+    <string name="text_ignore_error_20">Ignore error 20</string>
+    <string name="text_ignore_error_20_desc">continue streaming on error invalid command found</string>
 
     <string-array name="preference_entries_default_connection">
         <item>Bluetooth</item>

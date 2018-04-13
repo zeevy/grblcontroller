@@ -50,7 +50,7 @@ public class GrblAlarmEvent {
 
     @Override
     public String toString(){
-        return GrblController.getContext().getString(R.string.text_grbl_alarm_format, alarmCode, alarmDescription);
+        return GrblController.getInstance().getString(R.string.text_grbl_alarm_format, alarmCode, alarmDescription);
     }
 
     public String getMessage(){ return this.message; }

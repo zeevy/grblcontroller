@@ -33,6 +33,7 @@
     </style>
 
     <style name="PickerTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@color/colorWhite</item>
         <item name="tabGravity">fill</item>
         <item name="tabMaxWidth">0dp</item>
     </style>
