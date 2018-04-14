@@ -67,7 +67,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         JSONObject fcmToken = new JSONObject();
         try {
-            fcmToken.put("app_name", "Grbl Controller");
+            fcmToken.put("app_name", BuildConfig.APPLICATION_ID);
             fcmToken.put("app_version", String.valueOf(BuildConfig.VERSION_CODE));
             fcmToken.put("token", refreshedToken);
             fcmToken.put("device_name", Build.MODEL);

@@ -74,6 +74,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 String notificationChannel = remoteMessage.getData().get(KEY_CHANNEL_TYPE);
 
+                if(notificationChannel == null) return;
+
                 if(notificationChannel.equalsIgnoreCase(NotificationHelper.CHANNEL_BUG_TRACKER_NAME)){
                     notificationBugTracker(remoteMessage);
                 }
