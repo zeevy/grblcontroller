@@ -16,8 +16,8 @@ repositories {
 }
 
 configurations {
-    //all*.exclude group: 'com.google.firebase', module: 'firebase-core'
-    //all*.exclude group: 'com.google.firebase', module: 'firebase-iid'
+//    all*.exclude group: 'com.google.firebase', module: 'firebase-core'
+//    all*.exclude group: 'com.google.firebase', module: 'firebase-iid'
 }
 
 android {
@@ -27,8 +27,8 @@ android {
         applicationId "in.co.gorest.grblcontroller"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 18
-        versionName "2.1.6"
+        versionCode 19
+        versionName "2.2.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
