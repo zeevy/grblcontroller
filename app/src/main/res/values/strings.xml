@@ -64,6 +64,7 @@
     <string name="preference_ignore_error_20" translatable="false">preference_ignore_error_20</string>
     <string name="firebase_cloud_messaging_token" translatable="false">firebase_cloud_messaging_token</string>
     <string name="firebase_cloud_messaging_token_sent" translatable="false">firebase_cloud_messaging_token_sent</string>
+    <string name="default_notification_channel_id" translatable="false">General</string>
 
     <string name="text_yes_confirm">Yes</string>
     <string name="text_no_confirm">No</string>
@@ -141,6 +142,7 @@
     <string name="text_haptic_feedback_description">enables short vibration when buttons are touched</string>
     <string name="text_ignore_error_20">Ignore error 20</string>
     <string name="text_ignore_error_20_desc">continue streaming on error invalid command found</string>
+    <string name="text_only_internal_storage_supported">Only internal storage is supported</string>
 
     <string-array name="preference_entries_default_connection">
         <item>Bluetooth</item>

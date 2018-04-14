@@ -32,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ import in.co.gorest.grblcontroller.BuildConfig;
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
+import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
@@ -53,6 +55,10 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), getString(R.string.shared_preference_key));
         sharedPreferences.edit().putString(getString(R.string.firebase_cloud_messaging_token), refreshedToken).apply();
+
+        FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_GENERAL_NAME);
+        FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_BUG_TRACKER_NAME);
+        FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_SERVICE_NAME);
 
         sendRegistrationToServer(refreshedToken);
     }
@@ -92,6 +98,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
                 }
         });
+
+        jsObjRequest.setShouldCache(false);
 
         GrblController.getInstance().addToRequestQueue(jsObjRequest);
     }

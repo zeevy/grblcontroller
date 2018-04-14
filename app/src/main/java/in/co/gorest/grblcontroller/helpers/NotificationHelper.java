@@ -31,6 +31,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.support.v4.app.NotificationCompat;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import in.co.gorest.grblcontroller.R;
 
 public class NotificationHelper extends ContextWrapper {
@@ -56,7 +58,6 @@ public class NotificationHelper extends ContextWrapper {
     public void createChannels(){
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
             NotificationChannel mChannelOne = new NotificationChannel(CHANNEL_GENERAL_ID, CHANNEL_GENERAL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             mChannelOne.setDescription(CHANNEL_GENERAL_ABOUT);
             mChannelOne.enableLights(false);
@@ -83,9 +84,6 @@ public class NotificationHelper extends ContextWrapper {
             mChannelThree.setSound(null, null);
             getNotificationManager().createNotificationChannel(mChannelThree);
         }
-
-
-
     }
 
     public void getNotificationGeneral(String title, String message, PendingIntent pendingIntent){

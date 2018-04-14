@@ -45,6 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String KEY_CHANNEL_TYPE            = "type";
     private static final String KEY_CATEGORY_NAME           = "category_name";
     private static final String KEY_CATEGORY_VALUE          = "category_value";
+    private static final String KEY_DATA_PLAYLOAD           = "playload";
 
     private static final String TEXT_CATEGORY_UPDATE        = "update";
     private static final String TEXT_CATEGORY_LINK          = "link";
