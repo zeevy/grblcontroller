@@ -23,25 +23,21 @@
 
 package in.co.gorest.grblcontroller.service;
 
-import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.JsonObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import in.co.gorest.grblcontroller.BuildConfig;
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
+import in.co.gorest.grblcontroller.model.FcmToken;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
@@ -65,43 +61,26 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     public static void sendRegistrationToServer(final String refreshedToken){
 
-        JSONObject fcmToken = new JSONObject();
-        try {
-            fcmToken.put("app_name", BuildConfig.APPLICATION_ID);
-            fcmToken.put("app_version", String.valueOf(BuildConfig.VERSION_CODE));
-            fcmToken.put("token", refreshedToken);
-            fcmToken.put("device_name", Build.MODEL);
-            fcmToken.put("os_version", Build.VERSION.RELEASE);
-        } catch (JSONException e) {
-            return;
-        }
+        Log.d(TAG, refreshedToken);
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, "https://gorest.co.in/fcm-registration.html", fcmToken,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        boolean isSuccess = response.getBoolean("success");
-                        if(isSuccess){
-                            EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), GrblController.getInstance().getString(R.string.shared_preference_key));
-                            sharedPreferences.edit().putBoolean(GrblController.getInstance().getString(R.string.firebase_cloud_messaging_token_sent), true).apply();
-                        }
-                    } catch (JSONException e) {
-                        return;
+        GrblController.getInstance().getRetrofit().postFcmToken(new FcmToken(refreshedToken)).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+                if(response.isSuccessful()){
+                    Boolean isSaved = response.body().get("success").getAsBoolean();
+                    if(isSaved){
+                        EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), GrblController.getInstance().getString(R.string.shared_preference_key));
+                        sharedPreferences.edit().putBoolean(GrblController.getInstance().getString(R.string.firebase_cloud_messaging_token_sent), true).apply();
                     }
                 }
-            },
+            }
 
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable throwable) {
 
-                }
+            }
         });
 
-        jsObjRequest.setShouldCache(false);
-
-        GrblController.getInstance().addToRequestQueue(jsObjRequest);
     }
 
 }

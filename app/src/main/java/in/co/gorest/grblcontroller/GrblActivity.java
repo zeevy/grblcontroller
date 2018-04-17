@@ -47,8 +47,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.crashlytics.android.Crashlytics;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
@@ -58,7 +56,6 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
 
 import in.co.gorest.grblcontroller.databinding.ActivityMainBinding;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
@@ -155,8 +152,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         FileSenderListener.resetClass();
         MachineStatusListener.resetClass();
         isAppRunning = false;
-
-        GrblController.getInstance().cancelPendingRequests(GrblController.class.getSimpleName());
     }
 
     @Override

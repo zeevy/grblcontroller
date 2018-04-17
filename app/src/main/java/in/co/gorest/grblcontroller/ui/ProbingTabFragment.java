@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,8 @@ import com.joanzapata.iconify.widget.IconButton;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Objects;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentProbingTabBinding;
@@ -73,7 +76,7 @@ public class ProbingTabFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         machineStatus = MachineStatusListener.getInstance();
-        sharedPref = EnhancedSharedPreferences.getInstance(getActivity().getApplicationContext(), getString(R.string.shared_preference_key));
+        sharedPref = EnhancedSharedPreferences.getInstance(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.shared_preference_key));
         EventBus.getDefault().register(this);
     }
 
@@ -84,7 +87,7 @@ public class ProbingTabFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         FragmentProbingTabBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_probing_tab, container, false);
         binding.setMachineStatus(machineStatus);

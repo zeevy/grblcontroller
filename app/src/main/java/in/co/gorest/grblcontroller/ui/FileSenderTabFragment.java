@@ -34,6 +34,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import droidninja.filepicker.FilePickerBuilder;
@@ -93,7 +95,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         super.onCreate(savedInstanceState);
         machineStatus = MachineStatusListener.getInstance();
         fileSender = FileSenderListener.getInstance();
-        sharedPref = EnhancedSharedPreferences.getInstance(getActivity().getApplicationContext(), getString(R.string.shared_preference_key));
+        sharedPref = EnhancedSharedPreferences.getInstance(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.shared_preference_key));
     }
 
     @Override
@@ -109,7 +111,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         FragmentFileSenderTabBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_file_sender_tab, container, false);
         binding.setMachineStatus(machineStatus);
@@ -198,7 +200,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             if(machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
 
                 FileStreamerIntentService.setShouldContinue(true);
-                Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
+                Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), FileStreamerIntentService.class);
                 intent.putExtra(FileStreamerIntentService.CHECK_MODE_ENABLED, machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK));
 
                 String defaultConnection = sharedPref.getString(getString(R.string.preference_default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH);
@@ -223,7 +225,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                         .setPositiveButton(getString(R.string.text_continue_streaming), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 FileStreamerIntentService.setShouldContinue(true);
-                                Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
+                                Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), FileStreamerIntentService.class);
                                 if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
                                     getActivity().getApplicationContext().startForegroundService(intent);
                                 }else{
@@ -248,7 +250,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             FileStreamerIntentService.setShouldContinue(false);
         }
 
-        Intent intent = new Intent(getActivity().getApplicationContext(), FileStreamerIntentService.class);
+        Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), FileStreamerIntentService.class);
         getActivity().stopService(intent);
 
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_HOLD)){
@@ -276,7 +278,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 if(fileSender.getGcodeFile().exists()){
                     new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
                 }else{
-                    MediaScannerConnection.scanFile(getActivity().getApplicationContext(), new String[] { fileSender.getGcodeFile().getAbsolutePath() }, null,
+                    MediaScannerConnection.scanFile(Objects.requireNonNull(getActivity()).getApplicationContext(), new String[] { fileSender.getGcodeFile().getAbsolutePath() }, null,
                             new MediaScannerConnection.OnScanCompletedListener() {
                                 public void onScanCompleted(String path, Uri uri) {}
                             }
@@ -483,14 +485,14 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     .enableDocSupport(false)
                     .showFolderView(false)
                     .sortDocumentsBy(SortingTypes.name)
-                    .pickFile(getActivity());
+                    .pickFile(Objects.requireNonNull(getActivity()));
         }
     }
 
     private Boolean hasExternalStorageReadPermission(){
         Boolean hasPermission = true;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if(Objects.requireNonNull(getActivity()).checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 hasPermission = false;
             }
         }
@@ -506,7 +508,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 

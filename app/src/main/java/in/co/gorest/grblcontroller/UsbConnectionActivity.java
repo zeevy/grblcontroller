@@ -203,7 +203,14 @@ public class UsbConnectionActivity extends GrblActivity{
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()) {
+
+            String intentAction = intent.getAction();
+            if(intentAction == null){
+                grblToast("Unknown error");
+                return;
+            }
+
+            switch (intentAction) {
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connected));
 

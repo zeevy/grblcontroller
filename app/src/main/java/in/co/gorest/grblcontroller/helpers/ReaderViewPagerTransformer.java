@@ -21,6 +21,7 @@
 
 package in.co.gorest.grblcontroller.helpers;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -39,7 +40,7 @@ public class ReaderViewPagerTransformer implements ViewPager.PageTransformer{
     private static final float SCALE_FACTOR_SLIDE = 0.85f;
     private static final float MIN_ALPHA_SLIDE = 0.35f;
 
-    public void transformPage(View page, float position) {
+    public void transformPage(@NonNull View page, float position) {
         final float alpha;
         final float scale;
         final float translationX;

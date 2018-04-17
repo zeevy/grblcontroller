@@ -72,6 +72,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.GrblRealTimeCommandEvent;
@@ -250,8 +251,8 @@ public class GrblUsbSerialService extends Service {
     private final BroadcastReceiver usbReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context arg0, Intent arg1){
-            if(arg1.getAction().equals(ACTION_USB_PERMISSION)){
-                boolean granted = arg1.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+            if(Objects.equals(arg1.getAction(), ACTION_USB_PERMISSION)){
+                boolean granted = Objects.requireNonNull(arg1.getExtras()).getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
                 if(granted){
                     Intent intent = new Intent(ACTION_USB_PERMISSION_GRANTED);
                     arg0.sendBroadcast(intent);
@@ -261,9 +262,9 @@ public class GrblUsbSerialService extends Service {
                     Intent intent = new Intent(ACTION_USB_PERMISSION_NOT_GRANTED);
                     arg0.sendBroadcast(intent);
                 }
-            }else if(arg1.getAction().equals(ACTION_USB_ATTACHED)) {
+            }else if(Objects.equals(arg1.getAction(), ACTION_USB_ATTACHED)) {
                 if(!serialPortConnected) findSerialPortDevice();
-            } else if (arg1.getAction().equals(ACTION_USB_DETACHED)) {
+            } else if (Objects.equals(arg1.getAction(), ACTION_USB_DETACHED)) {
                 Intent intent = new Intent(ACTION_USB_DISCONNECTED);
                 arg0.sendBroadcast(intent);
                 serialUsbCommunicationHandler.stopGrblStatusUpdateService();
@@ -315,7 +316,7 @@ public class GrblUsbSerialService extends Service {
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(ACTION_USB_DETACHED);
         filter.addAction(ACTION_USB_ATTACHED);
-        if(usbReceiver != null) registerReceiver(usbReceiver, filter);
+        registerReceiver(usbReceiver, filter);
     }
 
     /*

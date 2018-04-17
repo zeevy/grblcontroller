@@ -86,7 +86,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             }catch (Exception e){
                 Crashlytics.logException(e);
-                Log.d(TAG, e.getMessage());;
+                Log.d(TAG, e.getMessage());
             }
         }
 

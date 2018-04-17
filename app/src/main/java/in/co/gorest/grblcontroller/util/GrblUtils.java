@@ -88,7 +88,7 @@ public class GrblUtils {
         return retValue;
     }
 
-    private static final Pattern TLO_PATTERN = Pattern.compile("^\\[TLO:(.*)\\]$");
+    private static final Pattern TLO_PATTERN = Pattern.compile("^\\[TLO:(.*)]$");
     public static boolean isGrblToolLengthOffsetMessage(final String response){
         return TLO_PATTERN.matcher(response).find();
     }
@@ -98,7 +98,7 @@ public class GrblUtils {
         return matcher.find() ? Double.valueOf(matcher.group(1)) : 0.0;
     }
 
-    private static final String PROBE_REGEX = "^\\[PRB:(.*)\\]$";
+    private static final String PROBE_REGEX = "^\\[PRB:(.*)]$";
     private static final Pattern PROBE_PATTERN = Pattern.compile(PROBE_REGEX);
     public static boolean isGrblProbeMessage(final String response) {
         return PROBE_PATTERN.matcher(response).find();
@@ -109,19 +109,19 @@ public class GrblUtils {
         return matcher.find() ? matcher.group(1) : null;
     }
 
-    private static final String STATUS_REGEX = "^\\<.*\\>$";
+    private static final String STATUS_REGEX = "^<.*>$";
     private static final Pattern STATUS_PATTERN = Pattern.compile(STATUS_REGEX);
     public static boolean isGrblStatusString(final String response) {
         return STATUS_PATTERN.matcher(response).find();
     }
 
-    private static final String FEEDBACK_REGEX = "^\\[MSG:.*\\]$";
+    private static final String FEEDBACK_REGEX = "^\\[MSG:.*]$";
     private static final Pattern FEEDBACK_PATTERN = Pattern.compile(FEEDBACK_REGEX);
     public static boolean isGrblFeedbackMessage(final String response) {
         return FEEDBACK_PATTERN.matcher(response).find();
     }
 
-    private static final String BUILD_OPTIONS_REGEX = "^\\[OPT:(.*)\\]$";
+    private static final String BUILD_OPTIONS_REGEX = "^\\[OPT:(.*)]$";
     private static final Pattern BUILD_OPTIONS_PATTERN = Pattern.compile(BUILD_OPTIONS_REGEX);
     public static boolean isBuildOptionsMessage(final String response) {
         return BUILD_OPTIONS_PATTERN.matcher(response).find();
@@ -132,7 +132,7 @@ public class GrblUtils {
         return matcher.find() ? matcher.group(1) : "";
     }
 
-    private static final String PARSER_STATE_REGEX = "^\\[GC:(.*)\\]$";
+    private static final String PARSER_STATE_REGEX = "^\\[GC:(.*)]$";
     private static final Pattern PARSER_STATE_PATTERN = Pattern.compile(PARSER_STATE_REGEX);
     public static boolean isParserStateMessage(final String response){
         return PARSER_STATE_PATTERN.matcher(response).find();
@@ -162,8 +162,8 @@ public class GrblUtils {
     }
 
     public static final Pattern machinePattern = Pattern.compile("(?<=MPos:)(-?\\d*\\..\\d*),(-?\\d*\\..\\d*),(-?\\d*\\..\\d*)");
-    public static final Pattern workPattern = Pattern.compile("(?<=WPos:)(\\-?\\d*\\..\\d*),(\\-?\\d*\\..\\d*),(\\-?\\d*\\..\\d*)");
-    public static final Pattern wcoPattern = Pattern.compile("(?<=WCO:)(\\-?\\d*\\..\\d*),(\\-?\\d*\\..\\d*),(\\-?\\d*\\..\\d*)");
+    public static final Pattern workPattern = Pattern.compile("(?<=WPos:)(-?\\d*\\..\\d*),(-?\\d*\\..\\d*),(-?\\d*\\..\\d*)");
+    public static final Pattern wcoPattern = Pattern.compile("(?<=WCO:)(-?\\d*\\..\\d*),(-?\\d*\\..\\d*),(-?\\d*\\..\\d*)");
     public static Position getPositionFromStatusString(final String status, final Pattern pattern) {
         Matcher matcher = pattern.matcher(status);
         if (matcher.find()) {

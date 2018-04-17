@@ -37,6 +37,7 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.IconDrawable;
@@ -47,6 +48,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
 import in.co.gorest.grblcontroller.events.GrblSettingMessageEvent;
@@ -259,7 +261,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
         private final WeakReference<BluetoothConnectionActivity> mActivity;
 
-        public GrblServiceMessageHandler(BluetoothConnectionActivity activity){
+        GrblServiceMessageHandler(BluetoothConnectionActivity activity){
             mActivity = new WeakReference<>(activity);
         }
 
@@ -360,10 +362,15 @@ public class BluetoothConnectionActivity extends GrblActivity {
             case Constants.CONNECT_DEVICE_INSECURE:
                 if(resultCode == Activity.RESULT_OK){
 
-                    String macAddress = data.getExtras().getString(DeviceListActivity . EXTRA_DEVICE_ADDRESS);
-                    if(grblBluetoothSerialService != null && bluetoothAdapter.isEnabled()){
-                        sharedPref.edit().putString(getString(R.string.preference_last_connected_device), macAddress).apply();
-                        connectToDevice(macAddress);
+                    try{
+                        String macAddress = Objects.requireNonNull(data.getExtras()).getString(DeviceListActivity . EXTRA_DEVICE_ADDRESS);
+                        if(grblBluetoothSerialService != null && bluetoothAdapter.isEnabled()){
+                            sharedPref.edit().putString(getString(R.string.preference_last_connected_device), macAddress).apply();
+                            connectToDevice(macAddress);
+                        }
+
+                    }catch (NullPointerException e){
+                        Crashlytics.logException(e);
                     }
                 }
         }

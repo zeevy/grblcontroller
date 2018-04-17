@@ -32,7 +32,7 @@ public class GrblSettingMessageEvent {
 
     private final GrblLookups lookups;
     private final String message;
-    private final static Pattern MESSAGE_REGEX = Pattern.compile("(\\$\\d+)=([^ ]*)\\s?\\(?([^\\)]*)?\\)?");
+    private final static Pattern MESSAGE_REGEX = Pattern.compile("(\\$\\d+)=([^ ]*)\\s?\\(?([^)]*)?\\)?");
 
     private String setting;
     private String value;

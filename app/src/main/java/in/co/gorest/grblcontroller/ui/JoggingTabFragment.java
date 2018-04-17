@@ -21,12 +21,14 @@
 
 package in.co.gorest.grblcontroller.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +50,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -80,14 +83,20 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         machineStatus = MachineStatusListener.getInstance();
-        sharedPref = EnhancedSharedPreferences.getInstance(getActivity().getApplicationContext(), getString(R.string.shared_preference_key));
+        sharedPref = EnhancedSharedPreferences.getInstance(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.shared_preference_key));
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        SetCustomButtons(getView());
+        SetCustomButtons(Objects.requireNonNull(getView()));
+
+        if(sharedPref.getBoolean(getString(R.string.preference_enable_additional_axis), false)){
+            getView().findViewById(R.id.additional_axis_layout).setVisibility(View.VISIBLE);
+        }else{
+            getView().findViewById(R.id.additional_axis_layout).setVisibility(View.GONE);
+        }
 
         String joggingPadRotateAngle = sharedPref.getString(getString(R.string.preference_xy_jog_pad_rotation), "0");
         String[] joggingPadTags = rotateJogPad(Integer.valueOf(joggingPadRotateAngle));
@@ -106,8 +115,9 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         EventBus.getDefault().unregister(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentJoggingTabBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_jogging_tab, container, false);
         binding.setMachineStatus(machineStatus);
         View view = binding.getRoot();
@@ -117,6 +127,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         for(int resourceId : new Integer[]{R.id.jog_y_positive, R.id.jog_x_positive, R.id.jog_z_positive,
                 R.id.jog_xy_top_left, R.id.jog_xy_top_right, R.id.jog_xy_bottom_left, R.id.jog_xy_bottom_right,
+                R.id.jog_a_positive, R.id.jog_a_negative, R.id.jog_b_positive, R.id.jog_b_negative,
                 R.id.jog_y_negative, R.id.jog_x_negative, R.id.jog_z_negative}){
 
             final IconButton iconButton = view.findViewById(resourceId);

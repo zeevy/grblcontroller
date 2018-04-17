@@ -81,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             if(key.equalsIgnoreCase(getString(R.string.preference_gcode_file_picker_type))){
                 String value = sharedPreferences.getString(key, "");
-                if(value != null && value.equalsIgnoreCase("full")){
+                if(value.equalsIgnoreCase("full")){
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_only_internal_storage_supported)));
                 }
             }

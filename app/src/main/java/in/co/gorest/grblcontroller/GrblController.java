@@ -23,33 +23,38 @@ package in.co.gorest.grblcontroller;
 
 
 import android.app.Application;
-import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
-import android.text.TextUtils;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.core.CrashlyticsCore;
 
-import in.co.gorest.grblcontroller.util.GoRestBitmapCache;
+import in.co.gorest.grblcontroller.network.GoRestService;
 import io.fabric.sdk.android.Fabric;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GrblController extends Application {
 
     private final String TAG = GrblController.class.getSimpleName();
     private static GrblController grblController;
-    private RequestQueue requestQueue;
-    private ImageLoader imageLoader;
+    private GoRestService goRestService;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics(), new Answers());
+
+        configureCrashReporting();
+
         grblController = this;
+
+//        Picasso.Builder builder = new Picasso.Builder(this);
+//        builder.downloader(new OkHttp3Downloader(this, Integer.MAX_VALUE));
+//        Picasso picasso = builder.build();
+//        picasso.setIndicatorsEnabled(BuildConfig.DEBUG);
+//        picasso.setLoggingEnabled(BuildConfig.DEBUG);
+//        Picasso.setSingletonInstance(picasso);
+
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
@@ -57,37 +62,22 @@ public class GrblController extends Application {
         return grblController;
     }
 
-    public RequestQueue getRequestQueue(){
-        if(requestQueue == null) requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-        return requestQueue;
+    private void configureCrashReporting(){
+        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
+        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build(), new Answers());
     }
 
-    public ImageLoader getImageLoader(){
-        getRequestQueue();
-        if(imageLoader == null){
-            imageLoader = new ImageLoader(this.requestQueue, new GoRestBitmapCache());
+    public GoRestService getRetrofit(){
+        if(goRestService == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://gorest.co.in")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            goRestService = retrofit.create(GoRestService.class);
         }
 
-        return this.imageLoader;
+        return goRestService;
     }
-
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        // set the default tag if tag is empty
-        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue().add(req);
-    }
-
-    public <T> void addToRequestQueue(Request<T> req) {
-        req.setTag(TAG);
-        getRequestQueue().add(req);
-    }
-
-    public void cancelPendingRequests(Object tag) {
-        if (requestQueue != null) {
-            requestQueue.cancelAll(tag);
-        }
-    }
-
 
 }

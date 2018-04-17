@@ -81,8 +81,15 @@
             android:summary="%s" />
 
         <SwitchPreference
-            android:key="@string/preference_enable_custom_buttons"
+            android:key="@string/preference_enable_additional_axis"
             android:icon="@drawable/ic_view_module_black_24dp"
+            android:title="@string/text_enable_ab_axis"
+            android:defaultValue="false"
+            android:summary="@string/enable_ab_axis_description" />
+
+        <SwitchPreference
+            android:key="@string/preference_enable_custom_buttons"
+            android:icon="@drawable/ic_keyboard_black_24dp"
             android:title="@string/text_enable_custom_buttons"
             android:defaultValue="false"
             android:summary="@string/text_enable_custom_buttons_desc" />
