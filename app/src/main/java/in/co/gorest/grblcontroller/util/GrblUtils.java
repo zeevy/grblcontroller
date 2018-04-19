@@ -58,8 +58,12 @@ public class GrblUtils {
     private static final String GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS = "G53 G0 Z0";
 
     public static Boolean isGrblVersionString(final String response) {
-        Boolean version = response.startsWith("Grbl ");
+        Boolean version = response.toLowerCase().startsWith("grbl ");
         return version && (getVersionDouble(response) != -1);
+    }
+
+    public static Boolean isSmoothieBoard(final String response){
+        return response.toLowerCase().startsWith("Smoothie");
     }
 
     private final static String VERSION_DOUBLE_REGEX = "[0-9]*\\.[0-9]*";
