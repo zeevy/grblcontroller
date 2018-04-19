@@ -63,7 +63,7 @@ public class GrblUtils {
     }
 
     public static Boolean isSmoothieBoard(final String response){
-        return response.toLowerCase().startsWith("Smoothie");
+        return response.toLowerCase().startsWith("smoothie");
     }
 
     private final static String VERSION_DOUBLE_REGEX = "[0-9]*\\.[0-9]*";
