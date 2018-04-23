@@ -178,7 +178,8 @@ public class GrblUtils {
 
     public static ArrayList<String> getReturnToHomeCommands(Position currentPosition){
         ArrayList<String> commands = new ArrayList<>();
-        if(currentPosition.getCordZ() != 0) commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS);
+        //if(currentPosition.getCordZ() != 0) commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS);
+        commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS);
         commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_XY);
         commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_Z0);
 
