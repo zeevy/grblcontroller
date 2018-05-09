@@ -22,10 +22,14 @@
 package in.co.gorest.grblcontroller.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -36,6 +40,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.joanzapata.iconify.widget.IconButton;
+
+import org.apache.commons.collections4.queue.CircularFifoQueue;
+
+import java.util.Objects;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentConsoleTabBinding;
@@ -125,5 +133,6 @@ public class ConsoleTabFragment extends BaseFragment {
 
         return view;
     }
+
 
 }

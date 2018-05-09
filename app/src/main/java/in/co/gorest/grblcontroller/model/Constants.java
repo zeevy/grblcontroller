@@ -25,7 +25,7 @@ public interface Constants {
 
     double MIN_SUPPORTED_VERSION        = 1.1;
 
-    long GRBL_STATUS_UPDATE_INTERVAL    = 200;
+    long GRBL_STATUS_UPDATE_INTERVAL    = 150;
 
     // Message types sent from the BluetoothService Handler
     int MESSAGE_STATE_CHANGE            = 1;

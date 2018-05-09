@@ -270,21 +270,13 @@ public class UsbConnectionActivity extends GrblActivity{
 
     @Override
     public void onGrblRealTimeCommandReceived(byte command) {
-        switch(command){
-            case GrblUtils.GRBL_JOG_CANCEL_COMMAND:
-                jogCommandQueue.clear();
-                break;
-        }
-
         if(grblUsbSerialService != null) grblUsbSerialService.serialWriteByte(command);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJogCommandEvent(JogCommandEvent event){
-        Log.d(TAG, event.getCommand());
-        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG) && jogCommandQueue.size() == 0){
-            jogCommandQueue.offer(event);
-            onGcodeCommandReceived(event.getCommand());
+        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
+            if(machineStatus.getPlannerBuffer() > 5) onGcodeCommandReceived(event.getCommand());
         }
     }
 

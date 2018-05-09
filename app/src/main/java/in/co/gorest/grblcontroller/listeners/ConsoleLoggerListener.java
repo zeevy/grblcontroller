@@ -24,6 +24,7 @@ package in.co.gorest.grblcontroller.listeners;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.widget.ArrayAdapter;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 
@@ -32,6 +33,7 @@ import in.co.gorest.grblcontroller.model.Constants;
 
 public class ConsoleLoggerListener extends BaseObservable{
 
+    @Bindable
     private final CircularFifoQueue<String> loggedMessagesQueue;
 
     private static ConsoleLoggerListener consoleLoggerListener = null;
@@ -46,6 +48,11 @@ public class ConsoleLoggerListener extends BaseObservable{
 
     private ConsoleLoggerListener(){
         loggedMessagesQueue = new CircularFifoQueue<>(Constants.CONSOLE_LOGGER_MAX_SIZE);
+    }
+
+    @Bindable
+    public String[] getLoggedMessagesQueue(){
+        return loggedMessagesQueue.toArray(new String[loggedMessagesQueue.size()]);
     }
 
     @Bindable
@@ -64,5 +71,8 @@ public class ConsoleLoggerListener extends BaseObservable{
         this.loggedMessagesQueue.clear();
         notifyPropertyChanged(BR.messages);
     }
+
+
+
 
 }

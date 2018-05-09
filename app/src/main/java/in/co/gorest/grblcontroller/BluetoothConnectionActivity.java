@@ -312,21 +312,14 @@ public class BluetoothConnectionActivity extends GrblActivity {
     }
 
     public void onGrblRealTimeCommandReceived(byte command) {
-        switch(command){
-            case GrblUtils.GRBL_JOG_CANCEL_COMMAND:
-                jogCommandQueue.clear();
-                break;
-        }
-
         if(grblBluetoothSerialService != null) grblBluetoothSerialService.serialWriteByte(command);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJogCommandEvent(JogCommandEvent event){
-        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG) && jogCommandQueue.size() == 0){
-            jogCommandQueue.offer(event);
-            onGcodeCommandReceived(event.getCommand());
+        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
+            if(machineStatus.getPlannerBuffer() > 5) onGcodeCommandReceived(event.getCommand());
         }
     }
 

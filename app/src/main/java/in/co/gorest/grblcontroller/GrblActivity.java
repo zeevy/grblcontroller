@@ -99,8 +99,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     private Vibrator vibrator;
     private boolean vibrationEnabled = false;
 
-    protected final CircularFifoQueue<JogCommandEvent> jogCommandQueue = new CircularFifoQueue<>(1);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -310,20 +308,12 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGrblOkEvent(GrblOkEvent event){
-        if(jogCommandQueue.size() > 0) jogCommandQueue.poll();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblAlarmEvent(GrblAlarmEvent event){
         consoleLogger.setMessages(event.toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void  onGrblErrorEvent(GrblErrorEvent event){
-        if(event.getErrorCode() == 15){
-            jogCommandQueue.clear();
-        }
         consoleLogger.setMessages(event.toString());
     }
 
