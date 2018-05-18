@@ -179,7 +179,12 @@ public class FileStreamerIntentService extends IntentService{
                 .putCustomAttribute("time taken", streamingCompleteEvent.getTimeMillis()/1000));
 
         EventBus.getDefault().post(streamingCompleteEvent);
-        wakeLock.release();
+
+        try{
+            wakeLock.release();
+        }catch (RuntimeException e){
+            Crashlytics.logException(e);
+        }
 
         stopSelf();
     }
