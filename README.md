@@ -30,7 +30,7 @@
 
 #### Special thanks to
 
-- Will Winder https://github.com/winder/Universal-G-Code-Sender (for most of the core logic and code)
+- Will Winder https://github.com/winder/Universal-G-Code-Sender
 - Joan Zapata https://github.com/JoanZapata/android-iconify
 - Markus Junginger https://github.com/greenrobot/EventBus
 - Felipe Herranz https://github.com/felHR85/UsbSerial
