@@ -1,7 +1,87 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <title>Grbl Controller | Android Application</title>
+        <meta name="description" content="Grbl Controller Compact android mobile application for streaming and controlling a cnc machine with grbl firmware">
+        <link href="css/bootstrap.united.min.css" rel="stylesheet">
+        <link href="css/site.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="wrap">
+            <div class="nav-wrap" id="siteNavigation">
+                
+            </div>
+
+            <div class="container">
+                <div class="site-index">
+                    <div class="body-content">
+                        
+                        <h2 class="text-center">Grbl Controller</h2>
+                        <h4 class="text-center text-muted">compact android mobile application for gcode streaming and controlling a cnc machine with grbl firmware</h4>
+                        
+                        <div class="row gutter-lg-top">
+                            <div class="col-sm-6">
+                                <img class="img-responsive img-rounded" src="images/app-front.png" alt="Jogging Control" />
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <h3>Features:</h3>
+                                <ul>
+                                    <li>Supports both Bluetooth and USB connections</li>
+                                    <li>GRBL 1.1 real time feed, spindle and rapid overrides support</li>
+                                    <li>Simple and powerful jogging control</li>
+                                    <li>Uses character counting streaming protocol</li>
+                                    <li>Real time machine status reporting</li>
+                                    <li>Probing (G38.3) with auto zero on Z-Axis</li>
+                                    <li>Manual tool change with G43.1</li>
+                                    <li>Four Highly Configurable Custom Buttons</li>
+                                    <li>Application can work in background mode, by utilizing the less resources, there by consuming less power</li>
+                                </ul>
+                                <a href="https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller" target="_blank">
+                                    <img src="images/grbl-controller-play-store.png" alt="Play Store" width="120" />
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3>Requirements</h3>
+                                <ul>
+                                    <li>Bluetooth enabled or USB Otg supported smart phone with android version >= 4.4 (Kit Kat or above)</li>
+                                    <li>GRBL firmware version >= 1.1f</li>
+                                    <li>Bluetooth module like HC-05 or HC-06 or USB Otg cable</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer gutter-lg-top">
+                <div class="container">
+                    <a href="https://gorest.co.in/grbl-controller-privacy-policy.html" target="_blank" class="pull-right gutter-md-left">Privacy Policy</a>
+                    <span class="pull-right"> | </span>
+                    <a href="https://github.com/zeevy/grblcontroller" target="_blank" class="pull-right gutter-md-right"><i class="fa fa-github gutter-sm-right"></i>Github</a>
+                </div>
+            </footer>
+        </div>
+
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/jquery.bootstrap-autohidingnavbar.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                jQuery('#siteNavigation').load('navigation.html', function(){
+                    jQuery("nav.navbar-fixed-top").autoHidingNavbar({animationDuration: 250, showOnUpscroll: true, showOnBottom: false});
+                    setTimeout(function(){$("ul.navbar-right li:eq(0)").addClass('active');}, 100);
+                });
+            });
+        </script>
+    </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <title>Bluetooth Device Setup | Grbl Controller</title>
+        <meta name="description" content="Grbl Controller android application bluetooth setup and baud rate changing for HC-05 and HC-06">
+        <link href="css/bootstrap.united.min.css" rel="stylesheet">
+        <link href="css/site.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="wrap">
+            <div class="nav-wrap" id="siteNavigation"></div>
+            <div class="container">
+                <div class="site-index">
+                    <div class="body-content">
+                        <div class="jumbotron">
+                            <h2 class="text-center">Bluetooth Device Setup</h2>
+                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer gutter-lg-top">
+                <div class="container">
+                    <a href="https://gorest.co.in/grbl-controller-privacy-policy.html" target="_blank" class="pull-right gutter-md-left">Privacy Policy</a>
+                    <span class="pull-right"> | </span>
+                    <a href="https://github.com/zeevy/grblcontroller" target="_blank" class="pull-right gutter-md-right"><i class="fa fa-github gutter-sm-right"></i>Github</a>
+                </div>
+            </footer>
+        </div>
+
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/jquery.bootstrap-autohidingnavbar.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                jQuery('#siteNavigation').load('navigation.html', function(){
+                    jQuery("nav.navbar-fixed-top").autoHidingNavbar({animationDuration: 250, showOnUpscroll: true, showOnBottom: false});
+                    setTimeout(function(){$("ul.navbar-right li:eq(1)").addClass('active'); $('ul.hardware-setup li:eq(1)').addClass('active');}, 100);
+                });
+            });
+            
+        </script>
+    </body>
+</html>
