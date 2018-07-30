@@ -21,10 +21,16 @@
 
 package in.co.gorest.grblcontroller;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+
+import org.greenrobot.eventbus.EventBus;
+
+import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.model.Constants;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -39,7 +45,7 @@ public class AboutActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content, new AppAboutFragment()).commit();
     }
 
-    public static class AppAboutFragment extends PreferenceFragment{
+    public static class AppAboutFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,33 @@ public class AboutActivity extends AppCompatActivity {
             findPreference("pref_app_version").setSummary(BuildConfig.VERSION_NAME);
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+            if(key.equals(getString(R.string.preference_default_serial_connection_type))){
+                EventBus.getDefault().post(new UiToastEvent("Application restart required"));
+            }
+
+            if(key.equalsIgnoreCase(getString(R.string.preference_gcode_file_picker_type))){
+                String value = sharedPreferences.getString(key, "");
+                if(value.equalsIgnoreCase("full")){
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_only_internal_storage_supported)));
+                }
+            }
+
+        }
     }
 
 }

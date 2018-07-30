@@ -35,7 +35,6 @@
         tools:showIn="@layout/activity_main">
 
         <LinearLayout
-            android:paddingTop="8dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -60,7 +59,7 @@
                     </TableRow>
 
                     <TableRow>
-                        <View android:layout_weight="1" android:layout_marginBottom="16dp" android:layout_marginTop="16dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+                        <View android:layout_weight="1" android:layout_marginBottom="8dp" android:layout_marginTop="8dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
                     </TableRow>
 
                     <TableRow>
@@ -90,7 +89,7 @@
                     </TableRow>
 
                     <TableRow>
-                        <View android:layout_weight="1" android:layout_marginBottom="16dp" android:layout_marginTop="16dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+                        <View android:layout_weight="1" android:layout_marginBottom="8dp" android:layout_marginTop="8dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
                     </TableRow>
 
                     <TableRow>

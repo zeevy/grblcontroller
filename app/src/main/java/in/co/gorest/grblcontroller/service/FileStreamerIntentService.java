@@ -203,14 +203,11 @@ public class FileStreamerIntentService extends IntentService{
                 gcodeCommand.setCommand(sCurrentLine);
                 if(gcodeCommand.getCommandString().length() > 0){
 
-                    if(gcodeCommand.hasModalSet()){
-                        streamLine(new GcodeCommand("G4 P0.05"));
-                        this.waitUntilBufferRunOut();
+                    if(gcodeCommand.hasRomAccess()){
+                        this.waitUntilBufferRunOut(true);
                         streamLine(gcodeCommand);
                         this.waitUntilBufferRunOut();
                         streamLine(new GcodeCommand(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND));
-                        streamLine(new GcodeCommand("G4 P0.05"));
-                        this.waitUntilBufferRunOut();
                     }else{
                         streamLine(gcodeCommand);
                     }
@@ -261,6 +258,12 @@ public class FileStreamerIntentService extends IntentService{
     }
 
     private void waitUntilBufferRunOut(){
+        this.waitUntilBufferRunOut(false);
+    }
+
+    private void waitUntilBufferRunOut(boolean dwell){
+        if(dwell) streamLine(new GcodeCommand("G4P0"));
+
         while(CURRENT_RX_SERIAL_BUFFER > 0){
             try {
                 completedCommands.take();

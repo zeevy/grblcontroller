@@ -75,7 +75,7 @@
     <string name="text_app_rating_summary">If you like Grbl Controller, you can show your appreciation here.</string>
     <string name="text_app_rating">Rate application</string>
     <string name="text_bluetooth_adapter_error">Bluetooth Adapter Error, please restart your phone</string>
-    <string name="text_unable_to_connect_to_device">Unable to connect device</string>
+    <string name="text_unable_to_connect_to_device">Unable to connect to device</string>
     <string name="text_device_connection_was_lost">Device connection was lost</string>
     <string name="text_unknown_error">Unknown error: please restart the application</string>
     <string name="text_no_bluetooth_permission">Unable to start bluetooth, please check permissions</string>
@@ -105,15 +105,15 @@
     <string name="text_custom_action">Custom action</string>
     <string name="text_send_custom_command">send custom commands for the action</string>
     <string name="text_auto_connect">Auto connect</string>
-    <string name="text_auto_connect_desc">auto connect to last used bluetooth device</string>
+    <string name="text_auto_connect_desc">connect to last used bluetooth device on application start</string>
     <string name="text_soft_reset_confirm">Soft reset confirmation</string>
     <string name="text_soft_reset_confirm_desc">ask for confirmation before doing soft reset</string>
     <string name="text_sleep_after_job">Sleep after job</string>
-    <string name="text_sleep_after_job_desc">puts machine into a de-powered sleep mode using $SLP command</string>
+    <string name="text_sleep_after_job_desc">put machine into a de-powered sleep mode using $SLP command</string>
     <string name="text_jogging_max_steps">Jogging max step size</string>
     <string name="text_jogging_max_steps_desc">jogging step seek bar maximum value</string>
     <string name="text_enable_custom_buttons">Enable custom buttons</string>
-    <string name="text_enable_custom_buttons_desc">enables four custom buttons in jogging control tab.</string>
+    <string name="text_enable_custom_buttons_desc">enable four custom buttons in jogging control tab.</string>
     <string name="text_custom_buttons">Custom Buttons</string>
     <string name="text_custom_buttons_desc">multiple commands must be separated by a new line</string>
     <string name="text_custom_button_1">Custom button 1</string>
@@ -137,12 +137,12 @@
     <string name="text_rotate_jogging_pad">Rotate XY jogging pad</string>
     <string name="text_streaming_stop_button_behaviour">Streaming stop button behaviour</string>
     <string name="text_check_machine_position">Check machine position</string>
-    <string name="text_check_machine_position_description">prevents file streaming, if machine is not at zero position</string>
+    <string name="text_check_machine_position_description">prevent file streaming, if machine is not at zero position</string>
     <string name="text_haptic_feedback">Haptic feedback</string>
-    <string name="text_haptic_feedback_description">enables short vibration when buttons are touched</string>
+    <string name="text_haptic_feedback_description">enable short vibration when buttons are touched</string>
     <string name="text_only_internal_storage_supported">Only internal storage is supported</string>
     <string name="text_enable_ab_axis">Enable AB Axis</string>
-    <string name="enable_ab_axis_description">enables two additional A and B axis in jogging control tab</string>
+    <string name="enable_ab_axis_description">enable two additional A and B axis in jogging control tab</string>
 
     <string-array name="preference_entries_default_connection">
         <item>Bluetooth</item>

@@ -34,7 +34,7 @@ public class AngledTextTopLeft extends com.joanzapata.iconify.widget.IconButton 
     @Override
     protected void onDraw(Canvas canvas){
         canvas.save();
-        canvas.rotate(-45, this.getWidth()/2-10, this.getHeight()/2+10);
+        canvas.rotate(-45, this.getWidth()/2, this.getHeight()/2);
         super.onDraw(canvas);
         canvas.restore();
     }

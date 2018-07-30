@@ -10,18 +10,31 @@
         android:icon="@drawable/ic_live_help_black_36dp"
         android:summary="linuxcnc.org"
         android:title="Gcode documentation">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="http://linuxcnc.org/docs/html/gcode/g-code.html"/>
+        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
+            <extra android:name="target_url" android:value="http://linuxcnc.org/docs/html/gcode/g-code.html" />
+            <extra android:name="sub_title" android:value="Gcode Documentation" />
+        </intent>
     </Preference>
 
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
-        android:summary="Application wiki page"
-        android:title="Interface Documentation">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="https://github.com/zeevy/grblcontroller/wiki/interface-documentation"/>
+        android:summary="Interface wiki page and documentation"
+        android:title="Application Documentation">
+        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
+            <extra android:name="target_url" android:value="https://github.com/zeevy/grblcontroller/wiki/interface-documentation" />
+            <extra android:name="sub_title" android:value="Application Documentation" />
+        </intent>
+    </Preference>
+
+    <Preference
+        android:icon="@drawable/ic_bug_report_black_36dp"
+        android:summary="github.com | issues | discussions"
+        android:title="Source / Issue tracker">
+
+        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
+            <extra android:name="target_url" android:value="https://github.com/zeevy/grblcontroller/" />
+            <extra android:name="sub_title" android:value="Application Source" />
+        </intent>
     </Preference>
 
     <Preference
@@ -31,15 +44,6 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:data="market://details?id=in.co.gorest.grblcontroller"/>
-    </Preference>
-
-    <Preference
-        android:icon="@drawable/ic_bug_report_black_36dp"
-        android:summary="github.com | wiki | issues | discussions"
-        android:title="Source / Issue tracker">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="https://github.com/zeevy/grblcontroller"/>
     </Preference>
 
     <Preference

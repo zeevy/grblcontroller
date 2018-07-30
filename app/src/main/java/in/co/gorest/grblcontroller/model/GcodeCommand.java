@@ -24,6 +24,7 @@
 package in.co.gorest.grblcontroller.model;
 
 import in.co.gorest.grblcontroller.util.GcodePreprocessorUtils;
+import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class GcodeCommand {
 
@@ -56,16 +57,9 @@ public class GcodeCommand {
         return this.comment != null && this.comment.length() != 0;
     }
 
-    public boolean hasModalSet(){
-        return this.command.contains("G54") || this.command.contains("G55") || this.command.contains("G56") || this.command.contains("G57") || this.command.contains("G58") || this.command.contains("G59")
-                || this.command.contains("G10") || this.command.contains("G28.1") || this.command.contains("G30.1")
-                || this.command.contains("G20") || this.command.contains("G21") || this.command.contains("G90") || this.command.contains("G91") || this.command.contains("G28") || this.command.contains("G30")
-                || this.hasTlo();
-
+    public boolean hasRomAccess(){
+        return GrblUtils.hasRomAccess(this.command);
     }
 
-    public boolean hasTlo(){
-        return this.command.contains("G43.1") || this.command.contains("G49");
-    }
 
 }

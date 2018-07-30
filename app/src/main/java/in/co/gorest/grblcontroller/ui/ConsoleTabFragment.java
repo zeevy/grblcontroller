@@ -95,8 +95,10 @@ public class ConsoleTabFragment extends BaseFragment {
                 if(commandText.length() > 0){
                     GcodeCommand gcodeCommand = new GcodeCommand(commandText);
                     fragmentInteractionListener.onGcodeCommandReceived(gcodeCommand.getCommandString());
-                    if(gcodeCommand.hasModalSet()) fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-                    if(gcodeCommand.hasTlo()) fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+                    if(gcodeCommand.hasRomAccess()){
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+                    }
                     commandInput.setText(null);
                 }
             }

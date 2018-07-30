@@ -203,6 +203,12 @@ public class GrblUtils {
         return new CompileTimeOptions(buildOptions, plannerBuffer, serialRxBuffer);
     }
 
+    private final static String EEPROM_COMMAND_PATTERN = "G10|G28|G30|\\$x=|\\$I|\\$N|\\$RST=|G5[456789]|\\$\\$|\\$#";
+    private final static Pattern EEPROM_COMMAND = Pattern.compile(EEPROM_COMMAND_PATTERN, Pattern.CASE_INSENSITIVE);
+    public static boolean hasRomAccess(String command){
+        return EEPROM_COMMAND.matcher(command).find();
+    }
+
     public static String implode(String glue, String[] array) {
         if(array == null || array.length == 0) return "";
 
