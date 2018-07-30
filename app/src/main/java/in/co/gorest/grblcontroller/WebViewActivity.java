@@ -46,13 +46,14 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
-
         getSupportActionBar().setSubtitle(getIntent().getStringExtra("sub_title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mWebView = (AdvancedWebView) findViewById(R.id.webview);
         mWebView.addPermittedHostname("linuxcnc.org");
         mWebView.addPermittedHostname("github.com");
+        mWebView.addPermittedHostname("zeevy.github.io");
+        mWebView.addPermittedHostname("gorest.co.in");
         mWebView.setListener(this, this);
         mWebView.loadUrl(getIntent().getStringExtra("target_url"));
 

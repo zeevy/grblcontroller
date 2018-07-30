@@ -4,7 +4,12 @@
     <Preference
         android:icon="@drawable/ic_android_black_36dp"
         android:key="pref_app_version"
-        android:title="Version Number"/>
+        android:title="Version Number">
+        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
+            <extra android:name="target_url" android:value="https://zeevy.github.io/grblcontroller/version-2.30.html" />
+            <extra android:name="sub_title" android:value="Release Notes" />
+        </intent>
+    </Preference>
 
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
@@ -18,10 +23,10 @@
 
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
-        android:summary="Interface wiki page and documentation"
-        android:title="Application Documentation">
+        android:summary="Interface wiki and documentation"
+        android:title="Application Usage">
         <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
-            <extra android:name="target_url" android:value="https://github.com/zeevy/grblcontroller/wiki/interface-documentation" />
+            <extra android:name="target_url" android:value="https://zeevy.github.io/grblcontroller/" />
             <extra android:name="sub_title" android:value="Application Documentation" />
         </intent>
     </Preference>
