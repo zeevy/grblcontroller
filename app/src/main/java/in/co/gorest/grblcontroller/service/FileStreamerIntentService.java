@@ -311,7 +311,8 @@ public class FileStreamerIntentService extends IntentService{
     private Notification getNotification(String title, String message){
         return new NotificationCompat.Builder(getApplicationContext(), NotificationHelper.CHANNEL_SERVICE_ID)
                 .setContentTitle(title)
-                .setContentText(message)
+                //.setContentText(message)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setAutoCancel(true).build();
