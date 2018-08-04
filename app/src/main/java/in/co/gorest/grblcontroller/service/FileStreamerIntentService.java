@@ -134,13 +134,17 @@ public class FileStreamerIntentService extends IntentService{
         fileSenderListener.setRowsSent(0);
         fileSenderListener.setJobStartTime(System.currentTimeMillis());
 
-        jobTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                int elapsedTimeSeconds = (int) (System.currentTimeMillis() - fileSenderListener.getJobStartTime())/1000;
-                fileSenderListener.setElapsedTime(String.format(Locale.US ,"%02d:%02d:%02d", elapsedTimeSeconds / 3600, (elapsedTimeSeconds % 3600) / 60, (elapsedTimeSeconds % 60)));
-            }
-        }, 0, 1000);
+        try {
+            jobTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    int elapsedTimeSeconds = (int) (System.currentTimeMillis() - fileSenderListener.getJobStartTime())/1000;
+                    fileSenderListener.setElapsedTime(String.format(Locale.US ,"%02d:%02d:%02d", elapsedTimeSeconds / 3600, (elapsedTimeSeconds % 3600) / 60, (elapsedTimeSeconds % 60)));
+                }
+            }, 0, 1000);
+        }catch (IllegalStateException e){
+            Crashlytics.logException(e);
+        }
 
         fileSenderListener.setStatus(FileSenderListener.STATUS_STREAMING);
         setIsServiceRunning(true);
