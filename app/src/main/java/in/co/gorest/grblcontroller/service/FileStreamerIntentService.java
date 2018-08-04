@@ -102,7 +102,7 @@ public class FileStreamerIntentService extends IntentService{
         clearBuffers();
         jobTimer.cancel();
         setIsServiceRunning(false);
-        fileSenderListener.setStatus(FileSenderListener.STATUS_IDLE);
+        if(fileSenderListener != null) fileSenderListener.setStatus(FileSenderListener.STATUS_IDLE);
         stopForeground(true);
         EventBus.getDefault().unregister(this);
     }
@@ -123,8 +123,12 @@ public class FileStreamerIntentService extends IntentService{
         String defaultConnectionType = intent.getStringExtra(SERIAL_CONNECTION_TYPE);
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Grbl File Streaming");
-        wakeLock.acquire(24*60*60*1000);
+        PowerManager.WakeLock wakeLock = null;
+        if (powerManager != null) {
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Grbl File Streaming");
+            wakeLock.acquire(24*60*60*1000);
+        }
+
 
         clearBuffers();
         fileSenderListener.setRowsSent(0);
@@ -180,10 +184,12 @@ public class FileStreamerIntentService extends IntentService{
 
         EventBus.getDefault().post(streamingCompleteEvent);
 
-        try{
-            wakeLock.release();
-        }catch (RuntimeException e){
-            Crashlytics.logException(e);
+        if(wakeLock != null){
+            try{
+                wakeLock.release();
+            }catch (RuntimeException e){
+                Crashlytics.logException(e);
+            }
         }
 
         stopSelf();
