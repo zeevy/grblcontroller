@@ -22,11 +22,42 @@
 package in.co.gorest.grblcontroller.ui;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+
+import in.co.gorest.grblcontroller.GrblController;
+import in.co.gorest.grblcontroller.R;
 
 public class BaseFragment extends Fragment {
 
+    private InterstitialAd interstitialAd;
+    private RewardedVideoAd rewardedVideoAd;
+
     OnFragmentInteractionListener fragmentInteractionListener;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(GrblController.getInstance().isFreeVersion()){
+            interstitialAd = new InterstitialAd(getActivity());
+            interstitialAd.setAdUnitId(getString(R.string.admob_interstitial_ad_id));
+            interstitialAd.loadAd(new AdRequest.Builder().build());
+
+            rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getActivity());
+            rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
+        }
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        displayInterstitialAd();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -43,6 +74,18 @@ public class BaseFragment extends Fragment {
         void onGrblRealTimeCommandReceived(byte command);
         void vibrateShort();
         void vibrateLong();
+    }
+
+    public void displayInterstitialAd(){
+        if(GrblController.getInstance().isFreeVersion() && interstitialAd.isLoaded()){
+            interstitialAd.show();
+        }
+    }
+
+    public void displayRewardVideoAd(){
+        if(GrblController.getInstance().isFreeVersion() && rewardedVideoAd.isLoaded()){
+            rewardedVideoAd.show();
+        }
     }
 
 }

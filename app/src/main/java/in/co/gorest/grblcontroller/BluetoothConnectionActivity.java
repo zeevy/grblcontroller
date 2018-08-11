@@ -286,10 +286,8 @@ public class BluetoothConnectionActivity extends GrblActivity {
         switch (currentState){
             case GrblBluetoothSerialService.STATE_CONNECTED:
                 if(getSupportActionBar() != null) getSupportActionBar().setSubtitle((mConnectedDeviceName != null) ? mConnectedDeviceName : getString(R.string.text_connected));
-
-                Answers.getInstance().logCustom(new CustomEvent("Connection Type")
-                        .putCustomAttribute("Connection", "Bluetooth"));
-
+                displayRewardVideoAd();
+                Answers.getInstance().logCustom(new CustomEvent("Connection Type").putCustomAttribute("Connection", "Bluetooth"));
                 invalidateOptionsMenu();
                 break;
             case GrblBluetoothSerialService.STATE_CONNECTING:
@@ -320,13 +318,6 @@ public class BluetoothConnectionActivity extends GrblActivity {
     public void onJogCommandEvent(JogCommandEvent event){
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
             if(machineStatus.getPlannerBuffer() > 5) onGcodeCommandReceived(event.getCommand());
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void OnStreamingCompleteEvent(StreamingCompleteEvent event){
-        if(sharedPref.getBoolean(getString(R.string.preference_sleep_after_job), false) && !machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
-            onGcodeCommandReceived(GrblUtils.GRBL_SLEEP_COMMAND);
         }
     }
 

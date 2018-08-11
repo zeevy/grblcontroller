@@ -298,4 +298,9 @@
     <string name="app_shortcut_short_test_help">Documentation</string>
     <string name="app_shortcut_long_text_help">Application Documentation Guide</string>
 
+    <string name="admob_app_id">ca-app-pub-4930099895671899~8705180010</string>
+    <string name="admob_interstitial_ad_id">ca-app-pub-4930099895671899/4683725909</string>
+    <string name="admob_banner_ad_id">ca-app-pub-4930099895671899/8941593162</string>
+    <string name="admob_reward_video_ad_id">ca-app-pub-4930099895671899/6399190303</string>
+
 </resources>

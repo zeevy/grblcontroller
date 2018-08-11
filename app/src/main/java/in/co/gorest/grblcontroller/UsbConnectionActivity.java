@@ -213,10 +213,8 @@ public class UsbConnectionActivity extends GrblActivity{
             switch (intentAction) {
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connected));
-
-                    Answers.getInstance().logCustom(new CustomEvent("Connection Type")
-                        .putCustomAttribute("Connection", "USB"));
-
+                    displayRewardVideoAd();
+                    Answers.getInstance().logCustom(new CustomEvent("Connection Type").putCustomAttribute("Connection", "USB"));
                     grblToast("USB device connected");
                     break;
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
@@ -277,13 +275,6 @@ public class UsbConnectionActivity extends GrblActivity{
     public void onJogCommandEvent(JogCommandEvent event){
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
             if(machineStatus.getPlannerBuffer() > 5) onGcodeCommandReceived(event.getCommand());
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void OnStreamingCompleteEvent(StreamingCompleteEvent event){
-        if(sharedPref.getBoolean(getString(R.string.preference_sleep_after_job), false) && !machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
-            onGcodeCommandReceived(GrblUtils.GRBL_SLEEP_COMMAND);
         }
     }
 

@@ -31,6 +31,7 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -41,6 +42,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,12 +50,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -63,6 +72,7 @@ import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
 import in.co.gorest.grblcontroller.events.GrblErrorEvent;
 import in.co.gorest.grblcontroller.events.GrblOkEvent;
 import in.co.gorest.grblcontroller.events.JogCommandEvent;
+import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
@@ -70,11 +80,13 @@ import in.co.gorest.grblcontroller.helpers.ReaderViewPagerTransformer;
 import in.co.gorest.grblcontroller.listeners.ConsoleLoggerListener;
 import in.co.gorest.grblcontroller.listeners.FileSenderListener;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
 import in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;
+import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public abstract class GrblActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener{
 
@@ -98,6 +110,9 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     private static final int VIBRATION_LENGTH_VERY_LONG = 1500;
     private Vibrator vibrator;
     private boolean vibrationEnabled = false;
+
+    private InterstitialAd interstitialAd;
+    private RewardedVideoAd rewardedVideoAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +148,15 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
         if(fcmToken != null && !tokenSent) MyFirebaseInstanceIDService.sendRegistrationToServer(fcmToken);
 
+
+        if(GrblController.getInstance().isFreeVersion()){
+            interstitialAd = new InterstitialAd(this);
+            interstitialAd.setAdUnitId(getString(R.string.admob_interstitial_ad_id));
+            interstitialAd.loadAd(new AdRequest.Builder().build());
+
+            rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+            rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
+        }
     }
 
     @Override
@@ -263,6 +287,16 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         this.lastToastMessage = message;
     }
 
+    @Override
+    public void onGcodeCommandReceived(String command) {
+
+    }
+
+    @Override
+    public void onGrblRealTimeCommandReceived(byte command) {
+
+    }
+
     public void vibrateShort(){
         if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_SHORT);
     }
@@ -307,6 +341,18 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         }
     }
 
+    public void displayInterstitialAd(){
+        if(GrblController.getInstance().isFreeVersion() && interstitialAd.isLoaded()){
+            interstitialAd.show();
+        }
+    }
+
+    public void displayRewardVideoAd(){
+        if(GrblController.getInstance().isFreeVersion() && rewardedVideoAd.isLoaded()){
+            rewardedVideoAd.show();
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblAlarmEvent(GrblAlarmEvent event){
         consoleLogger.setMessages(event.toString());
@@ -326,6 +372,16 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     public void onUiToastEvent(UiToastEvent event){
         grblToast(event.getMessage());
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnStreamingCompleteEvent(StreamingCompleteEvent event){
+        if(sharedPref.getBoolean(getString(R.string.preference_sleep_after_job), false) && !machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
+            onGcodeCommandReceived(GrblUtils.GRBL_SLEEP_COMMAND);
+        }
+
+        displayRewardVideoAd();
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

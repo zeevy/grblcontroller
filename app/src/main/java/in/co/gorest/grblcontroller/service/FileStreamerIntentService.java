@@ -167,7 +167,7 @@ public class FileStreamerIntentService extends IntentService{
             this.startStreaming(5);
         }
 
-        this.waitUntilBufferRunOut();
+        this.waitUntilBufferRunOut(true);
 
         jobTimer.cancel();
         fileSenderListener.setJobEndTime(System.currentTimeMillis());
