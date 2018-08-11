@@ -72,6 +72,7 @@ import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listeners.FileSenderListener;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
+import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.model.Overrides;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.util.GcodePreprocessorUtils;
@@ -417,20 +418,14 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
             Integer lines = 0;
             try{
-                BufferedReader reader = new BufferedReader(new FileReader(file[0]));
-                String sCurrentLine;
-                String comment;
+                BufferedReader reader = new BufferedReader(new FileReader(file[0])); String sCurrentLine;
+                GcodeCommand gcodeCommand = new GcodeCommand();
                 while((sCurrentLine = reader.readLine()) != null){
-
-                    comment = GcodePreprocessorUtils.parseComment(sCurrentLine);
-                    if(comment.length() > 0){
-                        sCurrentLine = GcodePreprocessorUtils.removeComment(sCurrentLine);
-                    }
-                    sCurrentLine = GcodePreprocessorUtils.removeWhiteSpace(sCurrentLine);
-                    if(sCurrentLine.length() > 0){
+                    gcodeCommand.setCommand(sCurrentLine);
+                    if(gcodeCommand.getCommandString().length() > 0){
                         lines++;
-                        if(sCurrentLine.length() >= 79){
-                            EventBus.getDefault().post(new UiToastEvent(GrblController.getInstance().getString(R.string.text_gcode_length_warning) + String.valueOf(lines)));
+                        if(gcodeCommand.getCommandString().length() >= 79){
+                            EventBus.getDefault().post(new UiToastEvent(GrblController.getInstance().getString(R.string.text_gcode_length_warning) + sCurrentLine));
                             initFileSenderListener();
                             FileSenderListener.getInstance().setStatus(FileSenderListener.STATUS_IDLE);
                             cancel(true);
