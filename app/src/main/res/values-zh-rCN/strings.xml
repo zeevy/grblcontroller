@@ -246,4 +246,12 @@
     <string name="text_no_confirm">否</string>
     <string name="text_gcode_file_picker_type">Gcode 文件选择器类型</string>
 
+    <!-- Application Shortcuts -->
+    <string name="app_shortcut_short_test_settings">设置</string>
+    <string name="app_shortcut_long_text_settings">应用程序设置</string>
+    <string name="app_shortcut_short_test_about">关于</string>
+    <string name="app_shortcut_long_text_about">关于</string>
+    <string name="app_shortcut_short_test_help">文档</string>
+    <string name="app_shortcut_long_text_help">应用程序文档指南</string>
+
 </resources>
