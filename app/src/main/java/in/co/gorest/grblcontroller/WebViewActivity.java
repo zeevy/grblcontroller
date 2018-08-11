@@ -23,8 +23,12 @@
 
 package in.co.gorest.grblcontroller;
 
+import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -33,9 +37,11 @@ import android.view.View;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import im.delight.android.webview.AdvancedWebView;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 
 public class WebViewActivity extends AppCompatActivity implements AdvancedWebView.Listener {
 
@@ -107,10 +113,17 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
     @Override
     public void onDownloadRequested(String url, String suggestedFilename, String mimeType, long contentLength, String contentDisposition, String userAgent) {
-        if (AdvancedWebView.handleDownload(this, url, suggestedFilename)) {
-            // download successfully handled
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(Objects.requireNonNull(this).checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                EventBus.getDefault().post(new UiToastEvent("Unable to save file. Check permissions"));
+                return;
+            }
         }
-        else {
+
+        if (AdvancedWebView.handleDownload(this, url, suggestedFilename)) {
+            EventBus.getDefault().post(new UiToastEvent("Download started"));
+        }else {
             EventBus.getDefault().post(new UiToastEvent("Download failed. Please try again!"));
         }
     }
