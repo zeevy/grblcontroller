@@ -278,36 +278,43 @@ public class GrblUsbSerialService extends Service {
 
     private void findSerialPortDevice() {
         // This snippet will try to open the first encountered usb device connected, excluding usb root hubs
-        HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
-        if (!usbDevices.isEmpty()) {
-            boolean keep = true;
-            for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
-                device = entry.getValue();
-                int deviceVID = device.getVendorId();
-                int devicePID = device.getProductId();
+        try {
+            HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
+            if (!usbDevices.isEmpty()) {
+                boolean keep = true;
+                for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
+                    device = entry.getValue();
+                    int deviceVID = device.getVendorId();
+                    int devicePID = device.getProductId();
 
-                if (deviceVID != 0x1d6b && (devicePID != 0x0001 && devicePID != 0x0002 && devicePID != 0x0003) && deviceVID != 0x5c6 && devicePID != 0x904c) {
+                    if (deviceVID != 0x1d6b && (devicePID != 0x0001 && devicePID != 0x0002 && devicePID != 0x0003) && deviceVID != 0x5c6 && devicePID != 0x904c) {
 
-                    // There is a device connected to our Android device. Try to open it as a Serial Port.
-                    requestUserPermission();
-                    keep = false;
-                } else {
-                    connection = null;
-                    device = null;
+                        // There is a device connected to our Android device. Try to open it as a Serial Port.
+                        requestUserPermission();
+                        keep = false;
+                    } else {
+                        connection = null;
+                        device = null;
+                    }
+
+                    if (!keep)
+                        break;
                 }
-
-                if (!keep)
-                    break;
-            }
-            if (!keep) {
-                // There is no USB devices connected (but usb host were listed). Send an intent to MainActivity.
+                if (!keep) {
+                    // There is no USB devices connected (but usb host were listed). Send an intent to MainActivity.
+                    Intent intent = new Intent(ACTION_NO_USB);
+                    sendBroadcast(intent);
+                }
+            } else {
+                // There is no USB devices connected. Send an intent to MainActivity
                 Intent intent = new Intent(ACTION_NO_USB);
                 sendBroadcast(intent);
             }
-        } else {
+        }catch (NullPointerException e){
             // There is no USB devices connected. Send an intent to MainActivity
             Intent intent = new Intent(ACTION_NO_USB);
             sendBroadcast(intent);
+            Crashlytics.logException(e);
         }
     }
 
