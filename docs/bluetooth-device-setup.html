@@ -17,10 +17,234 @@
             <div class="container">
                 <div class="site-index">
                     <div class="body-content">
-                        <div class="jumbotron">
-                            <h2 class="text-center">Bluetooth Device Setup</h2>
-                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                        <h2 class="gutter-lg-bottom">Bluetooth Setup and Baud Rate Changing Guide</h2>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div>
+                                    <img src="images/hc-05-hc-06-pinout.jpg" class="img-responsive img-rounded" alt="Bluetooth to Serial HC-06 Module" />
+                                </div>
+                                <p class="text-muted">Figure-1: HC-05 and HC-06 Bluetooth Modules</p>
+                            </div>
+                            <div class="col-sm-6 padding-lg">
+                                <p>
+                                    Grbl Firmware communicates with host interface or gui with a fixed (115200 v1.1) <a href="https://github.com/gnea/grbl/blob/master/grbl/config.h#L42" target="_blank">baud rate.</a>  <i class="fa fa-external-link"></i> 
+                                    Any Bluetooth module you are using must use the same baud rate as the Grbl Firmware. Most of the Bluetooth modules ships with a default baud rate of 9600.
+                                    If you are going to use Bluetooth connection to control and run your CNC machine, then you must change the baud rete of the Bluetooth device to match with Grbl Firmware.
+                                </p>
+                                <p>
+                                    This guide will help you to change the baud rate of the most popular and common Bluetooth to serial modules HC-05 and HC-06. 
+                                </p>
+                            </div>
                         </div>
+                        
+                        <hr />
+                        
+                        <h3 class="gutter-lg-top gutter-lg-bottom">
+                            HC-06 Bluetooth Module Setup
+                        </h3>
+                        
+                        <div class="row">
+                            <div class="col-sm-6 padding-lg">
+                                <p>
+                                    Figure-2 shows the HC-06 module with on-board voltage converter and level shifter. Most of Bluetooth modules works with 3.3v, 
+                                    you must use a voltage converter from 5v to 3.3v and a level shifter for serial communication with Arduino since Arduino i/o pins has 5v output.
+                                    We will use Arduino Uno R3 and Arduino IDE to change the baud rate of the HC-06 Bluetooth module.
+                                </p>
+                                
+                                <h4>
+                                    Hardware Connections
+                                </h4>
+                                <p>
+                                    Connect the Bluetooth module to Arduino board as shown in the Figure-3.
+                                </p>
+                                <ul>
+                                    <li>Connect Arduino PIN 10 to TXD of HC-06.</li>
+                                    <li>Connect Arduino PIN 11 to RXD of HC-06.</li>
+                                    <li>Connect GND of HC-06 GND of Arduino.</li>
+                                    <li>Connect VCC of HC-06 to 5V of Arduino.</li>
+                                </ul>
+                                <p>
+                                    After this LED on the HC-06 should be blinking.
+                                </p>
+                                <ul>
+                                    <li>Upload the attached sketch to you Arduino using arduino IDE.</li>
+                                    <li>Open serial monitor in Arduino IDE (Menu Bar => Tools => Serial Monitor)</li>
+                                    <li>Make sure you have selected a baud rate of 9600 (if you are not changed the baud rate of HC-06 before) in your serial monitor. (also select line termination as "both \r and \n")</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <img src="images/bluetooth-hc-06.jpg" class="img-responsive img-rounded" alt="Bluetooth to Serial HC-06 Module" />
+                                </div>
+                                <p class="text-muted">Figure-2: Typical HC-06 Bluetooth to Serial Module</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div>
+                                    <img src="images/hc-06-arduino-connection-diagram.jpg" class="img-responsive img-rounded" alt="HC-06 Arduino Connection Diagram" />
+                                </div>
+                                <p class="text-muted">Figure-3: Hc-06 Arduino Connection Diagram</p>
+                            </div>
+                            <div class="col-sm-6 padding-lg">
+                                <ul>
+                                    <li>Type "AT" in the serial monitor with out " and press enter. You should see a response "Ok", if not then make sure you have followed the above steps correctly.</li>
+                                    <li>Type "AT+VERSION" in the serial monitor without " and press enter. You should be able see the firmware version.</li>
+                                    <li>Type "AT+BAUD8" in the serial monitor with out " and press enter. The baud rate should be changed by now.</li>
+                                </ul>
+                                <p>
+                                    Bellow is the list of other baud rates.
+                                </p>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <code>AT+BAUD1 baud rate 1200</code><br />
+                                        <code>AT+BAUD2 baud rate 2400</code><br />
+                                        <code>AT+BAUD3 baud rate 4800</code><br />
+                                        <code>AT+BAUD4 baud rate 9600</code><br />
+                                        <code>AT+BAUD5 baud rate 19200</code><br />
+                                        <code>AT+BAUD6 baud rate 38400</code>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <code>AT+BAUD7 baud rate 57600</code><br />
+                                        <code>AT+BAUD9 baud rate 115200</code><br />
+                                        <code>AT+BAUD9 baud rate 230400</code><br />
+                                        <code>AT+BAUD10 baud rate 460800</code><br />
+                                        <code>AT+BAUD11 baud rate 921600</code><br />
+                                        <code>AT+BAUD12 baud rate 1382400</code>
+                                    </div>
+                                </div>
+                                <p class="text-warning gutter-md-top">
+                                    NOTE: If your Bluetooth module has default baud rate other than 9600, then you might want to try by changing the baud rate in the Arduino sketch. 
+                                    <code>hcSerial.begin(9600); // software serial Arduino to HC-06 (9600 is default)</code>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <a download="hc-06.ino" class="btn btn-large btn-success gutter-md-top" href="uploads/hc_06.ino" target="_blank" title="Download Arduino sketch to change the baud rate of HC-06">
+                                HC-06 Arduino Sketch Download <i class="fa fa-external-link"></i>
+                            </a>
+                            <a onclick="$('#sketchCode').toggle('slow');" href="javascript:void(0);" class="btn btn-large btn-info gutter-md-top"><i class="fa fa-eye fa-lg"></i>  Show Sketch</a>
+                        </div>
+                        <div class="gutter-md-top" style="display: none;" id="sketchCode">
+                            <pre>
+                                <code>
+#include &lt;SoftwareSerial.h&gt;
+SoftwareSerial hcSerial(10, 11); // RX, TX
+ 
+String fromPC = "";
+ 
+void setup() { 
+  Serial.begin(9600); // hardware serial for the USB-PC
+  hcSerial.begin(9600);  // software serial Arduino to HC-06 (9600 is default)
+ 
+  // print instructions
+  Serial.println("HC-06 AT Command Programming");
+  Serial.println(" -- Command Reference ---");
+  Serial.println("AT (simply checks connection)");
+  Serial.println("AT+VERSION (sends the firmware verison)");
+  Serial.println("AT+NAMExxxxx (to change name to xxxxx");
+  Serial.println("AT+PINnnnn (to change password to 4 digit nnnn");
+  Serial.println("AT+BAUDn (to change to baud rate #1");
+  Serial.println("  BAUD1 = 1200");
+  Serial.println("  BAUD2 = 2400");
+  Serial.println("  BAUD3 = 4800");
+  Serial.println("  BAUD4 = 9600");
+  Serial.println("  BAUD5 = 19200");
+  Serial.println("  BAUD6 = 38400");
+  Serial.println("  BAUD7 = 57600");
+  Serial.println("  BAUD8 = 115200");
+}
+ 
+void loop() {
+  // Read from HC-06
+  if (hcSerial.available()) {
+    while(hcSerial.available()) { // While there is more to be read, keep reading.
+      Serial.print((char)hcSerial.read());
+      }   
+  }
+   
+  // Read from PC
+  if (Serial.available()){
+    delay(10); //     
+    fromPC = (char)Serial.read();    
+  
+    if (fromPC == "r" || fromPC == "n") {  // don't send carriage returns to HC-06          
+      Serial.println();  // echo it back to the PC
+    }
+    else {
+      hcSerial.print(fromPC); // show the HC-06 responce
+      Serial.print(fromPC); // echo it back to the PC
+    }
+  }
+}
+                                </code>
+                            </pre>
+                        </div>
+                        
+                        <hr />
+                        <h3 class="gutter-lg-bottom">HC-05 Bluetooth Module Setup</h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="gutter-md-top">
+                                    HC-06 and HC-05 are similar, but HC-05 has more features it can work as master and can create connection with other Bluetooth devices.
+                                    Typical HC-05 module will look like Figure-4. HC-05 has a 6 pin header rather than 4 pin header HC-06.
+                                    The two extra pins are <strong>state</strong> and <strong>enable (en)</strong>. Some HC-05 module also comes with a on bord button wich can be used to enter AT command mode.
+                                </p>
+                                <p>Main parts of the HC-05 module</p>
+                                <ul>
+                                    <li>3.3V low dropout regulator, which allows you to power it from 3.6V to 6V.</li>
+                                    <li>
+                                        An LED to show the current working mode of the module.
+                                        <ol class="gutter-sm-top">
+                                            <li>Fast Blink: Waiting for Bluetooth connection</li>
+                                            <li>Slow Blink: In AT command mode</li>
+                                            <li>Double Blink: Connected via Bluetooth</li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                                <p>
+                                    HC-05 can be put into AT command mode by holding the switch during power-up, LED will blink slowly at regular intervals to indicate the AT command mode.
+                                    AT Mode accepts commands at 38400 baud , N,8,1 using the Rx and Tx pins.
+                                </p>
+                                <p>
+                                    Below are the commands to configure the HC-05 for slave mode, each command must be followed by a line feed and carriage return.
+                                </p>
+                                <ul>
+                                    <li><code>AT+VERSION? (firmware version info)</code></li>
+                                    <li><code>AT+ROLE=X (0: Slave Mode, 1: Master Mode, 2: Slave-Loop Mode, default = 0)</code></li>
+                                    <li><code>AT+NAME=XXXX (change name to XXXX default=HC-05)</code></li>
+                                    <li><code>AT+PSWD=1234 (change password to 4 digit number 1234, default = 1234)</code></li>
+                                    <li><code>AT+UART=X,S,P (X=Baud, S=stop bits (0=1, 1=2), P=parity (0=None, 1=Odd, 2=Even) Example AT+UART=115200,1,0</code></li>
+                                    <li><code>AT+ORGL (reset all parameters to defaults)</code></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div>
+                                    <img class="img-responsive img-rounded" src="images/bluetooth-hc-05.png" alt="Tipical HC-05 Bluetooth Module" />
+                                </div>
+                                <p class="text-muted">Figure-4: Tipical HC-05 Bluetooth Module</p>
+                            </div>
+                        </div>
+                        
+                        <h3>Using an Arduino Uno to Program HC-05 Bluetooth Module</h3>
+                        
+                        <div class="row">
+                            <div class="col-sm-6 gutter-md-top">
+                                <div>
+                                    <img src="images/wiring-diagram-Arduino-Bluetooth-HC-05-on-Uno-Board.jpg" class="img-responsive img-rounded" alt="Wiring Diagram Arduino Uno and Bluetooth HC-05" />
+                                </div>
+                                <p class="text-muted">Figure-5: Wiring Diagram Arduino Uno and Bluetooth HC-05</p>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
