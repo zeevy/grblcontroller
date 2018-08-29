@@ -12,4 +12,6 @@ a:focus, button:focus{outline: none !important;}
 .padding-lg{padding: 20px !important;} .padding-lg-top{padding-top: 20px !important;} .padding-lg-right{padding-right: 20px !important;} .padding-lg-bottom{padding-bottom: 20px !important;} .padding-lg-left{padding-left: 20px !important;}
 .tooltip-inner {white-space:nowrap;max-width:none;}
 .cursor{cursor: pointer;}
-ul{padding: 0; list-style: inside;}
+ul, ol{padding: 0; list-style-position: inside;}
+ul ol{padding-left: 20px;}
+ol ul{padding-left: 20px;}

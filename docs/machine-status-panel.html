@@ -17,10 +17,124 @@
             <div class="container">
                 <div class="site-index">
                     <div class="body-content">
-                        <div class="jumbotron">
-                            <h2 class="text-center">Machine Status Panel</h2>
-                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                        <h2 class="text-center gutter-lg-bottom">Machine Status Panel and Application Title Bar</h2>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3 class="text-info">Application Title Bar</h3>
+                                
+                                <p>Application title bar consists of two or more quick action buttons, number of visible buttons depends on the screen size of the device.</p>
+                                <ul>
+                                    <li>
+                                        <span class="text-info"><i class="fa fa-power-off gutter-sm-right"></i> Grbl reset button.</span> <br/>
+                                        Pressing reset button will send a soft reset signal to machine.<br />
+                                        You can configure this button to ask for a confirmation (which is default) before doing a soft reset in application settings, this will prevent any accidental reset of the machine.
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        <span class="text-info"><i class="fa fa-bluetooth-b text-info gutter-sm-right"></i> Bluetooth connect and disconnect button.</span> <br />
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <i class="fa fa-bluetooth-b gutter-sm-right text-info"></i> Not connected to any device. <br />
+                                                Clicking on this button will bring you the paired Bluetooth device list, 
+                                                where you can select the device you want to connect to. <br />
+                                                <p class="text-muted text-warning">NOTE: The Blutooth device you want to connect should already paired with the mobile device</p>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-bluetooth text-info gutter-sm-right"></i> Connected to a Bluetooth device. <br />
+                                                When in already connected state clicking on the button will give you a prompt to disconnect the device.
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <span class="text-info"><i class="fa fa-ellipsis-v text-info gutter-sm-right"></i> Ellipsis or hidden menu.</span> <br />
+                                        This can be used to access the additional menu items like "Settings", "Share", "About" etc..
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="gutter-lg-top">
+                                    <img src="images/machine_status_panel.png" class="img-responsive img-rounded" alt="Machine Status Panel Information" />
+                                </div>
+                                <p class="text-muted">Figure-1: Machine status panel information</p>
+                            </div>
                         </div>
+                        
+                        <hr />
+                        
+                        <div>
+                            <h3 class="text-info">Machine Status Panel</h3>
+                            <h4 class="text-muted">Machine status panel will show the information of machine state, machine position, work position, G-Code parser state, feed rate and buffer state.</h4>
+                            
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ol>
+                                        <li>
+                                            <span class="text-info">Machine State.</span> <span class="badge">1</span>
+                                            <ul>
+                                                <li>Valid states types: Idle, Run, Hold, Jog, Alarm, Door, Check, Home, Sleep. If not connected to any device then it will show the state as "Unknown"</li>
+                                                <li>
+                                                    Sub-states may be included via : a colon delimiter and numeric code. 
+                                                    For a valid sub-states and information please visit <a href="https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface" target="_blank" title="Grbl Documentation - Interface">grbl documentation</a> <i class="fa fa-external-link"></i>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="gutter-sm-top">
+                                            <span class="text-info">Machine Position.</span> <span class="badge">2</span> <span class="badge">3</span>
+                                            <ul>
+                                                <li>
+                                                    This section shows the current machine position and work position, 
+                                                    also known as machine coordinate offset (mco) and work coordinate offset (wco) 
+                                                    of the axis <span class="text-info">X</span>, <span class="text-info">Y</span> and <span class="text-info">Z</span>. 
+                                                    These axis labels <span class="badge">4</span> <span class="text-danger">X</span>, <span class="text-danger">Y</span> and <span class="text-danger">Z</span>. 
+                                                    will turns to red color if corresponding axis limit switch is triggered. 
+                                                    Work position and machine position of the axis Z will turn to red if any tool length offset (TLO) is active on the Z-Axis.
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="gutter-sm-top">
+                                            <span class="text-info">G-Code Parser State.</span> <span class="badge">5</span>
+                                            <ul>
+                                                <li>
+                                                    The selected coordinate system G54 or G55 or G56 or G57 or G58 or G59
+                                                </li>
+                                                <li>
+                                                    Unit Mode G20 (inches) or G21 (millimeters)
+                                                </li>
+                                                <li>
+                                                    Distance Mode. G90 absolute distance mode or G91 incremental distance mode
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="gutter-sm-top">
+                                            <span class="text-info">Current Feed Rate</span> <span class="badge">6</span>
+                                        </li>
+
+                                        <li class="gutter-sm-top">
+                                            <span class="text-info">Buffer State. (Planner buffer / Serial RX buffer)</span> <span class="badge">7</span>
+                                        </li>
+                                    </ol>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="gutter-lg-top">
+                                        <br /><br />
+                                        <img src="images/machine_status_panel_info.png" class="img-responsive img-rounded" alt="Machine Status Panel Information" />
+                                    </div>
+                                    <p class="text-muted">Figure-2: Machine Status Panel Information.</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <p class="text-muted text-warning">
+                                    NOTE: Click and holding or long click on anywhere in the "Machine Status Panel" will display the last toast message again.
+                                </p>
+                            </div>
+                            
+                        </div>
+                        
                     </div>
                 </div>
             </div>
