@@ -36,7 +36,7 @@ import android.widget.NumberPicker;
 
 public class NumberPickerPreference extends DialogPreference {
 
-    public static final int MAX_VALUE = 100;
+    public static final int MAX_VALUE = 500;
     public static final int MIN_VALUE = 1;
 
     public static final boolean WRAP_SELECTOR_WHEEL = true;

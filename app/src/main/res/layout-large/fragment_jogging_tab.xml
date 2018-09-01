@@ -246,62 +246,6 @@
                         tools:ignore="HardcodedText" />
                 </TableRow>
 
-                <TableRow android:id="@+id/additional_axis_layout" android:visibility="gone">
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/jog_a_positive"
-                        android:gravity="center"
-                        android:tag="$J=%sG91A%sF%s"
-                        android:layout_weight="0.25"
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="A {fa-plus-circle 24dp}"
-                        android:textSize="24sp"
-                        android:padding="18dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        tools:ignore="HardcodedText" />
-
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/jog_a_negative"
-                        android:gravity="center"
-                        android:tag="$J=%sG91A-%sF%s"
-                        android:layout_weight="0.25"
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="A {fa-minus-circle 24dp}"
-                        android:textSize="24sp"
-                        android:padding="18dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        tools:ignore="HardcodedText" />
-
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/jog_b_positive"
-                        android:gravity="center"
-                        android:tag="$J=%sG91B%sF%s"
-                        android:layout_weight="0.25"
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="B {fa-plus-circle 24dp}"
-                        android:textSize="24sp"
-                        android:padding="18dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        tools:ignore="HardcodedText" />
-
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/jog_b_negative"
-                        android:gravity="center"
-                        android:tag="$J=%sG91B-%sF%s"
-                        android:layout_weight="0.25"
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text="B {fa-minus-circle 24dp}"
-                        android:textSize="24sp"
-                        android:padding="18dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        tools:ignore="HardcodedText" />
-
-
-                </TableRow>
-
                 <TableRow android:id="@+id/wpos_layout">
 
                     <com.joanzapata.iconify.widget.IconButton

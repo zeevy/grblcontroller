@@ -21,7 +21,6 @@
 
 package in.co.gorest.grblcontroller;
 
-
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -58,10 +57,7 @@ public class GrblController extends Application {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        if(this.isFreeVersion()) {
-            MobileAds.initialize(this, getString(R.string.admob_app_id));
-        }
-
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
     }
 
     public static synchronized GrblController getInstance(){
@@ -84,10 +80,6 @@ public class GrblController extends Application {
         }
 
         return goRestService;
-    }
-
-    public Boolean isFreeVersion(){
-        return getPackageName().equalsIgnoreCase("in.co.gorest.grblcontroller");
     }
 
 }

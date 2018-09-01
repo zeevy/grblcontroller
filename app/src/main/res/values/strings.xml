@@ -97,6 +97,8 @@
     <string name="text_grbl_soft_reset">Grbl soft reset!</string>
     <string name="text_grbl_soft_reset_desc">do you want to soft reset the machine?</string>
     <string name="text_unknown">Unknown</string>
+    <string name="text_buy_app">Buy The Application</string>
+    <string name="text_buy_app_summary">Purchase the application and unlock more features</string>
 
     <!-- Settings -->
     <string name="text_app_share">Share</string>

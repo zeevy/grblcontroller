@@ -43,19 +43,23 @@ public class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(GrblController.getInstance().isFreeVersion()){
-            interstitialAd = new InterstitialAd(getActivity());
-            interstitialAd.setAdUnitId(getString(R.string.admob_interstitial_ad_id));
-            interstitialAd.loadAd(new AdRequest.Builder().build());
+        interstitialAd = new InterstitialAd(getActivity());
+        interstitialAd.setAdUnitId(getString(R.string.admob_interstitial_ad_id));
+        interstitialAd.loadAd(new AdRequest.Builder().build());
 
-            rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getActivity());
-            rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
-        }
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getActivity());
+        rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
     }
 
     @Override
     public void onStart(){
         super.onStart();
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         displayInterstitialAd();
     }
 
@@ -72,18 +76,16 @@ public class BaseFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onGcodeCommandReceived(String command);
         void onGrblRealTimeCommandReceived(byte command);
-        void vibrateShort();
-        void vibrateLong();
     }
 
     public void displayInterstitialAd(){
-        if(GrblController.getInstance().isFreeVersion() && interstitialAd.isLoaded()){
+        if(interstitialAd.isLoaded()){
             interstitialAd.show();
         }
     }
 
     public void displayRewardVideoAd(){
-        if(GrblController.getInstance().isFreeVersion() && rewardedVideoAd.isLoaded()){
+        if(rewardedVideoAd.isLoaded()){
             rewardedVideoAd.show();
         }
     }

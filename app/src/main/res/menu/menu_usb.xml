@@ -7,14 +7,14 @@
         android:id="@+id/action_grbl_reset"
         android:orderInCategory="10"
         android:title="@string/text_reset"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/action_connect"
         android:orderInCategory="11"
         android:title="@string/text_connect"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:icon="@drawable/ic_settings_black_20dp"

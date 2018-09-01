@@ -123,7 +123,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         selectGcodeFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 if(hasExternalStorageReadPermission()){
                     getFilePicker();
                 }else{
@@ -136,7 +135,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         enableChecking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
                     stopFileStreaming();
                     fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_TOGGLE_CHECK_MODE_COMMAND);
@@ -148,7 +146,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         startStreaming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 if(fileSender.getGcodeFile() == null){
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_gcode_file_selected)));
                     return;
@@ -167,7 +164,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         stopStreaming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateLong();
                 stopFileStreaming();
             }
         });
@@ -307,7 +303,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public boolean onLongClick(View view){
-        fragmentInteractionListener.vibrateShort();
         int id = view.getId();
 
         switch(id){
@@ -333,7 +328,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        fragmentInteractionListener.vibrateShort();
 
         switch(id) {
             case R.id.feed_override_fine_minus:

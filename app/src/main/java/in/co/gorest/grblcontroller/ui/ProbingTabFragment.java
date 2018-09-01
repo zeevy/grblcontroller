@@ -130,7 +130,6 @@ public class ProbingTabFragment extends BaseFragment {
         startProbe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 new AlertDialog.Builder(getActivity())
                         .setTitle(getString(R.string.text_straight_probe))
                         .setMessage(getString(R.string.text_straight_probe_desc))
@@ -150,7 +149,6 @@ public class ProbingTabFragment extends BaseFragment {
         startToolOffset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getLastProbePosition() == null){
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_last_probe_location_unknown)));
                     return;
@@ -174,7 +172,6 @@ public class ProbingTabFragment extends BaseFragment {
         cancelToolOffset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
                     new AlertDialog.Builder(getActivity())
                             .setTitle(getString(R.string.text_cancel_tlo))

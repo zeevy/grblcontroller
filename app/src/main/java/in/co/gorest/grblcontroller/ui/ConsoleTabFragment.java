@@ -90,7 +90,6 @@ public class ConsoleTabFragment extends BaseFragment {
         sendCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 String commandText = commandInput.getText().toString();
                 if(commandText.length() > 0){
                     GcodeCommand gcodeCommand = new GcodeCommand(commandText);
@@ -107,7 +106,6 @@ public class ConsoleTabFragment extends BaseFragment {
         sendCommand.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                fragmentInteractionListener.vibrateShort();
                 new AlertDialog.Builder(getActivity())
                         .setTitle(getString(R.string.text_clear_console))
                         .setMessage(getString(R.string.text_clear_console_description))

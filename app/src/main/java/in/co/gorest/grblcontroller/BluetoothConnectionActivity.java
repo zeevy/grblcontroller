@@ -224,7 +224,6 @@ public class BluetoothConnectionActivity extends GrblActivity {
                                         Intent intent = new Intent(getApplicationContext(), FileStreamerIntentService.class);
                                         stopService(intent);
                                     }
-                                    vibrateLong();
                                     onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
                                 }
                             })
@@ -232,7 +231,6 @@ public class BluetoothConnectionActivity extends GrblActivity {
                             .show();
 
                 }else{
-                    vibrateLong();
                     onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
                 }
                 return true;

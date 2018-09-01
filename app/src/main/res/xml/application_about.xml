@@ -52,6 +52,15 @@
     </Preference>
 
     <Preference
+        android:icon="@drawable/ic_star_half_black_36dp"
+        android:summary="@string/text_buy_app_summary"
+        android:title="@string/text_buy_app">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="market://details?id=in.co.gorest.grblcontroller.plus"/>
+    </Preference>
+
+    <Preference
         android:icon="@drawable/ic_contact_mail_black_36dp"
         android:summary="zeevy@outlook.in"
         android:title="Contact developer">

@@ -29,11 +29,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PowerManager;
-import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -42,7 +41,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,18 +49,13 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
-import org.apache.commons.collections4.queue.CircularFifoQueue;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -70,8 +63,6 @@ import in.co.gorest.grblcontroller.databinding.ActivityMainBinding;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
 import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
 import in.co.gorest.grblcontroller.events.GrblErrorEvent;
-import in.co.gorest.grblcontroller.events.GrblOkEvent;
-import in.co.gorest.grblcontroller.events.JogCommandEvent;
 import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
@@ -105,13 +96,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     private Toast toastMessage;
     public static boolean isAppRunning;
 
-    private static final int VIBRATION_LENGTH_SHORT = 80;
-    private static final int VIBRATION_LENGTH_LONG = 500;
-    private static final int VIBRATION_LENGTH_VERY_LONG = 1500;
-    private Vibrator vibrator;
-    private boolean vibrationEnabled = false;
-
-    private InterstitialAd interstitialAd;
     private RewardedVideoAd rewardedVideoAd;
 
     @Override
@@ -138,8 +122,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
             }
         });
 
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
         Iconify.with(new FontAwesomeModule());
         setupTabLayout(R.id.tab_layout, R.id.tab_layout_pager);
         checkPowerManagement();
@@ -148,21 +130,9 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
         if(fcmToken != null && !tokenSent) MyFirebaseInstanceIDService.sendRegistrationToServer(fcmToken);
 
-
-        if(GrblController.getInstance().isFreeVersion()){
-            interstitialAd = new InterstitialAd(this);
-            interstitialAd.setAdUnitId(getString(R.string.admob_interstitial_ad_id));
-            interstitialAd.loadAd(new AdRequest.Builder().build());
-
-            rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-            rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
-        }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        vibrationEnabled = sharedPref.getBoolean(getString(R.string.preference_enable_haptic_feedback), false);
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
+        freeAppNotification();
     }
 
     @Override
@@ -178,6 +148,25 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     @Override
     public void onBackPressed(){ moveTaskToBack(true); }
+
+    public void freeAppNotification(){
+        new AlertDialog.Builder(this)
+                .setTitle("Free Application")
+                .setMessage("You are using free version of the application. For more features and ad free purchase the Grbl Controller +")
+                .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus")));
+                        }
+                        catch (android.content.ActivityNotFoundException anfe) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller.plus")));
+                        }
+                    }
+                })
+                .setNegativeButton(getString(R.string.text_cancel), null)
+                .setCancelable(false)
+                .show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -297,18 +286,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     }
 
-    public void vibrateShort(){
-        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_SHORT);
-    }
-
-    public void vibrateLong(){
-        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_LONG);
-    }
-
-    public void vibrateVeryLong(){
-        if(vibrationEnabled) vibrator.vibrate(VIBRATION_LENGTH_VERY_LONG);
-    }
-
     public static boolean isTablet(Context context){
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
@@ -341,14 +318,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         }
     }
 
-    public void displayInterstitialAd(){
-        if(GrblController.getInstance().isFreeVersion() && interstitialAd.isLoaded()){
-            interstitialAd.show();
-        }
-    }
-
     public void displayRewardVideoAd(){
-        if(GrblController.getInstance().isFreeVersion() && rewardedVideoAd.isLoaded()){
+        if(rewardedVideoAd.isLoaded()){
             rewardedVideoAd.show();
         }
     }
@@ -375,9 +346,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void OnStreamingCompleteEvent(StreamingCompleteEvent event){
-        if(sharedPref.getBoolean(getString(R.string.preference_sleep_after_job), false) && !machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
-            onGcodeCommandReceived(GrblUtils.GRBL_SLEEP_COMMAND);
-        }
 
         displayRewardVideoAd();
     }
