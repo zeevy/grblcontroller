@@ -272,7 +272,7 @@ public class FileStreamerIntentService extends IntentService{
     }
 
     private void waitUntilBufferRunOut(boolean dwell){
-        if(dwell) streamLine(new GcodeCommand("G4P0"));
+        if(dwell) streamLine(new GcodeCommand("G4P0.01"));
 
         while(CURRENT_RX_SERIAL_BUFFER > 0){
             try {
