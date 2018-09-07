@@ -15,3 +15,6 @@ a:focus, button:focus{outline: none !important;}
 ul, ol{padding: 0; list-style-position: inside;}
 ul ol{padding-left: 20px;}
 ol ul{padding-left: 20px;}
+.fa-rotate-45 {-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);-ms-transform: rotate(45deg);-o-transform: rotate(45deg);transform: rotate(45deg);}
+.text-black{color: #000000;}
+.fa-vam{vertical-align: middle;}

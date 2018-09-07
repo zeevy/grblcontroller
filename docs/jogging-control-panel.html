@@ -16,12 +16,223 @@
             <div class="nav-wrap" id="siteNavigation"></div>
             <div class="container">
                 <div class="site-index">
-                    <div class="body-content">
-                        <div class="jumbotron">
-                            <h2 class="text-center">Jogging Control Panel</h2>
-                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                    <div class="body-content clearfix">
+                        <h2 class="text-center">Jogging Control Panel</h2>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="gutter-lg-top">
+                                    <img src="images/jogging_control_panel.png" class="img-responsive img-rounded" alt="Jogging Control Panel Information" />
+                                </div>
+                                <p class="text-muted gutter-sm-top">Figure-1: Machine status panel information</p>
+                            </div>
+                                
+                            <div class="col-sm-6">
+                                <h3>Jogging control, homing and return to zero</h3>
+                                <ul>
+                                    <li class="gutter-sm-top">
+                                        <code>Step | Feed</code> Jogging step and feed rate can be adjusted here. 
+                                        Max feed rate value depends on the machine settings.
+                                        Max step size can be configured in settings.
+                                    </li> 
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-left fa-rotate-45 fa-2x text-black fa-vam"></i> X- Y+</code>
+                                        Move the machine in X negative and Y positive direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-up fa-2x text-black fa-vam"></i> Y+</code> 
+                                        Move the machine in Y positive direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-up fa-rotate-45 fa-2x text-black fa-vam"></i> X+ Y+</code>
+                                        Move the machine in X positive and Y positive direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-up fa-2x text-black fa-vam"></i> Z+</code> 
+                                        Move the machine in Z positive direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-left fa-2x text-black fa-vam"></i> X-</code> 
+                                        Move the machine in X negative direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-home fa-lg text-black fa-vam"></i> Homing</code> 
+                                        Homing button has two behaviours 
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Do machine homing with $H
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Set all axis location in current coordinate system to zero <code>G10 L20 P0 X0Y0Z0</code>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-right fa-2x text-black fa-vam"></i> X+</code> 
+                                        Move the machine in X positive direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-stop-circle-o fa-lg text-danger fa-vam"></i> Jog stop | Go to zero</code> 
+                                        <ol>
+                                            <li class="gutter-sm-top">Short Click: Tries to stop the current jogging or any custom button task</li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Go to zero position in current work coordinates 
+                                                (this will first move the z-axis to zero in machine coordinates then moves x,y to zero in work coordinates then moves the z-axis to zero in work coordinates)
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-down fa-2x fa-rotate-45 text-black fa-vam"></i> X- Y-</code> 
+                                        Move the machine in X negative and Y negative direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-down fa-2x text-black fa-vam"></i> Y-</code> 
+                                        Move the machine in Y negative direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-right fa-2x fa-rotate-45 text-black fa-vam"></i> X+ Y-</code> 
+                                        Move the machine in X positive and Y negative direction.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code><i class="fa fa-caret-down fa-2x text-black fa-vam"></i> Z-</code> 
+                                        Move the machine in Z negative direction.
+                                    </li>
+                                </ul>
+                                <p class="text-muted text-warning">NOTE: Click and holding the axis move buttons will repeatedly execute the commands at an interval of 35 milli seconds approximately.</p>
+                            </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3>Alarm unlock and axis control</h3>
+                                <ul>
+                                    <li class="gutter-sm-top">
+                                        Alarm status | Alarm Unlock
+                                        <ol>
+                                            <li>
+                                                <code><i class="fa fa-bell-slash-o fa-lg text-black fa-vam"></i></code>
+                                                Alarms not active. Clicking on this state does nothing.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code><i class="fa fa-bell fa-lg text-danger fa-vam"></i></code>
+                                                Alarm is triggered. Clicking on this button will send unlock command $X
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code>X <i class="fa fa-dot-circle-o fa-lg text-black fa-vam"></i></code>
+                                        X-Axis control
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Set x-axis location in current coordinate system to zero
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Move x-axis to zero position in current coordinate system <code>G0X0</code>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code>Y <i class="fa fa-dot-circle-o fa-lg text-black fa-vam"></i></code>
+                                        Y-Axis control
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Set y-axis location in current coordinate system to zero
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Move y-axis to zero position in current coordinate system <code>G0Y0</code>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code>Z <i class="fa fa-dot-circle-o fa-lg text-black fa-vam"></i></code>
+                                        Z-Axis control
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Set z-axis location in current coordinate system to zero
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Move z-axis to zero position in current coordinate system <code>G0Z0</code>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Work coordinate offsets</h3>
+                                <ul>
+                                    <li class="gutter-sm-top">
+                                        <code class="padding-md-right padding-md-left text-black">G54</code> Coordinate System 1
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Select coordinate system 1
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Saves current work position to coordinate system 1
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code class="padding-md-right padding-md-left text-black">G55</code> Coordinate System 2
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Select coordinate system 2
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Saves current work position to coordinate system 2
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code class="padding-md-right padding-md-left text-black">G56</code> Coordinate System 3
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Select coordinate system 3
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Saves current work position to coordinate system 3
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code class="padding-md-right padding-md-left text-black">G57</code> Coordinate System 4
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Short Click: Select coordinate system 4
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Long Click: Saves current work position to coordinate system 4
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                </ul>
+                                <p class="text-muted text-warning">
+                                    NOTE: Due to space limitations application only supports 4 coordinates systems, although grbl supports 6 (easy work around this is to use custom buttons)
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <hr />
                     </div>
+                        
                 </div>
             </div>
 
