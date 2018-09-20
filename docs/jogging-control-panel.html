@@ -24,7 +24,7 @@
                                 <div class="gutter-lg-top">
                                     <img src="images/jogging_control_panel.png" class="img-responsive img-rounded" alt="Jogging Control Panel Information" />
                                 </div>
-                                <p class="text-muted gutter-sm-top">Figure-1: Machine status panel information</p>
+                                <p class="text-muted gutter-sm-top">Figure-1: Jogging control panel information</p>
                             </div>
                                 
                             <div class="col-sm-6">
@@ -79,7 +79,7 @@
                                     </li>
                                     
                                     <li class="gutter-sm-top">
-                                        <code><i class="fa fa-stop-circle-o fa-lg text-danger fa-vam"></i> Jog stop | Go to zero</code> 
+                                        <code><i class="fa fa-stop-circle-o fa-lg text-danger fa-vam"></i> Jog cancel | Go to zero</code> 
                                         <ol>
                                             <li class="gutter-sm-top">Short Click: Tries to stop the current jogging or any custom button task</li>
                                             <li class="gutter-sm-top">
@@ -224,8 +224,25 @@
                                     </li>
                                     
                                 </ul>
-                                <p class="text-muted text-warning">
-                                    NOTE: Due to space limitations application only supports 4 coordinates systems, although grbl supports 6 (easy work around this is to use custom buttons)
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3>Custom Buttons</h3>
+                                <p>
+                                    Application supports four custom buttons in jog control panel <span class="text-muted">(needs to be enable in settings)</span>. Button labels and actions can be customized via settings.
+                                    Custom buttons also supports both short click and long click events and can behave accordingly.<br />
+                                    Custom buttons supports commands upto 2048 characters in length, will be sent to grbl using character counting protocol.
+                                    You can cancel any currently running custom command by pressing the "Jog Cancel" <code><i class="fa fa-stop-circle-o fa-lg text-danger fa-vam"></i> Jog cancel | Go to zero</code> button
+                                </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Additional <code>A</code> and <code>B</code> Axis Support</h3>
+                                <p>
+                                    This feature is only available in paid version <span class="text-muted">(Grbl Controller +)</span><br />
+                                    When enabled in settings jogging control panel will show four additional buttons <code>A+</code>, <code>A-</code>, <code>B+</code> and <code>B-</code>
+                                    these buttons can be used to control the jogging of any additional axis that are added in custom versions of grbl <span class="text-muted">(currently its not possible to view the current position of these axis in application)</span>
                                 </p>
                             </div>
                         </div>
