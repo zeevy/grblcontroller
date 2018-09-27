@@ -25,6 +25,11 @@
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/>](https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller "Download from play store")
 
+### Limitations:
+- No trimming of decimal places
+- Does not remove unsupported Gcodes
+- No expansion of Canned Drill cycles or M06 Tool Change
+
 #### Known Bugs:
 - Some times jog stop button will not work effectively, need to press the jog stop button two times.
 
