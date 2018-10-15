@@ -145,7 +145,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     public void freeAppNotification(){
         new AlertDialog.Builder(this)
                 .setTitle("Free Application")
-                .setMessage("You are using free version of the application. \nIf you would like to support the app development or want to donate, please purchase the Grbl Controller +\n Paid version contains most up to date features")
+                .setMessage("You are using free version of the application. \nIf you would like to support the app development or want to donate, please purchase the Grbl Controller +\nPaid version contains most up to date features and enhancements")
                 .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
