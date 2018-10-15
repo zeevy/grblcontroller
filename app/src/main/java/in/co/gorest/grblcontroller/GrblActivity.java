@@ -48,9 +48,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
@@ -96,8 +93,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     private Toast toastMessage;
     public static boolean isAppRunning;
 
-    private RewardedVideoAd rewardedVideoAd;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,8 +125,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
         if(fcmToken != null && !tokenSent) MyFirebaseInstanceIDService.sendRegistrationToServer(fcmToken);
 
-        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
         freeAppNotification();
     }
 
@@ -152,7 +145,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     public void freeAppNotification(){
         new AlertDialog.Builder(this)
                 .setTitle("Free Application")
-                .setMessage("You are using free version of the application. For more features and ad free purchase the Grbl Controller +")
+                .setMessage("You are using free version of the application. \nIf you would like to support the app development or want to donate, please purchase the Grbl Controller +\n Paid version contains most up to date features")
                 .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
@@ -318,12 +311,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         }
     }
 
-    public void displayRewardVideoAd(){
-        if(rewardedVideoAd.isLoaded()){
-            rewardedVideoAd.show();
-        }
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblAlarmEvent(GrblAlarmEvent event){
         consoleLogger.setMessages(event.toString());
@@ -347,7 +334,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void OnStreamingCompleteEvent(StreamingCompleteEvent event){
 
-        displayRewardVideoAd();
     }
 
 

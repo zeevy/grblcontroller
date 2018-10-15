@@ -284,7 +284,6 @@ public class BluetoothConnectionActivity extends GrblActivity {
         switch (currentState){
             case GrblBluetoothSerialService.STATE_CONNECTED:
                 if(getSupportActionBar() != null) getSupportActionBar().setSubtitle((mConnectedDeviceName != null) ? mConnectedDeviceName : getString(R.string.text_connected));
-                displayRewardVideoAd();
                 Answers.getInstance().logCustom(new CustomEvent("Connection Type").putCustomAttribute("Connection", "Bluetooth"));
                 invalidateOptionsMenu();
                 break;

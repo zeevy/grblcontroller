@@ -1,21 +1,5 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="help"
-        android:enabled="true"
-        android:icon="@drawable/ic_help_outline_black_shortcut_icon_12dp"
-        android:shortcutShortLabel="@string/app_shortcut_short_test_help"
-        android:shortcutLongLabel="@string/app_shortcut_long_text_help">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="in.co.gorest.grblcontroller"
-            android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
-            <extra android:name="target_url" android:value="https://zeevy.github.io/grblcontroller/" />
-            <extra android:name="sub_title" android:value="Application Documentation" />
-        </intent>
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-
-    <shortcut
         android:shortcutId="settings"
         android:enabled="true"
         android:icon="@drawable/ic_settings_black_shortcut_icon_12dp"

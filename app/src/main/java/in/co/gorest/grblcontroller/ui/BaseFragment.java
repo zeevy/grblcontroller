@@ -25,30 +25,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-
-import in.co.gorest.grblcontroller.GrblController;
-import in.co.gorest.grblcontroller.R;
-
 public class BaseFragment extends Fragment {
-
-    private InterstitialAd interstitialAd;
-    private RewardedVideoAd rewardedVideoAd;
 
     OnFragmentInteractionListener fragmentInteractionListener;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        interstitialAd = new InterstitialAd(getActivity());
-        interstitialAd.setAdUnitId(getString(R.string.admob_interstitial_ad_id));
-        interstitialAd.loadAd(new AdRequest.Builder().build());
-
-        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getActivity());
-        rewardedVideoAd.loadAd(getString(R.string.admob_reward_video_ad_id), new AdRequest.Builder().build());
     }
 
     @Override
@@ -60,7 +43,6 @@ public class BaseFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        displayInterstitialAd();
     }
 
     @Override
@@ -76,18 +58,6 @@ public class BaseFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onGcodeCommandReceived(String command);
         void onGrblRealTimeCommandReceived(byte command);
-    }
-
-    public void displayInterstitialAd(){
-        if(interstitialAd.isLoaded()){
-            interstitialAd.show();
-        }
-    }
-
-    public void displayRewardVideoAd(){
-        if(rewardedVideoAd.isLoaded()){
-            rewardedVideoAd.show();
-        }
     }
 
 }

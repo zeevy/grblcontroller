@@ -5,41 +5,33 @@
         android:icon="@drawable/ic_android_black_36dp"
         android:key="pref_app_version"
         android:title="Version Number">
-        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
-            <extra android:name="target_url" android:value="https://zeevy.github.io/grblcontroller/version-2.30.html" />
-            <extra android:name="sub_title" android:value="Release Notes" />
-        </intent>
     </Preference>
 
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
         android:summary="linuxcnc.org"
         android:title="Gcode documentation">
-        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
-            <extra android:name="target_url" android:value="http://linuxcnc.org/docs/html/gcode/g-code.html" />
-            <extra android:name="sub_title" android:value="Gcode Documentation" />
-        </intent>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="http://linuxcnc.org/docs/html/gcode/g-code.html"/>
     </Preference>
 
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
         android:summary="Interface wiki and documentation"
         android:title="Application Usage">
-        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
-            <extra android:name="target_url" android:value="https://zeevy.github.io/grblcontroller/" />
-            <extra android:name="sub_title" android:value="Application Documentation" />
-        </intent>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://zeevy.github.io/grblcontroller" />
     </Preference>
 
     <Preference
         android:icon="@drawable/ic_bug_report_black_36dp"
         android:summary="github.com | issues | discussions"
         android:title="Source / Issue tracker">
-
-        <intent android:targetPackage="in.co.gorest.grblcontroller" android:targetClass="in.co.gorest.grblcontroller.WebViewActivity">
-            <extra android:name="target_url" android:value="https://github.com/zeevy/grblcontroller/" />
-            <extra android:name="sub_title" android:value="Application Source" />
-        </intent>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://github.com/zeevy/grblcontroller" />
     </Preference>
 
     <Preference
@@ -52,7 +44,7 @@
     </Preference>
 
     <Preference
-        android:icon="@drawable/ic_star_half_black_36dp"
+        android:icon="@drawable/ic_attach_money_black_36dp"
         android:summary="@string/text_buy_app_summary"
         android:title="@string/text_buy_app">
         <intent

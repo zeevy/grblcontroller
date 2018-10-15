@@ -213,7 +213,6 @@ public class UsbConnectionActivity extends GrblActivity{
             switch (intentAction) {
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connected));
-                    displayRewardVideoAd();
                     Answers.getInstance().logCustom(new CustomEvent("Connection Type").putCustomAttribute("Connection", "USB"));
                     grblToast("USB device connected");
                     break;

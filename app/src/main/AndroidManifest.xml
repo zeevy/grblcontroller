@@ -74,12 +74,6 @@
             android:supportsPictureInPicture="false"
             tools:targetApi="n" />
 
-        <activity android:name=".WebViewActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:supportsPictureInPicture="false"
-            tools:targetApi="n" />
-
         <service
             android:name=".service.GrblUsbSerialService"
             android:enabled="true"

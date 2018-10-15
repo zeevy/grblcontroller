@@ -27,7 +27,6 @@ import android.support.v7.app.AppCompatDelegate;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.google.android.gms.ads.MobileAds;
 
 import in.co.gorest.grblcontroller.network.GoRestService;
 import io.fabric.sdk.android.Fabric;
@@ -57,7 +56,6 @@ public class GrblController extends Application {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
     }
 
     public static synchronized GrblController getInstance(){
