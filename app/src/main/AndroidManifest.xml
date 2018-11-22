@@ -9,10 +9,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <uses-feature
-        android:name="android.hardware.usb.host"
-        android:required="true" />
+    <uses-feature android:name="android.hardware.usb.host" android:required="true" />
 
     <application
         android:name=".GrblController"
@@ -33,9 +32,14 @@
             tools:targetApi="n">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" tools:targetApi="n" />
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"
+                tools:targetApi="n" />
         </activity>
         <activity
             android:name=".BluetoothConnectionActivity"
@@ -74,6 +78,8 @@
             android:supportsPictureInPicture="false"
             tools:targetApi="n" />
 
+        <activity android:name=".NotificationArchiveActivity" />
+
         <service
             android:name=".service.GrblUsbSerialService"
             android:enabled="true"
@@ -102,6 +108,11 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
+
+        <meta-data android:name="DATABASE" android:value="grblcontroller.db" />
+        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="QUERY_LOG" android:value="false" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="in.co.gorest.grblcontroller.model" />
 
     </application>
 

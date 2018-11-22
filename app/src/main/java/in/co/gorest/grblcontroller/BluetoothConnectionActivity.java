@@ -37,9 +37,6 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
@@ -53,7 +50,6 @@ import java.util.Objects;
 import in.co.gorest.grblcontroller.events.BluetoothDisconnectEvent;
 import in.co.gorest.grblcontroller.events.GrblSettingMessageEvent;
 import in.co.gorest.grblcontroller.events.JogCommandEvent;
-import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
@@ -284,7 +280,6 @@ public class BluetoothConnectionActivity extends GrblActivity {
         switch (currentState){
             case GrblBluetoothSerialService.STATE_CONNECTED:
                 if(getSupportActionBar() != null) getSupportActionBar().setSubtitle((mConnectedDeviceName != null) ? mConnectedDeviceName : getString(R.string.text_connected));
-                Answers.getInstance().logCustom(new CustomEvent("Connection Type").putCustomAttribute("Connection", "Bluetooth"));
                 invalidateOptionsMenu();
                 break;
             case GrblBluetoothSerialService.STATE_CONNECTING:
@@ -350,8 +345,8 @@ public class BluetoothConnectionActivity extends GrblActivity {
                             connectToDevice(macAddress);
                         }
 
-                    }catch (NullPointerException e){
-                        Crashlytics.logException(e);
+                    }catch (NullPointerException ignored){
+
                     }
                 }
         }

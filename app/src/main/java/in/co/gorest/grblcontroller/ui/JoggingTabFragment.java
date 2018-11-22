@@ -39,8 +39,6 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconToggleButton;
 import com.xw.repo.BubbleSeekBar;
@@ -426,11 +424,6 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             long endTime = System.currentTimeMillis();
             long timeTaken = (endTime - startTime)/1000;
 
-            Answers.getInstance().logCustom(new CustomEvent("Custom Button")
-                    .putCustomAttribute("lines", lines.length)
-                    .putCustomAttribute("size", commands[0].length())
-                    .putCustomAttribute("time", timeTaken));
-
             return 1;
         }
 
@@ -523,7 +516,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         jogStepSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
                 machineStatus.setJogging(Double.parseDouble(Float.toString(progressFloat)), machineStatus.getJogging().feed, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
             }
 
@@ -534,9 +527,10 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             }
 
             @Override
-            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
 
             }
+
         });
 
         BubbleSeekBar jogFeedSeekBar = view.findViewById(R.id.jog_feed_seek_bar);
@@ -546,7 +540,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         jogFeedSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
                 machineStatus.setJogging(machineStatus.getJogging().step, progress, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
             }
 
@@ -557,7 +551,10 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             }
 
             @Override
-            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {}
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+
+            }
+
         });
 
         SwitchCompat jogInches = view.findViewById(R.id.jog_inches);

@@ -24,6 +24,13 @@
         app:showAsAction="never" />
 
     <item
+        android:icon="@drawable/ic_notifications_active_black_24dp"
+        android:title="@string/text_notifications"
+        android:orderInCategory="14"
+        android:id="@+id/app_notifications"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/share"
         android:orderInCategory="14"
         android:icon="@drawable/ic_share_black_20dp"

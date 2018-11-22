@@ -21,6 +21,7 @@
 
 package in.co.gorest.grblcontroller;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -47,7 +48,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
@@ -68,13 +68,11 @@ import in.co.gorest.grblcontroller.helpers.ReaderViewPagerTransformer;
 import in.co.gorest.grblcontroller.listeners.ConsoleLoggerListener;
 import in.co.gorest.grblcontroller.listeners.FileSenderListener;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
-import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
 import in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;
-import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public abstract class GrblActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener{
 
@@ -118,7 +116,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         });
 
         Iconify.with(new FontAwesomeModule());
-        setupTabLayout(R.id.tab_layout, R.id.tab_layout_pager);
+        setupTabLayout();
         checkPowerManagement();
 
         String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
@@ -144,8 +142,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     public void freeAppNotification(){
         new AlertDialog.Builder(this)
-                .setTitle("Free Application")
-                .setMessage("You are using free version of the application. \nIf you would like to support the app development or want to donate, please purchase the Grbl Controller +\nPaid version contains most up to date features and enhancements")
+                .setTitle("Grbl Controller")
+                .setMessage("Hello you are using free basic version of the application. For more exiting features buy Grbl Controller +")
                 .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
@@ -182,12 +180,15 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 return true;
 
+            case  R.id.app_notifications:
+                startActivity(new Intent(getApplicationContext(), NotificationArchiveActivity.class));
+                return true;
+
             case R.id.app_about:
                 startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                 return true;
 
             case R.id.share:
-
                 try {
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
@@ -197,7 +198,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
                     startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
                 }catch (ActivityNotFoundException e){
-                    Crashlytics.logException(e);
                     grblToast("No application available to perform this action!");
                 }
 
@@ -219,8 +219,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     }
 
-    protected void setupTabLayout(int tabLayoutId, int tabLayoutPagerId){
-        TabLayout tabLayout = findViewById(tabLayoutId);
+    protected void setupTabLayout(){
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
 
         if(isTablet(this)){
             tabLayout.addTab(tabLayout.newTab().setIcon(new IconDrawable(this, FontAwesomeIcons.fa_arrows_alt).colorRes(R.color.colorAccent).sizeDp(32)));
@@ -237,7 +237,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = findViewById(tabLayoutPagerId);
+        final ViewPager viewPager = findViewById(R.id.tab_layout_pager);
         final GrblFragmentPagerAdapter pagerAdapter = new GrblFragmentPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -257,6 +257,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         });
     }
 
+    @SuppressLint("ShowToast")
     protected void grblToast(String message){
 
         if(toastMessage == null){
@@ -290,17 +291,15 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
             if(pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())){
 
                 new AlertDialog.Builder(this)
-                        .setTitle("Warning! battery optimisation is enabled")
-                        .setMessage("For long running jobs, disable android battery optimisation for this application.")
-                        .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.text_power_management_warning_title))
+                        .setMessage(getString(R.string.text_power_management_warning_description))
+                        .setPositiveButton(getString(R.string.text_settings), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
                                     Intent myIntent = new Intent();
                                     myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
                                     startActivity(myIntent);
-                                } catch (RuntimeException e) {
-                                    Crashlytics.logException(e);
-                                }
+                                } catch (RuntimeException ignored) {}
                             }
                         })
                         .setNegativeButton(getString(R.string.text_cancel), null)

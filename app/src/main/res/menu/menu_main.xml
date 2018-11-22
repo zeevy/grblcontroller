@@ -25,8 +25,15 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/share"
+        android:icon="@drawable/ic_notifications_active_black_24dp"
+        android:title="@string/text_notifications"
         android:orderInCategory="14"
+        android:id="@+id/app_notifications"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/share"
+        android:orderInCategory="15"
         android:icon="@drawable/ic_share_black_20dp"
         android:title="@string/text_app_share"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
@@ -35,7 +42,7 @@
     <item
         android:icon="@drawable/ic_android_black_20dp"
         android:title="@string/text_app_about"
-        android:orderInCategory="15"
+        android:orderInCategory="16"
         app:showAsAction="never"
         android:id="@+id/app_about" />
 

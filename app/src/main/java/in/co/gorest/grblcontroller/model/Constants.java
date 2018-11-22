@@ -70,11 +70,12 @@ public interface Constants {
     String SERIAL_CONNECTION_TYPE_BLUETOOTH         = "bluetooth";
     String SERIAL_CONNECTION_TYPE_USB_OTG           = "usbotg";
 
-    String GCODE_FILE_PICKER_TYPE_FULL              = "full";
-    String GCODE_FILE_PICKER_TYPE_SIMPLE            = "simple";
-
     int BLUETOOTH_SERVICE_NOTIFICATION_ID           = 100;
     int FILE_STREAMING_NOTIFICATION_ID              = 101;
     int USB_OTG_SERVICE_NOTIFICATION_ID             = 102;
+
+    String TEXT_CATEGORY_UPDATE                     = "update";
+    String TEXT_CATEGORY_LINK                       = "link";
+    String TEXT_CATEGORY_PROMOTION                  = "promotion";
 
 }

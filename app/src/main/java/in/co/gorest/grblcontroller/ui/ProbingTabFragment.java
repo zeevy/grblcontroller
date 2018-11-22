@@ -36,8 +36,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.widget.IconButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -349,10 +347,6 @@ public class ProbingTabFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblProbeEvent(GrblProbeEvent event){
         if(probeType == null || probeStartPosition == null) return;
-
-        Answers.getInstance().logCustom(new CustomEvent("Probing")
-                .putCustomAttribute("type", (probeType == 1) ? "G38.3" : "G43.1")
-                .putCustomAttribute("status", event.getIsProbeSuccess() ? "success" : "failed"));
 
         if(!event.getIsProbeSuccess()){
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_failed)));

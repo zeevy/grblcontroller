@@ -27,9 +27,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
-
 import org.greenrobot.eventbus.EventBus;
 
 import in.co.gorest.grblcontroller.GrblController;
@@ -81,10 +78,6 @@ public abstract class SerialCommunicationHandler extends Handler {
             EventBus.getDefault().post(alarmEvent);
             EventBus.getDefault().post(new UiToastEvent(alarmEvent.getAlarmDescription()));
 
-            Answers.getInstance().logCustom(new CustomEvent("Alarm")
-                    .putCustomAttribute("code", alarmEvent.getAlarmCode())
-                    .putCustomAttribute("message", alarmEvent.getAlarmName()));
-
         }else if(GrblUtils.isGrblFeedbackMessage(message)){
             EventBus.getDefault().post(new ConsoleMessageEvent(message));
 
@@ -92,10 +85,6 @@ public abstract class SerialCommunicationHandler extends Handler {
             GrblErrorEvent errorEvent = new GrblErrorEvent(GrblErrors, message);
             EventBus.getDefault().post(errorEvent);
             EventBus.getDefault().post(new UiToastEvent(errorEvent.getErrorDescription()));
-
-            Answers.getInstance().logCustom(new CustomEvent("Error")
-                    .putCustomAttribute("code", errorEvent.getErrorCode())
-                    .putCustomAttribute("message", errorEvent.getErrorName()));
 
         }else if(GrblUtils.isGrblProbeMessage(message)){
             String probeString = GrblUtils.getProbeString(message);

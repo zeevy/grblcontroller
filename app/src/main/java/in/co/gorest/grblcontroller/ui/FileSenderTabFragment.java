@@ -28,8 +28,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,8 +38,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
@@ -55,13 +51,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import droidninja.filepicker.FilePickerBuilder;
-import droidninja.filepicker.FilePickerConst;
-import droidninja.filepicker.models.sort.SortingTypes;
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentFileSenderTabBinding;
@@ -75,7 +67,6 @@ import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.model.Overrides;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
-import in.co.gorest.grblcontroller.util.GcodePreprocessorUtils;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class FileSenderTabFragment extends BaseFragment implements View.OnClickListener, View.OnLongClickListener{
@@ -229,10 +220,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                                     getActivity().startService(intent);
                                 }
 
-                                Answers.getInstance().logCustom(new CustomEvent("File Streaming")
-                                        .putCustomAttribute("lines", fileSender.getRowsInFile().toString())
-                                        .putCustomAttribute("size", (fileSender.getGcodeFile().length()/1024)));
-
                             }
                         })
                         .setNegativeButton(getString(R.string.text_cancel), null)
@@ -267,24 +254,6 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null){
-            ArrayList<String> pickedFiles = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
-            if(pickedFiles.size() > 0){
-                fileSender.setGcodeFile(new File(pickedFiles.get(0)));
-                if(fileSender.getGcodeFile().exists()){
-                    new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
-                }else{
-                    MediaScannerConnection.scanFile(Objects.requireNonNull(getActivity()).getApplicationContext(), new String[] { fileSender.getGcodeFile().getAbsolutePath() }, null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                public void onScanCompleted(String path, Uri uri) {}
-                            }
-                    );
-
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found)));
-                }
-            }
-        }
 
         if(requestCode == Constants.FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
@@ -454,28 +423,14 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     private void getFilePicker(){
 
-        String filePickerType = sharedPref.getString(getString(R.string.preference_gcode_file_picker_type), Constants.GCODE_FILE_PICKER_TYPE_SIMPLE);
-
-        if(filePickerType.equals(Constants.GCODE_FILE_PICKER_TYPE_FULL)){
-
-            new MaterialFilePicker()
-                    .withActivity(getActivity())
-                    .withRequestCode(Constants.FILE_PICKER_REQUEST_CODE)
-                    .withHiddenFiles(false)
-                    .withFilter(Pattern.compile(Constants.SUPPORTED_FILE_TYPES_STRING, Pattern.CASE_INSENSITIVE))
-                    .withTitle(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES))
-                    .start();
-
-        }else{
-
-            FilePickerBuilder.getInstance().setMaxCount(1)
-                    .setActivityTheme(R.style.FilePickerTheme)
-                    .addFileSupport(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES), Constants.SUPPORTED_FILE_TYPES)
-                    .enableDocSupport(false)
-                    .showFolderView(false)
-                    .sortDocumentsBy(SortingTypes.name)
-                    .pickFile(Objects.requireNonNull(getActivity()));
-        }
+        new MaterialFilePicker()
+                .withActivity(getActivity())
+                .withRequestCode(Constants.FILE_PICKER_REQUEST_CODE)
+                .withHiddenFiles(false)
+                .withFilter(Pattern.compile(Constants.SUPPORTED_FILE_TYPES_STRING, Pattern.CASE_INSENSITIVE))
+                .withTitle(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES))
+                .withRootPath("/storage/")
+                .start();
     }
 
     private Boolean hasExternalStorageReadPermission(){

@@ -40,8 +40,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
@@ -213,15 +211,14 @@ public class UsbConnectionActivity extends GrblActivity{
             switch (intentAction) {
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connected));
-                    Answers.getInstance().logCustom(new CustomEvent("Connection Type").putCustomAttribute("Connection", "USB"));
-                    grblToast("USB device connected");
+                    grblToast(getString(R.string.text_usb_device_connected));
                     break;
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
-                    if(getSupportActionBar() != null) getSupportActionBar().setSubtitle("No usb permission");
-                    grblToast("USB Permission not granted");
+                    if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_no_usb_permission);
+                    grblToast(getString(R.string.text_usb_permission_not_granted));
                     break;
                 case GrblUsbSerialService.ACTION_NO_USB: // NO USB CONNECTED
-                    if(getSupportActionBar() != null) getSupportActionBar().setSubtitle("No usb device");
+                    if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_no_usb_device);
                     //grblToast("USB device not connected");
                     break;
                 case GrblUsbSerialService.ACTION_USB_DISCONNECTED: // USB DISCONNECTED
@@ -231,12 +228,12 @@ public class UsbConnectionActivity extends GrblActivity{
                         FileStreamerIntentService.setShouldContinue(false);
                         stopService(new Intent(getApplicationContext(), FileStreamerIntentService.class));
                     }
-                    grblToast("USB device disconnected");
+                    grblToast(getString(R.string.text_usb_device_disconnected));
                     break;
                 case GrblUsbSerialService.ACTION_USB_NOT_SUPPORTED: // USB NOT SUPPORTED
-                    if(getSupportActionBar() != null) getSupportActionBar().setSubtitle("Device not supported");
+                    if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_usb_device_not_supported);
                     MachineStatusListener.getInstance().setState(Constants.MACHINE_STATUS_NOT_CONNECTED);
-                    grblToast("USB device not supported");
+                    grblToast(getString(R.string.text_usb_device_not_supported));
                     break;
             }
         }

@@ -61,7 +61,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
-import com.crashlytics.android.Crashlytics;
 import com.felhr.usbserial.CDCSerialDevice;
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
@@ -217,8 +216,8 @@ public class GrblUsbSerialService extends Service {
 //                    serialUsbCommunicationHandler.obtainMessage(Constants.MESSAGE_READ, readMessage.length(), -1, readMessage).sendToTarget();
 //                }
 
-            }catch (Exception e){
-                Crashlytics.logException(e);
+            }catch (Exception ignored){
+
             }
         }
     };
@@ -314,7 +313,6 @@ public class GrblUsbSerialService extends Service {
             // There is no USB devices connected. Send an intent to MainActivity
             Intent intent = new Intent(ACTION_NO_USB);
             sendBroadcast(intent);
-            Crashlytics.logException(e);
         }
     }
 
@@ -373,8 +371,8 @@ public class GrblUsbSerialService extends Service {
 
                     try {
                         Thread.sleep(2000); // sleep some. YMMV with different chips.
-                    } catch (InterruptedException e) {
-                        Crashlytics.logException(e);
+                    } catch (InterruptedException ignored) {
+
                     }
 
                     // Everything went as expected. Send an intent to MainActivity

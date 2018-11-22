@@ -79,13 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
                 EventBus.getDefault().post(new UiToastEvent("Application restart required"));
             }
 
-            if(key.equalsIgnoreCase(getString(R.string.preference_gcode_file_picker_type))){
-                String value = sharedPreferences.getString(key, "");
-                if(value.equalsIgnoreCase("full")){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_only_internal_storage_supported)));
-                }
-            }
-
         }
 
     }

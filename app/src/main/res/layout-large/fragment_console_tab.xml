@@ -55,7 +55,7 @@
                     android:scrollbars="vertical"
                     android:fadeScrollbars="false"
                     android:textColor="@color/colorAccent"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:background="@drawable/rounded_border_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

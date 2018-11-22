@@ -24,16 +24,13 @@ package in.co.gorest.grblcontroller;
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.core.CrashlyticsCore;
+import com.orm.SugarApp;
 
 import in.co.gorest.grblcontroller.network.GoRestService;
-import io.fabric.sdk.android.Fabric;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GrblController extends Application {
+public class GrblController extends SugarApp {
 
     private final String TAG = GrblController.class.getSimpleName();
     private static GrblController grblController;
@@ -63,8 +60,7 @@ public class GrblController extends Application {
     }
 
     private void configureCrashReporting(){
-        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
-        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build(), new Answers());
+
     }
 
     public GoRestService getRetrofit(){

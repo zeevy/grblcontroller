@@ -38,8 +38,6 @@ import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -139,9 +137,6 @@ public class GrblBluetoothSerialService extends Service{
                     this.connect(device, false);
                 }catch(IllegalArgumentException e){
                     EventBus.getDefault().post(new UiToastEvent(e.getMessage()));
-                    Crashlytics.logException(e);
-                    Crashlytics.log("MAC ADDRESS: " + deviceAddress);
-                    Crashlytics.log(e.getMessage());
                     disconnectService();
                     stopSelf();
                 }

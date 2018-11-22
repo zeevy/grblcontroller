@@ -31,10 +31,6 @@ import android.os.Process;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -125,7 +121,7 @@ public class FileStreamerIntentService extends IntentService{
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = null;
         if (powerManager != null) {
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Grbl File Streaming");
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "GrblController:WakeLockTag");
             wakeLock.acquire(24*60*60*1000);
         }
 
@@ -142,8 +138,8 @@ public class FileStreamerIntentService extends IntentService{
                     fileSenderListener.setElapsedTime(String.format(Locale.US ,"%02d:%02d:%02d", elapsedTimeSeconds / 3600, (elapsedTimeSeconds % 3600) / 60, (elapsedTimeSeconds % 60)));
                 }
             }, 0, 1000);
-        }catch (IllegalStateException e){
-            Crashlytics.logException(e);
+        }catch (IllegalStateException ignored){
+
         }
 
         fileSenderListener.setStatus(FileSenderListener.STATUS_STREAMING);
@@ -182,18 +178,12 @@ public class FileStreamerIntentService extends IntentService{
         streamingCompleteEvent.setTimeMillis(fileSenderListener.getJobEndTime() - fileSenderListener.getJobStartTime());
         streamingCompleteEvent.setTimeTaken(fileSenderListener.getElapsedTime());
 
-        Answers.getInstance().logCustom(new CustomEvent("Job Completed")
-                .putCustomAttribute("lines sent", fileSenderListener.getRowsSent())
-                .putCustomAttribute("time taken", streamingCompleteEvent.getTimeMillis()/1000));
-
         EventBus.getDefault().post(streamingCompleteEvent);
 
         if(wakeLock != null){
             try{
                 wakeLock.release();
-            }catch (RuntimeException e){
-                Crashlytics.logException(e);
-            }
+            }catch (RuntimeException ignored){}
         }
 
         stopSelf();
@@ -279,7 +269,6 @@ public class FileStreamerIntentService extends IntentService{
                 completedCommands.take();
                 if(activeCommandSizes.size() > 0) CURRENT_RX_SERIAL_BUFFER -= activeCommandSizes.removeFirst();
             } catch (Exception e) {
-                Crashlytics.logException(e);
                 Log.e(TAG, e.getMessage(), e);
                 return;
             }

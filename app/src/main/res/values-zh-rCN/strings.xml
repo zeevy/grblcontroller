@@ -55,7 +55,8 @@
     <string name="text_grbl_soft_reset_desc">确定要重置机器吗？</string>
     <string name="text_unknown">未知</string>
     <string name="text_buy_app">Buy The Application</string>
-    <string name="text_buy_app_summary">Purchase the application and unlock more features</string>
+    <string name="text_buy_app_summary">Unlock more features. \n1. Job logs \n2.In app documentaion \n3. Jog pad rotation \n4. Haptic feedback \n5. Aditional AB axis support \n6. Job resume</string>
+    <string name="text_notifications">Notifications</string>
 
     <!-- Settings -->
     <string name="text_app_share">分享</string>
@@ -260,5 +261,14 @@
     <string name="admob_interstitial_ad_id">ca-app-pub-4930099895671899/4683725909</string>
     <string name="admob_banner_ad_id">ca-app-pub-4930099895671899/8941593162</string>
     <string name="admob_reward_video_ad_id">ca-app-pub-4930099895671899/6399190303</string>
+    <string name="text_power_management_warning_title">Warning! battery optimisation is enabled</string>
+    <string name="text_power_management_warning_description">For long running jobs, disable android battery optimisation for this application.</string>
+    <string name="text_delete_notification">Do you really want to delete this notification?</string>
+    <string name="text_usb_device_connected">USB device connected</string>
+    <string name="text_no_usb_permission">No usb permission</string>
+    <string name="text_usb_permission_not_granted">USB Permission not granted</string>
+    <string name="text_no_usb_device">No usb device</string>
+    <string name="text_usb_device_disconnected">USB device disconnected</string>
+    <string name="text_usb_device_not_supported">Device not supported</string>
 
 </resources>

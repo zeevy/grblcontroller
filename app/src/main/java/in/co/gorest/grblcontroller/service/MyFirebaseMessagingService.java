@@ -28,13 +28,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.greenrobot.eventbus.EventBus;
+
 import in.co.gorest.grblcontroller.BuildConfig;
 import in.co.gorest.grblcontroller.SplashActivity;
+import in.co.gorest.grblcontroller.events.FcmNotificationRecieved;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
+import in.co.gorest.grblcontroller.model.Constants;
+import in.co.gorest.grblcontroller.model.GrblNotification;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -46,9 +50,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String KEY_CATEGORY_NAME           = "category_name";
     private static final String KEY_CATEGORY_VALUE          = "category_value";
     private static final String KEY_DATA_PLAYLOAD           = "playload";
-
-    private static final String TEXT_CATEGORY_UPDATE        = "update";
-    private static final String TEXT_CATEGORY_LINK          = "link";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -84,8 +85,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     notificationGeneral(remoteMessage);
                 }
 
+                saveNotification(remoteMessage);
             }catch (Exception e){
-                Crashlytics.logException(e);
                 Log.d(TAG, e.getMessage());
             }
         }
@@ -116,11 +117,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String categoryName = remoteMessage.getData().get(KEY_CATEGORY_NAME);
         String categoryValue = remoteMessage.getData().get(KEY_CATEGORY_VALUE);
 
-        if(notificationTitle == null || notificationMessage == null || categoryName == null || categoryValue == null) return;
+        if(notificationTitle == null || notificationMessage == null || categoryName == null) return;
 
         NotificationHelper notificationHelper = new NotificationHelper(this);
 
-        if(categoryName.equalsIgnoreCase(TEXT_CATEGORY_UPDATE)){
+        if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_UPDATE)){
             int versionCode = Integer.valueOf(categoryValue);
 
             if(versionCode > BuildConfig.VERSION_CODE){
@@ -130,13 +131,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
             }
 
-        }else if(categoryName.equalsIgnoreCase(TEXT_CATEGORY_LINK)){
+        }else if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_LINK)) {
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(categoryValue));
             final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
 
+        }else if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_PROMOTION)){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus"));
+            final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
         }else{
             Intent intent = new Intent(this, SplashActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -144,6 +150,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
         }
 
+    }
+
+    private void saveNotification(RemoteMessage remoteMessage){
+
+        String title = remoteMessage.getData().get(KEY_NOTIFICATION_TITLE);
+        String message = remoteMessage.getData().get(KEY_NOTIFICATION_MESSAGE);
+        String type = remoteMessage.getData().get(KEY_CHANNEL_TYPE);
+        String categoryName = remoteMessage.getData().get(KEY_CATEGORY_NAME);
+        String categoryValue = remoteMessage.getData().get(KEY_CATEGORY_VALUE);
+        String playLoad = remoteMessage.getData().get(KEY_DATA_PLAYLOAD);
+
+        if(title != null && message != null){
+            GrblNotification notification = new GrblNotification(title, message, type, categoryName, categoryValue, playLoad);
+            notification.save();
+            EventBus.getDefault().post(new FcmNotificationRecieved(notification));
+        }
     }
 
 }

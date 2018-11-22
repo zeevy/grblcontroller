@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content">
 
                     <TableRow>
-                        <TextView android:text="@{machineStatus.state}" />
+                        <TextView android:text="@{machineStatus.state}" android:textColor="@{machineStatus.state.equalsIgnoreCase(machineStatus.STATE_ALARM) ? @color/colorPrimary : @android:color/tertiary_text_dark}" />
                         <TextView android:text="MPos" />
                         <TextView android:text="WPos" android:gravity="end" />
                     </TableRow>
@@ -63,21 +63,21 @@
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="X" android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text="X" android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @android:color/tertiary_text_dark}" />
                         <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordX)}' />
                         <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordX)}' android:gravity="end"/>
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="Y" android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text="Y" android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @android:color/tertiary_text_dark}" />
                         <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordY)}' />
                         <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordY)}' android:gravity="end"/>
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="Z" android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @color/colorBlack}" />
+                        <TextView android:text="Z" android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @android:color/tertiary_text_dark}" />
                         <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordZ)}' />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordZ)}' android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tab_indicator_text}" android:gravity="end"/>
+                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordZ)}' android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tertiary_text_dark}" android:gravity="end"/>
                     </TableRow>
 
                     <TableRow>
