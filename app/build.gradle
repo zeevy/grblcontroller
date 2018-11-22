@@ -1,23 +1,7 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://dl.bintray.com/lukaville/maven' }
-}
-
-configurations {
-//    all*.exclude group: 'com.google.firebase', module: 'firebase-core'
-//    all*.exclude group: 'com.google.firebase', module: 'firebase-iid'
 }
 
 android {
@@ -28,8 +12,8 @@ android {
         applicationId "in.co.gorest.grblcontroller"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 23
-        versionName "2.32"
+        versionCode 25
+        versionName "2.34"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -37,13 +21,13 @@ android {
     buildTypes {
         release {
             debuggable false
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -55,7 +39,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.firebase:firebase-messaging:17.3.3'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -68,21 +53,20 @@ dependencies {
     implementation 'com.android.support:support-vector-drawable:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:preference-v7:28.0.0'
 
     implementation 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
-    implementation 'com.droidninja:filepicker:2.1.5'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.xw.repo:bubbleseekbar:3.14'
+    implementation 'com.xw.repo:bubbleseekbar:3.19'
     implementation 'com.github.felHR85:UsbSerial:4.5.2'
     implementation 'com.nbsp:library:1.8'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //implementation 'com.squareup.picasso:picasso:2.71828'
+    //implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.github.satyan:sugar:1.5'
 
     testImplementation 'junit:junit:4.12'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
-        transitive = true
-    }
 }
 
 apply plugin: 'com.google.gms.google-services'
