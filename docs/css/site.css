@@ -18,3 +18,10 @@ ol ul{padding-left: 20px;}
 .fa-rotate-45 {-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);-ms-transform: rotate(45deg);-o-transform: rotate(45deg);transform: rotate(45deg);}
 .text-black{color: #000000;}
 .fa-vam{vertical-align: middle;}
+.fa-18px{font-size: 18px !important;}
+.fa-15px{font-size: 15px !important;}
+.fa-20px{font-size: 20px !important;}
+.fa-25px{font-size: 25px !important;}
+.fa-30px{font-size: 30px !important;}
+code.btn{color: initial; font-weight: bold; background-color: #ddd;}
+code.btn:hover{color: initial; cursor: default;}

@@ -17,9 +17,211 @@
             <div class="container">
                 <div class="site-index">
                     <div class="body-content">
-                        <div class="jumbotron">
-                            <h2 class="text-center">File Streaming Panel</h2>
-                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                        <h2 class="text-center">File Streaming and Overrides</h2>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="gutter-lg-top">
+                                    <img src="images/file_sender_and_overrides.png" class="img-responsive img-rounded" alt="File Streaming and Overrides" />
+                                </div>
+                                <p class="text-muted gutter-sm-top">Figure-1: File Streaming and Overrides</p>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <h3>File Selection and Streaming Status</h3>
+                                
+                                <ul>
+                                    <li class="gutter-sm-top">
+                                        <code >.tap | .gcode | .nc | .ngc</code> 
+                                        List of supported file types by the application, 
+                                        when user selected the file it will show the name of the selected file.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs"><i class="fa fa-folder-open fa-20px text-black fa-vam"></i></code> 
+                                        Clicking on this will open file picker to select the gcode file.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code>Total lines | Sent</code> 
+                                        Show the number gcode lines present in the file (blanks and comment lines are not included) and number lines sent to grbl.
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code>Time elapsed</code> 
+                                        Show the time elapsed since the file streaming is started in the format of HH::mm:ss (pausing the streaming job will not pause this timer)
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code>Overrides F:S:V</code> 
+                                        <span class="text-info">Current overrides information</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <code>F:</code> 
+                                                Current feed override percentage.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code>S:</code> 
+                                                Current spindle override percentage.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code>V:</code> 
+                                                Current speed of variable spindle. (it appears only if variable spindle is enabled)
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs">Check <i class="fa fa-toggle-off text-black fa-vam fa-18px"></i></code> 
+                                        <span class="text-info">Toggles machine check mode.</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs">Check <i class="fa fa-toggle-off text-black fa-vam fa-18px"></i></code> 
+                                                Check mode is off.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs">Check <i class="fa fa-toggle-on text-success fa-vam fa-18px"></i></code> 
+                                                Check mode is on.
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs"><i class="fa fa-play text-black fa-vam fa-15px"></i> <i class="fa fa-pause text-black fa-vam fa-15px"></i></code>
+                                        <span class="text-info">File streaming start or pause button.</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Job resume or skip number of lines. (Grbl Controller + version only) <br />
+                                                If the previous job is interrupted and the same job is started again, 
+                                                then application will bring a dialog where you need to specify the initial number of lines to be skipped. 
+                                                (application will also suggest a line number to start) <br />
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs"><i class="fa fa-stop text-danger fa-vam fa-15px"></i></code> 
+                                        <span class="text-info">Streaming stop button, this button behaviour can be configured in settings.</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                Stop streaming and soft reset the machine.
+                                            </li>
+                                            
+                                            <li class="gutter-sm-top">
+                                                Just stop streaming. (machine may continue to run until its buffer gets empty.
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                            
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul>
+                                    <li class="gutter-sm-top">
+                                        <span class="text-info">Feed overrides, immediately alters the feed override value.</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-fast-backward text-black fa-vam fa-15px"></i> F10</code> 
+                                                Decrease feed rate by 10%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-backward text-black fa-vam fa-15px"></i> F1</code> 
+                                                Decrease feed rate by 1%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-forward text-black fa-vam fa-15px"></i> F1</code> 
+                                                Increase feed rate by 1%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-fast-forward text-black fa-vam fa-15px"></i> F10</code> 
+                                                Increase feed rate by 10%
+                                            </li>
+                                        </ol>
+                                        <p class="text-muted gutter-sm-top text-warning">NOTE: Long clicking on the any of the buttons will set the feed rate to its 100% of programmed rate</p>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <span class="text-info">Spindle overrides, immediately alters the spindle speed override value.</span> 
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-fast-backward text-black fa-vam fa-15px"></i> S10</code> 
+                                                Decrease feed rate by 10%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-backward text-black fa-vam fa-15px"></i> S1</code> 
+                                                Decrease feed rate by 1%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-forward text-black fa-vam fa-15px"></i> S1</code> 
+                                                Increase feed rate by 1%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-fast-forward text-black fa-vam fa-15px"></i> S10</code> 
+                                                Increase feed rate by 10%
+                                            </li>
+                                        </ol>
+                                        <p class="text-muted gutter-sm-top text-warning">NOTE: Long clicking on the any of the buttons will set the spindle speed to its 100% of programmed speed</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <ul>
+                                    <li class="gutter-sm-top">
+                                        <span class="text-info">Rapid overrides, immediately alters the rapid override value.</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-rocket text-success fa-vam fa-15px"></i> R100</code> 
+                                                Sets rapid feed rate to 100%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-rocket text-black fa-vam fa-15px"></i> R50</code> 
+                                                Sets rapid feed rate to 50%
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs"><i class="fa fa-rocket text-black fa-vam fa-15px"></i> R25</code> 
+                                                Sets rapid feed rate to 25%
+                                            </li>
+                                        </ol>
+                                        <p class="text-muted text-warning gutter-sm-top">NOTE: Current active rapid feed rate mode is highlighted with green color</p>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <span class="text-info">Spindle control.</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs">Spindle <i class="fa fa-toggle-off text-black fa-vam fa-18px"></i></code> 
+                                                Spindle is off
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs">Spindle <i class="fa fa-toggle-on text-success fa-vam fa-18px"></i></code> 
+                                                Spindle is on
+                                            </li>
+                                        </ol>
+                                        <p class="text-muted  text-warning gutter-sm-top">
+                                            NOTE: Spindle control will only work when machine is in "Hold" state. (this is the limitation from grbl firmware it self)
+                                        </p>
+                                    </li>
+                                    
+                                    <li class="gutter-sm-top">
+                                        <span class="text-info">Flood coolant and Mist coolant control.</span>
+                                        <ol>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs">Flood <i class="fa fa-toggle-off text-black fa-vam fa-18px"></i></code> 
+                                                <code class="btn btn-xs">Mist <i class="fa fa-toggle-off text-black fa-vam fa-18px"></i></code>
+                                                Flood/Mist coolant is off
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code class="btn btn-xs">Flood <i class="fa fa-toggle-on text-success fa-vam fa-18px"></i></code> 
+                                                <code class="btn btn-xs">Mist <i class="fa fa-toggle-on text-success fa-vam fa-18px"></i></code> 
+                                                Flood/Mist coolant is on
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
