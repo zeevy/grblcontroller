@@ -31,28 +31,28 @@
                                 <h3>File Selection and Streaming Status</h3>
                                 
                                 <ul>
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code >.tap | .gcode | .nc | .ngc</code> 
                                         List of supported file types by the application, 
                                         when user selected the file it will show the name of the selected file.
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code class="btn btn-xs"><i class="fa fa-folder-open fa-20px text-black fa-vam"></i></code> 
                                         Clicking on this will open file picker to select the gcode file.
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code>Total lines | Sent</code> 
                                         Show the number gcode lines present in the file (blanks and comment lines are not included) and number lines sent to grbl.
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code>Time elapsed</code> 
                                         Show the time elapsed since the file streaming is started in the format of HH::mm:ss (pausing the streaming job will not pause this timer)
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code>Overrides F:S:V</code> 
                                         <span class="text-info">Current overrides information</span>
                                         <ol>
@@ -71,7 +71,7 @@
                                         </ol>
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code class="btn btn-xs">Check <i class="fa fa-toggle-off text-black fa-vam fa-18px"></i></code> 
                                         <span class="text-info">Toggles machine check mode.</span>
                                         <ol>
@@ -86,20 +86,23 @@
                                         </ol>
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code class="btn btn-xs"><i class="fa fa-play text-black fa-vam fa-15px"></i> <i class="fa fa-pause text-black fa-vam fa-15px"></i></code>
                                         <span class="text-info">File streaming start or pause button.</span>
                                         <ol>
                                             <li class="gutter-sm-top">
-                                                Job resume or skip number of lines. (Grbl Controller + version only) <br />
-                                                If the previous job is interrupted and the same job is started again, 
-                                                then application will bring a dialog where you need to specify the initial number of lines to be skipped. 
-                                                (application will also suggest a line number to start) <br />
+                                                Used to start the file streaming process
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                If streaming is already started and running, it will pause it.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                If machine is in hold state it will resume the streaming.
                                             </li>
                                         </ol>
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <code class="btn btn-xs"><i class="fa fa-stop text-danger fa-vam fa-15px"></i></code> 
                                         <span class="text-info">Streaming stop button, this button behaviour can be configured in settings.</span>
                                         <ol>
@@ -119,7 +122,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <ul>
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <span class="text-info">Feed overrides, immediately alters the feed override value.</span>
                                         <ol>
                                             <li class="gutter-sm-top">
@@ -142,7 +145,7 @@
                                         <p class="text-muted gutter-sm-top text-warning">NOTE: Long clicking on the any of the buttons will set the feed rate to its 100% of programmed rate</p>
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <span class="text-info">Spindle overrides, immediately alters the spindle speed override value.</span> 
                                         <ol>
                                             <li class="gutter-sm-top">
@@ -169,7 +172,7 @@
                             
                             <div class="col-sm-6">
                                 <ul>
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <span class="text-info">Rapid overrides, immediately alters the rapid override value.</span>
                                         <ol>
                                             <li class="gutter-sm-top">
@@ -188,7 +191,7 @@
                                         <p class="text-muted text-warning gutter-sm-top">NOTE: Current active rapid feed rate mode is highlighted with green color</p>
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <span class="text-info">Spindle control.</span>
                                         <ol>
                                             <li class="gutter-sm-top">
@@ -205,7 +208,7 @@
                                         </p>
                                     </li>
                                     
-                                    <li class="gutter-sm-top">
+                                    <li class="gutter-md-top">
                                         <span class="text-info">Flood coolant and Mist coolant control.</span>
                                         <ol>
                                             <li class="gutter-sm-top">
@@ -223,6 +226,16 @@
                                 </ul>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3>Streaming/Job Resume (supported only in Grbl Controller + version</h3>
+                                <h4 class="text-muted">continue badly interrupted jobs, from nearly where they stopped.</h4>
+                                
+                                
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
