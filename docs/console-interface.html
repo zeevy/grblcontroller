@@ -17,10 +17,57 @@
             <div class="container">
                 <div class="site-index">
                     <div class="body-content">
-                        <div class="jumbotron">
-                            <h2 class="text-center">Console Interface</h2>
-                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                        <h2 class="text-center">Console Interface and Custom Commands</h2>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="gutter-lg-top">
+                                    <img src="images/console_and_custom_commands.png" class="img-responsive img-rounded" alt="Console Interface and Custom Commands" />
+                                </div>
+                                <p class="text-muted gutter-sm-top">Figure-1: Console Interface and Custom Commands</p>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <ul class="gutter-lg-top">
+                                    <li class="gutter-md-top">
+                                        <code>Verbose output</code> When enabled it will show the grbl status reports in console logger
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code class="btn btn-xs">&nbsp;<i class="fa fa-paper-plane"></i>&nbsp;</code> Custom command send button.
+                                        <ol>
+                                            <li class="gutter-md-top">
+                                                Short Click: Sends the custom command typed in the text box to grbl
+                                            </li>
+                                            <li class="gutter-md-top">
+                                                Long Click: Clears the console message window.
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    <li class="gutter-lg-top help-block">
+                                        NOTES:
+                                        <ol>
+                                            <li class="gutter-md-top">
+                                                Not all messages from grbl are printed to console interface.
+                                            </li>
+                                            <li class="gutter-md-top">
+                                                Currently you can only see recent 128 entries in the console logger, this is done to reduce the memory consumption of the application.
+                                            </li>
+                                            <li class="gutter-md-top">
+                                                Sometimes custom command input box and send button <code class="btn btn-xs">&nbsp;<i class="fa fa-paper-plane"></i>&nbsp;</code> will not appear, then you need to click on any other tabs except the "probing tab <i class="fa fa-crosshairs"></i>" and come back again.
+                                            </li>
+                                            <li class="gutter-md-top">
+                                                Custom command will be parsed before sending to grbl, parser will remove any white space or comments and will capitalize the letters.
+                                            </li>
+                                            <li class="gutter-md-top">
+                                                Depending on the custom command you are sending application may also send some other commands like "$G or $#" to get the recent status of the machine. 
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                                
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

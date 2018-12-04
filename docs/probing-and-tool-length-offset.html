@@ -17,10 +17,83 @@
             <div class="container">
                 <div class="site-index">
                     <div class="body-content">
-                        <div class="jumbotron">
-                            <h2 class="text-center">Probing and Tool Length Offset</h2>
-                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                        <h2 class="text-center">Probing and Tool Length Offset</h2>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="gutter-lg-top">
+                                    <img src="images/probing_and_tool_length_offsets.png" class="img-responsive img-rounded" alt="Probing and Tool Length Offset" />
+                                </div>
+                                <p class="text-muted gutter-sm-top">Figure-1: Probing and Tool Length Offset</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Probing with G38.3</h3>
+                                <p class="help-block">probe toward workpiece, stop on contact</p>
+                                <p>Application supports only one probing mode with Z-Axis ie <code>G398.3</code>, any additional probing requirements can be full filled via custom buttons or from console<code><i class="fa fa-television"></i></code> window</p>
+                                <ul>
+                                    <li class="gutter-md-top">
+                                        <code>Feed rate</code> Feed rate at which Z-Axis will move towards the workpiece.
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code>Plate thickness</code> Thickness of the probing plate. (<span class="text-info">It should be given in your current machine units, you can see the current status in machine status panel <code>G21 - Inches</code> <code>G20 - Millimeters</code></span>)
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code>Distance to probe</code> Max probing distance before Z-Axis returns to its initial position. (<span class="text-info">It should be given based on your machine current distance mode, you can see the current status in machine status panel <code>G90 - absolute distance mode</code> <code>G91 - incremental distance mode</code></span>)
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code>Last probe position</code> The last successful probe position of Z-Axis.
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code>Current TLO</code> Amount of current Z-Axis tool length offset value.
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code>Auto adjust Z axis</code> If turned on and probe is success, application will set the Z-Axis position to zero in current coordinates.
+                                        (<span class="text-info">Also known as auto zero</span>)
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code class="btn btn-xs">Probe</code> Starts the probing cycle.
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code class="btn btn-xs">Probe + TLO</code> Starts the probing cycle and applies TLO if probe is success.
+                                    </li>
+                                    <li class="gutter-md-top">
+                                        <code class="btn btn-xs">TLO <i class="fa fa-times"></i></code> Cancel current TLO on Z-Axis if any.
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+                        
+                        <div class="">
+                            <h3>Manual tool change with G43.1</h3>
+                            <p class="help-block">procedure for using tool change with tool length offset on z-axis</p>
+                            <ol>
+                                <li class="gutter-md-top">
+                                    Move the machine to a safe position.
+                                </li>
+                                <li class="gutter-md-top">
+                                    Do your probe set up. ( <span class="text-info">placing the touch plate below the tool and attaching probe clip to tool etc..</span> )
+                                </li>
+                                <li class="gutter-md-top">
+                                    Do a successful <code class="btn btn-xs">probe</code> with your <span class="text-danger">first tool</span> with <code>Auto adjust Z axis</code> is set to off <code class="btn btn-xs"><i class="fa fa-toggle-off fa-15px"></i></code>
+                                </li>
+                                <li class="gutter-md-top">
+                                    Now change the tool.
+                                </li>
+                                <li class="gutter-md-top">
+                                    Do your probe set up for second tool at the same place. ( <span class="text-info">placing the touch plate below the tool and attaching probe clip to tool etc..</span> )
+                                </li>
+                                <li class="gutter-md-top">
+                                    Now do a probe with <code class="btn btn-xs">Probe + TLO</code>
+                                </li>
+                                <li class="gutter-md-top">
+                                    After a successful <code class="btn btn-xs">Probe + TLO</code> TLO is applied to Z-Axis with a difference of current probe position and last probe position.
+                                </li>
+                                <li class="gutter-md-top">
+                                    <span class="text-warning">Verify everything to be okay before continuing.</span>
+                                </li>
+                            </ol>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
