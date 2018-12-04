@@ -227,12 +227,46 @@
                             </div>
                         </div>
                         
+                        <div>
+                            <h3>Streaming/Job Resume (upcoming feature only in Grbl Controller + version)</h3>
+                            <h4 class="text-muted">Continue badly interrupted jobs, from nearly where they stopped.</h4>
+                        </div>
+                        
+                        <div class="row">
+                            
+                            <div class="col-sm-12">
+                                <h4 class="text-info">Pre requirements.</h4>
+                                <ol>
+                                    <li class="gutter-sm-top">
+                                        This feature only works in "Grbl Controller +"
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Incremental distance mode (G91) is not supported.
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        In your previous job should have completed at least 50 lines.
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-sm-12">
-                                <h3>Streaming/Job Resume (supported only in Grbl Controller + version</h3>
-                                <h4 class="text-muted">continue badly interrupted jobs, from nearly where they stopped.</h4>
-                                
-                                
+                                <h4 class="text-info">Job resume process.</h4>
+                                <ol>
+                                    <li class="gutter-sm-top">
+                                        Application will automatically prompt for job resume if it detects your most recent job was incomplete, and you are doing the same job again.
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Application will suggest a number of lines to skip, you can change the number to whatever you want.
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Application will parse and skips the number of lines given.
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        
+                                    </li>
+                                </ol>
                             </div>
                         </div>
                         
