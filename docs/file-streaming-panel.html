@@ -246,6 +246,9 @@
                                     <li class="gutter-sm-top">
                                         In your previous job should have completed at least 50 lines.
                                     </li>
+                                    <li class="gutter-sm-top">
+                                        Homing must be done if required, proper  coordinate system (G54 to G59) should be selected.
+                                    </li>
                                 </ol>
                             </div>
                         </div>
@@ -264,7 +267,28 @@
                                         Application will parse and skips the number of lines given.
                                     </li>
                                     <li class="gutter-sm-top">
-                                        
+                                        Restores the feed rate, parser status etc..
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Decreases the rapid motion to 50%, and move the Z-Axis to zero position in machine coordinates.
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Restores machine position of X, Y axis. (also restores A, B axis if applicable)
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Enables coolant if required, starts the spindle if laser mode is not active.
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Restores the Z-Axis. (this is rapid move with 50% feed rate)
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Waits for 5 seconds before resuming streaming. (<span class="text-danger">Here you have enough time to stop streaming if you noticed anything wrong or inappropriate.</span>)
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Restores the rapid overrides to 100%. (<span class="text-info">If laser mode is enabled laser will turned on at this stage instead of in step 7.</span>)
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        Continues streaming normally
                                     </li>
                                 </ol>
                             </div>
