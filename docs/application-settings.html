@@ -17,10 +17,105 @@
             <div class="container">
                 <div class="site-index">
                     <div class="body-content">
-                        <div class="jumbotron">
-                            <h2 class="text-center">Application Settings</h2>
-                            <h4 class="gutter-lg-top text-center text-info">will be updated soon</h4>
+                        <h2 class="text-center">Application Settings</h2>
+                        
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ol>
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-usb fa-rotate-90"></i> Default Connection</code><br />
+                                        Default connection type to your CNC machine, you can select either "Bluetooth" or "Usb OTG". 
+                                        You need to restart the application to make this change effect.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-bluetooth-b"></i> Auto connect</code><br />
+                                        Only enabled when default connection type is "Bluetooth". If active it will try to connect to the last used bluetooth device on application startup.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-mobile-phone"></i> Haptic feedback</code> Grbl Controller +<br />
+                                        Enables device vibration when certain buttons are pressed.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-power-off"></i> Soft reset confirmation</code><br />
+                                        If active if will ask for confirmation before doing manual machine soft reset.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-check-circle"></i> Check machine position</code><br />
+                                        Prevents file streaming if your machine is not at zero position. Normally machine will be moved to its work zero before doing any job, this check is there to make sure that you have positioned your machine correctly.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-plug"></i> Sleep after job</code> Grbl Controller +<br />
+                                        Puts the machine into sleep mode after file streaming has completed using machine "$SLP" command.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-list-ol"></i> Jogging max step size</code><br />
+                                        Maximum size of step selection bar in the jogging control panel. If you need fine adjustment to step size then select lower value.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-refresh"></i> Rotate XY jogging pad</code> Grbl Controller +<br />
+                                        Rotates the jogging pad to selected angle. (0, 90, 180 and 270) This is use full if you have different setup and you thing jog pad is not moving correct axis when you press corresponding button. 
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-stop"></i> Streaming stop button behaviour</code><br />
+                                        The behaviour of streaming stop button when you click on it
+                                        <ul style="list-style: disc;">
+                                            <li class="gutter-sm-top">
+                                                Just stop streaming: Application just stops the file streaming, machine may continue to run until its buffer gets empty.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                Stop streaming and do soft reset: Application stops file streaming and soft resets the machine. Machine position will be lost, you may need to do homing again.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i></i> Enable AB Axis</code> Grbl Controller +<br />
+                                        Enables four additional buttons
+                                        <code class="btn btn-xs">A <i class="fa fa-plus-circle"></i></code>
+                                        <code class="btn btn-xs">A <i class="fa fa-minus-circle"></i></code>
+                                        <code class="btn btn-xs">B <i class="fa fa-plus-circle"></i></code>
+                                        <code class="btn btn-xs">B <i class="fa fa-minus-circle"></i></code>
+                                        in jogging control tab to control axis A and B. Use full in case if you have custom firmware of grbl with more than 3 axis.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code class="fa fa-keyboard-o"> Enable custom buttons</code><br />
+                                        Enables four custom button in jogging control panel. These buttons behaviour can be configured as below.
+                                        <ul style="list-style: disc;">
+                                            <li class="gutter-sm-top">
+                                                <code>Button label</code> A custom label for the button upto 3 characters in length.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code>Short click commands</code> Commands to be sent to machine when the button is short clicked.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code>Long click commands</code> Commands to be sent to machine when the button is long clicked.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <code>Confirm first</code> When enabled it will confirm before sending custom commands to machine.
+                                            </li>
+                                            <li class="gutter-sm-top">
+                                                <p class="help-block">
+                                                    Custom command supports upto 2048 characters in length, multiple commands must be separated by new line. <br />
+                                                    Commands will be sent to machine using character counting protocol.<br />
+                                                    If you want to stop current running custom command, then you need to do soft reset of the machine.<br />
+                                                    You can also click on the jogging stop button <code><i class="fa fa-stop"></i></code> in jogging control panel to stop streaming custom commands, again this won't stop the machine immediately machine will continue to run until its buffer gets empty.
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
