@@ -39,5 +39,6 @@
 - Joan Zapata https://github.com/JoanZapata/android-iconify
 - Markus Junginger https://github.com/greenrobot/EventBus
 - Felipe Herranz https://github.com/felHR85/UsbSerial
+- nbsp-team https://github.com/nbsp-team/MaterialFilePicker
 - Arun Sharma https://github.com/DroidNinja/Android-FilePicker
 - Xiao https://github.com/woxingxiao/BubbleSeekBar
