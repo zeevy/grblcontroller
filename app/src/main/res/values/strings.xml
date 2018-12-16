@@ -28,9 +28,11 @@
     <string name="preference_auto_connect" translatable="false">auto_connect</string>
     <string name="preference_console_verbose_mode" translatable="false">console_verbose_mode</string>
     <string name="preference_jogging_step_size" translatable="false">jogging_step_size</string>
+    <string name="preference_jogging_step_size_z" translatable="false">jogging_step_size_z</string>
     <string name="preference_jogging_feed_rate" translatable="false">jogging_feed_rate</string>
     <string name="preference_jogging_in_inches" translatable="false">jogging_in_inches</string>
     <string name="preference_jogging_max_step_size" translatable="false">jogging_max_step_size</string>
+    <string name="preference_jogging_max_step_size_z" translatable="false">jogging_max_step_size_z</string>
     <string name="preference_jogging_max_feed_rate" translatable="false">jogging_max_feed_rate</string>
     <string name="preference_streaming_stop_button_behaviour" translatable="false">streaming_stop_button_behaviour</string>
     <string name="preference_last_connected_device" translatable="false">last_connected_device</string>
@@ -113,8 +115,10 @@
     <string name="text_soft_reset_confirm_desc">ask for confirmation before doing soft reset</string>
     <string name="text_sleep_after_job">Sleep after job</string>
     <string name="text_sleep_after_job_desc">put machine into a de-powered sleep mode using $SLP command</string>
-    <string name="text_jogging_max_steps">Jogging max step size</string>
-    <string name="text_jogging_max_steps_desc">jogging step seek bar maximum value</string>
+    <string name="text_jogging_max_steps">Jogging max step size XY</string>
+    <string name="text_jogging_max_steps_z">Jogging max step size Z</string>
+    <string name="text_jogging_max_steps_desc">jogging step seek bar maximum value for axis X and Y</string>
+    <string name="text_jogging_max_steps_desc_z">jogging step seek bar maximum value for axis Z</string>
     <string name="text_enable_custom_buttons">Enable custom buttons</string>
     <string name="text_enable_custom_buttons_desc">enable four custom buttons in jogging control tab.</string>
     <string name="text_custom_buttons">Custom Buttons</string>
@@ -136,7 +140,7 @@
     <string name="text_button_3_behaviour">configure custom button 3 behaviour</string>
     <string name="text_custom_button_4">Custom button 4</string>
     <string name="text_button_4_behaviour">configure custom button 4 behaviour</string>
-    <string name="text_default_connection">Default Connection</string>
+    <string name="text_default_connection">Default connection</string>
     <string name="text_rotate_jogging_pad">Rotate XY jogging pad</string>
     <string name="text_streaming_stop_button_behaviour">Streaming stop button behaviour</string>
     <string name="text_check_machine_position">Check machine position</string>
@@ -234,7 +238,7 @@
         <item>270</item>
     </string-array>
 
-    <string name="text_steps_feed">Step | Feed</string>
+    <string name="text_steps_feed">Step Size | Jog Feed</string>
     <string name="text_zero_selected_axis">Zero selected axis</string>
     <string name="text_set_axis_location_in_current_wpos">set selected axis location in current coordinate system to zero |</string>
     <string name="text_selected_coordinate_system">"Selected coordinate system "</string>
@@ -255,7 +259,7 @@
     <string name="text_save_coordinate_system">Save coordinate system</string>
     <string name="text_save_coordinate_system_desc">save current position to coordinate system</string>
     <string name="text_jogging_step_and_feed">Jogging step and feed</string>
-    <string name="text_inches">Inches</string>
+    <string name="text_inches">In Inches</string>
 
     <!-- File Sender Tab -->
     <string name="text_mist_disabled">Mist coolant is not enabled while compiling</string>

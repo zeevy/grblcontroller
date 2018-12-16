@@ -70,8 +70,10 @@
     <string name="text_soft_reset_confirm_desc">重置机器前需要确认</string>
     <string name="text_sleep_after_job">自动休眠</string>
     <string name="text_sleep_after_job_desc">完成任务后进入低功耗的睡眠状态</string>
-    <string name="text_jogging_max_steps">微动最大距离</string>
-    <string name="text_jogging_max_steps_desc">点击按钮移动的最大步数</string>
+    <string name="text_jogging_max_steps">微动最大距离 XY</string>
+    <string name="text_jogging_max_steps_z">微动最大距离 Z</string>
+    <string name="text_jogging_max_steps_desc">XY 点击按钮移动的最大步数</string>
+    <string name="text_jogging_max_steps_desc_z">Z 点击按钮移动的最大步数</string>
     <string name="text_enable_custom_buttons">启用自定义按键</string>
     <string name="text_enable_custom_buttons_desc">微动界面将提供四个可配置按键</string>
     <string name="text_custom_buttons">自定义按键</string>

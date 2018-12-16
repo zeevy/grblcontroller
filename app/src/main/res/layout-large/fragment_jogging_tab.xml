@@ -32,7 +32,7 @@
                 <TextView
                     android:id="@+id/jogging_step_feed"
                     android:layout_alignParentEnd="true"
-                    android:text='@{machineStatus.jogging.step.toString() + " | " + machineStatus.jogging.feed.toString()}'
+                    android:text='@{machineStatus.jogging.stepXY.toString() + " | " + machineStatus.jogging.stepZ.toString() + " | " + machineStatus.jogging.feed.toString()}'
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

@@ -169,6 +169,12 @@ public class FileStreamerIntentService extends IntentService{
         fileSenderListener.setJobEndTime(System.currentTimeMillis());
         fileSenderListener.setStatus(FileSenderListener.STATUS_IDLE);
 
+        if(!getShouldContinue()){
+            // Stop the spindle or laser
+			EventBus.getDefault().post(new GcodeCommand("M5"));
+
+        }
+
         clearBuffers();
         setIsServiceRunning(false);
 

@@ -245,9 +245,10 @@ public class ProbingTabFragment extends BaseFragment {
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String feedRate = editText.getText().toString();
-                        sharedPref.edit().putString(getString(R.string.preference_probing_distance), feedRate).apply();
-                        probingDistance.setText(feedRate);
+                        String distance = editText.getText().toString();
+                        if(distance.length() <=0) distance = "0";
+                        sharedPref.edit().putString(getString(R.string.preference_probing_distance), distance).apply();
+                        probingDistance.setText(distance);
                     }
                 })
                 .setNegativeButton(getString(R.string.text_cancel),
@@ -281,9 +282,10 @@ public class ProbingTabFragment extends BaseFragment {
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String feedRate = editText.getText().toString();
-                        sharedPref.edit().putString(getString(R.string.preference_probing_plate_thickness), feedRate).apply();
-                        probingPlateThickness.setText(feedRate);
+                        String thickness = editText.getText().toString();
+                        if(thickness.length() <= 0) thickness = "0";
+                        sharedPref.edit().putString(getString(R.string.preference_probing_plate_thickness), thickness).apply();
+                        probingPlateThickness.setText(thickness);
                     }
                 })
                 .setNegativeButton(getString(R.string.text_cancel),
@@ -316,6 +318,7 @@ public class ProbingTabFragment extends BaseFragment {
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String feedRate = editText.getText().toString();
+                        if(feedRate.length() <= 0) feedRate = "0";
                         sharedPref.edit().putString(getString(R.string.preference_probing_feed_rate), feedRate).apply();
                         probingFeedRate.setText(feedRate);
                     }

@@ -27,7 +27,6 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -41,7 +40,9 @@ import android.widget.TableRow;
 
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconToggleButton;
-import com.xw.repo.BubbleSeekBar;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -498,7 +499,14 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private void sendJogCommand(String tag){
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
             String units = machineStatus.getJogging().inches ? "G20" : "G21";
-            String jog = String.format(tag, units, machineStatus.getJogging().step, machineStatus.getJogging().feed);
+            Double stepSize;
+            if(tag.toUpperCase().contains("Z")){
+                stepSize = machineStatus.getJogging().stepZ;
+            }else{
+                stepSize = machineStatus.getJogging().stepXY;
+            }
+
+            String jog = String.format(tag, units, stepSize, machineStatus.getJogging().feed);
             EventBus.getDefault().post(new JogCommandEvent(jog));
         }else{
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
@@ -510,51 +518,77 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         final ViewGroup nullParent = null;
         View view = inflater.inflate(R.layout.dialog_step_and_feed, nullParent, false);
 
-        BubbleSeekBar jogStepSeekBar = view.findViewById(R.id.jog_step_seek_bar);
-        jogStepSeekBar.setProgress(machineStatus.getJogging().step.floatValue());
-        jogStepSeekBar.getConfigBuilder().max(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size), 10)).build();
+        IndicatorSeekBar jogStepSeekBarXY = view.findViewById(R.id.jog_xy_step_seek_bar);
+        jogStepSeekBarXY.setProgress(machineStatus.getJogging().stepXY.floatValue());
+        jogStepSeekBarXY.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size), 10));
+        jogStepSeekBarXY.setIndicatorTextFormat("XY Step Size ${PROGRESS}");
+        jogStepSeekBarXY.setDecimalScale(2);
 
-        jogStepSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+        jogStepSeekBarXY.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                machineStatus.setJogging(Double.parseDouble(Float.toString(progressFloat)), machineStatus.getJogging().feed, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+            public void onSeeking(SeekParams seekParams) {
+                machineStatus.setJogging(Double.parseDouble(Float.toString(seekParams.progressFloat)), machineStatus.getJogging().stepZ, machineStatus.getJogging().feed, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
             }
 
             @Override
-            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
                 EnhancedSharedPreferences.Editor editor = sharedPref.edit();
-                editor.putDouble(getString(R.string.preference_jogging_step_size), Double.parseDouble(Float.toString(progressFloat))).commit();
+                editor.putDouble(getString(R.string.preference_jogging_step_size), Double.parseDouble(Float.toString(seekBar.getProgressFloat()))).commit();
             }
-
-            @Override
-            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-
-            }
-
         });
 
-        BubbleSeekBar jogFeedSeekBar = view.findViewById(R.id.jog_feed_seek_bar);
-        jogFeedSeekBar.setProgress(machineStatus.getJogging().feed.floatValue());
-        Double maxFeedRate = sharedPref.getDouble(getString(R.string.preference_jogging_max_feed_rate), machineStatus.getJogging().feed);
-        jogFeedSeekBar.getConfigBuilder().max(Float.parseFloat(maxFeedRate.toString())).build();
+        IndicatorSeekBar jogStepSeekBarZ = view.findViewById(R.id.jog_z_step_seek_bar);
+        jogStepSeekBarZ.setProgress(machineStatus.getJogging().stepZ.floatValue());
+        jogStepSeekBarZ.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size_z), 5));
+        jogStepSeekBarZ.setIndicatorTextFormat("Z Step Size ${PROGRESS}");
+        jogStepSeekBarZ.setDecimalScale(2);
 
-        jogFeedSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+        jogStepSeekBarZ.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                machineStatus.setJogging(machineStatus.getJogging().step, progress, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+            public void onSeeking(SeekParams seekParams) {
+                machineStatus.setJogging(machineStatus.getJogging().stepXY, Double.parseDouble(Float.toString(seekParams.progressFloat)), machineStatus.getJogging().feed, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
             }
 
             @Override
-            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
                 EnhancedSharedPreferences.Editor editor = sharedPref.edit();
-                editor.putDouble(getString(R.string.preference_jogging_feed_rate), progress).commit();
+                editor.putDouble(getString(R.string.preference_jogging_step_size_z), Double.parseDouble(Float.toString(seekBar.getProgressFloat()))).commit();
+            }
+        });
+
+        IndicatorSeekBar jogFeedSeekBar = view.findViewById(R.id.jog_feed_seek_bar);
+        jogFeedSeekBar.setProgress(machineStatus.getJogging().feed.floatValue());
+        Double maxFeedRate = sharedPref.getDouble(getString(R.string.preference_jogging_max_feed_rate), 2400.00);
+        jogFeedSeekBar.setMax(Float.parseFloat(maxFeedRate.toString()));
+        jogFeedSeekBar.setIndicatorTextFormat("Jog Feed Rate ${PROGRESS}");
+
+
+        jogFeedSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+                machineStatus.setJogging(machineStatus.getJogging().stepXY, machineStatus.getJogging().stepZ, seekParams.progress, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
             }
 
             @Override
-            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
 
             }
 
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                EnhancedSharedPreferences.Editor editor = sharedPref.edit();
+                editor.putDouble(getString(R.string.preference_jogging_feed_rate), seekBar.getProgress()).commit();
+            }
         });
 
         SwitchCompat jogInches = view.findViewById(R.id.jog_inches);
@@ -562,7 +596,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         jogInches.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                machineStatus.setJogging(machineStatus.getJogging().step, machineStatus.getJogging().feed, b);
+                machineStatus.setJogging(machineStatus.getJogging().stepXY, machineStatus.getJogging().stepZ, machineStatus.getJogging().feed, b);
                 EnhancedSharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean(getString(R.string.preference_jogging_in_inches), b).commit();
             }

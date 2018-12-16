@@ -98,6 +98,14 @@ public class ConsoleTabFragment extends BaseFragment {
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
                     }
+
+                    if(gcodeCommand.getCommandString().toUpperCase().contains("G43.1Z")){
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+                    }
+
+                    if(gcodeCommand.getCommandString().equals("$32=1")) machineStatus.setLaserModeEnabled(true);
+                    if(gcodeCommand.getCommandString().equals("$32=0")) machineStatus.setLaserModeEnabled(false);
+
                     commandInput.setText(null);
                 }
             }

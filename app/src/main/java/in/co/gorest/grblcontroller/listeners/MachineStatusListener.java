@@ -57,7 +57,7 @@ public class MachineStatusListener extends BaseObservable {
     private Position machinePosition = new Position(0.00, 0.00, 0.00);
     private Position workPosition = new Position(0.00, 0.00, 0.00);
     private Position workCoordsOffset = new Position(0.00, 0.00, 0.00);
-    private Jogging jogging = new Jogging(0.0, DEFAULT_FEED_RATE, false);
+    private Jogging jogging = new Jogging(0.00, 0.00, DEFAULT_FEED_RATE, false);
     private OverridePercents overridePercents = new OverridePercents(100, 100, 100);
     private EnabledPins enabledPins = new EnabledPins(emptyString);
     private AccessoryStates accessoryStates = new AccessoryStates(emptyString);
@@ -65,6 +65,7 @@ public class MachineStatusListener extends BaseObservable {
     private CompileTimeOptions compileTimeOptions = null;
     private ParserState parserState = null;
     private Boolean verboseOutput = false;
+	private Boolean laserModeEnabled = false;
 
     private static MachineStatusListener machineStatus = null;
     public static MachineStatusListener getInstance(){
@@ -89,6 +90,13 @@ public class MachineStatusListener extends BaseObservable {
             this.verboseOutput = verboseOutput;
             notifyPropertyChanged(BR.verboseOutput);
         }
+    }
+
+    @Bindable
+    public Boolean getLaserModeEnabled(){ return this.laserModeEnabled; }
+    public void setLaserModeEnabled(Boolean laserModeEnabled){
+        this.laserModeEnabled = laserModeEnabled;
+        notifyPropertyChanged(BR.laserModeEnabled);
     }
 
     @Bindable
@@ -180,10 +188,10 @@ public class MachineStatusListener extends BaseObservable {
 
     @Bindable
     public Jogging getJogging(){ return this.jogging; }
-    public void setJogging(double step, double feed, boolean inches){
-        Jogging j = new Jogging(step, feed, inches);
-        if(this.jogging.hasChanged(j)){
-            this.jogging = j;
+    public void setJogging(double stepXY, double stepZ, double feed, boolean inches){
+        Jogging jogging = new Jogging(stepXY, stepZ, feed, inches);
+        if(this.jogging.hasChanged(jogging)){
+            this.jogging = jogging;
             notifyPropertyChanged(BR.jogging);
         }
     }
@@ -252,16 +260,17 @@ public class MachineStatusListener extends BaseObservable {
     }
 
     public static class Jogging{
-        public final Double step;
+        public final Double stepXY;
+        public final Double stepZ;
         public final Double feed;
         public final Boolean inches;
 
-        public Jogging(double s, double f, boolean i){
-            this.step = s; this.feed = f; this.inches = i;
+        public Jogging(double stepXY, double stepZ, double f, boolean i){
+            this.stepXY = stepXY; this.stepZ = stepZ; this.feed = f; this.inches = i;
         }
 
         public boolean hasChanged(Jogging jogging){
-            boolean stepChanged = (jogging.step.compareTo(this.step) != 0);
+            boolean stepChanged = ((jogging.stepXY.compareTo(this.stepXY) != 0) || (jogging.stepZ.compareTo(this.stepZ) != 0));
             boolean feedChanged = (jogging.feed.compareTo(this.feed) != 0);
             boolean inchesChanged = (jogging.inches.compareTo(this.inches) != 0);
 

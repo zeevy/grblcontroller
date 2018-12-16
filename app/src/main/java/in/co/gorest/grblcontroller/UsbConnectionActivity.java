@@ -288,6 +288,10 @@ public class UsbConnectionActivity extends GrblActivity{
             }
         }
 
+        if(event.getSetting().equals("$32")){
+            machineStatus.setLaserModeEnabled(event.getValue().equals("1"));
+        }
+
     }
 
 
