@@ -44,12 +44,12 @@
                                     
                                     <li class="gutter-md-top">
                                         <code>Total lines | Sent</code> 
-                                        Show the number gcode lines present in the file (blanks and comment lines are not included) and number lines sent to grbl.
+                                        Shows the number gcode lines present in the file (blanks and comment lines are not included) and number lines sent to grbl.
                                     </li>
                                     
                                     <li class="gutter-md-top">
                                         <code>Time elapsed</code> 
-                                        Show the time elapsed since the file streaming is started in the format of HH::mm:ss (pausing the streaming job will not pause this timer)
+                                        Shows the time elapsed since the file streaming is started in the format of HH::mm:ss (pausing the streaming job will not pause this timer)
                                     </li>
                                     
                                     <li class="gutter-md-top">
@@ -228,7 +228,7 @@
                         </div>
                         
                         <div>
-                            <h3>Streaming/Job Resume (upcoming feature only in Grbl Controller + version)</h3>
+                            <h3>Streaming/Job Resume (Grbl Controller + version only)</h3>
                             <h4 class="text-muted">Continue badly interrupted jobs, from nearly where they stopped.</h4>
                         </div>
                         
@@ -244,10 +244,13 @@
                                         Incremental distance mode (G91) is not supported.
                                     </li>
                                     <li class="gutter-sm-top">
-                                        In your previous job should have completed at least 50 lines.
+                                        In your previous job you should have completed at least 50 lines.
                                     </li>
                                     <li class="gutter-sm-top">
                                         Homing must be done if required, proper  coordinate system (G54 to G59) should be selected.
+                                    </li>
+                                    <li>
+                                        If you have used feed/spindle overrides in your previous job then, you have to do the same again if required.
                                     </li>
                                 </ol>
                             </div>
@@ -270,7 +273,7 @@
                                         Restores the feed rate, parser status etc..
                                     </li>
                                     <li class="gutter-sm-top">
-                                        Decreases the rapid motion to 50%, and move the Z-Axis to zero position in machine coordinates.
+                                        Decreases the rapid motion to 50%, and move the Z axis to zero position in machine coordinates.
                                     </li>
                                     <li class="gutter-sm-top">
                                         Restores machine position of X, Y axis. (also restores A, B axis if applicable)
@@ -279,10 +282,10 @@
                                         Enables coolant if required, starts the spindle if laser mode is not active.
                                     </li>
                                     <li class="gutter-sm-top">
-                                        Restores the Z-Axis. (this is rapid move with 50% feed rate)
+                                        Restores the Z axis. (this is rapid move with 50% feed rate)
                                     </li>
                                     <li class="gutter-sm-top">
-                                        Waits for 5 seconds before resuming streaming. (<span class="text-danger">Here you have enough time to stop streaming if you noticed anything wrong or inappropriate.</span>)
+                                        Waits for 10 seconds before resuming streaming. (<span class="text-danger">Here you have enough time to stop streaming if you noticed anything wrong or inappropriate.</span>)
                                     </li>
                                     <li class="gutter-sm-top">
                                         Restores the rapid overrides to 100%. (<span class="text-info">If laser mode is enabled laser will turned on at this stage instead of in step 7.</span>)

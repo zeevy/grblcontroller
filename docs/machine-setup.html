@@ -32,7 +32,7 @@
                                     Grbl Controller application will detect the Arduino and will bring you the connection prompt immediately.
                                 </p>
                                 <p>
-                                    Usb chips supported are <code>CP210X</code>, <code>CDC</code>, <code>FTDI</code>, <code>PL2303</code>, <code>CH34X</code> and <code>CP2130 SPI-USB</code>
+                                    Supported USB chips are <code>CP210X</code>, <code>CDC</code>, <code>FTDI</code>, <code>PL2303</code>, <code>CH34X</code> and <code>CP2130 SPI-USB</code>
                                 </p>
                                 <p>
                                     If your Arduino board has Atmega8U2 or Atmega16U2 as serial chip and you are facing issues with usb connection,
@@ -59,12 +59,11 @@
                                     If you don't know how to change the baud rate of the Blutooth device then check this <a href="bluetooth-device-setup.html" title="Learn how to change the baud rate of the bluetooth device">Bluetooth Device Setup Guide.</a><br />
                                 </p>
                                 <p>
-                                    No matter whcih Bluetooth device you are using, you need to connect Tx pin of Bluetooth to Rx pin of Arduino and Rx pin of Bluetooth to Rx pin of Arduino 
-                                    and power Bluetooth module with +5v from the Arduino board.<br />
+                                    No matter whcih Bluetooth device you are using, you need to connect Tx pin of Bluetooth to Rx pin of Arduino and Rx pin of Bluetooth to Rx pin of Arduino.<br />
                                     In Arduino boards the serial pins are labeled as PIN0 and PIN1.
                                 </p>
-                                <p class="text-warning">
-                                    NOTE: Some Bluetooth module requires +3.3v power and +-3v logic level. If you use one of those, make alternative connections according to that.
+                                <p class="text-danger">
+                                    WARNING: Some Bluetooth module requires +3.3v power and +-3v logic level. If you use one of those, make alternative connections according to that.
                                 </p>
                             </div>
                             <div class="col-sm-6 padding-md">
