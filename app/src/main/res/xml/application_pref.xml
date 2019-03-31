@@ -56,6 +56,13 @@
             android:defaultValue="1" />
 
         <SwitchPreference
+            android:key="@string/preference_keep_screen_on"
+            android:icon="@drawable/ic_cast_connected_black_24dp"
+            android:title="@string/text_keep_screen_on"
+            android:summary="@string/text_keep_screen_on_description"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="@string/preference_enable_custom_buttons"
             android:icon="@drawable/ic_keyboard_black_24dp"
             android:title="@string/text_enable_custom_buttons"
@@ -65,7 +72,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/text_custom_buttons" android:dependency="@string/preference_enable_custom_buttons">
-        <Preference android:summary="@string/text_custom_buttons_desc" />
 
         <PreferenceScreen
             android:key="custom_button_1_flashcard"

@@ -29,10 +29,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/jogging_step_feed"
                     android:layout_alignParentEnd="true"
-                    android:text='@{machineStatus.jogging.stepXY.toString() + " | " + machineStatus.jogging.stepZ.toString() + " | " + machineStatus.jogging.feed.toString()}'
+                    android:text='@{"XY:" + machineStatus.jogging.stepXY.toString() + " | Z:" + machineStatus.jogging.stepZ.toString() + " | F:" + machineStatus.jogging.feed.toString() + " {fa-edit 16dp}"}'
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

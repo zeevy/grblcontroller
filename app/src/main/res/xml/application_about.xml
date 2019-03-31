@@ -10,7 +10,7 @@
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
         android:summary="linuxcnc.org"
-        android:title="Gcode documentation">
+        android:title="Gcode Documentation">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="http://linuxcnc.org/docs/html/gcode/g-code.html"/>
@@ -18,7 +18,7 @@
 
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
-        android:summary="Interface wiki and documentation"
+        android:summary="interface wiki | documentation"
         android:title="Application Usage">
         <intent
             android:action="android.intent.action.VIEW"
@@ -55,7 +55,7 @@
     <Preference
         android:icon="@drawable/ic_contact_mail_black_36dp"
         android:summary="zeevy@outlook.in"
-        android:title="Contact developer">
+        android:title="Contact Developer">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="mailto:zeevy@outlook.in?subject=Grbl Controller"/>
