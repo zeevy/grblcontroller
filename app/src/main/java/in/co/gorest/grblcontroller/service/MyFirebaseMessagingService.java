@@ -26,19 +26,30 @@ package in.co.gorest.grblcontroller.service;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Objects;
+
 import in.co.gorest.grblcontroller.BuildConfig;
+import in.co.gorest.grblcontroller.GrblController;
+import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.SplashActivity;
 import in.co.gorest.grblcontroller.events.FcmNotificationRecieved;
+import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.model.Constants;
+import in.co.gorest.grblcontroller.model.FcmToken;
 import in.co.gorest.grblcontroller.model.GrblNotification;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -50,6 +61,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String KEY_CATEGORY_NAME           = "category_name";
     private static final String KEY_CATEGORY_VALUE          = "category_value";
     private static final String KEY_DATA_PLAYLOAD           = "playload";
+
+    @Override
+    public void onNewToken(String refreshedToken) {
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+
+        EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), getString(R.string.shared_preference_key));
+        sharedPreferences.edit().putString(getString(R.string.firebase_cloud_messaging_token), refreshedToken).apply();
+
+        FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_GENERAL_NAME);
+        FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_BUG_TRACKER_NAME);
+        FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_SERVICE_NAME);
+
+        sendRegistrationToServer(refreshedToken);
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -168,4 +193,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    public static void sendRegistrationToServer(final String refreshedToken){
+
+        Log.d(TAG, refreshedToken);
+
+        GrblController.getInstance().getRetrofit().postFcmToken(new FcmToken(refreshedToken)).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+                if(response.isSuccessful()){
+                    boolean isSaved = Objects.requireNonNull(response.body()).get("success").getAsBoolean();
+                    if(isSaved){
+                        EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), GrblController.getInstance().getString(R.string.shared_preference_key));
+                        sharedPreferences.edit().putBoolean(GrblController.getInstance().getString(R.string.firebase_cloud_messaging_token_sent), true).apply();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable throwable) {
+
+            }
+        });
+
+    }
 }

@@ -521,7 +521,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         IndicatorSeekBar jogStepSeekBarXY = view.findViewById(R.id.jog_xy_step_seek_bar);
         jogStepSeekBarXY.setProgress(machineStatus.getJogging().stepXY.floatValue());
         jogStepSeekBarXY.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size), 10));
-        jogStepSeekBarXY.setIndicatorTextFormat("XY Step Size ${PROGRESS}");
+        jogStepSeekBarXY.setIndicatorTextFormat("XY: ${PROGRESS}");
         jogStepSeekBarXY.setDecimalScale(2);
 
         jogStepSeekBarXY.setOnSeekChangeListener(new OnSeekChangeListener() {
@@ -545,7 +545,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         IndicatorSeekBar jogStepSeekBarZ = view.findViewById(R.id.jog_z_step_seek_bar);
         jogStepSeekBarZ.setProgress(machineStatus.getJogging().stepZ.floatValue());
         jogStepSeekBarZ.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size_z), 5));
-        jogStepSeekBarZ.setIndicatorTextFormat("Z Step Size ${PROGRESS}");
+        jogStepSeekBarZ.setIndicatorTextFormat("Z: ${PROGRESS}");
         jogStepSeekBarZ.setDecimalScale(2);
 
         jogStepSeekBarZ.setOnSeekChangeListener(new OnSeekChangeListener() {
@@ -570,7 +570,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         jogFeedSeekBar.setProgress(machineStatus.getJogging().feed.floatValue());
         Double maxFeedRate = sharedPref.getDouble(getString(R.string.preference_jogging_max_feed_rate), 2400.00);
         jogFeedSeekBar.setMax(Float.parseFloat(maxFeedRate.toString()));
-        jogFeedSeekBar.setIndicatorTextFormat("Jog Feed Rate ${PROGRESS}");
+        jogFeedSeekBar.setIndicatorTextFormat("Feed: ${PROGRESS}");
 
 
         jogFeedSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
@@ -605,7 +605,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(view);
-        alertDialogBuilder.setTitle(getString(R.string.text_jogging_step_and_feed));
+        //alertDialogBuilder.setTitle(getString(R.string.text_jogging_step_and_feed));
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -614,6 +614,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 });
 
         AlertDialog dialog = alertDialogBuilder.create();
+        dialog.setCancelable(false);
         dialog.show();
     }
 

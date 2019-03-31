@@ -46,6 +46,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
@@ -61,6 +62,7 @@ import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
 import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
 import in.co.gorest.grblcontroller.events.GrblErrorEvent;
 import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
+import in.co.gorest.grblcontroller.events.StreamingStartedEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
@@ -71,6 +73,7 @@ import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
 import in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService;
+import in.co.gorest.grblcontroller.service.MyFirebaseMessagingService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;
 
@@ -121,7 +124,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
         boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
-        if(fcmToken != null && !tokenSent) MyFirebaseInstanceIDService.sendRegistrationToServer(fcmToken);
+        if(fcmToken != null && !tokenSent) MyFirebaseMessagingService.sendRegistrationToServer(fcmToken);
 
         freeAppNotification();
     }
@@ -135,6 +138,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         FileSenderListener.resetClass();
         MachineStatusListener.resetClass();
         isAppRunning = false;
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -142,9 +146,9 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     public void freeAppNotification(){
         new AlertDialog.Builder(this)
-                .setTitle("Grbl Controller")
-                .setMessage("Hello you are using free basic version of the application. For more exiting features buy Grbl Controller +")
-                .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
+                .setTitle("Grbl Controller +")
+                .setMessage("for more exiting features like job resume, job history, in app documentation, jog pad rotation, haptic feedback, additional AB axis support etc.. upgrade today")
+                .setPositiveButton("Upgrade", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus")));
@@ -154,7 +158,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                         }
                     }
                 })
-                .setNegativeButton(getString(R.string.text_cancel), null)
+                .setNegativeButton("May be latter", null)
                 .setCancelable(false)
                 .show();
     }
@@ -214,7 +218,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         consoleLogger = ConsoleLoggerListener.getInstance();
         machineStatus = MachineStatusListener.getInstance();
-        machineStatus.setJogging(sharedPref.getDouble(getString(R.string.preference_jogging_step_size), 1.00), sharedPref.getDouble(getString(R.string.preference_jogging_step_size_z), 0.00), sharedPref.getDouble(getString(R.string.preference_jogging_feed_rate), 2400.0), sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+        machineStatus.setJogging(sharedPref.getDouble(getString(R.string.preference_jogging_step_size), 1.00), sharedPref.getDouble(getString(R.string.preference_jogging_step_size_z), 0.1), sharedPref.getDouble(getString(R.string.preference_jogging_feed_rate), 2400.0), sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
         machineStatus.setVerboseOutput(sharedPref.getBoolean(getString(R.string.preference_console_verbose_mode), false));
 
     }
@@ -332,9 +336,15 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void OnStreamingCompleteEvent(StreamingCompleteEvent event){
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnStreamingStartEvent(StreamingStartedEvent event){
+        if(sharedPref.getBoolean(getString(R.string.preference_keep_screen_on), false)){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

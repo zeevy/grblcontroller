@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if(key.equals(getString(R.string.preference_default_serial_connection_type))){
+            if(key.equals(getString(R.string.preference_default_serial_connection_type)) || key.equals(getString(R.string.preference_keep_screen_on))){
                 EventBus.getDefault().post(new UiToastEvent("Application restart required"));
             }
 

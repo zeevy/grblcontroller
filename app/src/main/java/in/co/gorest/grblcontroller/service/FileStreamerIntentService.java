@@ -49,6 +49,7 @@ import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.GrblErrorEvent;
 import in.co.gorest.grblcontroller.events.GrblOkEvent;
 import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
+import in.co.gorest.grblcontroller.events.StreamingStartedEvent;
 import in.co.gorest.grblcontroller.events.UiToastEvent;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.listeners.FileSenderListener;
@@ -144,6 +145,7 @@ public class FileStreamerIntentService extends IntentService{
 
         fileSenderListener.setStatus(FileSenderListener.STATUS_STREAMING);
         setIsServiceRunning(true);
+        EventBus.getDefault().post(new StreamingStartedEvent());
 
         if(isCheckMode){
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
@@ -172,7 +174,6 @@ public class FileStreamerIntentService extends IntentService{
         if(!getShouldContinue()){
             // Stop the spindle or laser
 			EventBus.getDefault().post(new GcodeCommand("M5"));
-
         }
 
         clearBuffers();

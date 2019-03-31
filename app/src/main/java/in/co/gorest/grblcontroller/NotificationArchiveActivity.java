@@ -53,9 +53,6 @@ public class NotificationArchiveActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setSubtitle("notification archive");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
         EventBus.getDefault().register(this);
     }
 
@@ -91,16 +88,6 @@ public class NotificationArchiveActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
