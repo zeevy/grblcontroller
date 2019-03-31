@@ -40,6 +40,7 @@
     <string name="preference_probing_feed_rate" translatable="false">preference_probing_feed_rate</string>
     <string name="preference_probing_plate_thickness" translatable="false">probing_plate_thickness</string>
     <string name="preference_probing_distance" translatable="false">probing_distance</string>
+    <string name="preference_keep_screen_on" translatable="false">preference_keep_screen_on</string>
     <string name="preference_enable_custom_buttons" translatable="false">enable_custom_buttons</string>
     <string name="preference_custom_button_one" translatable="false">custom_button_one</string>
     <string name="preference_custom_button_one_long_click" translatable="false">custom_button_one_long_click</string>
@@ -76,7 +77,7 @@
     <string name="text_connect">Connect</string>
     <string name="text_grbl_unsupported">Only grbl version %s or above is supported</string>
     <string name="text_app_rating_summary">If you like Grbl Controller, you can show your appreciation here.</string>
-    <string name="text_app_rating">Rate application</string>
+    <string name="text_app_rating">Rate Application</string>
     <string name="text_bluetooth_adapter_error">Bluetooth Adapter Error, please restart your phone</string>
     <string name="text_unable_to_connect_to_device">Unable to connect to device</string>
     <string name="text_device_connection_was_lost">Device connection was lost</string>
@@ -100,8 +101,8 @@
     <string name="text_grbl_soft_reset">Grbl soft reset!</string>
     <string name="text_grbl_soft_reset_desc">do you want to soft reset the machine?</string>
     <string name="text_unknown">Unknown</string>
-    <string name="text_buy_app">Buy The Application</string>
-    <string name="text_buy_app_summary">Unlock more features. \n1. Job logs \n2.In app documentaion \n3. Jog pad rotation \n4. Haptic feedback \n5. Aditional AB axis support \n6. Job resume</string>
+    <string name="text_buy_app">Upgrade to Grbl Controller +</string>
+    <string name="text_buy_app_summary">support development | get more features</string>
 
     <!-- Settings -->
     <string name="text_app_share">Share</string>
@@ -115,12 +116,14 @@
     <string name="text_soft_reset_confirm_desc">ask for confirmation before doing soft reset</string>
     <string name="text_sleep_after_job">Sleep after job</string>
     <string name="text_sleep_after_job_desc">put machine into a de-powered sleep mode using $SLP command</string>
-    <string name="text_jogging_max_steps">Jogging max step size XY</string>
-    <string name="text_jogging_max_steps_z">Jogging max step size Z</string>
-    <string name="text_jogging_max_steps_desc">jogging step seek bar maximum value for axis X and Y</string>
-    <string name="text_jogging_max_steps_desc_z">jogging step seek bar maximum value for axis Z</string>
+    <string name="text_jogging_max_steps">Jogging max step size for XY</string>
+    <string name="text_jogging_max_steps_z">Jogging max step size for Z</string>
+    <string name="text_jogging_max_steps_desc">seek bar maximum value for axis X and Y</string>
+    <string name="text_jogging_max_steps_desc_z">seek bar maximum value for Z axis</string>
+    <string name="text_keep_screen_on">Stay awake</string>
+    <string name="text_keep_screen_on_description">Screen will never sleep during the job</string>
     <string name="text_enable_custom_buttons">Enable custom buttons</string>
-    <string name="text_enable_custom_buttons_desc">enable four custom buttons in jogging control tab.</string>
+    <string name="text_enable_custom_buttons_desc">enables four custom buttons in jogging control tab.</string>
     <string name="text_custom_buttons">Custom Buttons</string>
     <string name="text_custom_buttons_desc">multiple commands must be separated by a new line</string>
     <string name="text_custom_button_1">Custom button 1</string>
@@ -259,7 +262,7 @@
     <string name="text_save_coordinate_system">Save coordinate system</string>
     <string name="text_save_coordinate_system_desc">save current position to coordinate system</string>
     <string name="text_jogging_step_and_feed">Jogging step and feed</string>
-    <string name="text_inches">In Inches</string>
+    <string name="text_inches">Inches</string>
 
     <!-- File Sender Tab -->
     <string name="text_mist_disabled">Mist coolant is not enabled while compiling</string>
@@ -306,10 +309,6 @@
     <string name="app_shortcut_short_test_help">Documentation</string>
     <string name="app_shortcut_long_text_help">Application Documentation Guide</string>
 
-    <string name="admob_app_id">ca-app-pub-4930099895671899~8705180010</string>
-    <string name="admob_interstitial_ad_id">ca-app-pub-4930099895671899/4683725909</string>
-    <string name="admob_banner_ad_id">ca-app-pub-4930099895671899/8941593162</string>
-    <string name="admob_reward_video_ad_id">ca-app-pub-4930099895671899/6399190303</string>
     <string name="text_power_management_warning_title">Warning! battery optimisation is enabled</string>
     <string name="text_power_management_warning_description">For long running jobs, disable android battery optimisation for this application.</string>
     <string name="text_delete_notification">Do you really want to delete this notification?</string>

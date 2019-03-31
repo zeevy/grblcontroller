@@ -54,8 +54,8 @@
     <string name="text_grbl_soft_reset">重置机器！</string>
     <string name="text_grbl_soft_reset_desc">确定要重置机器吗？</string>
     <string name="text_unknown">未知</string>
-    <string name="text_buy_app">Buy The Application</string>
-    <string name="text_buy_app_summary">Unlock more features. \n1. Job logs \n2.In app documentaion \n3. Jog pad rotation \n4. Haptic feedback \n5. Aditional AB axis support \n6. Job resume</string>
+    <string name="text_buy_app">Upgrade to Grbl Controller +</string>
+    <string name="text_buy_app_summary">support development | get more features</string>
     <string name="text_notifications">Notifications</string>
 
     <!-- Settings -->
@@ -74,6 +74,8 @@
     <string name="text_jogging_max_steps_z">微动最大距离 Z</string>
     <string name="text_jogging_max_steps_desc">XY 点击按钮移动的最大步数</string>
     <string name="text_jogging_max_steps_desc_z">Z 点击按钮移动的最大步数</string>
+    <string name="text_keep_screen_on">Stay awake</string>
+    <string name="text_keep_screen_on_description">Screen will never sleep during the job</string>
     <string name="text_enable_custom_buttons">启用自定义按键</string>
     <string name="text_enable_custom_buttons_desc">微动界面将提供四个可配置按键</string>
     <string name="text_custom_buttons">自定义按键</string>
@@ -259,10 +261,6 @@
     <string name="app_shortcut_short_test_help">文档</string>
     <string name="app_shortcut_long_text_help">应用程序文档指南</string>
 
-    <string name="admob_app_id">ca-app-pub-4930099895671899~8705180010</string>
-    <string name="admob_interstitial_ad_id">ca-app-pub-4930099895671899/4683725909</string>
-    <string name="admob_banner_ad_id">ca-app-pub-4930099895671899/8941593162</string>
-    <string name="admob_reward_video_ad_id">ca-app-pub-4930099895671899/6399190303</string>
     <string name="text_power_management_warning_title">Warning! battery optimisation is enabled</string>
     <string name="text_power_management_warning_description">For long running jobs, disable android battery optimisation for this application.</string>
     <string name="text_delete_notification">Do you really want to delete this notification?</string>
