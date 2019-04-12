@@ -54,8 +54,13 @@
                                     </li>
                                     
                                     <li class="gutter-md-top">
-                                        <code><i class="fa fa-list-ol"></i> Jogging max step size</code><br />
-                                        Maximum size of step selection bar in the jogging control panel. If you need fine adjustment to step size then select lower value.
+                                        <code><i class="fa fa-list-ol"></i> Jogging max step size for XY</code><br />
+                                        Maximum size of XY step progress bar in the jogging control panel. If you need fine adjustment then select lower value.
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-list-ol"></i> Jogging max step size for Z</code><br />
+                                        Maximum size of Z step progress bar in the jogging control panel. If you need fine adjustment then select lower value.
                                     </li>
                                     
                                     <li class="gutter-md-top">
@@ -68,7 +73,8 @@
                                         The behaviour of streaming stop button when you click on it
                                         <ul style="list-style: disc;">
                                             <li class="gutter-sm-top">
-                                                Just stop streaming: Application just stops the file streaming, machine may continue to run until its buffer gets empty.
+                                                Just stop streaming: Application just stops the file streaming, machine may continue to run until its buffer gets empty.<br />
+                                                <p class="text-danger">NOTE: Laser/Spindle will not be stopped</p>
                                             </li>
                                             <li class="gutter-sm-top">
                                                 Stop streaming and do soft reset: Application stops file streaming and soft resets the machine. Machine position will be lost, you may need to do homing again.
@@ -111,6 +117,21 @@
                                                 </p>
                                             </li>
                                         </ul>
+                                    </li>
+                                    
+                                    <li class="gutter-md-top">
+                                        <code><i class="fa fa-list-ol"></i> Quick jog step buttons</code>
+                                        <p class="help-block">
+                                            Quick step setting buttons 
+                                            <code class="btn btn-xs">XY: Low</code>, 
+                                            <code class="btn btn-xs">XY: Medium</code>,
+                                            <code class="btn btn-xs">XY: High</code>,
+                                            <code class="btn btn-xs">Z: Low</code>,
+                                            <code class="btn btn-xs">Z: Medium</code> and 
+                                            <code class="btn btn-xs">Z: High</code>
+                                            are given to XY and Z axis step progress bar in jogging panel.
+                                            You can set the value to those buttons here
+                                        </p>
                                     </li>
                                 </ol>
                             </div>

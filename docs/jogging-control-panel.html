@@ -31,7 +31,7 @@
                                 <h3>Jogging control, homing and return to zero</h3>
                                 <ul>
                                     <li class="gutter-sm-top">
-                                        <code>Step | Feed</code> Jogging step and feed rate can be adjusted here. 
+                                        <code>Step Size | Jog Feed</code> adjust jogging step and feed rate here. 
                                         Max feed rate value depends on the machine settings.
                                         Max step size can be configured in settings.
                                     </li> 
@@ -228,6 +228,90 @@
                                         </ol>
                                     </li>
                                     
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="gutter-lg-top">
+                                    <img src="images/joggin_step_and_feed.png" class="img-responsive img-rounded" alt="Jogging step size and feed adjust dialog" />
+                                </div>
+                                <p class="text-muted gutter-sm-top">Figure-2: Jogging step size and feed adjust dialog</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Jogging step size and feed rate adjusting</h3>
+                                <p>
+                                    This dialog pops upon clicking <code>Step Size | Jog Feed</code>
+                                </p>
+                                <ul class="gutter-sm-top">
+                                    <li class="gutter-sm-top">
+                                        <code>Inches</code> When turned on machine units for jogging is set to "Inches"
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        To adjust the X and Y axis step size slide the <code>XY: </code> progress bar.<br />
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        To adjust the Z axis step size slide the <code>Z: </code> progress bar.<br />
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        To adjust the jogging feed rate slide the <code>Feed: </code> progress bar.<br />
+                                    </li>
+                                </ul>
+                                <p class="text-warning">
+                                    NOTE: Maximum value of X, Y and Z axis progress bar can be configured in application settings.
+                                <p>
+                                    
+                                </p>
+                                <h4 class="gutter-lg-top">Quick step setting buttons</h4>
+                                <p>
+                                    Quick buttons are provide to set the step size to a predefined value. Value of each button can be set in application settings.
+                                </p>
+                                <ul class="gutter-sm-top">
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs">XY: Low</code>
+                                        <ol class="gutter-sm-top">
+                                            <li>Short Click: Sets the configured low value as X and Y axis step size.</li>
+                                            <li>Long Click: Changes the pre-configured low value to current XY progress bar value</li>
+                                        </ol>
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs">XY: Medium</code>
+                                        <ol class="gutter-sm-top">
+                                            <li>Short Click: Sets the configured medium value as X and Y axis step size.</li>
+                                            <li>Long Click: Changes the pre-configured medium value to current XY progress bar value</li>
+                                        </ol>
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs">XY: High</code>
+                                        <ol class="gutter-sm-top">
+                                            <li>Short Click: Sets the configured high value as X and Y axis step size.</li>
+                                            <li>Long Click: Changes the pre-configured high value to current XY progress bar value</li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                                <ul class="gutter-sm-top">
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs">Z: Low</code>
+                                        <ol class="gutter-sm-top">
+                                            <li>Short Click: Sets the configured low value as X axis step size.</li>
+                                            <li>Long Click: Changes the pre-configured low value to current Z progress bar value</li>
+                                        </ol>
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs">Z: Medium</code>
+                                        <ol class="gutter-sm-top">
+                                            <li>Short Click: Sets the configured medium value as Z axis step size.</li>
+                                            <li>Long Click: Changes the pre-configured medium value to current Z progress bar value</li>
+                                        </ol>
+                                    </li>
+                                    <li class="gutter-sm-top">
+                                        <code class="btn btn-xs">Z: High</code>
+                                        <ol class="gutter-sm-top">
+                                            <li>Short Click: Sets the configured high value as Z axis step size.</li>
+                                            <li>Long Click: Changes the pre-configured high value to current Z progress bar value</li>
+                                        </ol>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

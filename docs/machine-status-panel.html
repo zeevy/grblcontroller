@@ -73,45 +73,40 @@
                                     <p class="text-muted gutter-sm-top">Figure-2: Machine Status Panel Information.</p>
                                 </div>
                                 <div class="col-sm-6">
-                                    <ol>
-                                        <li>
-                                            <span class="text-info">Machine State.</span> <span class="badge">1</span>
-                                            <ul>
-                                                <li class="gutter-sm-top">Valid states types: Idle, Run, Hold, Jog, Alarm, Door, Check, Home, Sleep. If not connected to any device then it will show the state as "Unknown"</li>
-                                                <li>
-                                                    Sub-states may be included via : a colon delimiter and numeric code. 
-                                                    For a valid sub-states and information please visit <a href="https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface" target="_blank" title="Grbl Documentation - Interface">grbl documentation</a> <i class="fa fa-external-link"></i>
-                                                </li>
-                                            </ul>
-                                        </li>
-
+                                    <h4>Machine State <span class="badge">1</span></h4>
+                                    <ul class="gutter-sm-top">
+                                        <li class="gutter-sm-top">Valid states types: Idle, Run, Hold, Jog, Alarm, Door, Check, Home, Sleep. If not connected to any device then it will show the state as "Unknown"</li>
                                         <li class="gutter-sm-top">
-                                            <span class="text-info">Machine Position and Work Position.</span> <span class="badge">2</span> <span class="badge">3</span>
-                                            <ul>
-                                                <li class="gutter-sm-top">
-                                                    This section shows the current machine and work position of <span class="text-info">X</span>, <span class="text-info">Y</span> and <span class="text-info">Z</span> axis.
-                                                    Axis labels <span class="badge">4</span> <span class="text-danger">X</span>, <span class="text-danger">Y</span> and <span class="text-danger">Z</span>. 
-                                                    will turns to red color if corresponding axis limit switch is triggered. 
-                                                    Work position and machine position of the axis Z will turn to red color if tool length offset (TLO) is active on the Z-Axis.
-                                                </li>
-                                            </ul>
+                                            Sub-states may be included via : a colon delimiter and numeric code. 
+                                            For a valid sub-states and information please visit <a href="https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface" target="_blank" title="Grbl Documentation - Interface">grbl documentation</a> <i class="fa fa-external-link"></i>
                                         </li>
-
+                                    </ul>
+                                    
+                                    <h4>Machine Position and Work Position. <span class="badge">2</span> <span class="badge">3</span></h4>
+                                    
+                                    <ul>
                                         <li class="gutter-sm-top">
-                                            <span class="text-info">G-Code Parser State.</span> <span class="badge">5</span>
-                                            <ul>
-                                                <li class="gutter-sm-top">
-                                                    The selected coordinate system G54 or G55 or G56 or G57 or G58 or G59
-                                                </li>
-                                                <li>
-                                                    Unit Mode G20 (inches) or G21 (millimeters)
-                                                </li>
-                                                <li>
-                                                    Distance Mode. G90 absolute distance mode or G91 incremental distance mode
-                                                </li>
-                                            </ul>
+                                            This section shows the current machine and work position of <span class="text-info">X</span>, <span class="text-info">Y</span> and <span class="text-info">Z</span> axis.
+                                            Axis labels <span class="badge">4</span> <span class="text-danger">X</span>, <span class="text-danger">Y</span> and <span class="text-danger">Z</span>. 
+                                            will turns to red color if corresponding axis limit switch is triggered. 
+                                            Work position and machine position of the axis Z will turn to red color if tool length offset (TLO) is active on the Z-Axis.
                                         </li>
-
+                                    </ul>
+                                    
+                                    <h4>G-Code Parser State. <span class="badge">5</span></h4>
+                                    <ul>
+                                        <li class="gutter-sm-top">
+                                            The selected coordinate system G54 or G55 or G56 or G57 or G58 or G59
+                                        </li>
+                                        <li class="gutter-sm-top">
+                                            Unit Mode G20 (inches) or G21 (millimeters)
+                                        </li>
+                                        <li class="gutter-sm-top">
+                                            Distance Mode. G90 absolute distance mode or G91 incremental distance mode
+                                        </li>
+                                    </ul>
+                                    
+                                    <ul>
                                         <li class="gutter-sm-top">
                                             <span class="text-info">Current Feed Rate</span> <span class="badge">6</span>
                                         </li>
@@ -119,7 +114,7 @@
                                         <li class="gutter-sm-top">
                                             <span class="text-info">Buffer State. (Planner buffer | Serial RX buffer)</span> <span class="badge">7</span>
                                         </li>
-                                    </ol>
+                                    </ul>
                                 </div>
                             </div>
                             
