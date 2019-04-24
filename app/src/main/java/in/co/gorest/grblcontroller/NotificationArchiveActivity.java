@@ -60,7 +60,7 @@ public class NotificationArchiveActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-        final List<GrblNotification> dataSet = GrblNotification.find(GrblNotification.class, null, null, null, "id", "0, 10");
+        final List<GrblNotification> dataSet = GrblNotification.find(GrblNotification.class, null, null, null, "id DESC", "0, 10");
         if(dataSet.size() == 0){
             TextView emptyView = findViewById(R.id.empty_view);
             emptyView.setVisibility(View.VISIBLE);
@@ -77,7 +77,7 @@ public class NotificationArchiveActivity extends AppCompatActivity {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 String limit = String.valueOf(page * 10) + ", 10";
-                List<GrblNotification> moreItems = GrblNotification.find(GrblNotification.class, null, null, null, "id", limit);
+                List<GrblNotification> moreItems = GrblNotification.find(GrblNotification.class, null, null, null, "id DESC", limit);
                 dataSet.addAll(moreItems);
                 notificationAdapter.notifyItemRangeInserted(notificationAdapter.getItemCount(), dataSet.size() - 1);
             }

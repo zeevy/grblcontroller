@@ -53,7 +53,7 @@ import retrofit2.Callback;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
+    private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
     private static final String KEY_NOTIFICATION_TITLE      = "title";
     private static final String KEY_NOTIFICATION_MESSAGE    = "message";
@@ -109,8 +109,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if(notificationChannel.equalsIgnoreCase(NotificationHelper.CHANNEL_GENERAL_NAME)){
                     notificationGeneral(remoteMessage);
                 }
-
-                saveNotification(remoteMessage);
             }catch (Exception e){
                 Log.d(TAG, e.getMessage());
             }
@@ -133,6 +131,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.setData(Uri.parse(categoryValue));
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
+        saveNotification(remoteMessage);
     }
 
     private void notificationGeneral(RemoteMessage remoteMessage){
@@ -147,6 +146,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationHelper notificationHelper = new NotificationHelper(this);
 
         if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_UPDATE)){
+            assert categoryValue != null;
             int versionCode = Integer.valueOf(categoryValue);
 
             if(versionCode > BuildConfig.VERSION_CODE){
@@ -154,6 +154,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 intent.setData(Uri.parse("market://details?id=" + getPackageName()));
                 final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
                 notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
+                saveNotification(remoteMessage);
             }
 
         }else if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_LINK)) {
@@ -162,17 +163,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.setData(Uri.parse(categoryValue));
             final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
+            saveNotification(remoteMessage);
 
         }else if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_PROMOTION)){
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus"));
             final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
+            saveNotification(remoteMessage);
+
         }else{
             Intent intent = new Intent(this, SplashActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
             notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
+            saveNotification(remoteMessage);
         }
 
     }

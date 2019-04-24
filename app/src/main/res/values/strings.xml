@@ -65,6 +65,12 @@
     <string name="preference_confirm_grbl_soft_reset" translatable="false">confirm_grbl_soft_reset</string>
     <string name="preference_gcode_file_picker_type" translatable="false">gcode_file_picker_type</string>
     <string name="preference_enable_additional_axis" translatable="false">enable_additional_axis</string>
+    <string name="preference_jog_xy_step_small" translatable="false">preference_jog_xy_step_small</string>
+    <string name="preference_jog_xy_step_medium" translatable="false">preference_jog_xy_step_medium</string>
+    <string name="preference_jog_xy_step_high" translatable="false">preference_jog_xy_step_high</string>
+    <string name="preference_jog_z_step_small" translatable="false">preference_jog_z_step_small</string>
+    <string name="preference_jog_z_step_medium" translatable="false">preference_jog_z_step_medium</string>
+    <string name="preference_jog_z_step_high" translatable="false">preference_jog_z_step_high</string>
     <string name="firebase_cloud_messaging_token" translatable="false">firebase_cloud_messaging_token</string>
     <string name="firebase_cloud_messaging_token_sent" translatable="false">firebase_cloud_messaging_token_sent</string>
     <string name="default_notification_channel_id" translatable="false">General</string>
@@ -121,7 +127,7 @@
     <string name="text_jogging_max_steps_desc">seek bar maximum value for axis X and Y</string>
     <string name="text_jogging_max_steps_desc_z">seek bar maximum value for Z axis</string>
     <string name="text_keep_screen_on">Stay awake</string>
-    <string name="text_keep_screen_on_description">Screen will never sleep during the job</string>
+    <string name="text_keep_screen_on_description">screen will never sleep during the job</string>
     <string name="text_enable_custom_buttons">Enable custom buttons</string>
     <string name="text_enable_custom_buttons_desc">enables four custom buttons in jogging control tab.</string>
     <string name="text_custom_buttons">Custom Buttons</string>
@@ -142,6 +148,8 @@
     <string name="text_custom_button_3">Custom button 3</string>
     <string name="text_button_3_behaviour">configure custom button 3 behaviour</string>
     <string name="text_custom_button_4">Custom button 4</string>
+    <string name="text_quick_jogging">Quick Jog Step Buttons</string>
+    <string name="text_quick_jogging_desc">configure quick jogging buttons</string>
     <string name="text_button_4_behaviour">configure custom button 4 behaviour</string>
     <string name="text_default_connection">Default connection</string>
     <string name="text_rotate_jogging_pad">Rotate XY jogging pad</string>

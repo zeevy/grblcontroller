@@ -56,7 +56,7 @@
     <string name="text_unknown">未知</string>
     <string name="text_buy_app">Upgrade to Grbl Controller +</string>
     <string name="text_buy_app_summary">support development | get more features</string>
-    <string name="text_notifications">Notifications</string>
+    <string name="text_notifications">通知</string>
 
     <!-- Settings -->
     <string name="text_app_share">分享</string>
@@ -74,8 +74,8 @@
     <string name="text_jogging_max_steps_z">微动最大距离 Z</string>
     <string name="text_jogging_max_steps_desc">XY 点击按钮移动的最大步数</string>
     <string name="text_jogging_max_steps_desc_z">Z 点击按钮移动的最大步数</string>
-    <string name="text_keep_screen_on">Stay awake</string>
-    <string name="text_keep_screen_on_description">Screen will never sleep during the job</string>
+    <string name="text_keep_screen_on">保持清醒</string>
+    <string name="text_keep_screen_on_description">屏幕将永远不会在工作期间睡觉</string>
     <string name="text_enable_custom_buttons">启用自定义按键</string>
     <string name="text_enable_custom_buttons_desc">微动界面将提供四个可配置按键</string>
     <string name="text_custom_buttons">自定义按键</string>
@@ -97,6 +97,8 @@
     <string name="text_button_3_behaviour">设置按键 3 的效果</string>
     <string name="text_custom_button_4">自定义按键 4</string>
     <string name="text_button_4_behaviour">设置按键 4 的效果</string>
+    <string name="text_quick_jogging">快速慢跑步骤按钮</string>
+    <string name="text_quick_jogging_desc">配置快速慢跑按钮</string>
     <string name="text_default_connection">默认连接</string>
     <string name="text_rotate_jogging_pad">旋转XY坐标轴</string>
     <string name="text_streaming_stop_button_behaviour">紧急停止按钮</string>
@@ -261,14 +263,14 @@
     <string name="app_shortcut_short_test_help">文档</string>
     <string name="app_shortcut_long_text_help">应用程序文档指南</string>
 
-    <string name="text_power_management_warning_title">Warning! battery optimisation is enabled</string>
-    <string name="text_power_management_warning_description">For long running jobs, disable android battery optimisation for this application.</string>
-    <string name="text_delete_notification">Do you really want to delete this notification?</string>
-    <string name="text_usb_device_connected">USB device connected</string>
-    <string name="text_no_usb_permission">No usb permission</string>
-    <string name="text_usb_permission_not_granted">USB Permission not granted</string>
-    <string name="text_no_usb_device">No usb device</string>
-    <string name="text_usb_device_disconnected">USB device disconnected</string>
-    <string name="text_usb_device_not_supported">Device not supported</string>
+    <string name="text_power_management_warning_title">警告！电池优化已启用</string>
+    <string name="text_power_management_warning_description">对于长时间运行的作业, 禁用此应用程序的 android 电池优化。</string>
+    <string name="text_delete_notification">是否确实要删除此通知？</string>
+    <string name="text_usb_device_connected">已连接 USB 设备</string>
+    <string name="text_no_usb_permission">没有 usb 权限</string>
+    <string name="text_usb_permission_not_granted">未授予 USB 权限</string>
+    <string name="text_no_usb_device">无 usb 设备</string>
+    <string name="text_usb_device_disconnected">USB 设备已断开连接</string>
+    <string name="text_usb_device_not_supported">不支持的设备</string>
 
 </resources>

@@ -44,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Objects;
 
+import in.co.gorest.grblcontroller.GrblActivity;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentProbingTabBinding;
 import in.co.gorest.grblcontroller.events.GrblProbeEvent;
@@ -63,6 +64,7 @@ public class ProbingTabFragment extends BaseFragment {
     private Double probeStartPosition = null;
     private SwitchCompat autoZeroAfterProbe;
     private Integer probeType;
+    private String editIcon;
 
     public ProbingTabFragment() {}
 
@@ -75,6 +77,13 @@ public class ProbingTabFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         machineStatus = MachineStatusListener.getInstance();
         sharedPref = EnhancedSharedPreferences.getInstance(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.shared_preference_key));
+
+        if(GrblActivity.isTablet(getActivity())){
+            this.editIcon = " {fa-edit 22sp}";
+        }else{
+            this.editIcon = " {fa-edit 16sp}";
+        }
+
         EventBus.getDefault().register(this);
     }
 
@@ -116,13 +125,13 @@ public class ProbingTabFragment extends BaseFragment {
         });
 
         probingFeedRate = view.findViewById(R.id.probing_feed_rate);
-        probingFeedRate.setText(sharedPref.getString(getString(R.string.preference_probing_feed_rate), String.valueOf(Constants.PROBING_FEED_RATE)));
+        probingFeedRate.setText(sharedPref.getString(getString(R.string.preference_probing_feed_rate), String.valueOf(Constants.PROBING_FEED_RATE)) + this.editIcon);
 
         probingPlateThickness = view.findViewById(R.id.probing_plate_thickness);
-        probingPlateThickness.setText(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
+        probingPlateThickness.setText(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)) + this.editIcon);
 
         probingDistance = view.findViewById(R.id.probing_distance);
-        probingDistance.setText(sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE)));
+        probingDistance.setText(sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE)) + this.editIcon);
 
         IconButton startProbe = view.findViewById(R.id.start_probe);
         startProbe.setOnClickListener(new View.OnClickListener() {
@@ -206,8 +215,8 @@ public class ProbingTabFragment extends BaseFragment {
 
             fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
 
-            String probeDistance = probingDistance.getText().toString();
-            final String probeFeedRate = probingFeedRate.getText().toString();
+            String probeDistance = sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE));
+            final String probeFeedRate = sharedPref.getString(getString(R.string.preference_probing_feed_rate), String.valueOf(Constants.PROBING_FEED_RATE));
             final Double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
             probeStartPosition = machineStatus.getMachinePosition().getCordZ();
 
@@ -242,13 +251,14 @@ public class ProbingTabFragment extends BaseFragment {
         editText.setText(sharedPref.getString(getString(R.string.preference_probing_distance), "10.0"));
         editText.setSelection(editText.getText().length());
 
+        final String faEditIcon = this.editIcon;
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String distance = editText.getText().toString();
                         if(distance.length() <=0) distance = "0";
                         sharedPref.edit().putString(getString(R.string.preference_probing_distance), distance).apply();
-                        probingDistance.setText(distance);
+                        probingDistance.setText(distance  + faEditIcon);
                     }
                 })
                 .setNegativeButton(getString(R.string.text_cancel),
@@ -279,13 +289,14 @@ public class ProbingTabFragment extends BaseFragment {
         editText.setText(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), "10.0"));
         editText.setSelection(editText.getText().length());
 
+        final String faEditIcon = this.editIcon;
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String thickness = editText.getText().toString();
                         if(thickness.length() <= 0) thickness = "0";
                         sharedPref.edit().putString(getString(R.string.preference_probing_plate_thickness), thickness).apply();
-                        probingPlateThickness.setText(thickness);
+                        probingPlateThickness.setText(thickness + faEditIcon);
                     }
                 })
                 .setNegativeButton(getString(R.string.text_cancel),
@@ -314,13 +325,14 @@ public class ProbingTabFragment extends BaseFragment {
         editText.setText(sharedPref.getString(getString(R.string.preference_probing_feed_rate), "10.0"));
         editText.setSelection(editText.getText().length());
 
+        final String faEditIcon = this.editIcon;
         alertDialogBuilder.setCancelable(true)
                 .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String feedRate = editText.getText().toString();
                         if(feedRate.length() <= 0) feedRate = "0";
                         sharedPref.edit().putString(getString(R.string.preference_probing_feed_rate), feedRate).apply();
-                        probingFeedRate.setText(feedRate);
+                        probingFeedRate.setText(feedRate + faEditIcon);
                     }
                 })
                 .setNegativeButton(getString(R.string.text_cancel),
@@ -360,7 +372,7 @@ public class ProbingTabFragment extends BaseFragment {
 
         if(probeType == Constants.PROBE_TYPE_NORMAL){
             if(autoZeroAfterProbe.isChecked()){
-                Double probePlateThickness = Double.parseDouble(probingPlateThickness.getText().toString());
+                Double probePlateThickness = Double.parseDouble(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
                 fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + event.getProbeCordZ().toString());
                 fragmentInteractionListener.onGcodeCommandReceived("G10L20P0Z" + probePlateThickness);
                 autoZeroAfterProbe.setChecked(false);

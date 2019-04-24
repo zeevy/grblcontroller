@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View android:layout_marginBottom="8dp" android:layout_marginTop="4dp" android:layout_height="0.4dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+
     <RelativeLayout
         android:padding="16dp"
         android:layout_marginBottom="8dp"
@@ -50,6 +52,47 @@
 
     </RelativeLayout>
 
+    <TableLayout
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_centerHorizontal="true"
+        android:stretchColumns="*"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="ObsoleteLayoutParam">
+
+        <TableRow>
+
+            <com.joanzapata.iconify.widget.IconButton
+                android:id="@+id/jog_xy_step_small"
+                android:tag="@string/preference_jog_xy_step_small"
+                android:layout_weight="0.25"
+                android:layout_width="0dp"
+                android:text="XY: Low"
+                tools:ignore="HardcodedText" />
+
+            <com.joanzapata.iconify.widget.IconButton
+                android:id="@+id/jog_xy_step_medium"
+                android:tag="@string/preference_jog_xy_step_medium"
+                android:layout_weight="0.3333"
+                android:layout_width="0dp"
+                android:text="XY: Medium"
+                tools:ignore="HardcodedText" />
+
+            <com.joanzapata.iconify.widget.IconButton
+                android:id="@+id/jog_xy_step_high"
+                android:tag="@string/preference_jog_xy_step_high"
+                android:layout_weight="0.3333"
+                android:layout_width="0dp"
+                android:text="XY: High"
+                tools:ignore="HardcodedText" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+
     <RelativeLayout
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
@@ -71,6 +114,47 @@
         </com.warkiz.widget.IndicatorStayLayout>
 
     </RelativeLayout>
+
+    <TableLayout
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_centerHorizontal="true"
+        android:stretchColumns="*"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="ObsoleteLayoutParam">
+
+        <TableRow>
+
+            <com.joanzapata.iconify.widget.IconButton
+                android:id="@+id/jog_z_step_small"
+                android:tag="@string/preference_jog_z_step_small"
+                android:layout_weight="0.25"
+                android:layout_width="0dp"
+                android:text="Z: Low"
+                tools:ignore="HardcodedText" />
+
+            <com.joanzapata.iconify.widget.IconButton
+                android:id="@+id/jog_z_step_medium"
+                android:tag="@string/preference_jog_z_step_medium"
+                android:layout_weight="0.3333"
+                android:layout_width="0dp"
+                android:text="Z: Medium"
+                tools:ignore="HardcodedText" />
+
+            <com.joanzapata.iconify.widget.IconButton
+                android:id="@+id/jog_z_step_high"
+                android:tag="@string/preference_jog_z_step_high"
+                android:layout_weight="0.3333"
+                android:layout_width="0dp"
+                android:text="Z: High"
+                tools:ignore="HardcodedText" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
 
     <RelativeLayout
         android:layout_marginBottom="8dp"
@@ -95,6 +179,5 @@
 
 
     </RelativeLayout>
-
 
 </LinearLayout>

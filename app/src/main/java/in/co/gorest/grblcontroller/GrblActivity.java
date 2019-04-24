@@ -72,7 +72,6 @@ import in.co.gorest.grblcontroller.listeners.FileSenderListener;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
-import in.co.gorest.grblcontroller.service.MyFirebaseInstanceIDService;
 import in.co.gorest.grblcontroller.service.MyFirebaseMessagingService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;

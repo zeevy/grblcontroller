@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_feed_rate"
                     android:text="10"
                     android:layout_alignParentEnd="true"
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_plate_thickness"
                     android:text="2.0"
                     android:layout_alignParentEnd="true"
@@ -110,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_distance"
                     android:text="5"
                     android:layout_alignParentEnd="true"

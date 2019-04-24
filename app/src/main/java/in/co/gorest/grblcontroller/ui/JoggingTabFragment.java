@@ -518,11 +518,58 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         final ViewGroup nullParent = null;
         View view = inflater.inflate(R.layout.dialog_step_and_feed, nullParent, false);
 
-        IndicatorSeekBar jogStepSeekBarXY = view.findViewById(R.id.jog_xy_step_seek_bar);
+        final IndicatorSeekBar jogStepSeekBarXY = view.findViewById(R.id.jog_xy_step_seek_bar);
         jogStepSeekBarXY.setProgress(machineStatus.getJogging().stepXY.floatValue());
         jogStepSeekBarXY.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size), 10));
         jogStepSeekBarXY.setIndicatorTextFormat("XY: ${PROGRESS}");
         jogStepSeekBarXY.setDecimalScale(2);
+
+        for(int resourceId: new Integer[]{R.id.jog_xy_step_small, R.id.jog_xy_step_medium, R.id.jog_xy_step_high}){
+            final IconButton iconButton = view.findViewById(resourceId);
+
+            iconButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Change Quick Button Value")
+                            .setMessage("do you want to change the quick button value to " + Float.toString(jogStepSeekBarXY.getProgressFloat()))
+                            .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    EnhancedSharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString(iconButton.getTag().toString(), Float.toString(jogStepSeekBarXY.getProgressFloat())).commit();
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.text_no_confirm), null)
+                            .show();
+
+                    return true;
+                }
+            });
+
+            iconButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isAdded()){
+                        String stepValue = sharedPref.getString(iconButton.getTag().toString(), "0");
+                        if(stepValue.length() > 0){
+                            float step_value = Float.valueOf(stepValue);
+                            if(step_value > jogStepSeekBarXY.getMax()){
+                                EventBus.getDefault().post(new UiToastEvent("Value is grater than the bar size"));
+                                return;
+                            }
+
+                            jogStepSeekBarXY.setProgress(step_value);
+                            EventBus.getDefault().post(new UiToastEvent("XY Axis step value is set to " + String.valueOf(step_value)));
+                            EnhancedSharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putDouble(getString(R.string.preference_jogging_step_size), Double.parseDouble(Float.toString(step_value))).commit();
+                        }else{
+                            EventBus.getDefault().post(new UiToastEvent("Invalid step size value, please check settings"));
+                        }
+                    }
+                }
+            });
+        }
 
         jogStepSeekBarXY.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
@@ -542,11 +589,58 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-        IndicatorSeekBar jogStepSeekBarZ = view.findViewById(R.id.jog_z_step_seek_bar);
+        final IndicatorSeekBar jogStepSeekBarZ = view.findViewById(R.id.jog_z_step_seek_bar);
         jogStepSeekBarZ.setProgress(machineStatus.getJogging().stepZ.floatValue());
         jogStepSeekBarZ.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size_z), 5));
         jogStepSeekBarZ.setIndicatorTextFormat("Z: ${PROGRESS}");
         jogStepSeekBarZ.setDecimalScale(2);
+
+        for(int resourceId: new Integer[]{R.id.jog_z_step_small, R.id.jog_z_step_medium, R.id.jog_z_step_high}){
+            final IconButton iconButton = view.findViewById(resourceId);
+
+            iconButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Change Quick Button Value")
+                            .setMessage("do you want to change the quick button value to " + Float.toString(jogStepSeekBarZ.getProgressFloat()))
+                            .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    EnhancedSharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString(iconButton.getTag().toString(), Float.toString(jogStepSeekBarZ.getProgressFloat())).commit();
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.text_no_confirm), null)
+                            .show();
+
+                    return true;
+                }
+            });
+
+            iconButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isAdded()){
+                        String stepValue = sharedPref.getString(iconButton.getTag().toString(), "0");
+                        if(stepValue.length() > 0){
+                            float step_value = Float.valueOf(stepValue);
+                            if(step_value > jogStepSeekBarZ.getMax()){
+                                EventBus.getDefault().post(new UiToastEvent("Value is grater than the bar size"));
+                                return;
+                            }
+
+                            jogStepSeekBarZ.setProgress(step_value);
+                            EventBus.getDefault().post(new UiToastEvent("Z Axis step value is set to " + String.valueOf(step_value)));
+                            EnhancedSharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putDouble(getString(R.string.preference_jogging_step_size_z), Double.parseDouble(Float.toString(step_value))).commit();
+                        }else{
+                            EventBus.getDefault().post(new UiToastEvent("Invalid step size value, please check settings"));
+                        }
+                    }
+                }
+            });
+        }
 
         jogStepSeekBarZ.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
@@ -571,7 +665,6 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         Double maxFeedRate = sharedPref.getDouble(getString(R.string.preference_jogging_max_feed_rate), 2400.00);
         jogFeedSeekBar.setMax(Float.parseFloat(maxFeedRate.toString()));
         jogFeedSeekBar.setIndicatorTextFormat("Feed: ${PROGRESS}");
-
 
         jogFeedSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
