@@ -11,10 +11,11 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/dialog_input_decimal"
-            android:background="@drawable/rounded_border_edit_text"
+            android:id="@+id/dialog_input_decimal_signed"
             android:padding="12dp"
-            android:inputType="numberDecimal"
+            android:background="@drawable/rounded_border_edit_text"
+            android:selectAllOnFocus="true"
+            android:inputType="numberDecimal|numberSigned"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
 

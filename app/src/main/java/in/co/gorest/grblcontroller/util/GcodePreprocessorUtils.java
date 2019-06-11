@@ -43,7 +43,6 @@ public class GcodePreprocessorUtils {
         return comment;
     }
 
-
     public static String removeComment(String command) {
         return COMMENT.matcher(command).replaceAll(EMPTY);
     }

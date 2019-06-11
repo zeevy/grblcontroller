@@ -66,6 +66,9 @@ public class MachineStatusListener extends BaseObservable {
     private ParserState parserState = null;
     private Boolean verboseOutput = false;
 	private Boolean laserModeEnabled = false;
+	private Boolean ignoreError20 = false;
+	private int usbBaudRate = 115200;
+	private Boolean singleStepMode = false;
 
     private static MachineStatusListener machineStatus = null;
     public static MachineStatusListener getInstance(){
@@ -81,6 +84,24 @@ public class MachineStatusListener extends BaseObservable {
         this.state = STATE_NOT_CONNECTED;
         this.compileTimeOptions = new CompileTimeOptions(emptyString, Constants.DEFAULT_PLANNER_BUFFER, Constants.DEFAULT_SERIAL_RX_BUFFER);
         this.parserState = new ParserState("G0 G54 G17 G21 G90 G94");
+    }
+
+    @Bindable
+    public Boolean getIgnoreError20(){ return this.ignoreError20; }
+    public void setIgnoreError20(Boolean ignoreError20){
+        if(this.ignoreError20 != ignoreError20){
+            this.ignoreError20 = ignoreError20;
+            notifyPropertyChanged(BR.ignoreError20);
+        }
+    }
+
+    @Bindable
+    public Boolean getSingleStepMode(){ return this.singleStepMode; }
+    public void setSingleStepMode(Boolean singleStepMode){
+        if(this.singleStepMode != singleStepMode){
+            this.singleStepMode = singleStepMode;
+            notifyPropertyChanged(BR.singleStepMode);
+        }
     }
 
     @Bindable
@@ -247,6 +268,14 @@ public class MachineStatusListener extends BaseObservable {
     public void setParserState(String parserState){
         this.parserState = new ParserState(parserState);
         notifyPropertyChanged(BR.parserState);
+    }
+
+    public int getUsbBaudRate() {
+        return usbBaudRate;
+    }
+
+    public void setUsbBaudRate(int usbBaudRate) {
+        this.usbBaudRate = usbBaudRate;
     }
 
     public static class BuildInfo{

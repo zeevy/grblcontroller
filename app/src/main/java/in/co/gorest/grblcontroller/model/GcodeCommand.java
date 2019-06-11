@@ -30,6 +30,8 @@ public class GcodeCommand {
 
     private String command;
     private String comment;
+    private Integer size;
+    private Boolean hasRomAccess;
 
     public GcodeCommand(){}
 
@@ -47,6 +49,8 @@ public class GcodeCommand {
         this.comment = GcodePreprocessorUtils.parseComment(command);
         if(this.getHasComment()) this.command = GcodePreprocessorUtils.removeComment(command);
         this.command = GcodePreprocessorUtils.removeWhiteSpace(command);
+        this.size = this.command.length() + 1;
+        this.hasRomAccess = GrblUtils.hasRomAccess(this.command);
     }
 
     public String getCommandString() {
@@ -57,9 +61,9 @@ public class GcodeCommand {
         return this.comment != null && this.comment.length() != 0;
     }
 
-    public boolean hasRomAccess(){
-        return GrblUtils.hasRomAccess(this.command);
-    }
+    public Boolean getHasRomAccess(){ return this.hasRomAccess; }
+    public void setHasRomAccess(Boolean hasRomAccess) { this.hasRomAccess = hasRomAccess; }
+    public Integer getSize(){ return this.size; }
 
 
 }

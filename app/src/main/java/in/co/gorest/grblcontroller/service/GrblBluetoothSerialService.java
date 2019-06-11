@@ -91,6 +91,8 @@ public class GrblBluetoothSerialService extends Service{
     SerialBluetoothCommunicationHandler serialBluetoothCommunicationHandler;
     private final IBinder mBinder = new GrblSerialServiceBinder();
 
+    private long statusUpdatePoolInterval = Constants.GRBL_STATUS_UPDATE_INTERVAL;
+
     @Override
     public void onCreate(){
         super.onCreate();
@@ -100,7 +102,7 @@ public class GrblBluetoothSerialService extends Service{
         mNewState = mState;
 
         if(mAdapter == null){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adapter_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adapter_error), true, true));
             stopSelf();
         }else{
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
@@ -136,13 +138,13 @@ public class GrblBluetoothSerialService extends Service{
                     BluetoothDevice device = mAdapter.getRemoteDevice(deviceAddress.toUpperCase());
                     this.connect(device, false);
                 }catch(IllegalArgumentException e){
-                    EventBus.getDefault().post(new UiToastEvent(e.getMessage()));
+                    EventBus.getDefault().post(new UiToastEvent(e.getMessage(), true, true));
                     disconnectService();
                     stopSelf();
                 }
             }
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_unknown_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_unknown_error), true, true));
             disconnectService();
             stopSelf();
         }
@@ -571,6 +573,13 @@ public class GrblBluetoothSerialService extends Service{
                 .setAutoCancel(true).build();
     }
 
+    public long getStatusUpdatePoolInterval(){
+        return this.statusUpdatePoolInterval;
+    }
+
+    public void setStatusUpdatePoolInterval(long poolInterval){
+        this.statusUpdatePoolInterval = poolInterval;
+    }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onGrblGcodeSendEvent(GcodeCommand event){

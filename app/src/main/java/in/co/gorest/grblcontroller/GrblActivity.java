@@ -28,8 +28,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,16 +45,21 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.widget.IconTextView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -70,6 +77,7 @@ import in.co.gorest.grblcontroller.helpers.ReaderViewPagerTransformer;
 import in.co.gorest.grblcontroller.listeners.ConsoleLoggerListener;
 import in.co.gorest.grblcontroller.listeners.FileSenderListener;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
 import in.co.gorest.grblcontroller.service.MyFirebaseMessagingService;
@@ -117,6 +125,16 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
             }
         });
 
+        for(int resourceId: new Integer[]{R.id.wpos_edit_x, R.id.wpos_edit_y, R.id.wpos_edit_z}){
+            IconTextView positionTextView = findViewById(resourceId);
+            positionTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setWorkPosition(v.getTag().toString());
+                }
+            });
+        }
+
         Iconify.with(new FontAwesomeModule());
         setupTabLayout();
         checkPowerManagement();
@@ -125,8 +143,22 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
         if(fcmToken != null && !tokenSent) MyFirebaseMessagingService.sendRegistrationToServer(fcmToken);
 
-        freeAppNotification();
+        if(!this.hasPaidVersion()){
+            freeAppNotification();
+        }
+
     }
+
+    private boolean hasPaidVersion() {
+        PackageManager pm = getPackageManager();
+        try {
+            pm.getPackageInfo("in.co.gorest.grblcontroller.plus", PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException ignored) {}
+
+        return false;
+    }
+
 
     @Override
     public void onDestroy(){
@@ -201,7 +233,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
                     startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
                 }catch (ActivityNotFoundException e){
-                    grblToast("No application available to perform this action!");
+                    grblToast("No application available to perform this action!", true, true);
                 }
 
                 return true;
@@ -219,6 +251,9 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         machineStatus = MachineStatusListener.getInstance();
         machineStatus.setJogging(sharedPref.getDouble(getString(R.string.preference_jogging_step_size), 1.00), sharedPref.getDouble(getString(R.string.preference_jogging_step_size_z), 0.1), sharedPref.getDouble(getString(R.string.preference_jogging_feed_rate), 2400.0), sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
         machineStatus.setVerboseOutput(sharedPref.getBoolean(getString(R.string.preference_console_verbose_mode), false));
+        machineStatus.setIgnoreError20(sharedPref.getBoolean(getString(R.string.preference_ignore_error_20), false));
+        machineStatus.setUsbBaudRate(Integer.valueOf(sharedPref.getString(getString(R.string.usb_serial_baud_rate), Constants.USB_BAUD_RATE)));
+        machineStatus.setSingleStepMode(sharedPref.getBoolean(getString(R.string.preference_single_step_mode), false));
 
     }
 
@@ -260,14 +295,73 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         });
     }
 
-    @SuppressLint("ShowToast")
-    protected void grblToast(String message){
+    private void setWorkPosition(final String axisLabel){
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final ViewGroup nullParent = null;
+        View v = inflater.inflate(R.layout.dialog_input_decimal_signed, nullParent, false);
 
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(v);
+        alertDialogBuilder.setTitle(getString(R.string.test_set_cordinate_system, axisLabel));
+        alertDialogBuilder.setMessage(getString(R.string.test_set_cordinate_system_description, axisLabel));
+
+        final EditText editText = v.findViewById(R.id.dialog_input_decimal_signed);
+        if(axisLabel.toUpperCase().equals("X")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordX()));
+        if(axisLabel.toUpperCase().equals("Y")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordY()));
+        if(axisLabel.toUpperCase().equals("Z")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordZ()));
+        editText.setSelection(editText.getText().length());
+
+        alertDialogBuilder.setCancelable(true)
+                .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String axisValue = editText.getText().toString();
+                        if(axisValue.length() > 0){
+                            sendCommandIfIdle("G10L20P0" + axisLabel + axisValue);
+                        }
+                    }
+                })
+                .setNegativeButton(getString(R.string.text_cancel),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog dialog = alertDialogBuilder.create();
+        if(dialog.getWindow() != null) dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.show();
+    }
+
+    private void sendCommandIfIdle(String command){
+        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
+            onGcodeCommandReceived(command);
+        }else{
+            grblToast(getString(R.string.text_machine_not_idle), true, true);
+        }
+    }
+
+    protected void grblToast(String message){
+        this.grblToast(message, false, false);
+    }
+
+    @SuppressLint("ShowToast")
+    protected void grblToast(String message, Boolean longToast, Boolean isWarning){
         if(toastMessage == null){
             toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
             toastMessage.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 120);
+            View view = toastMessage.getView();
+            view.setBackgroundResource(android.R.drawable.toast_frame);
+            TextView toastMessageText = view.findViewById(android.R.id.message);
+            toastMessageText.setTextColor(Color.parseColor("#ffffff"));
         }
 
+        if(isWarning){
+            toastMessage.getView().setBackgroundColor(Color.parseColor("#d50000"));
+        }else{
+            toastMessage.getView().setBackgroundColor(Color.parseColor("#646464"));
+        }
+
+        toastMessage.setDuration(longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
         toastMessage.setText(message);
         toastMessage.show();
         this.lastToastMessage = message;
@@ -315,22 +409,22 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblAlarmEvent(GrblAlarmEvent event){
-        consoleLogger.setMessages(event.toString());
+        consoleLogger.offerMessage(event.toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void  onGrblErrorEvent(GrblErrorEvent event){
-        consoleLogger.setMessages(event.toString());
+        consoleLogger.offerMessage(event.toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onConsoleMessageEvent(ConsoleMessageEvent event){
-        consoleLogger.setMessages(event.getMessage());
+        consoleLogger.offerMessage(event.getMessage());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUiToastEvent(UiToastEvent event){
-        grblToast(event.getMessage());
+        grblToast(event.getMessage(), event.getLongToast(), event.getIsWarning());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

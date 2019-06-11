@@ -21,7 +21,6 @@
 
 package in.co.gorest.grblcontroller;
 
-import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.orm.SugarApp;

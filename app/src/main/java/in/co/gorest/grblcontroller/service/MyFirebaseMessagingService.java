@@ -25,6 +25,7 @@ package in.co.gorest.grblcontroller.service;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.JsonObject;
+import com.orm.dsl.Ignore;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -166,11 +168,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             saveNotification(remoteMessage);
 
         }else if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_PROMOTION)){
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus"));
-            final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-            notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
-            saveNotification(remoteMessage);
+
+            if(!this.hasPaidVersion()){
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus"));
+                final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+                notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
+                saveNotification(remoteMessage);
+            }
 
         }else{
             Intent intent = new Intent(this, SplashActivity.class);
@@ -220,5 +225,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
         });
 
+    }
+
+    private boolean hasPaidVersion() {
+        PackageManager pm = getPackageManager();
+        try {
+            pm.getPackageInfo("in.co.gorest.grblcontroller.plus", PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException ignored) {}
+
+        return false;
     }
 }

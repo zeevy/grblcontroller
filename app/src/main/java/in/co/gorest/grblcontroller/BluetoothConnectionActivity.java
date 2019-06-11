@@ -105,7 +105,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                     try{
                         bluetoothAdapter.enable();
                     }catch (RuntimeException e){
-                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_bluetooth_permission)));
+                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_bluetooth_permission), true, true));
                         restartInUsbMode();
                     }
                 }
@@ -163,8 +163,10 @@ public class BluetoothConnectionActivity extends GrblActivity {
         if(grblBluetoothSerialService != null){
             if(grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_CONNECTED){
                 actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth).colorRes(R.color.colorWhite).sizeDp(24));
+                actionConnect.setTitle(R.string.text_disconnect);
             }else{
                 actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth_b).colorRes(R.color.colorWhite).sizeDp(24));
+                actionConnect.setTitle(R.string.text_connect);
             }
         }else{
             actionConnect.setIcon(new IconDrawable(this, FontAwesomeIcons.fa_bluetooth_b).colorRes(R.color.colorWhite).sizeDp(24));
@@ -199,7 +201,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                             startActivityForResult(serverIntent, Constants.CONNECT_DEVICE_INSECURE);
                         }
                     }else{
-                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bt_service_not_running)));
+                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bt_service_not_running), true, true));
                     }
 
                 }else{
@@ -243,6 +245,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
             grblBluetoothSerialService = binder.getService();
             mBound = true;
             grblBluetoothSerialService.setMessageHandler(grblServiceMessageHandler);
+            grblBluetoothSerialService.setStatusUpdatePoolInterval(Long.valueOf(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
         }
 
         @Override

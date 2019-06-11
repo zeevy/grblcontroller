@@ -86,7 +86,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
 
             Handler handler = new Handler(Looper.getMainLooper());
 
-            long delayMillis = Constants.GRBL_STATUS_UPDATE_INTERVAL;
+            long delayMillis = grblBluetoothSerialService.getStatusUpdatePoolInterval();
             for(final String startUpCommand: this.getStartUpCommands()){
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -95,7 +95,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
                     }
                 }, delayMillis);
 
-                delayMillis = delayMillis + Constants.GRBL_STATUS_UPDATE_INTERVAL;
+                delayMillis = delayMillis + grblBluetoothSerialService.getStatusUpdatePoolInterval();
             }
 
             startGrblStatusUpdateService(grblBluetoothSerialService);
@@ -113,7 +113,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
             public void run() {
                 grblBluetoothSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
             }
-        }, Constants.GRBL_STATUS_UPDATE_INTERVAL, Constants.GRBL_STATUS_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
+        }, grblBluetoothSerialService.getStatusUpdatePoolInterval(), grblBluetoothSerialService.getStatusUpdatePoolInterval(), TimeUnit.MILLISECONDS);
 
     }
 

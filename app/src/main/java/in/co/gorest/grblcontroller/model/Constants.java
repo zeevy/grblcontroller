@@ -26,6 +26,7 @@ public interface Constants {
     double MIN_SUPPORTED_VERSION        = 1.1;
 
     long GRBL_STATUS_UPDATE_INTERVAL    = 150;
+    String USB_BAUD_RATE = "115200";
 
     // Message types sent from the BluetoothService Handler
     int MESSAGE_STATE_CHANGE            = 1;
@@ -40,7 +41,7 @@ public interface Constants {
     int CONNECT_DEVICE_INSECURE         = 10;
     int FILE_PICKER_REQUEST_CODE        = 11;
 
-    int CONSOLE_LOGGER_MAX_SIZE         = 128;
+    int CONSOLE_LOGGER_MAX_SIZE         = 256;
     double DEFAULT_JOGGING_FEED_RATE    = 2400.0;
     int DEFAULT_PLANNER_BUFFER          = 15;
     int DEFAULT_SERIAL_RX_BUFFER        = 128;
@@ -59,8 +60,8 @@ public interface Constants {
     String MACHINE_STATUS_HOME          = "Home";
     String MACHINE_STATUS_NOT_CONNECTED = "Unknown";
 
-    String[] SUPPORTED_FILE_TYPES       = {".tap",".gcode", ".nc", ".ngc"};
-    String SUPPORTED_FILE_TYPES_STRING  = "^.*\\.(tap|gcode|nc|ngc)$";
+    String[] SUPPORTED_FILE_TYPES       = {".tap",".gcode", ".nc", ".ngc", ".fnc", ".fan"};
+    String SUPPORTED_FILE_TYPES_STRING  = "^.*\\.(tap|gcode|nc|ngc|cnc|txt|ncc|fnc|dnc|fan|gc)$";
 
     String JUST_STOP_STREAMING          = "0";
     String STOP_STREAMING_AND_RESET     = "1";

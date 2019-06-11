@@ -44,6 +44,7 @@
     </Preference>
 
     <Preference
+        android:key="buy_grbl_controller_plus"
         android:icon="@drawable/ic_attach_money_black_36dp"
         android:summary="@string/text_buy_app_summary"
         android:title="@string/text_buy_app">

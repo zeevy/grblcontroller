@@ -60,6 +60,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.felhr.usbserial.CDCSerialDevice;
 import com.felhr.usbserial.UsbSerialDevice;
@@ -76,6 +77,7 @@ import java.util.Objects;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.GrblRealTimeCommandEvent;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.listeners.SerialUsbCommunicationHandler;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
@@ -99,7 +101,6 @@ public class GrblUsbSerialService extends Service {
     public static final int CTS_CHANGE = 1;
     public static final int DSR_CHANGE = 2;
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
-    private static final int BAUD_RATE = 115200; // BaudRate. Change this value if you need
     public static boolean SERVICE_CONNECTED = false;
     private static final byte[] BYTE_NEW_LINE = { 0x0A };
 
@@ -116,6 +117,8 @@ public class GrblUsbSerialService extends Service {
     public static volatile boolean isGrblFound = false;
 
     private SerialUsbCommunicationHandler serialUsbCommunicationHandler;
+
+    private long statusUpdatePoolInterval = Constants.GRBL_STATUS_UPDATE_INTERVAL;
 
     /*
      * onCreate will be executed when service is started. It configures an IntentFilter to listen for
@@ -349,7 +352,7 @@ public class GrblUsbSerialService extends Service {
             if (serialPort != null) {
                 if (serialPort.open()) {
                     serialPortConnected = true;
-                    serialPort.setBaudRate(BAUD_RATE);
+                    serialPort.setBaudRate(MachineStatusListener.getInstance().getUsbBaudRate());
                     serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
                     serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
                     serialPort.setParity(UsbSerialInterface.PARITY_NONE);
@@ -396,6 +399,14 @@ public class GrblUsbSerialService extends Service {
                 context.sendBroadcast(intent);
             }
         }
+    }
+
+    public long getStatusUpdatePoolInterval(){
+        return this.statusUpdatePoolInterval;
+    }
+
+    public void setStatusUpdatePoolInterval(long poolInterval){
+        this.statusUpdatePoolInterval = poolInterval;
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

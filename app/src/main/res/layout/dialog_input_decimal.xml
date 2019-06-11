@@ -12,6 +12,8 @@
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/dialog_input_decimal"
+            android:background="@drawable/rounded_border_edit_text"
+            android:padding="8dp"
             android:inputType="numberDecimal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>

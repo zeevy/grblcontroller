@@ -157,7 +157,7 @@ public class ProbingTabFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if(machineStatus.getLastProbePosition() == null){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_last_probe_location_unknown)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_last_probe_location_unknown), true, true));
                     return;
                 }
 
@@ -192,7 +192,7 @@ public class ProbingTabFragment extends BaseFragment {
                             .setNegativeButton(getString(R.string.text_no_confirm), null)
                             .show();
                 }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
                 }
             }
         });
@@ -234,7 +234,7 @@ public class ProbingTabFragment extends BaseFragment {
 
 
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
         }
     }
 
@@ -364,7 +364,7 @@ public class ProbingTabFragment extends BaseFragment {
         if(probeType == null || probeStartPosition == null) return;
 
         if(!event.getIsProbeSuccess()){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_failed)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_failed), true, true));
             fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + probeStartPosition.toString());
             probeType = null;
             return;

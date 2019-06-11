@@ -75,6 +75,12 @@
     <string name="firebase_cloud_messaging_token_sent" translatable="false">firebase_cloud_messaging_token_sent</string>
     <string name="default_notification_channel_id" translatable="false">General</string>
     <string name="default_storage_type" translatable="false">default_storage_type</string>
+    <string translatable="false" name="preference_ignore_error_20">preference_ignore_error_20</string>
+    <string translatable="false" name="preference_update_pool_interval">preference_update_pool_interval</string>
+    <string name="usb_serial_baud_rate" translatable="false">usb_serial_baud_rate</string>
+    <string name="preference_remember_last_file_location" translatable="false">remember_last_file_location</string>
+    <string name="most_recent_selected_file" translatable="false">most_recent_selected_file</string>
+    <string name="preference_single_step_mode" translatable="false">preference_single_step_mode</string>
 
     <string name="text_yes_confirm">Yes</string>
     <string name="text_no_confirm">No</string>
@@ -134,7 +140,7 @@
     <string name="text_custom_buttons_desc">multiple commands must be separated by a new line</string>
     <string name="text_custom_button_1">Custom button 1</string>
     <string name="text_configure_custom_button">configure button behaviour and commands</string>
-    <string name="text_button_1_behaviour">configure custom button 1 behaviour</string>
+    <string name="text_button_1_behaviour">Configure Custom Button 1 Behaviour</string>
     <string name="text_button_label">Button label</string>
     <string name="text_button_label_desc">give a name for the button, maximum 3 characters</string>
     <string name="text_short_click_commands">Short click commands</string>
@@ -144,13 +150,13 @@
     <string name="text_confirm_first">Confirm first</string>
     <string name="text_confirm_first_desc">ask for confirmation before sending</string>
     <string name="text_custom_button_2">Custom button 2</string>
-    <string name="text_button_2_behaviour">configure custom button 2 behaviour</string>
+    <string name="text_button_2_behaviour">Configure Custom Button 2 Behaviour</string>
     <string name="text_custom_button_3">Custom button 3</string>
-    <string name="text_button_3_behaviour">configure custom button 3 behaviour</string>
+    <string name="text_button_3_behaviour">Configure Custom Button 3 Behaviour</string>
     <string name="text_custom_button_4">Custom button 4</string>
     <string name="text_quick_jogging">Quick Jog Step Buttons</string>
     <string name="text_quick_jogging_desc">configure quick jogging buttons</string>
-    <string name="text_button_4_behaviour">configure custom button 4 behaviour</string>
+    <string name="text_button_4_behaviour">Configure Custom Button 4 Behaviour</string>
     <string name="text_default_connection">Default connection</string>
     <string name="text_rotate_jogging_pad">Rotate XY jogging pad</string>
     <string name="text_streaming_stop_button_behaviour">Streaming stop button behaviour</string>
@@ -162,6 +168,8 @@
     <string name="text_enable_ab_axis">Enable AB Axis</string>
     <string name="text_notifications">Notifications</string>
     <string name="enable_ab_axis_description">enable two additional A and B axis in jogging control tab</string>
+    <string name="text_grbl_status_update_interval">Status update interval</string>
+    <string name="text_grbl_status_update_interval_summary">%s (if you have slow cpu or very old phone then increase this value, default value is 150)</string>
 
     <string-array name="preference_entries_default_connection">
         <item>Bluetooth</item>
@@ -193,6 +201,56 @@
         <item>full</item>
     </string-array>
 
+    <string-array name="preference_entries_update_pool_interval">
+        <item>100 Milli seconds</item>
+        <item>150 Milli seconds</item>
+        <item>200 Milli seconds</item>
+        <item>250 Milli seconds</item>
+        <item>300 Milli seconds</item>
+    </string-array>
+
+    <string-array name="preference_values_update_pool_interval">
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="preference_entries_usb_baud_rate">
+        <item>300</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>74880</item>
+        <item>115200 (default)</item>
+        <item>230400</item>
+        <item>250000</item>
+        <item>460800</item>
+        <item>921600</item>
+    </string-array>
+
+    <string-array name="preference_values_usb_baud_rate">
+        <item>300</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>74880</item>
+        <item>115200</item>
+        <item>230400</item>
+        <item>250000</item>
+        <item>460800</item>
+        <item>921600</item>
+    </string-array>
+
     <string name="text_value_na" translatable="false">NA</string>
     <string name="text_value_empty" translatable="false" />
     <string name="text_paired_devices">Choose a paired device</string>
@@ -209,7 +267,7 @@
 
 
     <!-- Probing Tab -->
-    <string name="text_probing_help">1. Do probing with first tool. \n2. Change the tool. \n3. Probe again with \"Probe + TLO\".</string>
+    <string name="text_probing_help">1. Do probing with first tool.  2. Change the tool.  3. Probe again with \"Probe + TLO\".</string>
     <string name="text_probing_feed_rate">Feed rate</string>
     <string name="text_touch_plate_thickness">Plate thickness</string>
     <string name="text_distance_to_probe">Distance to probe</string>
@@ -217,7 +275,7 @@
     <string name="text_start_probe">Probe</string>
     <string name="text_straight_probe">G38.3: Straight Probe</string>
     <string name="text_straight_probe_desc">Probe toward workpiece, stop on contact.   Ensure your probe setup is correct and click Yes to start probing</string>
-    <string name="text_last_probe_location_unknown">Last probe location is un known</string>
+    <string name="text_last_probe_location_unknown">Last probe location is unknown</string>
     <string name="text_dynamic_tool_length_offset">G43.1: Dynamic Tool Length Offset</string>
     <string name="text_dynamic_tlo_desc">TLO will be applied with the difference of last probe position and current probe position.  G43.1 abs(lastProbe) - abs(currentProbe)  Click Yes to continue.</string>
     <string name="text_cancel_tlo">G49: Cancel Tool Length Offset</string>
@@ -251,7 +309,7 @@
 
     <string name="text_steps_feed">Step Size | Jog Feed</string>
     <string name="text_zero_selected_axis">Zero selected axis</string>
-    <string name="text_set_axis_location_in_current_wpos">set selected axis location in current coordinate system to zero |</string>
+    <string name="text_set_axis_location_in_current_wpos">set selected axis location in current coordinate system to zero | </string>
     <string name="text_selected_coordinate_system">"Selected coordinate system "</string>
     <string name="text_homing_cycle">Homing cycle $H</string>
     <string name="text_do_homing_cycle">Perform homing cycle?</string>
@@ -307,7 +365,6 @@
     <string name="text_clear_console">Clear console messages?</string>
     <string name="text_clear_console_description">this will clear all console history</string>
     <string name="text_verbose_output">Verbose output</string>
-    <string name="text_gcode_file_picker_type">Gcode file picker type</string>
 
     <!-- Application Shortcuts -->
     <string name="app_shortcut_short_test_settings">Settings</string>
@@ -326,5 +383,17 @@
     <string name="text_no_usb_device">No usb device</string>
     <string name="text_usb_device_disconnected">USB device disconnected</string>
     <string name="text_usb_device_not_supported">Device not supported</string>
+    <string name="text_application_settings_desc">configure application behaviour and appearance</string>
+    <string name="text_usb_connection_baud_rate">Usb connection baud rate</string>
+    <string name="text_remember_file_location">Remember file location</string>
+    <string name="text_remember_file_location_desc">opens picker with last used file location</string>
+    <string name="text_joggin_preferenes">Jogging preferences</string>
+    <string name="test_set_cordinate_system">Set Coordinate System G10 L20 P0 %s-</string>
+    <string name="test_set_cordinate_system_description">changes %s axis location in the current coordinate system to the given value</string>
+    <string name="text_delete_command_history_confirm">Do you want to delete this command from history?</string>
+    <string name="text_single_step_mode">Enable single step mode</string>
+    <string name="text_single_step_mode_description">sends a line of gcode to grbl and waits for an ok or error: response message before sending the next line of gcode</string>
+    <string name="text_warning_error_20">WARNING: You should not enable this unless you know what you are doing.</string>
+
 
 </resources>

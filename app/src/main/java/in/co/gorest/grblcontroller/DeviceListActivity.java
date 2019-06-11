@@ -62,7 +62,7 @@ public class DeviceListActivity extends Activity {
 
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if(mBtAdapter == null){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adapter_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adapter_error), true, true));
             finish();
         }
 
@@ -89,7 +89,7 @@ public class DeviceListActivity extends Activity {
         try {
             pairedDevices = mBtAdapter.getBondedDevices();
         }catch (Exception e){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adaptor_error)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_bluetooth_adaptor_error), true, true));
             finish();
         }
 

@@ -204,7 +204,7 @@ public class UsbConnectionActivity extends GrblActivity{
 
             String intentAction = intent.getAction();
             if(intentAction == null){
-                grblToast("Unknown error");
+                grblToast("Unknown error", true, true);
                 return;
             }
 
@@ -215,7 +215,7 @@ public class UsbConnectionActivity extends GrblActivity{
                     break;
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_no_usb_permission);
-                    grblToast(getString(R.string.text_usb_permission_not_granted));
+                    grblToast(getString(R.string.text_usb_permission_not_granted), true, true);
                     break;
                 case GrblUsbSerialService.ACTION_NO_USB: // NO USB CONNECTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_no_usb_device);
@@ -228,12 +228,12 @@ public class UsbConnectionActivity extends GrblActivity{
                         FileStreamerIntentService.setShouldContinue(false);
                         stopService(new Intent(getApplicationContext(), FileStreamerIntentService.class));
                     }
-                    grblToast(getString(R.string.text_usb_device_disconnected));
+                    grblToast(getString(R.string.text_usb_device_disconnected), true, true);
                     break;
                 case GrblUsbSerialService.ACTION_USB_NOT_SUPPORTED: // USB NOT SUPPORTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_usb_device_not_supported);
                     MachineStatusListener.getInstance().setState(Constants.MACHINE_STATUS_NOT_CONNECTED);
-                    grblToast(getString(R.string.text_usb_device_not_supported));
+                    grblToast(getString(R.string.text_usb_device_not_supported), true, true);
                     break;
             }
         }
@@ -245,6 +245,7 @@ public class UsbConnectionActivity extends GrblActivity{
             grblUsbSerialService = ((GrblUsbSerialService.UsbSerialBinder) service).getService();
             mBound = true;
             grblUsbSerialService.setMessageHandler(grblServiceMessageHandler);
+            grblUsbSerialService.setStatusUpdatePoolInterval(Long.valueOf(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
         }
 
         @Override

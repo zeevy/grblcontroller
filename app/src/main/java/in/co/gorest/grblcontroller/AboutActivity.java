@@ -21,11 +21,15 @@
 
 package in.co.gorest.grblcontroller;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import java.util.Objects;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -48,6 +52,10 @@ public class AboutActivity extends AppCompatActivity {
             getPreferenceManager().setSharedPreferencesName(getString(R.string.shared_preference_key));
             addPreferencesFromResource(R.xml.application_about);
             findPreference("pref_app_version").setSummary(BuildConfig.VERSION_NAME);
+            if(this.hasPaidVersion()){
+                getPreferenceScreen().removePreference(findPreference("buy_grbl_controller_plus"));
+            }
+
         }
 
         @Override
@@ -55,6 +63,16 @@ public class AboutActivity extends AppCompatActivity {
 
         }
 
-    }
+        public boolean hasPaidVersion() {
+            PackageManager pm = Objects.requireNonNull(getActivity()).getPackageManager();
+            try {
+                pm.getPackageInfo("in.co.gorest.grblcontroller.plus", PackageManager.GET_ACTIVITIES);
+                return true;
+            } catch (PackageManager.NameNotFoundException ignored) {}
 
+            return false;
+        }
+
+
+    }
 }

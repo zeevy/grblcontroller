@@ -189,7 +189,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                             sendCommandIfIdle(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
                             EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_selected_coordinate_system) + view.getTag().toString()));
                         }else{
-                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
+                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
                         }
                     }
                 });
@@ -245,7 +245,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                             .setNegativeButton(getString(R.string.text_no_confirm), null)
                             .show();
                 }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
                 }
                 break;
 
@@ -338,7 +338,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private void customButton(int resourceId, boolean isLongClick){
 
         if(!machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
             return;
         }
 
@@ -371,7 +371,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         }
 
         if(commands.trim().length() <= 0){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_empty_command)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_empty_command), true, true));
             return;
         }
 
@@ -509,7 +509,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             String jog = String.format(tag, units, stepSize, machineStatus.getJogging().feed);
             EventBus.getDefault().post(new JogCommandEvent(jog));
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
         }
     }
 
@@ -555,7 +555,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                         if(stepValue.length() > 0){
                             float step_value = Float.valueOf(stepValue);
                             if(step_value > jogStepSeekBarXY.getMax()){
-                                EventBus.getDefault().post(new UiToastEvent("Value is grater than the bar size"));
+                                EventBus.getDefault().post(new UiToastEvent("Value is grater than the bar size", true, true));
                                 return;
                             }
 
@@ -564,7 +564,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                             EnhancedSharedPreferences.Editor editor = sharedPref.edit();
                             editor.putDouble(getString(R.string.preference_jogging_step_size), Double.parseDouble(Float.toString(step_value))).commit();
                         }else{
-                            EventBus.getDefault().post(new UiToastEvent("Invalid step size value, please check settings"));
+                            EventBus.getDefault().post(new UiToastEvent("Invalid step size value, please check settings", true, true));
                         }
                     }
                 }
@@ -626,7 +626,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                         if(stepValue.length() > 0){
                             float step_value = Float.valueOf(stepValue);
                             if(step_value > jogStepSeekBarZ.getMax()){
-                                EventBus.getDefault().post(new UiToastEvent("Value is grater than the bar size"));
+                                EventBus.getDefault().post(new UiToastEvent("Value is grater than the bar size", true, true));
                                 return;
                             }
 
@@ -635,7 +635,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                             EnhancedSharedPreferences.Editor editor = sharedPref.edit();
                             editor.putDouble(getString(R.string.preference_jogging_step_size_z), Double.parseDouble(Float.toString(step_value))).commit();
                         }else{
-                            EventBus.getDefault().post(new UiToastEvent("Invalid step size value, please check settings"));
+                            EventBus.getDefault().post(new UiToastEvent("Invalid step size value, please check settings", true, true));
                         }
                     }
                 }
@@ -733,7 +733,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
             fragmentInteractionListener.onGcodeCommandReceived(command);
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
         }
     }
 

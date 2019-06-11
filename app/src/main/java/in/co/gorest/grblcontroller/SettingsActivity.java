@@ -30,6 +30,7 @@ import android.support.v7.app.AppCompatDelegate;
 import org.greenrobot.eventbus.EventBus;
 
 import in.co.gorest.grblcontroller.events.UiToastEvent;
+import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -75,8 +76,19 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if(key.equals(getString(R.string.preference_default_serial_connection_type)) || key.equals(getString(R.string.preference_keep_screen_on))){
-                EventBus.getDefault().post(new UiToastEvent("Application restart required"));
+            if(key.equals(getString(R.string.preference_ignore_error_20))){
+                MachineStatusListener.getInstance().setIgnoreError20(sharedPreferences.getBoolean(key, false));
+                if(sharedPreferences.getBoolean(key, false)){
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_warning_error_20), true, true));
+                }
+            }
+
+            if(key.equals(getString(R.string.preference_default_serial_connection_type))
+                    || key.equals(getString(R.string.preference_single_step_mode))
+                    || key.equals(getString(R.string.usb_serial_baud_rate))
+                    || key.equals(getString(R.string.preference_keep_screen_on))
+                    || key.equals(getString(R.string.preference_update_pool_interval))){
+                EventBus.getDefault().post(new UiToastEvent("Application restart required", true, true));
             }
 
         }

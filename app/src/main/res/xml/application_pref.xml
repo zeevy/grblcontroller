@@ -1,6 +1,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="Application">
+    <PreferenceScreen
+        android:key="application_preferences_flashcard"
+        android:icon="@drawable/ic_settings_applications_black_24dp"
+        android:title="@string/text_application_settings"
+        android:summary="@string/text_application_settings_desc">
+
+        <Preference android:title="@string/text_application_settings"/>
 
         <ListPreference
             android:key="@string/preference_default_serial_connection_type"
@@ -11,6 +17,15 @@
             android:summary="%s"
             android:defaultValue="bluetooth" />
 
+        <ListPreference
+            android:key="@string/usb_serial_baud_rate"
+            android:icon="@drawable/ic_usb_black_24dp"
+            android:title="@string/text_usb_connection_baud_rate"
+            android:entries="@array/preference_entries_usb_baud_rate"
+            android:entryValues="@array/preference_values_usb_baud_rate"
+            android:summary="%s"
+            android:defaultValue="115200"/>
+
         <SwitchPreference
             android:icon="@drawable/ic_bluetooth_connected_black_24dp"
             android:defaultValue="false"
@@ -19,18 +34,35 @@
             android:summary="@string/text_auto_connect_desc" />
 
         <SwitchPreference
-            android:icon="@drawable/ic_power_settings_new_black_24dp"
-            android:defaultValue="true"
-            android:key="@string/preference_confirm_grbl_soft_reset"
-            android:title="@string/text_soft_reset_confirm"
-            android:summary="@string/text_soft_reset_confirm_desc" />
+            android:icon="@drawable/ic_swap_horiz_black_24dp"
+            android:key="@string/preference_single_step_mode"
+            android:title="@string/text_single_step_mode"
+            android:summary="@string/text_single_step_mode_description"
+            android:defaultValue="false"/>
 
         <SwitchPreference
-            android:icon="@drawable/ic_check_circle_black_24dp"
-            android:defaultValue="false"
-            android:key="@string/preference_check_machine_position_before_job"
-            android:title="@string/text_check_machine_position"
-            android:summary="@string/text_check_machine_position_description" />
+            android:icon="@drawable/ic_folder_special_black_24dp"
+            android:defaultValue="true"
+            android:key="@string/preference_remember_last_file_location"
+            android:title="@string/text_remember_file_location"
+            android:summary="@string/text_remember_file_location_desc" />
+
+        <SwitchPreference
+            android:key="@string/preference_keep_screen_on"
+            android:icon="@drawable/ic_cast_connected_black_24dp"
+            android:title="@string/text_keep_screen_on"
+            android:summary="@string/text_keep_screen_on_description"
+            android:defaultValue="false" />
+
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:key="jogging_preferences_flashcard"
+        android:icon="@drawable/ic_open_with_black_24dp"
+        android:title="@string/text_joggin_preferenes"
+        android:summary="customize jogging panel preferences">
+
+        <Preference android:title="@string/text_joggin_preferenes"/>
 
         <in.co.gorest.grblcontroller.helpers.NumberPickerPreference
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
@@ -46,45 +78,32 @@
             android:title="@string/text_jogging_max_steps_z"
             android:summary="@string/text_jogging_max_steps_desc_z" />
 
-        <ListPreference
-            android:key="@string/preference_streaming_stop_button_behaviour"
-            android:icon="@drawable/ic_stop_black_24dp"
-            android:title="@string/text_streaming_stop_button_behaviour"
-            android:entries="@array/preference_entries_stop_button_behaviour"
-            android:entryValues="@array/preference_values_stop_button_behaviour"
-            android:summary="%s"
-            android:defaultValue="1" />
-
-        <SwitchPreference
-            android:key="@string/preference_keep_screen_on"
-            android:icon="@drawable/ic_cast_connected_black_24dp"
-            android:title="@string/text_keep_screen_on"
-            android:summary="@string/text_keep_screen_on_description"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:key="@string/preference_enable_custom_buttons"
-            android:icon="@drawable/ic_keyboard_black_24dp"
-            android:title="@string/text_enable_custom_buttons"
-            android:defaultValue="false"
-            android:summary="@string/text_enable_custom_buttons_desc" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/text_custom_buttons" android:dependency="@string/preference_enable_custom_buttons">
-
         <PreferenceScreen
-            android:key="custom_button_1_flashcard"
-            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
-            android:defaultValue="false"
-            android:title="@string/text_custom_button_1"
-            android:summary="@string/text_configure_custom_button">
+            android:key="custom_button_flashcard"
+            android:icon="@drawable/ic_keyboard_black_24dp"
+            android:title="Custom buttons"
+            android:summary="configure custom buttons and their behaviour">
 
-            <PreferenceCategory android:title="@string/text_custom_buttons">
+            <Preference android:title="Custom Buttons Configuration"/>
 
-                <Preference android:summary="@string/text_button_1_behaviour" />
+            <SwitchPreference
+                android:key="@string/preference_enable_custom_buttons"
+                android:icon="@drawable/ic_keyboard_black_24dp"
+                android:title="@string/text_enable_custom_buttons"
+                android:defaultValue="false"
+                android:summary="@string/text_enable_custom_buttons_desc" />
+
+            <PreferenceScreen android:dependency="@string/preference_enable_custom_buttons"
+                android:key="custom_button_1_flashcard"
+                android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+                android:defaultValue="false"
+                android:title="@string/text_custom_button_1"
+                android:summary="@string/text_configure_custom_button">
+
+                <Preference android:title="@string/text_button_1_behaviour" />
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_font_download_black_24dp"
                     android:key="@string/preference_custom_button_one"
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
@@ -93,6 +112,7 @@
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_one_short_click"
                     android:lines="6"
                     android:title="@string/text_short_click_commands"
@@ -106,6 +126,7 @@
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_one_long_click"
                     android:lines="6"
                     android:textSize="14sp"
@@ -119,25 +140,25 @@
                     android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
+                    android:icon="@drawable/ic_check_circle_black_24dp"
                     android:key="@string/preference_custom_button_one_confirm"
                     android:defaultValue="true"
                     android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
 
-            </PreferenceCategory>
-        </PreferenceScreen>
+            </PreferenceScreen>
 
-        <PreferenceScreen
-            android:key="custom_button_2_flashcard"
-            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
-            android:defaultValue="false"
-            android:title="@string/text_custom_button_2"
-            android:summary="@string/text_configure_custom_button">
+            <PreferenceScreen android:dependency="@string/preference_enable_custom_buttons"
+                android:key="custom_button_2_flashcard"
+                android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+                android:defaultValue="false"
+                android:title="@string/text_custom_button_2"
+                android:summary="@string/text_configure_custom_button">
 
-            <PreferenceCategory android:title="@string/text_custom_buttons">
-                <Preference android:summary="@string/text_button_2_behaviour" />
+                <Preference android:title="@string/text_button_2_behaviour" />
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_font_download_black_24dp"
                     android:key="@string/preference_custom_button_two"
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
@@ -146,6 +167,7 @@
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_two_short_click"
                     android:title="@string/text_short_click_commands"
                     android:lines="6"
@@ -159,6 +181,7 @@
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_two_long_click"
                     android:lines="6"
                     android:textSize="14sp"
@@ -172,26 +195,23 @@
                     android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
+                    android:icon="@drawable/ic_check_circle_black_24dp"
                     android:key="@string/preference_custom_button_two_confirm"
                     android:defaultValue="true"
                     android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
 
-            </PreferenceCategory>
+            </PreferenceScreen>
 
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:key="custom_button_3_flashcard"
-            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
-            android:defaultValue="false"
-            android:title="@string/text_custom_button_3"
-            android:summary="@string/text_configure_custom_button">
-
-            <PreferenceCategory android:title="@string/text_custom_buttons">
-                <Preference android:summary="@string/text_button_3_behaviour" />
+            <PreferenceScreen android:dependency="@string/preference_enable_custom_buttons"
+                android:key="custom_button_3_flashcard"
+                android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+                android:defaultValue="false"
+                android:title="@string/text_custom_button_3"
+                android:summary="@string/text_configure_custom_button">
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_font_download_black_24dp"
                     android:key="@string/preference_custom_button_three"
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
@@ -200,6 +220,7 @@
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_three_short_click"
                     android:title="@string/text_short_click_commands"
                     android:lines="6"
@@ -213,6 +234,7 @@
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_three_long_click"
                     android:title="@string/text_long_click_commands"
                     android:lines="6"
@@ -226,26 +248,24 @@
                     android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
+                    android:icon="@drawable/ic_check_circle_black_24dp"
                     android:key="@string/preference_custom_button_three_confirm"
                     android:defaultValue="true"
                     android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc"/>
+            </PreferenceScreen>
 
-            </PreferenceCategory>
+            <PreferenceScreen android:dependency="@string/preference_enable_custom_buttons"
+                android:key="custom_button_4_flashcard"
+                android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
+                android:defaultValue="false"
+                android:title="@string/text_custom_button_4"
+                android:summary="@string/text_configure_custom_button">
 
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:key="custom_button_4_flashcard"
-            android:icon="@drawable/ic_filter_tilt_shift_black_24dp"
-            android:defaultValue="false"
-            android:title="@string/text_custom_button_4"
-            android:summary="@string/text_configure_custom_button">
-
-            <PreferenceCategory android:title="@string/text_custom_buttons">
-                <Preference android:summary="@string/text_button_4_behaviour" />
+                <Preference android:title="@string/text_button_1_behaviour" />
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_font_download_black_24dp"
                     android:key="@string/preference_custom_button_four"
                     android:maxLength="3"
                     android:defaultValue="@string/text_value_na"
@@ -254,6 +274,7 @@
                     android:summary="@string/text_button_label_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_four_short_click"
                     android:title="@string/text_short_click_commands"
                     android:maxLength="2048"
@@ -267,6 +288,7 @@
                     android:summary="@string/text_short_click_desc"/>
 
                 <EditTextPreference
+                    android:icon="@drawable/ic_touch_app_black_24dp"
                     android:key="@string/preference_custom_button_four_long_click"
                     android:title="@string/text_long_click_commands"
                     android:lines="6"
@@ -280,90 +302,134 @@
                     android:summary="@string/text_long_click_desc" />
 
                 <SwitchPreference
+                    android:icon="@drawable/ic_check_circle_black_24dp"
                     android:key="@string/preference_custom_button_four_confirm"
                     android:defaultValue="true"
                     android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc" />
+            </PreferenceScreen>
 
-            </PreferenceCategory>
-        </PreferenceScreen>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/text_quick_jogging" android:summary="@string/text_quick_jogging_desc">
-
-        <PreferenceScreen
-            android:key="quick_jogging_1_flashcard"
-            android:icon="@drawable/ic_format_list_numbered_black_24dp"
-            android:defaultValue="false"
-            android:title="Quick jog step buttons XY axis"
-            android:summary="customize xy step bar quick buttons">
-
-            <PreferenceCategory android:title="Quick jog step buttons XY axis">
-
-                <EditTextPreference
-                    android:key="@string/preference_jog_xy_step_small"
-                    android:defaultValue="0"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:title="XY small"
-                    android:summary="small step size value for xy axis"/>
-
-                <EditTextPreference
-                    android:key="@string/preference_jog_xy_step_medium"
-                    android:defaultValue="0"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:title="XY medium"
-                    android:summary="medium step size value for xy axis"/>
-
-                <EditTextPreference
-                    android:key="@string/preference_jog_xy_step_high"
-                    android:defaultValue="0"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:title="XY high"
-                    android:summary="high step size value for xy axis"/>
-
-            </PreferenceCategory>
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="quick_jogging_2_flashcard"
+            android:key="jog_quick_steps_flashcard"
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
-            android:defaultValue="false"
-            android:title="Quick jog step buttons Z axis"
-            android:summary="customize z step bar quick buttons">
+            android:title="Quick step buttons"
+            android:summary="customize quick step buttons for xyz">
 
-            <PreferenceCategory android:title="Quick jog step buttons Z axis">
+            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:icon="@drawable/ic_signal_cellular_connected_no_internet_1_bar_black_24dp"
+                android:key="@string/preference_jog_xy_step_small"
+                android:defaultValue="0"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:title="XY small step value"
+                android:summary=""/>
 
-                <EditTextPreference
-                    android:key="@string/preference_jog_z_step_small"
-                    android:defaultValue="0"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:title="Z small"
-                    android:summary="small step size value for z axis"/>
+            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:icon="@drawable/ic_signal_cellular_connected_no_internet_2_bar_black_24dp"
+                android:key="@string/preference_jog_xy_step_medium"
+                android:defaultValue="0"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:title="XY medium step value"
+                android:summary=""/>
 
-                <EditTextPreference
-                    android:key="@string/preference_jog_z_step_medium"
-                    android:defaultValue="0"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:title="Z medium"
-                    android:summary="medium step size value for z axis"/>
+            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:icon="@drawable/ic_signal_cellular_connected_no_internet_3_bar_black_24dp"
+                android:key="@string/preference_jog_xy_step_high"
+                android:defaultValue="0"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:title="XY high step value"
+                android:summary=""/>
 
-                <EditTextPreference
-                    android:key="@string/preference_jog_z_step_high"
-                    android:defaultValue="0"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:title="Z high"
-                    android:summary="high step size value for z axis"/>
+            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:icon="@drawable/ic_signal_cellular_connected_no_internet_1_bar_black_24dp"
+                android:key="@string/preference_jog_z_step_small"
+                android:defaultValue="0"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:title="Z small step value"
+                android:summary=""/>
 
-            </PreferenceCategory>
+            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:icon="@drawable/ic_signal_cellular_connected_no_internet_2_bar_black_24dp"
+                android:key="@string/preference_jog_z_step_medium"
+                android:defaultValue="0"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:title="Z medium step value"
+                android:summary=""/>
+
+            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:icon="@drawable/ic_signal_cellular_connected_no_internet_3_bar_black_24dp"
+                android:key="@string/preference_jog_z_step_high"
+                android:defaultValue="0"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:title="Z high step value"
+                android:summary=""/>
+
         </PreferenceScreen>
 
-    </PreferenceCategory>
+    </PreferenceScreen>
+
+    <SwitchPreference
+        android:icon="@drawable/ic_power_settings_new_black_24dp"
+        android:defaultValue="true"
+        android:key="@string/preference_confirm_grbl_soft_reset"
+        android:title="@string/text_soft_reset_confirm"
+        android:summary="@string/text_soft_reset_confirm_desc" />
+
+    <SwitchPreference
+        android:icon="@drawable/ic_check_circle_black_24dp"
+        android:defaultValue="false"
+        android:key="@string/preference_check_machine_position_before_job"
+        android:title="@string/text_check_machine_position"
+        android:summary="@string/text_check_machine_position_description" />
+
+    <ListPreference
+        android:key="@string/preference_streaming_stop_button_behaviour"
+        android:icon="@drawable/ic_pan_tool_black_24dp"
+        android:title="@string/text_streaming_stop_button_behaviour"
+        android:entries="@array/preference_entries_stop_button_behaviour"
+        android:entryValues="@array/preference_values_stop_button_behaviour"
+        android:summary="%s"
+        android:defaultValue="1" />
+
+    <SwitchPreference
+        android:key="@string/preference_ignore_error_20"
+        android:icon="@drawable/ic_warning_black_24dp"
+        android:title="Ignore unsupported gcode command error"
+        android:summary="ignores the grbl error: unsupported or invalid g-code command found in block."
+        android:defaultValue="false"/>
+
+    <ListPreference
+        android:key="@string/preference_update_pool_interval"
+        android:icon="@drawable/ic_timer_black_24dp"
+        android:title="@string/text_grbl_status_update_interval"
+        android:entries="@array/preference_entries_update_pool_interval"
+        android:entryValues="@array/preference_values_update_pool_interval"
+        android:summary="@string/text_grbl_status_update_interval_summary"
+        android:defaultValue="150" />
 
 </PreferenceScreen>

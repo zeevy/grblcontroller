@@ -23,192 +23,285 @@
   -->
 
 <resources>
-    <string name="app_shortcut_long_text_about">About</string>
-    <string name="app_shortcut_long_text_help">Application Documentation Guide</string>
-    <string name="app_shortcut_long_text_settings">Application Settings</string>
-    <string name="app_shortcut_short_test_about">About</string>
-    <string name="app_shortcut_short_test_help">Documentation</string>
-    <string name="app_shortcut_short_test_settings">Settings</string>
-    <string name="enable_ab_axis_description">enable two additional A and B axis in jogging control tab</string>
-    <string name="probe_plus_tlo">Probe {fa-plus 14dp} TLO</string>
-    <string name="text_app_about">About</string>
-    <string name="text_app_rating">Rate Application</string>
-    <string name="text_app_rating_summary">If you like Grbl Controller, you can show your appreciation here.</string>
-    <string name="text_app_share">Share</string>
-    <string name="text_application_settings">Application Settings</string>
-    <string name="text_auto_connect">Auto connect</string>
-    <string name="text_auto_connect_desc">connect to last used bluetooth device on application start</string>
-    <string name="text_auto_zero_z_axis_after_probe">Auto adjust Z axis</string>
-    <string name="text_axis_to_zero_position">axis to zero position?</string>
-    <string name="text_bluetooth_adapter_error">Bluetooth Adapter Error, please restart your phone</string>
-    <string name="text_bluetooth_adaptor_error">Bluetooth adapter error!</string>
-    <string name="text_bluetooth_service">Bluetooth service</string>
-    <string name="text_bluetooth_service_foreground_message">This will handle all Bluetooth communication.</string>
-    <string name="text_bt_not_enabled">Bluetooth is not enabled!</string>
-    <string name="text_bt_service_not_running">Bluetooth service not running!</string>
-    <string name="text_button_1_behaviour">configure custom button 1 behaviour</string>
-    <string name="text_button_2_behaviour">configure custom button 2 behaviour</string>
-    <string name="text_button_3_behaviour">configure custom button 3 behaviour</string>
-    <string name="text_button_4_behaviour">configure custom button 4 behaviour</string>
-    <string name="text_button_label">Button label</string>
-    <string name="text_button_label_desc">give a name for the button, maximum 3 characters</string>
-    <string name="text_buy_app">Upgrade to Grbl Controller +</string>
-    <string name="text_buy_app_summary">support development | get more features</string>
-    <string name="text_cancel">Cancel</string>
-    <string name="text_cancel_tlo">G49: Cancel Tool Length Offset</string>
-    <string name="text_cancel_tlo_desc">Do you want to cancel the current TLO</string>
-    <string name="text_check_every_thing">do check every thing is ready!</string>
-    <string name="text_check_machine_position">Check machine position</string>
-    <string name="text_check_machine_position_description">prevent file streaming, if machine is not at zero position</string>
-    <string name="text_check_mode_off">Check {fa-toggle-off 16dp}</string>
-    <string name="text_check_mode_off_large">Check {fa-toggle-off 24dp}</string>
-    <string name="text_check_mode_on">Check {fa-toggle-on 16dp @color/colorAccent}</string>
-    <string name="text_check_mode_on_large">Check {fa-toggle-on 24dp @color/colorAccent}</string>
-    <string name="text_clear_console">Clear console messages?</string>
-    <string name="text_clear_console_description">this will clear all console history</string>
-    <string name="text_configure_custom_button">configure button behaviour and commands</string>
-    <string name="text_confirm_first">Confirm first</string>
-    <string name="text_confirm_first_desc">ask for confirmation before sending</string>
-    <string name="text_connect">Connect</string>
-    <string name="text_connected">Connected</string>
-    <string name="text_connected_to">Connected to</string>
-    <string name="text_connecting">Connecting….</string>
-    <string name="text_connection_lost">Connection lost</string>
-    <string name="text_continue_streaming">Continue</string>
-    <string name="text_current_tlo">Current TLO</string>
-    <string name="text_custom_action">Custom action</string>
-    <string name="text_custom_button_1">Custom button 1</string>
-    <string name="text_custom_button_2">Custom button 2</string>
-    <string name="text_custom_button_3">Custom button 3</string>
-    <string name="text_custom_button_4">Custom button 4</string>
-    <string name="text_custom_buttons">Custom Buttons</string>
-    <string name="text_custom_buttons_desc">multiple commands must be separated by a new line</string>
-    <string name="text_default_connection">Default connection</string>
-    <string name="text_delete_notification">Do you really want to delete this notification?</string>
-    <string name="text_device_connection_was_lost">Device connection was lost</string>
-    <string name="text_disconnect">Disconnect!</string>
-    <string name="text_disconnect_confirm">do you really want to disconnect?</string>
-    <string name="text_distance_to_probe">Distance to probe</string>
-    <string name="text_do_homing_cycle">Perform homing cycle?</string>
-    <string name="text_dynamic_tlo_desc">TLO will be applied with the difference of last probe position and current probe position. G43.1 abs(lastProbe) - abs(currentProbe) Click Yes to continue.</string>
-    <string name="text_dynamic_tool_length_offset">G43.1: Dynamic Tool Length Offset</string>
-    <string name="text_empty_command">Empty command</string>
-    <string name="text_enable_ab_axis">Enable AB Axis</string>
-    <string name="text_enable_custom_buttons">Enable custom buttons</string>
-    <string name="text_enable_custom_buttons_desc">enables four custom buttons in jogging control tab.</string>
-    <string name="text_file_checking_started">File Checking Started</string>
-    <string name="text_file_not_found">File not found!</string>
-    <string name="text_file_reading_in_progress">File reading in progress</string>
-    <string name="text_file_streaming_started">File Streaming Started</string>
-    <string name="text_flood_off">Flood {fa-toggle-off 16dp}</string>
-    <string name="text_flood_off_large">Flood {fa-toggle-off 24dp}</string>
-    <string name="text_flood_on">Flood {fa-toggle-on 16dp @color/colorAccent}</string>
-    <string name="text_flood_on_large">Flood {fa-toggle-on 24dp @color/colorAccent}</string>
-    <string name="text_gcode_file_picker_type">Gcode file picker type</string>
-    <string name="text_gcode_length_warning">WARNING! Gcode command with length up to 80 characters found at line</string>
-    <string name="text_go_to_zero_position">goto axis zero position in current coordinate system | G0</string>
-    <string name="text_go_to_zero_position_in_current_wpos">Go to position X0 Y0 Z0 in current coordinates system</string>
-    <string name="text_grbl_alarm_format">Alarm:%d %s</string>
-    <string name="text_grbl_error_format">Error:%d %s</string>
-    <string name="text_grbl_soft_reset">Grbl soft reset!</string>
-    <string name="text_grbl_soft_reset_desc">do you want to soft reset the machine?</string>
-    <string name="text_grbl_unsupported">Only grbl version %s or above is supported</string>
-    <string name="text_haptic_feedback">Haptic feedback</string>
-    <string name="text_haptic_feedback_description">enable short vibration when buttons are touched</string>
-    <string name="text_homing_cycle">Homing cycle $H</string>
-    <string name="text_inches">Inches</string>
-    <string name="text_jogging_max_steps">Jogging max step size for XY</string>
-    <string name="text_jogging_max_steps_desc">seek bar maximum value for axis X and Y</string>
-    <string name="text_jogging_max_steps_desc_z">seek bar maximum value for Z axis</string>
-    <string name="text_jogging_max_steps_z">Jogging max step size for Z</string>
-    <string name="text_jogging_step_and_feed">Jogging step and feed</string>
-    <string name="text_keep_screen_on">Stay awake</string>
-    <string name="text_keep_screen_on_description">screen will never sleep during the job</string>
-    <string name="text_last_probe_location_unknown">Last probe location is un known</string>
-    <string name="text_last_probe_position">Last probe position</string>
-    <string name="text_lines_total_sent">Total lines | Sent</string>
-    <string name="text_long_click">long click</string>
-    <string name="text_long_click_commands">Long click commands</string>
-    <string name="text_long_click_desc">commands to send after the button long click</string>
-    <string name="text_machine_not_idle">Machine not idle</string>
-    <string name="text_manual_tool_change">Manual tool change</string>
-    <string name="text_mist_disabled">Mist coolant is not enabled while compiling</string>
-    <string name="text_mist_off">Mist {fa-toggle-off 16dp}</string>
-    <string name="text_mist_off_large">Mist {fa-toggle-off 24dp}</string>
-    <string name="text_mist_on">Mist {fa-toggle-on 16dp @color/colorAccent}</string>
-    <string name="text_mist_on_large">Mist {fa-toggle-on 24dp @color/colorAccent}</string>
-    <string name="text_move">Move</string>
-    <string name="text_no_bluetooth_adapter">No Bluetooth Adapter Found!</string>
-    <string name="text_no_bluetooth_permission">Unable to start bluetooth, please check permissions</string>
-    <string name="text_no_confirm">No</string>
-    <string name="text_no_external_read_permission">Unable to read external storage, check permissions</string>
-    <string name="text_no_gcode_file_selected">No gcode file selected</string>
-    <string name="text_no_paired_devices">No paired devices</string>
-    <string name="text_no_usb_device">No usb device</string>
-    <string name="text_no_usb_permission">No usb permission</string>
-    <string name="text_none_found">None Found</string>
-    <string name="text_not_connected">Not connected</string>
-    <string name="text_notifications">Notifications</string>
-    <string name="text_ok">OK</string>
-    <string name="text_on_button">on button</string>
-    <string name="text_only_internal_storage_supported">Only internal storage is supported</string>
-    <string name="text_overrides_fs">Overrides F:S</string>
-    <string name="text_overrides_fsv">Overrides F:S:V</string>
-    <string name="text_paired_devices">Choose a paired device</string>
-    <string name="text_power_management_warning_description">For long running jobs, disable android battery optimisation for this application.</string>
-    <string name="text_power_management_warning_title">Warning! battery optimisation is enabled</string>
-    <string name="text_probe_failed">Probe failed, please try again</string>
-    <string name="text_probe_success">Probe success</string>
-    <string name="text_probe_success_auto_zero">Probe success with auto adjust</string>
-    <string name="text_probe_success_with_tlo">Probe success. Tool length offset applied</string>
-    <string name="text_probing_distance">Probing distance</string>
-    <string name="text_probing_feed_rate">Feed rate</string>
-    <string name="text_probing_help">1. Do probing with first tool. \\n2. Change the tool. \\n3. Probe again with \\\"Probe + TLO\\\".</string>
-    <string name="text_probing_tab_heading">Probing | Tool length offset {fa-info-circle 16dp @color/colorAccent}</string>
-    <string name="text_quick_jogging">Quick Jog Step Buttons</string>
-    <string name="text_quick_jogging_desc">configure quick jogging buttons</string>
-    <string name="text_reset">Reset</string>
-    <string name="text_return_to_zero_position">Return to Zero position</string>
-    <string name="text_rotate_jogging_pad">Rotate XY jogging pad</string>
-    <string name="text_save_coordinate_system">Save coordinate system</string>
-    <string name="text_save_coordinate_system_desc">save current position to coordinate system</string>
-    <string name="text_select_paired_device">Select Paired Device</string>
-    <string name="text_selected_coordinate_system">"Selected coordinate system "</string>
-    <string name="text_send">Send</string>
-    <string name="text_send_custom_command">send custom commands for the action</string>
-    <string name="text_set_all_axes_zero">set all axis location in current coordinate system to zero | G10 L20 P0 X0Y0Z0</string>
-    <string name="text_set_axis_location_in_current_wpos">set selected axis location in current coordinate system to zero |</string>
-    <string name="text_set_coordinate_system">G10 L20 Set coordinate system</string>
-    <string name="text_settings">Settings</string>
-    <string name="text_short_click">short click</string>
-    <string name="text_short_click_commands">Short click commands</string>
-    <string name="text_short_click_desc">commands to send after the button short click</string>
-    <string name="text_sleep_after_job">Sleep after job</string>
-    <string name="text_sleep_after_job_desc">put machine into a de-powered sleep mode using $SLP command</string>
-    <string name="text_soft_reset_confirm">Soft reset confirmation</string>
-    <string name="text_soft_reset_confirm_desc">ask for confirmation before doing soft reset</string>
-    <string name="text_spindle_off">Spindle {fa-toggle-off 18dp}</string>
-    <string name="text_spindle_off_large">Spindle {fa-toggle-off 24dp}</string>
-    <string name="text_spindle_on">Spindle {fa-toggle-on 16dp @color/colorAccent}</string>
-    <string name="text_spindle_on_large">Spindle {fa-toggle-on 24dp @color/colorAccent}</string>
-    <string name="text_start_probe">Probe</string>
-    <string name="text_starting_streaming">Starting GCODE streaming</string>
-    <string name="text_steps_feed">Step Size | Jog Feed</string>
-    <string name="text_straight_probe">G38.3: Straight Probe</string>
-    <string name="text_straight_probe_desc">Probe toward workpiece, stop on contact. Ensure your probe setup is correct and click Yes to start probing</string>
-    <string name="text_streaming_stop_button_behaviour">Streaming stop button behaviour</string>
-    <string name="text_time_elapsed">Time elapsed</string>
-    <string name="text_touch_plate_thickness">Plate thickness</string>
-    <string name="text_unable_to_connect_to_device">Unable to connect to device</string>
-    <string name="text_unknown">Unknown</string>
-    <string name="text_unknown_error">Unknown error: please restart the application</string>
-    <string name="text_usb_device_connected">USB device connected</string>
-    <string name="text_usb_device_disconnected">USB device disconnected</string>
-    <string name="text_usb_device_not_supported">Device not supported</string>
-    <string name="text_usb_permission_not_granted">USB Permission not granted</string>
-    <string name="text_usb_service">USB otg service</string>
-    <string name="text_usb_service_foreground_message">This will handle all Usb communication.</string>
-    <string name="text_verbose_output">Verbose output</string>
-    <string name="text_yes_confirm">Yes</string>
-    <string name="text_zero_selected_axis">Zero selected axis</string>
+    <string name="app_shortcut_long_text_settings">Настройки приложения</string>
+    <string name="app_shortcut_short_test_about">О</string>
+    <string name="app_shortcut_short_test_help">Документация</string>
+    <string name="app_shortcut_short_test_settings">Настройки</string>
+    <string name="enable_ab_axis_description">Добавление двух дополнительных осей A и B к панели управления оси</string>
+    <string name="probe_plus_tlo">Зонд {fa-plus 14dp} TLO</string>
+    <string name="text_app_about">О</string>
+    <string name="text_app_rating">Оценить приложение</string>
+    <string name="text_app_share">Поделиться</string>
+    <string name="text_application_settings">Настройки приложения</string>
+    <string name="text_auto_connect">Автоматическое сопряжение</string>
+    <string name="text_auto_connect_desc">соединиться с последним сопряженным bluetooth устройством при запуске приложения</string>
+    <string name="text_auto_zero_z_axis_after_probe">Автоматическая регулировка оси Z</string>
+    <string name="text_axis_to_zero_position">ось в нулевое положение?</string>
+    <string name="text_bluetooth_adapter_error">Ошибка bluetooth адаптера, пожалуйста перезапустите мобильное устройство.</string>
+    <string name="text_bluetooth_adaptor_error">Ошибка bluetooth адаптера!</string>
+    <string name="text_bluetooth_service">Bluetooth службы</string>
+    <string name="text_bt_not_enabled">Bluetooth не присутствует</string>
+    <string name="text_bt_service_not_running">Bluetooth службы не работают!</string>
+    <string name="text_button_1_behaviour">настройте функцию пользовательской кнопки 1</string>
+    <string name="text_button_2_behaviour">настройте функцию пользовательской кнопки 2</string>
+    <string name="text_button_3_behaviour">настройте функцию пользовательской кнопки 3</string>
+    <string name="text_button_4_behaviour">настройте функцию пользовательской кнопки 4</string>
+    <string name="text_button_label">Ярлык кнопки</string>
+    <string name="text_button_label_desc">отображаемое название кнопки, максимум 3 символа.</string>
+    <string name="text_buy_app">Обновить до Grbl Controller +</string>
+    <string name="text_buy_app_summary">поддержать разработчика | больше функций</string>
+    <string name="text_cancel">Отмена</string>
+    <string name="text_cancel_tlo">G49: отменить смещение длины инструмента</string>
+    <string name="text_cancel_tlo_desc">Вы хотите отменить текущий TLO</string>
+    <string name="text_check_every_thing">убедитесь все ли готово!</string>
+    <string name="text_check_machine_position">Проверить положение станка</string>
+    <string name="text_check_mode_off">Проверка {fa-toggle-off 16dp}</string>
+    <string name="text_check_mode_off_large">Проверка {fa-toggle-off 24dp}</string>
+    <string name="text_check_mode_on">Проверка {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_check_mode_on_large">Проверка {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_clear_console">Четкие консольные сообщения?</string>
+    <string name="text_clear_console_description">Это очистит всю историю терминала</string>
+    <string name="text_configure_custom_button">настройки названия и функций кнопки</string>
+    <string name="text_confirm_first">Запрос подтверждения</string>
+    <string name="text_confirm_first_desc">запрашивать подтверждение перед отправкой</string>
+    <string name="text_connect">Соединить</string>
+    <string name="text_connected">Соединено</string>
+    <string name="text_connected_to">Подключенный к</string>
+    <string name="text_connecting">Соединение….</string>
+    <string name="text_connection_lost">Соединение разорвано</string>
+    <string name="text_continue_streaming">Продолжить</string>
+    <string name="text_current_tlo">Текущий TLO</string>
+    <string name="text_custom_action">Пользовательское действие</string>
+    <string name="text_custom_button_1">Пользовательская кнопка 1</string>
+    <string name="text_custom_button_2">Пользовательская кнопка 2</string>
+    <string name="text_custom_button_3">Пользовательская кнопка 3</string>
+    <string name="text_custom_button_4">Пользовательская кнопка 4</string>
+    <string name="text_custom_buttons">Пользовательские кнопки</string>
+    <string name="text_custom_buttons_desc">несколько команд должны быть разделены новой строкой</string>
+    <string name="text_default_connection">Соединение по умолчанию</string>
+    <string name="text_delete_notification">Вы действительно хотите удалить это уведомление?</string>
+    <string name="text_device_connection_was_lost">Соединение с устройством разорвано</string>
+    <string name="text_disconnect">Отключите!</string>
+    <string name="text_disconnect_confirm">вы действительно хотите разорвать соединение?</string>
+    <string name="text_distance_to_probe">Расстояние до зонда</string>
+    <string name="text_do_homing_cycle">Выполнить возврат в исходное положение?</string>
+    <string name="text_dynamic_tlo_desc">TLO будет применяться с разницей последнего положения зонда и текущей позиции зонда. Нажмите \"Да\", чтобы продолжить.</string>
+    <string name="text_dynamic_tool_length_offset">G 43,1: Динамическая коррекция длины инструмента.</string>
+    <string name="text_empty_command">Пустая команда</string>
+    <string name="text_enable_ab_axis">Добавить оси A и B</string>
+    <string name="text_enable_custom_buttons">Добавить пользовательские кнопки</string>
+    <string name="text_enable_custom_buttons_desc">добавляет четыре пользовательские кнопки на панель ручного управления.</string>
+    <string name="text_file_checking_started">Проверка файла начата</string>
+    <string name="text_file_not_found">Файл не найден!</string>
+    <string name="text_file_reading_in_progress">Идёт чтение файла</string>
+    <string name="text_file_streaming_started">Трансляция файла начата</string>
+    <string name="text_flood_off">СОЖ {fa-toggle-off 16dp}</string>
+    <string name="text_flood_off_large">СОЖ {fa-toggle-off 24dp}</string>
+    <string name="text_flood_on">СОЖ {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_flood_on_large">СОЖ {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_gcode_length_warning">ВНИМАНИЕ! Команда Gcode длинной свыше 80 символов найдена в строке</string>
+    <string name="text_go_to_zero_position">переместить оси в нулевое положение текущей системы координат | G0</string>
+    <string name="text_go_to_zero_position_in_current_wpos">переместить в X0 Y0 Z0 в текущей системе координат</string>
+    <string name="text_grbl_alarm_format">Тревога: %d %s</string>
+    <string name="text_grbl_error_format">Ошибка:%d %s</string>
+    <string name="text_grbl_soft_reset">мягкая перезагрузка Grbl!</string>
+    <string name="text_grbl_soft_reset_desc">Выполнить мягкую перезагрузку станка?</string>
+    <string name="text_grbl_unsupported">Поддерживается только GRBL версии %s или выше</string>
+    <string name="text_haptic_feedback">Тактильный отклик</string>
+    <string name="text_haptic_feedback_description">нажатия кнопок сопровождаются коротким вибро-сигналом</string>
+    <string name="text_homing_cycle">Самонаводящийся цикл $H</string>
+    <string name="text_inches">Дюймы</string>
+    <string name="text_jogging_max_steps">Максимальный шаг перемещения осей X и Y</string>
+    <string name="text_jogging_max_steps_desc">максимальное значение слайдера осей X и Y</string>
+    <string name="text_jogging_max_steps_desc_z">максимальное значение слайдера оси Z</string>
+    <string name="text_jogging_max_steps_z">Максимальный шаг перемещения оси Z</string>
+    <string name="text_jogging_step_and_feed">Шаг перемещения и скорость подачи</string>
+    <string name="text_keep_screen_on">Держите экран на</string>
+    <string name="text_keep_screen_on_description">запрещает спящий режим экрана во время работы</string>
+    <string name="text_last_probe_location_unknown">Последнее положение контактного измерителя не известно</string>
+    <string name="text_last_probe_position">Последнее положение контактного измерителя</string>
+    <string name="text_lines_total_sent">Всего строк | Отослано</string>
+    <string name="text_long_click">Долгое нажатие</string>
+    <string name="text_long_click_commands">Команды при долгом нажатии</string>
+    <string name="text_long_click_desc">команды отсылаемые после долго нажатия на кнопку</string>
+    <string name="text_machine_not_idle">Станок не готов</string>
+    <string name="text_manual_tool_change">Ручная смена инструмента</string>
+    <string name="text_mist_disabled">Система Масляный туман не возможна во время компиляции.</string>
+    <string name="text_mist_off">Туман {fa-toggle-off 16dp}</string>
+    <string name="text_mist_off_large">Туман {fa-toggle-off 24dp}</string>
+    <string name="text_mist_on">Туман {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_mist_on_large">Туман {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_move">Переместить</string>
+    <string name="text_no_bluetooth_adapter">Не найден Bluetooth адаптер!</string>
+    <string name="text_no_bluetooth_permission">Невозможно запустить bluetooth, проверьте наличие разрешения системой</string>
+    <string name="text_no_confirm">Нет</string>
+    <string name="text_no_external_read_permission">Невозможно прочесть внешнюю память, проверьте наличие разрешения системой</string>
+    <string name="text_no_gcode_file_selected">Файл Gcode не выбран</string>
+    <string name="text_no_paired_devices">Нет сопряженного устройства</string>
+    <string name="text_no_usb_device">Нет USB устройства</string>
+    <string name="text_no_usb_permission">Нет разрешения доступа USB</string>
+    <string name="text_none_found">Ничего не найдено</string>
+    <string name="text_not_connected">Не соединено</string>
+    <string name="text_notifications">Уведомления</string>
+    <string name="text_ok">Хорошо</string>
+    <string name="text_on_button">на кнопку</string>
+    <string name="text_only_internal_storage_supported">Поддерживается только внутренняя память</string>
+    <string name="text_overrides_fs">Превышения F:S</string>
+    <string name="text_overrides_fsv">Превышения F:S:V</string>
+    <string name="text_paired_devices">Выберете устройство сопряжения</string>
+    <string name="text_power_management_warning_description">Для продолжительной работы следует отключить режим экономии заряда батареи системой android для этого приложения.</string>
+    <string name="text_power_management_warning_title">ВНИМАНИЕ! включен режим экономии заряда батареи системой android.</string>
+    <string name="text_probe_failed">Зонд не удалось, пожалуйста, попробуйте еще раз</string>
+    <string name="text_probe_success">Успех зонда</string>
+    <string name="text_probe_success_auto_zero">Контактное измерение удалось с автоматической настройкой</string>
+    <string name="text_probe_success_with_tlo">Успех зонда. Длина инструмента смещение применяется</string>
+    <string name="text_probing_distance">Расстояние зондирования</string>
+    <string name="text_probing_feed_rate">Скорость подачи</string>
+    <string name="text_probing_help">1. У зондирования с первым инструментом. 2. Изменение инструмента. 3. Зонд снова с  \"зонд + TLO \".</string>
+    <string name="text_probing_tab_heading">Зондирование | Смещение длины инструмента {fa-info-circle 16dp @color/colorAccent}</string>
+    <string name="text_quick_jogging">Кнопки быстрого шагового перемещения</string>
+    <string name="text_quick_jogging_desc">настройте кнопки быстрого шагового перемещения</string>
+    <string name="text_reset">Сброс</string>
+    <string name="text_return_to_zero_position">Вернуться в нулевое положение</string>
+    <string name="text_rotate_jogging_pad">Поворот панели быстрого перемещения XY</string>
+    <string name="text_save_coordinate_system">Сохранить систему координат</string>
+    <string name="text_save_coordinate_system_desc">сохранить текущее положение в системе координат</string>
+    <string name="text_select_paired_device">Выберете устройство сопряжения</string>
+    <string name="text_selected_coordinate_system">Выбранная система координат</string>
+    <string name="text_send">Отослать</string>
+    <string name="text_send_custom_command">отослать пользовательские команды на исполнение</string>
+    <string name="text_set_all_axes_zero">установить нулевое значение всех осей в текущей системе координат | G10 L20 P0 X0Y0Z0</string>
+    <string name="text_set_axis_location_in_current_wpos">установить нулевое значение для выбранной позиции осей в текущей системе координат |</string>
+    <string name="text_set_coordinate_system">G10 L20 Установить систему координат</string>
+    <string name="text_settings">Настройки</string>
+    <string name="text_short_click">короткое нажатие</string>
+    <string name="text_short_click_commands">Команды при коротком нажатии</string>
+    <string name="text_short_click_desc">команды отсылаемые после короткого нажатия на кнопку</string>
+    <string name="text_sleep_after_job">Сон после завершения</string>
+    <string name="text_sleep_after_job_desc">перевести станок в обесточеный спящий режим командой $SLP</string>
+    <string name="text_soft_reset_confirm">Подтверждение мягкой перезагрузки</string>
+    <string name="text_soft_reset_confirm_desc">Запрашивать подтверждение перед мягкой перезагрузкой</string>
+    <string name="text_spindle_off">Шпиндель {fa-toggle-off 18dp}</string>
+    <string name="text_spindle_off_large">Шпиндель {fa-toggle-off 24dp}</string>
+    <string name="text_spindle_on">Шпиндель {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_spindle_on_large">Шпиндель {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_start_probe">Зонд</string>
+    <string name="text_starting_streaming">Начинается трансляция GCODE</string>
+    <string name="text_steps_feed">Шаг | Подача</string>
+    <string name="text_straight_probe">G38.3: Прямое контактное измерение</string>
+    <string name="text_streaming_stop_button_behaviour">Функции кнопки остановки трансляции</string>
+    <string name="text_time_elapsed">Время работы</string>
+    <string name="text_touch_plate_thickness">Толщина листа</string>
+    <string name="text_unable_to_connect_to_device">Невозможно соединиться с устройством</string>
+    <string name="text_unknown">Неизвестно</string>
+    <string name="text_unknown_error">Неизвестная ошибка: пожалуйста перезапустите приложение</string>
+    <string name="text_usb_device_connected">USB устройство соединено</string>
+    <string name="text_usb_device_disconnected">USB устройство отсоединено</string>
+    <string name="text_usb_device_not_supported">Устройство не поддерживается</string>
+    <string name="text_usb_permission_not_granted">Не получено USB разрешение</string>
+    <string name="text_usb_service">USB otg службы</string>
+    <string name="text_usb_service_foreground_message">Отвечает за все Usb соединения.</string>
+    <string name="text_verbose_output">Подробный вывод</string>
+    <string name="text_yes_confirm">Да</string>
+    <string name="text_zero_selected_axis">Нулевая выбранная ось</string>
+    <string name="app_shortcut_long_text_about">О</string>
+    <string name="text_app_rating_summary">если Grbl Controller вам понравился, вы можете выразить свою признательность.</string>
+    <string name="app_shortcut_long_text_help">Пользовательская документация</string>
+    <string name="text_bluetooth_service_foreground_message">Отвечает за все Bluetooth соединения.</string>
+    <string name="text_check_machine_position_description">предотвращает трансляцию файла, если инструмент находится не в нулевой позиции</string>
+    <string name="text_straight_probe_desc">Зонд к заготовке, остановите на контакте. Убедитесь, что ваша Настройка зонда правильная и нажмите Да, чтобы начать зондирование</string>
+    <string name="text_grbl_status_update_interval">Status update interval</string>
+    <string name="text_grbl_status_update_interval_summary">%s (if you have slow cpu or very old phone then increase this value, default value is 150)</string>
+    <string name="text_application_settings_desc">настроить поведение и внешний вид приложения</string>
+    <string name="text_usb_connection_baud_rate">Коэффициент бода подключения Usb</string>
+    <string name="text_remember_file_location">Запомнить местоположение файла</string>
+    <string name="text_remember_file_location_desc">открывает сборщик с последним используемым местоположением файла</string>
+    <string name="text_joggin_preferenes">Предпочтения бегом</string>
+    <string name="test_set_cordinate_system">Установить координационную систему G10 L20 P0 %s-</string>
+    <string name="test_set_cordinate_system_description">изменение местоположения оси %s в текущей системе координат к заданной стоимости</string>
+    <string name="text_delete_command_history_confirm">Вы хотите удалить эту команду из истории?</string>
+    <string name="text_single_step_mode">Включить режим одного шага</string>
+    <string name="text_single_step_mode_description">посылает строку gcode к grbl и ждет ок или ошибки, сообщение ответа перед отправкой следующей строки gcode</string>
+    <string name="text_warning_error_20">WARNING: You should not enable this unless you know what you are doing.</string>
+
+    <string-array name="preference_entries_default_connection">
+        <item>Bluetooth</item>
+        <item>USB OTG (115200 baud)</item>
+    </string-array>
+
+    <string-array name="preference_values_default_connection">
+        <item>bluetooth</item>
+        <item>usbotg</item>
+    </string-array>
+
+    <string-array name="preference_entries_stop_button_behaviour">
+        <item>just stop streaming</item>
+        <item>stop streaming and do soft reset</item>
+    </string-array>
+
+    <string-array name="preference_values_stop_button_behaviour">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="preference_entries_gcode_file_picker_types">
+        <item>simple file picker</item>
+        <item>full file picker</item>
+    </string-array>
+
+    <string-array name="preference_values_gcode_file_picker_types">
+        <item>simple</item>
+        <item>full</item>
+    </string-array>
+
+    <string-array name="preference_entries_update_pool_interval">
+        <item>100 Milli seconds</item>
+        <item>150 Milli seconds</item>
+        <item>200 Milli seconds</item>
+        <item>250 Milli seconds</item>
+        <item>300 Milli seconds</item>
+    </string-array>
+
+    <string-array name="preference_values_update_pool_interval">
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="preference_entries_usb_baud_rate">
+        <item>300</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>74880</item>
+        <item>115200 (default)</item>
+        <item>230400</item>
+        <item>250000</item>
+        <item>460800</item>
+        <item>921600</item>
+    </string-array>
+
+    <string-array name="preference_values_usb_baud_rate">
+        <item>300</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>74880</item>
+        <item>115200</item>
+        <item>230400</item>
+        <item>250000</item>
+        <item>460800</item>
+        <item>921600</item>
+    </string-array>
+
 </resources>

@@ -10,8 +10,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-feature android:name="android.hardware.usb.host" android:required="false" />
 
-    <uses-feature android:name="android.hardware.usb.host" android:required="true" />
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:anyDensity="true"
+        android:resizeable="false"/>
 
     <application
         android:name=".GrblController"
@@ -95,14 +101,11 @@
         </service>
 
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="6d7003aa8ac3717a95dc5c77c2da4bf5ad8c74ff" />
-        <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
         <meta-data android:name="DATABASE" android:value="grblcontroller.db" />
-        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="VERSION" android:value="2" />
         <meta-data android:name="QUERY_LOG" android:value="false" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="in.co.gorest.grblcontroller.model" />
 

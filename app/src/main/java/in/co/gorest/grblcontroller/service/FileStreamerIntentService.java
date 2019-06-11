@@ -25,6 +25,7 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.PowerManager;
 import android.os.Process;
@@ -36,6 +37,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -81,6 +84,7 @@ public class FileStreamerIntentService extends IntentService{
     public synchronized static void setShouldContinue(boolean b){ shouldContinue = b; }
 
     private FileSenderListener fileSenderListener;
+    private MachineStatusListener machineStatusListener;
     private final Timer jobTimer = new Timer();
 
     public FileStreamerIntentService() {
@@ -108,11 +112,13 @@ public class FileStreamerIntentService extends IntentService{
     protected void onHandleIntent(Intent intent){
         fileSenderListener = FileSenderListener.getInstance();
         if(fileSenderListener.getGcodeFile() == null){
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_gcode_file_selected)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_gcode_file_selected), true, true));
             return;
         }
 
-        MachineStatusListener.CompileTimeOptions compileTimeOptions = MachineStatusListener.getInstance().getCompileTimeOptions();
+        machineStatusListener = MachineStatusListener.getInstance();
+
+        MachineStatusListener.CompileTimeOptions compileTimeOptions = machineStatusListener.getCompileTimeOptions();
         if(compileTimeOptions.serialRxBuffer > 0) MAX_RX_SERIAL_BUFFER = compileTimeOptions.serialRxBuffer - 3;
         Process.setThreadPriority(Process.THREAD_PRIORITY_FOREGROUND);
 
@@ -171,8 +177,8 @@ public class FileStreamerIntentService extends IntentService{
         fileSenderListener.setJobEndTime(System.currentTimeMillis());
         fileSenderListener.setStatus(FileSenderListener.STATUS_IDLE);
 
-        if(!getShouldContinue()){
-            // Stop the spindle or laser
+        if(!getShouldContinue() && machineStatusListener.getLaserModeEnabled()){
+            // Stop the laser in case of emergency button is pressed
 			EventBus.getDefault().post(new GcodeCommand("M5"));
         }
 
@@ -208,9 +214,9 @@ public class FileStreamerIntentService extends IntentService{
                 if(!shouldContinue) break;
 
                 gcodeCommand.setCommand(sCurrentLine);
-                if(gcodeCommand.getCommandString().length() > 0){
+                if(gcodeCommand.getSize() > 1){
 
-                    if(gcodeCommand.hasRomAccess()){
+                    if(gcodeCommand.getHasRomAccess()){
                         this.waitUntilBufferRunOut(true);
                         streamLine(gcodeCommand);
                         this.waitUntilBufferRunOut();
@@ -231,9 +237,7 @@ public class FileStreamerIntentService extends IntentService{
             br.close();
             fileSenderListener.setRowsSent(linesSent);
 
-        }catch (IOException | NullPointerException e){
-            Log.e(TAG, e.getMessage(), e);
-        }
+        }catch (IOException | NullPointerException ignored){}
 
     }
 
@@ -284,28 +288,29 @@ public class FileStreamerIntentService extends IntentService{
 
     private void streamLine(GcodeCommand gcodeCommand){
 
-        String command = gcodeCommand.getCommandString();
-        int commandSize = command.length() + 1;
-
-        // Wait until there is room, if necessary.
-        while (MAX_RX_SERIAL_BUFFER < (CURRENT_RX_SERIAL_BUFFER + commandSize)) {
+        if(machineStatusListener.getSingleStepMode()){
             try {
+                EventBus.getDefault().post(gcodeCommand);
                 completedCommands.take();
-                if(activeCommandSizes.size() > 0) CURRENT_RX_SERIAL_BUFFER -= activeCommandSizes.removeFirst();
-            } catch (InterruptedException e) {
-                Log.e(TAG, e.getMessage(), e);
-                return;
+            } catch (InterruptedException ignored) {}
+        }else{
+            // Wait until there is room, if necessary.
+            while (MAX_RX_SERIAL_BUFFER < (CURRENT_RX_SERIAL_BUFFER + gcodeCommand.getSize())) {
+                try {
+                    completedCommands.take();
+                    if(activeCommandSizes.size() > 0) CURRENT_RX_SERIAL_BUFFER -= activeCommandSizes.removeFirst();
+                } catch (InterruptedException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    return;
+                }
             }
 
-            if(!shouldContinue) return;
+            if(getShouldContinue()){
+                activeCommandSizes.offer(gcodeCommand.getSize());
+                CURRENT_RX_SERIAL_BUFFER += gcodeCommand.getSize();
+                EventBus.getDefault().post(gcodeCommand);
+            }
         }
-
-        if(shouldContinue){
-            activeCommandSizes.offer(commandSize);
-            CURRENT_RX_SERIAL_BUFFER += commandSize;
-            EventBus.getDefault().post(gcodeCommand);
-        }
-
     }
 
     private void clearBuffers(){
@@ -326,12 +331,14 @@ public class FileStreamerIntentService extends IntentService{
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onGrblOkEvent(GrblOkEvent event){
-        completedCommands.offer(1);
+        try {
+            completedCommands.put(1);
+        } catch (InterruptedException ignored) {}
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onGrblErrorEvent(GrblErrorEvent event){
-        shouldContinue = false;
+        setShouldContinue(event.getErrorCode() == 20 && machineStatusListener.getIgnoreError20());
     }
 
 }

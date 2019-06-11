@@ -22,10 +22,8 @@
 package in.co.gorest.grblcontroller.ui;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,23 +31,28 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.joanzapata.iconify.widget.IconButton;
 
-import org.apache.commons.collections4.queue.CircularFifoQueue;
-
-import java.util.Objects;
+import java.util.List;
 
 import in.co.gorest.grblcontroller.R;
+import in.co.gorest.grblcontroller.adapters.CommandHistoryAdapter;
 import in.co.gorest.grblcontroller.databinding.FragmentConsoleTabBinding;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.listeners.ConsoleLoggerListener;
+import in.co.gorest.grblcontroller.listeners.EndlessRecyclerViewScrollListener;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
+import in.co.gorest.grblcontroller.model.CommandHistory;
+import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
@@ -58,6 +61,10 @@ public class ConsoleTabFragment extends BaseFragment {
     private MachineStatusListener machineStatus;
     private ConsoleLoggerListener consoleLogger;
     private EnhancedSharedPreferences sharedPref;
+    private ViewSwitcher viewSwitcher;
+    private List<CommandHistory> dataSet;
+    private CommandHistoryAdapter commandHistoryAdapter;
+    private EditText commandInput;
 
     public ConsoleTabFragment() {}
 
@@ -81,10 +88,26 @@ public class ConsoleTabFragment extends BaseFragment {
         binding.setConsole(consoleLogger);
         binding.setMachineStatus(machineStatus);
 
-        TextView consoleLogView = view.findViewById(R.id.console_logger);
+        viewSwitcher = view.findViewById(R.id.console_view_switcher);
+        final TextView consoleLogView = view.findViewById(R.id.console_logger);
         consoleLogView.setMovementMethod(new ScrollingMovementMethod());
+        commandInput = view.findViewById(R.id.command_input);
 
         final EditText commandInput = view.findViewById(R.id.command_input);
+
+        consoleLogView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction() & MotionEvent.ACTION_MASK){
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false;
+            }
+        });
 
         IconButton sendCommand = view.findViewById(R.id.send_command);
         sendCommand.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +117,11 @@ public class ConsoleTabFragment extends BaseFragment {
                 if(commandText.length() > 0){
                     GcodeCommand gcodeCommand = new GcodeCommand(commandText);
                     fragmentInteractionListener.onGcodeCommandReceived(gcodeCommand.getCommandString());
-                    if(gcodeCommand.hasRomAccess()){
+                    CommandHistory.saveToHistory(commandText, gcodeCommand.getCommandString());
+                    dataSet.clear();
+                    dataSet.addAll(CommandHistory.getHistory("0", "15"));
+                    commandHistoryAdapter.notifyDataSetChanged();
+                    if(gcodeCommand.getHasRomAccess()){
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
                     }
@@ -105,8 +132,8 @@ public class ConsoleTabFragment extends BaseFragment {
 
                     if(gcodeCommand.getCommandString().equals("$32=1")) machineStatus.setLaserModeEnabled(true);
                     if(gcodeCommand.getCommandString().equals("$32=0")) machineStatus.setLaserModeEnabled(false);
-
                     commandInput.setText(null);
+                    viewSwitcher.setDisplayedChild(0);
                 }
             }
         });
@@ -139,8 +166,71 @@ public class ConsoleTabFragment extends BaseFragment {
             }
         });
 
+        IconButton consoleHistory = view.findViewById(R.id.console_history);
+        consoleHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewSwitcher.showNext();
+            }
+        });
+
+        dataSet = CommandHistory.getHistory("0", "15");
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        commandHistoryAdapter = new CommandHistoryAdapter(dataSet);
+        commandHistoryAdapter.setItemClickListener(onItemClickListener);
+        commandHistoryAdapter.setItemLongClickListner(onItemLongClickListener);
+        recyclerView.setAdapter(commandHistoryAdapter);
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                String offset = String.valueOf(page * 15);
+                List<CommandHistory> moreItems = CommandHistory.getHistory(offset, "15");
+                dataSet.addAll(moreItems);
+                commandHistoryAdapter.notifyItemRangeInserted(commandHistoryAdapter.getItemCount(), dataSet.size() - 1);
+            }
+        });
+
         return view;
     }
 
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            int position = viewHolder.getAdapterPosition();
+            if(position == RecyclerView.NO_POSITION) return;
+            CommandHistory commandHistory = dataSet.get(position);
+            commandInput.append(commandHistory.getCommand());
+        }
+    };
+
+    private View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
+
+        @Override
+        public boolean onLongClick(View view) {
+            final RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            final int position = viewHolder.getAdapterPosition();
+            if(position == RecyclerView.NO_POSITION) return false;
+            final CommandHistory commandHistory = dataSet.get(position);
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(commandHistory.getCommand())
+                    .setMessage(getString(R.string.text_delete_command_history_confirm))
+                    .setPositiveButton(getActivity().getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            commandHistory.delete();
+                            dataSet.remove(position);
+                            commandHistoryAdapter.notifyItemRemoved(position);
+                            commandHistoryAdapter.notifyItemRangeChanged(position, dataSet.size());
+                        }
+                    }).setNegativeButton(getActivity().getString(R.string.text_cancel), null).setCancelable(true).show();
+
+            return true;
+        }
+    };
 
 }

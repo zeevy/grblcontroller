@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
@@ -6,7 +7,6 @@
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="in.co.gorest.grblcontroller.BluetoothConnectionActivity">
@@ -27,7 +27,6 @@
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -35,6 +34,7 @@
         tools:showIn="@layout/activity_main">
 
         <LinearLayout
+            app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -54,8 +54,8 @@
 
                     <TableRow>
                         <TextView android:text="@{machineStatus.state}" android:textColor="@{machineStatus.state.equalsIgnoreCase(machineStatus.STATE_ALARM) ? @color/colorPrimary : @android:color/tertiary_text_dark}" android:textSize="20sp" />
-                        <TextView android:text="Machine Position" android:layout_gravity="center" android:textSize="20sp" />
-                        <TextView android:text="Work Position" android:gravity="end" android:textSize="20sp" />
+                        <TextView android:text="Machine Position" android:layout_gravity="center" android:textSize="20sp" tools:ignore="HardcodedText" />
+                        <TextView android:text="Work Position" android:gravity="end" android:textSize="20sp" tools:ignore="HardcodedText" />
                     </TableRow>
 
                     <TableRow>
@@ -63,9 +63,13 @@
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="X-Axis" android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @android:color/tertiary_text_dark}"  android:textSize="20sp" />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordX)}' android:layout_gravity="center"  android:textSize="20sp" />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordX)}' android:gravity="end"  android:textSize="20sp" />
+                        <TextView android:text="X-Axis" android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @android:color/tertiary_text_dark}"  android:textSize="20sp" tools:ignore="HardcodedText" />
+                        <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordX)}' android:layout_gravity="center"  android:textSize="20sp" />
+                        <com.joanzapata.iconify.widget.IconTextView
+                            android:gravity="end" android:id="@+id/wpos_edit_x" android:tag="X"
+                            android:text='@{String.format("%.3f {fa-edit 20sp}", machineStatus.workPosition.cordX)}'
+                            android:textSize="20sp"/>
+
                     </TableRow>
 
                     <TableRow>
@@ -73,9 +77,13 @@
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="Y-Axis" android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @android:color/tertiary_text_dark}"  android:textSize="20sp" />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordY)}' android:layout_gravity="center"  android:textSize="20sp" />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordY)}' android:gravity="end"  android:textSize="20sp" />
+                        <TextView android:text="Y-Axis" android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @android:color/tertiary_text_dark}"  android:textSize="20sp" tools:ignore="HardcodedText" />
+                        <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordY)}' android:layout_gravity="center"  android:textSize="20sp" />
+                        <com.joanzapata.iconify.widget.IconTextView
+                            android:gravity="end" android:id="@+id/wpos_edit_y" android:tag="Y"
+                            android:text='@{String.format("%.3f {fa-edit 20sp}", machineStatus.workPosition.cordY)}'
+                            android:textSize="20sp"/>
+
                     </TableRow>
 
                     <TableRow>
@@ -83,9 +91,13 @@
                     </TableRow>
 
                     <TableRow>
-                        <TextView android:text="Z-Axis" android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @android:color/tertiary_text_dark}"  android:textSize="20sp" />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.machinePosition.cordZ)}' android:layout_gravity="center"  android:textSize="20sp" />
-                        <TextView android:text='@{String.format("%.2f", machineStatus.workPosition.cordZ)}' android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tertiary_text_dark}" android:gravity="end"  android:textSize="20sp" />
+                        <TextView android:text="Z-Axis" android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @android:color/tertiary_text_dark}"  android:textSize="20sp" tools:ignore="HardcodedText" />
+                        <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordZ)}' android:layout_gravity="center"  android:textSize="20sp" />
+                        <com.joanzapata.iconify.widget.IconTextView
+                            android:gravity="end" android:id="@+id/wpos_edit_z" android:tag="Z"
+                            android:text='@{String.format("%.3f {fa-edit 20sp}", machineStatus.workPosition.cordZ)}'
+                            android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tertiary_text_dark}"
+                            android:textSize="20sp" />
                     </TableRow>
 
                     <TableRow>

@@ -33,15 +33,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.MimeTypeFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+import com.nbsp.materialfilepicker.utils.FileTypeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,8 +53,13 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -138,12 +147,12 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onClick(View view) {
                 if(fileSender.getGcodeFile() == null){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_gcode_file_selected)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_gcode_file_selected), true, true));
                     return;
                 }
 
                 if(fileSender.getStatus().equals(FileSenderListener.STATUS_READING)){
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_reading_in_progress)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_reading_in_progress), true, true));
                     return;
                 }
 
@@ -203,7 +212,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
                 boolean checkMachinePosition = sharedPref.getBoolean(getString(R.string.preference_check_machine_position_before_job), false);
                 if(checkMachinePosition && !machineStatus.getWorkPosition().atZero()){
-                    EventBus.getDefault().post(new UiToastEvent("Machine is not at zero position"));
+                    EventBus.getDefault().post(new UiToastEvent("Machine is not at zero position", true, true));
                     return;
                 }
 
@@ -261,9 +270,11 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             if(filePath != null){
                 fileSender.setGcodeFile(new File(filePath));
                 if(fileSender.getGcodeFile().exists()){
+                    fileSender.setElapsedTime("00:00:00");
                     new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
+                    sharedPref.edit().putString(getString(R.string.most_recent_selected_file), fileSender.getGcodeFile().getAbsolutePath()).apply();
                 }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found), true, true));
                 }
             }
         }
@@ -355,7 +366,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 if(machineStatus.getCompileTimeOptions().mistCoolant){
                     sendRealTimeCommand(Overrides.CMD_TOGGLE_MIST_COOLANT);
                 }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_mist_disabled)));
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_mist_disabled), true, true));
                 }
                 break;
         }
@@ -388,7 +399,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     if(gcodeCommand.getCommandString().length() > 0){
                         lines++;
                         if(gcodeCommand.getCommandString().length() >= 79){
-                            EventBus.getDefault().post(new UiToastEvent(GrblController.getInstance().getString(R.string.text_gcode_length_warning) + sCurrentLine));
+                            EventBus.getDefault().post(new UiToastEvent(GrblController.getInstance().getString(R.string.text_gcode_length_warning) + sCurrentLine, true, true));
                             initFileSenderListener();
                             FileSenderListener.getInstance().setStatus(FileSenderListener.STATUS_IDLE);
                             cancel(true);
@@ -423,18 +434,32 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     private void getFilePicker(){
 
+        String rootPath = "/storage/";
+
+        if(sharedPref.getBoolean(getString(R.string.preference_remember_last_file_location), true)){
+            String recentFile = sharedPref.getString(getString(R.string.most_recent_selected_file), null);
+            if(recentFile != null){
+                File f = new File(recentFile);
+                do{
+                    f = new File(f.getParent());
+                    rootPath = f.getAbsolutePath();
+                }while (!f.isDirectory());
+            }
+        }
+
         new MaterialFilePicker()
                 .withActivity(getActivity())
                 .withRequestCode(Constants.FILE_PICKER_REQUEST_CODE)
                 .withHiddenFiles(false)
                 .withFilter(Pattern.compile(Constants.SUPPORTED_FILE_TYPES_STRING, Pattern.CASE_INSENSITIVE))
                 .withTitle(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES))
-                .withRootPath("/storage/")
+                .withPath(rootPath)
                 .start();
+
     }
 
     private Boolean hasExternalStorageReadPermission(){
-        Boolean hasPermission = true;
+        boolean hasPermission = true;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(Objects.requireNonNull(getActivity()).checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 hasPermission = false;
@@ -447,7 +472,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUEST_READ_PERMISSIONS);
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission)));
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission), true, true));
         }
     }
 
@@ -460,7 +485,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getFilePicker();
             }else{
-                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission)));
+                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission), true, true));
             }
         }
     }
