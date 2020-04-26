@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.GridLayout
+                <androidx.gridlayout.widget.GridLayout
                     app:columnCount="2"
                     app:useDefaultMargins="true"
                     app:alignmentMode="alignBounds"
@@ -62,7 +62,7 @@
                     <TextView app:layout_gravity="left" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? @string/text_overrides_fsv : @string/text_overrides_fs}' />
                     <TextView app:layout_gravity="right" android:text='@{machineStatus.overridePercents.feed.toString() + ":" + machineStatus.overridePercents.spindle.toString() + (machineStatus.compileTimeOptions.variableSpindle ? ":" + machineStatus.spindleSpeed : "")}' />
 
-                </android.support.v7.widget.GridLayout>
+                </androidx.gridlayout.widget.GridLayout>
 
             </RelativeLayout>
 

@@ -78,6 +78,78 @@
             android:title="@string/text_jogging_max_steps_z"
             android:summary="@string/text_jogging_max_steps_desc_z" />
 
+        <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:background="@drawable/rounded_border_edit_text"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:key="@string/preference_jog_xy_step_small"
+            android:defaultValue="0.1"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:title="Quick step XY small"
+            android:summary=""/>
+
+        <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:background="@drawable/rounded_border_edit_text"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:key="@string/preference_jog_xy_step_medium"
+            android:defaultValue="1"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:title="Quick step XY medium"
+            android:summary=""/>
+
+        <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:background="@drawable/rounded_border_edit_text"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:key="@string/preference_jog_xy_step_high"
+            android:defaultValue="5"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:title="Quick step XY large"
+            android:summary=""/>
+
+        <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:background="@drawable/rounded_border_edit_text"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:key="@string/preference_jog_z_step_small"
+            android:defaultValue="0.01"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:title="Quick step Z small"
+            android:summary=""/>
+
+        <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:background="@drawable/rounded_border_edit_text"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:key="@string/preference_jog_z_step_medium"
+            android:defaultValue="0.1"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:title="Quick step Z medium"
+            android:summary=""/>
+
+        <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:background="@drawable/rounded_border_edit_text"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:key="@string/preference_jog_z_step_high"
+            android:defaultValue="1"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:title="Quick step Z large"
+            android:summary=""/>
+
         <PreferenceScreen
             android:key="custom_button_flashcard"
             android:icon="@drawable/ic_keyboard_black_24dp"
@@ -308,86 +380,6 @@
                     android:title="@string/text_confirm_first"
                     android:summary="@string/text_confirm_first_desc" />
             </PreferenceScreen>
-
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:key="jog_quick_steps_flashcard"
-            android:icon="@drawable/ic_format_list_numbered_black_24dp"
-            android:title="Quick step buttons"
-            android:summary="customize quick step buttons for xyz">
-
-            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
-                android:textSize="14sp"
-                android:padding="8dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:icon="@drawable/ic_signal_cellular_connected_no_internet_1_bar_black_24dp"
-                android:key="@string/preference_jog_xy_step_small"
-                android:defaultValue="0"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:title="XY small step value"
-                android:summary=""/>
-
-            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
-                android:textSize="14sp"
-                android:padding="8dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:icon="@drawable/ic_signal_cellular_connected_no_internet_2_bar_black_24dp"
-                android:key="@string/preference_jog_xy_step_medium"
-                android:defaultValue="0"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:title="XY medium step value"
-                android:summary=""/>
-
-            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
-                android:textSize="14sp"
-                android:padding="8dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:icon="@drawable/ic_signal_cellular_connected_no_internet_3_bar_black_24dp"
-                android:key="@string/preference_jog_xy_step_high"
-                android:defaultValue="0"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:title="XY high step value"
-                android:summary=""/>
-
-            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
-                android:textSize="14sp"
-                android:padding="8dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:icon="@drawable/ic_signal_cellular_connected_no_internet_1_bar_black_24dp"
-                android:key="@string/preference_jog_z_step_small"
-                android:defaultValue="0"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:title="Z small step value"
-                android:summary=""/>
-
-            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
-                android:textSize="14sp"
-                android:padding="8dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:icon="@drawable/ic_signal_cellular_connected_no_internet_2_bar_black_24dp"
-                android:key="@string/preference_jog_z_step_medium"
-                android:defaultValue="0"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:title="Z medium step value"
-                android:summary=""/>
-
-            <in.co.gorest.grblcontroller.helpers.MyEditTextPreference
-                android:textSize="14sp"
-                android:padding="8dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:icon="@drawable/ic_signal_cellular_connected_no_internet_3_bar_black_24dp"
-                android:key="@string/preference_jog_z_step_high"
-                android:defaultValue="0"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:title="Z high step value"
-                android:summary=""/>
 
         </PreferenceScreen>
 

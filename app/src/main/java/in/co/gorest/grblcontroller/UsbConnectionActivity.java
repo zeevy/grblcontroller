@@ -93,6 +93,7 @@ public class UsbConnectionActivity extends GrblActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        onGcodeCommandReceived("$10=1");
         unregisterReceiver(mUsbReceiver);
         if(mBound){
             grblUsbSerialService.setMessageHandler(null);

@@ -24,11 +24,11 @@ package in.co.gorest.grblcontroller.ui;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.SwitchCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -522,18 +522,17 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         jogStepSeekBarXY.setProgress(machineStatus.getJogging().stepXY.floatValue());
         jogStepSeekBarXY.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size), 10));
         jogStepSeekBarXY.setIndicatorTextFormat("XY: ${PROGRESS}");
-        jogStepSeekBarXY.setDecimalScale(2);
+        jogStepSeekBarXY.setDecimalScale(3);
 
-        for(int resourceId: new Integer[]{R.id.jog_xy_step_small, R.id.jog_xy_step_medium, R.id.jog_xy_step_high}){
+        for(final int resourceId: new Integer[]{R.id.jog_xy_step_small, R.id.jog_xy_step_medium, R.id.jog_xy_step_high}){
             final IconButton iconButton = view.findViewById(resourceId);
 
             iconButton.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Change Quick Button Value")
-                            .setMessage("do you want to change the quick button value to " + Float.toString(jogStepSeekBarXY.getProgressFloat()))
+                            .setTitle("Save Quick Button Value")
+                            .setMessage("do you want to save the quick button value as " + Float.toString(jogStepSeekBarXY.getProgressFloat()))
                             .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     EnhancedSharedPreferences.Editor editor = sharedPref.edit();
@@ -552,6 +551,22 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 public void onClick(View v) {
                     if(isAdded()){
                         String stepValue = sharedPref.getString(iconButton.getTag().toString(), "0");
+                        if(stepValue.equals("0")){
+                            switch(resourceId){
+                                case R.id.jog_xy_step_small:
+                                    stepValue = "0.1";
+                                    break;
+
+                                case R.id.jog_xy_step_medium:
+                                    stepValue = "1";
+                                    break;
+
+                                case R.id.jog_xy_step_high:
+                                    stepValue = "5";
+                                    break;
+                            }
+                        }
+
                         if(stepValue.length() > 0){
                             float step_value = Float.valueOf(stepValue);
                             if(step_value > jogStepSeekBarXY.getMax()){
@@ -574,7 +589,11 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         jogStepSeekBarXY.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
-                machineStatus.setJogging(Double.parseDouble(Float.toString(seekParams.progressFloat)), machineStatus.getJogging().stepZ, machineStatus.getJogging().feed, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+                machineStatus.setJogging(Double.parseDouble(Float.toString(seekParams.progressFloat)),
+                        machineStatus.getJogging().stepZ,
+                        machineStatus.getJogging().feed,
+                        sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false)
+                );
             }
 
             @Override
@@ -593,9 +612,9 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         jogStepSeekBarZ.setProgress(machineStatus.getJogging().stepZ.floatValue());
         jogStepSeekBarZ.setMax(sharedPref.getInt(getString(R.string.preference_jogging_max_step_size_z), 5));
         jogStepSeekBarZ.setIndicatorTextFormat("Z: ${PROGRESS}");
-        jogStepSeekBarZ.setDecimalScale(2);
+        jogStepSeekBarZ.setDecimalScale(3);
 
-        for(int resourceId: new Integer[]{R.id.jog_z_step_small, R.id.jog_z_step_medium, R.id.jog_z_step_high}){
+        for(final int resourceId: new Integer[]{R.id.jog_z_step_small, R.id.jog_z_step_medium, R.id.jog_z_step_high}){
             final IconButton iconButton = view.findViewById(resourceId);
 
             iconButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -603,8 +622,8 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 public boolean onLongClick(View v) {
 
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Change Quick Button Value")
-                            .setMessage("do you want to change the quick button value to " + Float.toString(jogStepSeekBarZ.getProgressFloat()))
+                            .setTitle("Save Quick Button Value")
+                            .setMessage("do you want to save the quick button value as " + Float.toString(jogStepSeekBarZ.getProgressFloat()))
                             .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     EnhancedSharedPreferences.Editor editor = sharedPref.edit();
@@ -623,6 +642,22 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 public void onClick(View v) {
                     if(isAdded()){
                         String stepValue = sharedPref.getString(iconButton.getTag().toString(), "0");
+                        if(stepValue.equals("0")){
+                            switch(resourceId){
+                                case R.id.jog_z_step_small:
+                                    stepValue = "0.01";
+                                    break;
+
+                                case R.id.jog_z_step_medium:
+                                    stepValue = "0.1";
+                                    break;
+
+                                case R.id.jog_z_step_high:
+                                    stepValue = "1";
+                                    break;
+                            }
+                        }
+
                         if(stepValue.length() > 0){
                             float step_value = Float.valueOf(stepValue);
                             if(step_value > jogStepSeekBarZ.getMax()){
@@ -645,7 +680,11 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         jogStepSeekBarZ.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
-                machineStatus.setJogging(machineStatus.getJogging().stepXY, Double.parseDouble(Float.toString(seekParams.progressFloat)), machineStatus.getJogging().feed, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+                machineStatus.setJogging(machineStatus.getJogging().stepXY,
+                        Double.parseDouble(Float.toString(seekParams.progressFloat)),
+                        machineStatus.getJogging().feed,
+                        sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false)
+                );
             }
 
             @Override
@@ -669,7 +708,11 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         jogFeedSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
-                machineStatus.setJogging(machineStatus.getJogging().stepXY, machineStatus.getJogging().stepZ, seekParams.progress, sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+                machineStatus.setJogging(machineStatus.getJogging().stepXY,
+                        machineStatus.getJogging().stepZ,
+                        seekParams.progress,
+                        sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false)
+                );
             }
 
             @Override

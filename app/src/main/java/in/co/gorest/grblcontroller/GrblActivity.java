@@ -30,21 +30,22 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,6 +84,7 @@ import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
 import in.co.gorest.grblcontroller.service.MyFirebaseMessagingService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;
+import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public abstract class GrblActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener{
 
@@ -249,7 +251,10 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         consoleLogger = ConsoleLoggerListener.getInstance();
         machineStatus = MachineStatusListener.getInstance();
-        machineStatus.setJogging(sharedPref.getDouble(getString(R.string.preference_jogging_step_size), 1.00), sharedPref.getDouble(getString(R.string.preference_jogging_step_size_z), 0.1), sharedPref.getDouble(getString(R.string.preference_jogging_feed_rate), 2400.0), sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
+        machineStatus.setJogging(sharedPref.getDouble(getString(R.string.preference_jogging_step_size), 1.00),
+                sharedPref.getDouble(getString(R.string.preference_jogging_step_size_z), 0.1),
+                sharedPref.getDouble(getString(R.string.preference_jogging_feed_rate), 2400.0),
+                sharedPref.getBoolean(getString(R.string.preference_jogging_in_inches), false));
         machineStatus.setVerboseOutput(sharedPref.getBoolean(getString(R.string.preference_console_verbose_mode), false));
         machineStatus.setIgnoreError20(sharedPref.getBoolean(getString(R.string.preference_ignore_error_20), false));
         machineStatus.setUsbBaudRate(Integer.valueOf(sharedPref.getString(getString(R.string.usb_serial_baud_rate), Constants.USB_BAUD_RATE)));
@@ -445,6 +450,23 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.tab_layout_pager + ":" + 1);
         if(fragment != null) fragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+
+        if(keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE){
+            if(machineStatus.getState().equals(Constants.MACHINE_STATUS_RUN)){
+                onGrblRealTimeCommandReceived(GrblUtils.GRBL_PAUSE_COMMAND);
+                return true;
+            }
+
+            if(machineStatus.getState().equals(Constants.MACHINE_STATUS_HOLD)){
+                onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESUME_COMMAND);
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

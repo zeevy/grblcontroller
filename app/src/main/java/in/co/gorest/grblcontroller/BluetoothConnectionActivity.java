@@ -117,6 +117,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        onGcodeCommandReceived("$10=1");
         if(mBound){
             grblBluetoothSerialService.setMessageHandler(null);
             unbindService(serviceConnection);
@@ -190,6 +191,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                                     .setMessage(getString(R.string.text_disconnect_confirm))
                                     .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
+                                            onGcodeCommandReceived("$10=1");
                                             if(grblBluetoothSerialService != null) grblBluetoothSerialService.disconnectService();
                                         }
                                     })

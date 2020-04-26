@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             tools:ignore="RelativeOverlap" />
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/jog_inches"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
                 android:tag="@string/preference_jog_xy_step_small"
                 android:layout_weight="0.25"
                 android:layout_width="0dp"
-                android:text="XY: Low"
+                android:text="XY: Small"
                 tools:ignore="HardcodedText" />
 
             <com.joanzapata.iconify.widget.IconButton
@@ -84,7 +84,7 @@
                 android:tag="@string/preference_jog_xy_step_high"
                 android:layout_weight="0.3333"
                 android:layout_width="0dp"
-                android:text="XY: High"
+                android:text="XY: Large"
                 tools:ignore="HardcodedText" />
 
         </TableRow>
@@ -131,7 +131,7 @@
                 android:tag="@string/preference_jog_z_step_small"
                 android:layout_weight="0.25"
                 android:layout_width="0dp"
-                android:text="Z: Low"
+                android:text="Z: Small"
                 tools:ignore="HardcodedText" />
 
             <com.joanzapata.iconify.widget.IconButton
@@ -147,7 +147,7 @@
                 android:tag="@string/preference_jog_z_step_high"
                 android:layout_weight="0.3333"
                 android:layout_width="0dp"
-                android:text="Z: High"
+                android:text="Z: Large"
                 tools:ignore="HardcodedText" />
 
         </TableRow>

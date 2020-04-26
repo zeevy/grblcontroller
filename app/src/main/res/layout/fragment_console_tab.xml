@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:layout_alignParentEnd="true"
                     android:id="@+id/console_verbose_output"
                     android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:background="@drawable/rounded_border_edit_text"

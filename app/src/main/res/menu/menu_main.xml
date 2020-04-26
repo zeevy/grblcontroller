@@ -36,7 +36,7 @@
         android:orderInCategory="15"
         android:icon="@drawable/ic_share_black_20dp"
         android:title="@string/text_app_share"
-        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        app:actionProviderClass="androidx.appcompat.widget.ShareActionProvider"
         app:showAsAction="never" />
 
     <item

@@ -21,8 +21,10 @@
 
 package in.co.gorest.grblcontroller;
 
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.orm.SugarApp;
 
 import in.co.gorest.grblcontroller.network.GoRestService;
@@ -51,7 +53,7 @@ public class GrblController extends SugarApp {
 //        Picasso.setSingletonInstance(picasso);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
+        Iconify.with(new FontAwesomeModule());
     }
 
     public static synchronized GrblController getInstance(){

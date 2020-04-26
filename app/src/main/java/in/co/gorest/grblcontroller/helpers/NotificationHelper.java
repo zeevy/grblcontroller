@@ -29,9 +29,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.v4.app.NotificationCompat;
-
-import com.google.firebase.messaging.FirebaseMessaging;
+import androidx.core.app.NotificationCompat;
 
 import in.co.gorest.grblcontroller.R;
 

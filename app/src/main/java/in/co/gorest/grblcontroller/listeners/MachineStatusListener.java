@@ -21,8 +21,8 @@
 
 package in.co.gorest.grblcontroller.listeners;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 import in.co.gorest.grblcontroller.BR;
 import in.co.gorest.grblcontroller.model.Constants;

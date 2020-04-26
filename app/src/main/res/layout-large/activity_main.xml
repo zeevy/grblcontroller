@@ -5,27 +5,27 @@
         <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="in.co.gorest.grblcontroller.BluetoothConnectionActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent" android:layout_height="wrap_content" app:cardElevation="4dp" android:layout_margin="8dp"
                 android:focusable="true" android:clickable="true" android:id="@+id/view_last_toast"
                 android:foreground="?android:attr/selectableItemBackground">
@@ -112,9 +112,9 @@
 
                 </TableLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent" android:layout_height="wrap_content" app:cardElevation="4dp" android:layout_margin="8dp"
                 android:focusable="false" android:clickable="false"
                 android:foreground="?android:attr/selectableItemBackground">
@@ -127,16 +127,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <android.support.design.widget.TabLayout
+                    <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                    </android.support.design.widget.TabLayout>
+                    </com.google.android.material.tabs.TabLayout>
 
                     <View android:layout_marginBottom="8dp" android:id="@+id/tab_layout_spacer" android:layout_below="@id/tab_layout" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
 
-                    <android.support.v4.view.ViewPager
+                    <androidx.viewpager.widget.ViewPager
                         android:id="@+id/tab_layout_pager"
                         android:layout_width="match_parent"
                         android:layout_height="fill_parent"
@@ -145,13 +145,13 @@
                         android:background="@android:color/white" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

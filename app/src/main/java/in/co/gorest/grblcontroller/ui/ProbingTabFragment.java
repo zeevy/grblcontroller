@@ -23,11 +23,11 @@ package in.co.gorest.grblcontroller.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.SwitchCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,7 +217,7 @@ public class ProbingTabFragment extends BaseFragment {
 
             String probeDistance = sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE));
             final String probeFeedRate = sharedPref.getString(getString(R.string.preference_probing_feed_rate), String.valueOf(Constants.PROBING_FEED_RATE));
-            final Double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
+            final double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
             probeStartPosition = machineStatus.getMachinePosition().getCordZ();
 
             // Wait for few milliseconds, just to make sure we got the parser state
@@ -227,7 +227,7 @@ public class ProbingTabFragment extends BaseFragment {
                     String distanceMode = machineStatus.getParserState().distanceMode;
                     String unitSelection = machineStatus.getParserState().unitSelection;
 
-                    fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe.toString() + " F" + probeFeedRate);
+                    fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe + " F" + probeFeedRate);
                     fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
                 }
             }, (Constants.GRBL_STATUS_UPDATE_INTERVAL + 100));
@@ -372,7 +372,7 @@ public class ProbingTabFragment extends BaseFragment {
 
         if(probeType == Constants.PROBE_TYPE_NORMAL){
             if(autoZeroAfterProbe.isChecked()){
-                Double probePlateThickness = Double.parseDouble(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
+                double probePlateThickness = Double.parseDouble(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
                 fragmentInteractionListener.onGcodeCommandReceived("G53G0Z" + event.getProbeCordZ().toString());
                 fragmentInteractionListener.onGcodeCommandReceived("G10L20P0Z" + probePlateThickness);
                 autoZeroAfterProbe.setChecked(false);
@@ -386,8 +386,8 @@ public class ProbingTabFragment extends BaseFragment {
             Double lastProbeCordZ = Math.abs(machineStatus.getLastProbePosition().getCordZ());
             Double currentProbeCordZ = Math.abs(event.getProbeCordZ());
 
-            Double toolOffset =  lastProbeCordZ - currentProbeCordZ;
-            fragmentInteractionListener.onGcodeCommandReceived("G43.1Z" + toolOffset.toString());
+            double toolOffset =  lastProbeCordZ - currentProbeCordZ;
+            fragmentInteractionListener.onGcodeCommandReceived("G43.1Z" + toolOffset);
             fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_probe_success_with_tlo)));
         }

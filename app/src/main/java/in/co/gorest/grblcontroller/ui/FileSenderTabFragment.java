@@ -27,25 +27,22 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.MimeTypeFilter;
+import androidx.annotation.NonNull;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
-import com.nbsp.materialfilepicker.utils.FileTypeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,13 +50,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.FileNameMap;
-import java.net.URLConnection;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -441,7 +433,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             if(recentFile != null){
                 File f = new File(recentFile);
                 do{
-                    f = new File(f.getParent());
+                    f = new File(Objects.requireNonNull(f.getParent()));
                     rootPath = f.getAbsolutePath();
                 }while (!f.isDirectory());
             }
@@ -497,7 +489,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGrblErrorEvent(GrblErrorEvent event){
-        stopFileStreaming();
+        if(!(event.getErrorCode() == 20 && machineStatus.getIgnoreError20())) stopFileStreaming();
     }
 
 }

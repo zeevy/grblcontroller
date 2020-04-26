@@ -60,8 +60,8 @@ public interface Constants {
     String MACHINE_STATUS_HOME          = "Home";
     String MACHINE_STATUS_NOT_CONNECTED = "Unknown";
 
-    String[] SUPPORTED_FILE_TYPES       = {".tap",".gcode", ".nc", ".ngc", ".fnc", ".fan"};
-    String SUPPORTED_FILE_TYPES_STRING  = "^.*\\.(tap|gcode|nc|ngc|cnc|txt|ncc|fnc|dnc|fan|gc)$";
+    String[] SUPPORTED_FILE_TYPES       = {".tap",".gcode", ".nc", ".ngc", ".fnc", ".txt"};
+    String SUPPORTED_FILE_TYPES_STRING  = "^.*\\.(tap|gcode|nc|ngc|cnc|txt|ncc|fnc|dnc|fan|gc|txt|ncg|ncp|fgc)$";
 
     String JUST_STOP_STREAMING          = "0";
     String STOP_STREAMING_AND_RESET     = "1";
