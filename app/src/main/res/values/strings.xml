@@ -26,6 +26,7 @@
     <string name="app_name" translatable="false">Grbl Controller</string>
     <string name="shared_preference_key" translatable="false">in.co.gorest.grblcontroller.f635f2e523d7c64f5b4ad9179b689433</string>
     <string name="preference_auto_connect" translatable="false">auto_connect</string>
+    <string name="preference_start_up_string" translatable="false">start_up_string</string>
     <string name="preference_console_verbose_mode" translatable="false">console_verbose_mode</string>
     <string name="preference_jogging_step_size" translatable="false">jogging_step_size</string>
     <string name="preference_jogging_step_size_z" translatable="false">jogging_step_size_z</string>

@@ -28,14 +28,17 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:requestLegacyExternalStorage="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="q">
         <activity
             android:name=".SplashActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
             android:theme="@style/SplashTheme"
-            tools:targetApi="n">
+            tools:targetApi="n"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +53,8 @@
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
             android:theme="@style/AppTheme.NoActionBar"
-            tools:targetApi="n" />
+            tools:targetApi="n"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".UsbConnectionActivity"
             android:label="@string/app_name"
@@ -58,7 +62,8 @@
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
             android:theme="@style/AppTheme.NoActionBar"
-            tools:targetApi="n" />
+            tools:targetApi="n"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -72,13 +77,15 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
-            tools:targetApi="n" />
+            tools:targetApi="n"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".AboutActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
-            tools:targetApi="n" />
+            tools:targetApi="n"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity android:name=".NotificationArchiveActivity" />
 

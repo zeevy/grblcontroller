@@ -70,6 +70,8 @@ public class MachineStatusListener extends BaseObservable {
 	private int usbBaudRate = 115200;
 	private Boolean singleStepMode = false;
 
+	private String customStartUpString = "";
+
     private static MachineStatusListener machineStatus = null;
     public static MachineStatusListener getInstance(){
         if(machineStatus == null) machineStatus = new MachineStatusListener();
@@ -84,6 +86,13 @@ public class MachineStatusListener extends BaseObservable {
         this.state = STATE_NOT_CONNECTED;
         this.compileTimeOptions = new CompileTimeOptions(emptyString, Constants.DEFAULT_PLANNER_BUFFER, Constants.DEFAULT_SERIAL_RX_BUFFER);
         this.parserState = new ParserState("G0 G54 G17 G21 G90 G94");
+    }
+
+    @Bindable
+    public String getCustomStartUpString(){ return this.customStartUpString; }
+    public void setCustomStartUpString(String message){
+        this.customStartUpString = message;
+        notifyPropertyChanged(BR.customStartUpString);
     }
 
     @Bindable

@@ -123,7 +123,7 @@ public abstract class SerialCommunicationHandler extends Handler {
 
             MachineStatusListener.BuildInfo buildInfo = new MachineStatusListener.BuildInfo(versionDouble, versionLetter);
 
-            if (buildInfo.versionDouble == Constants.MIN_SUPPORTED_VERSION) {
+            if (buildInfo.versionDouble >= Constants.MIN_SUPPORTED_VERSION) {
                 machineStatus.setBuildInfo(buildInfo);
                 isVersionString = true;
             } else {
@@ -131,7 +131,11 @@ public abstract class SerialCommunicationHandler extends Handler {
                 EventBus.getDefault().post(new UiToastEvent(messageNotSupported));
                 EventBus.getDefault().post(new ConsoleMessageEvent(messageNotSupported));
             }
-        }else if(GrblUtils.isSmoothieBoard(message)){
+        }else if(GrblUtils.isSmoothieBoard(message)) {
+            isVersionString = true;
+
+        }else if(machineStatus.getCustomStartUpString().length() > 0
+                && message.toLowerCase().startsWith(machineStatus.getCustomStartUpString().toLowerCase())){
             isVersionString = true;
         }else{
             EventBus.getDefault().post(new ConsoleMessageEvent(message));

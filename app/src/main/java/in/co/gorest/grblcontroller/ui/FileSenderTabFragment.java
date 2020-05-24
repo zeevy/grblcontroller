@@ -441,6 +441,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
         new MaterialFilePicker()
                 .withActivity(getActivity())
+                .withCloseMenu(true)
                 .withRequestCode(Constants.FILE_PICKER_REQUEST_CODE)
                 .withHiddenFiles(false)
                 .withFilter(Pattern.compile(Constants.SUPPORTED_FILE_TYPES_STRING, Pattern.CASE_INSENSITIVE))
@@ -453,7 +454,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     private Boolean hasExternalStorageReadPermission(){
         boolean hasPermission = true;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(Objects.requireNonNull(getActivity()).checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if(requireActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 hasPermission = false;
             }
         }

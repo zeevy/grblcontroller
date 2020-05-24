@@ -87,7 +87,8 @@ public class SettingsActivity extends AppCompatActivity {
                     || key.equals(getString(R.string.preference_single_step_mode))
                     || key.equals(getString(R.string.usb_serial_baud_rate))
                     || key.equals(getString(R.string.preference_keep_screen_on))
-                    || key.equals(getString(R.string.preference_update_pool_interval))){
+                    || key.equals(getString(R.string.preference_update_pool_interval))
+                    || key.equals(getString(R.string.preference_start_up_string))){
                 EventBus.getDefault().post(new UiToastEvent("Application restart required", true, true));
             }
 
