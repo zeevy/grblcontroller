@@ -70,7 +70,7 @@ public class MachineStatusListener extends BaseObservable {
 	private int usbBaudRate = 115200;
 	private Boolean singleStepMode = false;
 
-	private Boolean allowAnyFirmware = false;
+	private String customStartUpString = "";
 
     private static MachineStatusListener machineStatus = null;
     public static MachineStatusListener getInstance(){
@@ -89,10 +89,10 @@ public class MachineStatusListener extends BaseObservable {
     }
 
     @Bindable
-    public Boolean getAllowAnyFirmware(){ return this.allowAnyFirmware; }
-    public void setAllowAnyFirmware(Boolean bol){
-        this.allowAnyFirmware = bol;
-        notifyPropertyChanged(BR.allowAnyFirmware);
+    public String getCustomStartUpString(){ return this.customStartUpString; }
+    public void setCustomStartUpString(String message){
+        this.customStartUpString = message;
+        notifyPropertyChanged(BR.customStartUpString);
     }
 
     @Bindable
