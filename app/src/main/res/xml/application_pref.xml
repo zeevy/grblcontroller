@@ -8,11 +8,12 @@
 
         <Preference android:title="@string/text_application_settings"/>
 
-        <EditTextPreference
+        <SwitchPreference
+            android:defaultValue="false"
             android:icon="@drawable/ic_settings_input_hdmi_black_24dp"
-            android:key="@string/preference_start_up_string"
-            android:title="Start up string"
-            android:summary="If you have custom firmware, enter start up string here"/>
+            android:key="@string/preference_force_enable"
+            android:title="Allow any firmware"
+            android:summary="Startup string must contain 'grbl' in the beginning (use with caution, this app is built only for grbl 1.1)"/>
 
         <ListPreference
             android:key="@string/preference_default_serial_connection_type"

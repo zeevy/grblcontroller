@@ -259,8 +259,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         machineStatus.setIgnoreError20(sharedPref.getBoolean(getString(R.string.preference_ignore_error_20), false));
         machineStatus.setUsbBaudRate(Integer.parseInt(sharedPref.getString(getString(R.string.usb_serial_baud_rate), Constants.USB_BAUD_RATE)));
         machineStatus.setSingleStepMode(sharedPref.getBoolean(getString(R.string.preference_single_step_mode), false));
-        machineStatus.setCustomStartUpString(sharedPref.getString(getString(R.string.preference_start_up_string), ""));
-
+        machineStatus.setAllowAnyFirmware(sharedPref.getBoolean(getString(R.string.preference_force_enable), false));
     }
 
     protected void setupTabLayout(){

@@ -121,6 +121,11 @@ public abstract class SerialCommunicationHandler extends Handler {
             double versionDouble = GrblUtils.getVersionDouble(message);
             Character versionLetter = GrblUtils.getVersionLetter(message);
 
+            if(machineStatus.getAllowAnyFirmware()){
+                versionDouble = 1.1;
+                versionLetter = 'f';
+            }
+
             MachineStatusListener.BuildInfo buildInfo = new MachineStatusListener.BuildInfo(versionDouble, versionLetter);
 
             if (buildInfo.versionDouble >= Constants.MIN_SUPPORTED_VERSION) {
@@ -134,9 +139,6 @@ public abstract class SerialCommunicationHandler extends Handler {
         }else if(GrblUtils.isSmoothieBoard(message)) {
             isVersionString = true;
 
-        }else if(machineStatus.getCustomStartUpString().length() > 0
-                && message.toLowerCase().startsWith(machineStatus.getCustomStartUpString().toLowerCase())){
-            isVersionString = true;
         }else{
             EventBus.getDefault().post(new ConsoleMessageEvent(message));
             Log.d(TAG, "MESSAGE NOT HANDLED: " + message);
