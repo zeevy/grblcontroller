@@ -11,8 +11,8 @@
         <EditTextPreference
             android:icon="@drawable/ic_settings_input_hdmi_black_24dp"
             android:key="@string/preference_start_up_string"
-            android:title="Start up string"
-            android:summary="If you have custom firmware, enter start up string here"/>
+            android:title="Grbl start up string"
+            android:summary="If you have custom firmware based on grbl 1.1, enter the full start up string here"/>
 
         <ListPreference
             android:key="@string/preference_default_serial_connection_type"
