@@ -498,7 +498,15 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
 
     private void sendJogCommand(String tag){
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
-            String units = machineStatus.getJogging().inches ? "G20" : "G21";
+
+            String units = "G21";
+            double jogFeed = machineStatus.getJogging().feed;
+
+            if(machineStatus.getJogging().inches){
+                units = "G20";
+                jogFeed = jogFeed / 25.4;
+            }
+
             Double stepSize;
             if(tag.toUpperCase().contains("Z")){
                 stepSize = machineStatus.getJogging().stepZ;
@@ -506,7 +514,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 stepSize = machineStatus.getJogging().stepXY;
             }
 
-            String jog = String.format(tag, units, stepSize, machineStatus.getJogging().feed);
+            String jog = String.format(tag, units, stepSize, jogFeed);
             EventBus.getDefault().post(new JogCommandEvent(jog));
         }else{
             EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
