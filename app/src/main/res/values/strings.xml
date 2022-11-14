@@ -395,6 +395,39 @@
     <string name="text_single_step_mode">Enable single step mode</string>
     <string name="text_single_step_mode_description">sends a line of gcode to grbl and waits for an OK or error: response message before sending the next line of gcode</string>
     <string name="text_warning_error_20">WARNING: You should not enable this unless you know what you are doing.</string>
+    <string name="preference_cam_feed_rate">1000</string>
+    <string name="preference_cam_z_traversal">6</string>
+    <string name="preference_cam_step_over">5</string>
+    <string name="text_cam_from_title">Facing</string>
+    <string name="text_cam_from_message">facing from</string>
+    <string name="text_cam_to_message">facing to</string>
+    <string name="text_cam_feedrate">facing feedrate</string>
+    <string name="text_cam_step_over">facing stepover</string>
+    <string name="text_cam_traversal">facing z traversal</string>
+    <string name="text_start_cam_calc">Start Facing</string>
+    <string name="text_start_cam_calc_desc">create a facing job by two point</string>
+    <string name="text_facing_zdeep">Z Deep</string>
+    <string name="preference_cam_z_deep">0.0</string>
+    <string name="preference_cam_z_step">0.0</string>
+    <string name="text_facing_zstep">set z step</string>
+    <string name="text_cam_to_title">cam to</string>
+    <string name="text_cam_help">"creare un percorso "</string>
+    <string name="preference_cam_tool_dia">10</string>
+    <string name="text_cam_tool_dia">tool diameter</string>
+
+    <string-array name="job_type_list">
+        <item>rectangle facing feeding X</item>
+        <item>rectangle facing feeding Y</item>
+        <item>rectangle offset in</item>
+        <item>rectangle offset out</item>
+        <item>circle facing in</item>
+        <item>circle facing out</item>
+        <item>rectangle engraving</item>
+        <item>circle engraving</item>
+        <item>rectangle profile with cornering</item>
+        <item>cut on line</item>
+    </string-array>
+
 
 
 </resources>

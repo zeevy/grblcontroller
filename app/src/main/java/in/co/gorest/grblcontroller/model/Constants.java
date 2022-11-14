@@ -42,7 +42,7 @@ public interface Constants {
     int FILE_PICKER_REQUEST_CODE        = 11;
 
     int CONSOLE_LOGGER_MAX_SIZE         = 256;
-    double DEFAULT_JOGGING_FEED_RATE    = 2400.0;
+    double DEFAULT_JOGGING_FEED_RATE    = 2000.0;
     int DEFAULT_PLANNER_BUFFER          = 15;
     int DEFAULT_SERIAL_RX_BUFFER        = 128;
     int PROBING_FEED_RATE               = 50;
@@ -77,4 +77,14 @@ public interface Constants {
 
     String TEXT_CATEGORY_UPDATE                     = "update";
     String TEXT_CATEGORY_LINK                       = "link";
+    String TEXT_CATEGORY_PROMOTION                  = "promotion";
+
+    String CAM_FEED_RATE = "1000.0" ;
+    String CAM_TRAVERSAL = "5.0" ;
+    String CAM_STEP_OVER = "5.0" ;
+    String CAM_GCODE_HEAD = "G17\nG90\nG21\nM7\nM8\nG21\n";
+    String CAM_GCODE_END = "M9\nM30\n";
+    String CAM_ZDEEP = "0.0";
+    String CAM_ZSTEP = "0.0";
+    String CAM_TOOL_DIA ="10.0" ;
 }

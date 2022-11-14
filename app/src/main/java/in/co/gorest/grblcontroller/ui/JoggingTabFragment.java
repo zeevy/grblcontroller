@@ -47,6 +47,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -69,6 +72,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private EnhancedSharedPreferences sharedPref;
     private BlockingQueue<Integer> completedCommands;
     private CustomCommandsAsyncTask customCommandsAsyncTask;
+    private String pointsCoords;
 
     public JoggingTabFragment() {}
 
@@ -218,6 +222,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 return;
 
             case R.id.run_homing_cycle:
+
                 if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_ALARM)){
                     new AlertDialog.Builder(getActivity())
                             .setTitle(getString(R.string.text_homing_cycle))
@@ -243,6 +248,31 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.custom_button_1:
+
+                pointsCoords+=String.valueOf( machineStatus.getWorkPosition().getCordX())+','+
+                        String.valueOf(machineStatus.getWorkPosition().getCordY())+','+
+                        String.valueOf(machineStatus.getWorkPosition().getCordZ())+"\n";
+
+                //System.out.println(pointsCoords);
+
+                File pointsFile;
+
+                pointsFile = new File(getActivity().getExternalFilesDir(null), "points.txt");
+
+                try {
+                    FileOutputStream fos = new FileOutputStream(pointsFile);
+                    fos.write(pointsCoords.getBytes());
+                    fos.flush();
+                    fos.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                EventBus.getDefault().post(new UiToastEvent("new points file at "+getActivity().getExternalFilesDir(null) , true, true));
+
+                break;
+
             case R.id.custom_button_2:
             case R.id.custom_button_3:
             case R.id.custom_button_4:
