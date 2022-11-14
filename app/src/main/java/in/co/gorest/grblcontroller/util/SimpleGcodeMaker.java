@@ -193,8 +193,8 @@ public  class SimpleGcodeMaker {
         for (int i=0; i<npass; i++) {
             o=offset * i;
             s += "G01X"+(quadR - o)+" Y"+this.ycenter+"\n";
-            s += "G02X"+(quadL + o)+"I"+(this.ray - o)+"J0.0\n";
-            s +="X"+(quadR - o)+"I-"+(this.ray - o)+"J0.0\n";
+            s += "G02X"+(quadL + o)+"I-"+(this.ray - o)+"J0.0\n";
+            s +="X"+(quadR - o)+"I"+(this.ray - o)+"J0.0\n";
         }
 
         return this.ZLoop(s,quadR,this.ycenter);
