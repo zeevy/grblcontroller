@@ -36,8 +36,8 @@ public class GrblProbeEvent {
     }
 
     private void parseProbeString(){
-        String parts[] = probeString.split(":");
-        String coordinates[] = parts[0].split(",");
+        String[] parts = probeString.split(":");
+        String[] coordinates = parts[0].split(",");
 
         this.probePosition = new Position(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]), Double.parseDouble(coordinates[2]));
         this.isProbeSuccess = parts[1].equals("1");

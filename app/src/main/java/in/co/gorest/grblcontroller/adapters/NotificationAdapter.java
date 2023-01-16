@@ -24,33 +24,30 @@
 package in.co.gorest.grblcontroller.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.List;
-import in.co.gorest.grblcontroller.BuildConfig;
 
+import in.co.gorest.grblcontroller.BuildConfig;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.model.GrblNotification;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
-    private static final String TAG = NotificationAdapter.class.getSimpleName();
-
-    private List<GrblNotification> dataSet;
-    private Context context;
+    private final List<GrblNotification> dataSet;
+    private final Context context;
 
     public NotificationAdapter(Context context, List<GrblNotification> grblNotifications){
         this.context = context;
@@ -69,7 +66,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         GrblNotification grblNotification = dataSet.get(position);
         holder.notificationTitle.setText(grblNotification.title);
         holder.notificationMessage.setText(grblNotification.message);
-        holder.notificationRecievedOn.setText(grblNotification.getNotificationTime());
+        holder.notificationReceivedOn.setText(grblNotification.getNotificationTime());
     }
 
     @Override
@@ -78,14 +75,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
-        private TextView notificationTitle, notificationMessage, notificationRecievedOn;
-        private IconTextView faTrash;
+        private final TextView notificationTitle;
+        private final TextView notificationMessage;
+        private final TextView notificationReceivedOn;
+        private final IconTextView faTrash;
 
         private ViewHolder(View itemView){
             super(itemView);
             notificationTitle       = itemView.findViewById(R.id.title_text);
             notificationMessage     = itemView.findViewById(R.id.message_text);
-            notificationRecievedOn  = itemView.findViewById(R.id.recieved_on_text);
+            notificationReceivedOn  = itemView.findViewById(R.id.recieved_on_text);
             faTrash                 = itemView.findViewById(R.id.delete_notification);
 
             faTrash.setOnClickListener(this);
@@ -96,11 +95,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public void onClick(View view){
 
             if(view.equals(faTrash)){
-                removeNotification(getAdapterPosition());
+                removeNotification(getAbsoluteAdapterPosition());
             }
 
             if(view.equals(notificationMessage)){
-                handleMessageClick(getAdapterPosition());
+                handleMessageClick(getAbsoluteAdapterPosition());
             }
         }
     }
@@ -110,7 +109,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         final GrblNotification notification = dataSet.get(position);
 
         if(notification.categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_UPDATE)){
-            int versionCode = Integer.valueOf(notification.categoryValue);
+            int versionCode = Integer.parseInt(notification.categoryValue);
             if(versionCode > BuildConfig.VERSION_CODE){
                 try {
                     this.context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.context.getPackageName())));
@@ -139,14 +138,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             new AlertDialog.Builder(this.context)
                     .setTitle(notification.title)
                     .setMessage(context.getString(R.string.text_delete_notification))
-                    .setPositiveButton(this.context.getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            notification.delete();
-                            dataSet.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, dataSet.size());
-                        }
+                    .setPositiveButton(this.context.getString(R.string.text_yes_confirm), (dialog, which) -> {
+                        notification.delete();
+                        dataSet.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, dataSet.size());
                     })
                     .setNegativeButton(this.context.getString(R.string.text_cancel), null)
                     .setCancelable(true)

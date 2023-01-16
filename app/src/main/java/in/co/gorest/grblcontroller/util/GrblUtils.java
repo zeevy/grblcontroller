@@ -22,6 +22,7 @@
 package in.co.gorest.grblcontroller.util;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,26 +59,22 @@ public class GrblUtils {
     private static final String GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS = "G53 G0 Z0";
 
     public static Boolean isGrblVersionString(final String response) {
-        Boolean version = response.toLowerCase().startsWith("grbl");
+        boolean version = response.toLowerCase().startsWith("grbl");
         return version && (getVersionDouble(response) != -1);
     }
 
-    public static Boolean isSmoothieBoard(final String response){
-        return response.toLowerCase().startsWith("smoothie") || response.toLowerCase().startsWith("carbide");
-    }
-
-    private final static String VERSION_DOUBLE_REGEX = "[0-9]*\\.[0-9]*";
+    private final static String VERSION_DOUBLE_REGEX = "\\d*\\.\\d*";
     private final static Pattern VERSION_DOUBLE_PATTERN = Pattern.compile(VERSION_DOUBLE_REGEX);
     public static double getVersionDouble(final String response) {
         double retValue = -1;
         Matcher matcher = VERSION_DOUBLE_PATTERN.matcher(response);
         if (matcher.find()) {
-            retValue = Double.parseDouble(matcher.group(0));
+            retValue = Double.parseDouble(Objects.requireNonNull(matcher.group(0)));
         }
         return retValue;
     }
 
-    private final static String VERSION_LETTER_REGEX = "(?<=[0-9]\\.[0-9])[a-zA-Z]";
+    private final static String VERSION_LETTER_REGEX = "(?<=\\d\\.\\d)[a-zA-Z]";
     private final static Pattern VERSION_LETTER_PATTERN = Pattern.compile(VERSION_LETTER_REGEX);
     public static Character getVersionLetter(final String response) {
         Character retValue = null;
@@ -85,7 +82,7 @@ public class GrblUtils {
         // Search for a version.
         Matcher matcher = VERSION_LETTER_PATTERN.matcher(response);
         if (matcher.find()) {
-            retValue = matcher.group(0).charAt(0);
+            retValue = Objects.requireNonNull(matcher.group(0)).charAt(0);
             //retValue = Double.parseDouble(matcher.group(0));
         }
 
@@ -99,7 +96,7 @@ public class GrblUtils {
 
     public static Double getToolLengthOffset(final String response){
         Matcher matcher = TLO_PATTERN.matcher(response);
-        return matcher.find() ? Double.valueOf(matcher.group(1)) : 0.0;
+        return matcher.find() ? Double.parseDouble(Objects.requireNonNull(matcher.group(1))) : 0.0;
     }
 
     private static final String PROBE_REGEX = "^\\[PRB:(.*)]$";
@@ -171,14 +168,17 @@ public class GrblUtils {
     public static Position getPositionFromStatusString(final String status, final Pattern pattern) {
         Matcher matcher = pattern.matcher(status);
         if (matcher.find()) {
-            return new Position(Double.parseDouble(matcher.group(1)), Double.parseDouble(matcher.group(2)), Double.parseDouble(matcher.group(3)));
+            return new Position(
+                    Double.parseDouble(Objects.requireNonNull(matcher.group(1))),
+                    Double.parseDouble(Objects.requireNonNull(matcher.group(2))),
+                    Double.parseDouble(Objects.requireNonNull(matcher.group(3)))
+            );
         }
         return null;
     }
 
-    public static ArrayList<String> getReturnToHomeCommands(Position currentPosition){
+    public static ArrayList<String> getReturnToHomeCommands(){
         ArrayList<String> commands = new ArrayList<>();
-        //if(currentPosition.getCordZ() != 0) commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS);
         commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_Z0_IN_MACHINE_CORDS);
         commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_XY);
         commands.add(GrblUtils.GCODE_RETURN_TO_ZERO_LOCATION_Z0);

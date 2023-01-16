@@ -61,10 +61,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String KEY_CHANNEL_TYPE            = "type";
     private static final String KEY_CATEGORY_NAME           = "category_name";
     private static final String KEY_CATEGORY_VALUE          = "category_value";
-    private static final String KEY_DATA_PLAYLOAD           = "playload";
+    private static final String KEY_DATA_PAYLOAD            = "payload";
 
     @Override
-    public void onNewToken(String refreshedToken) {
+    public void onNewToken(@NonNull String refreshedToken) {
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
         EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), getString(R.string.shared_preference_key));
@@ -148,7 +148,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_UPDATE)){
             assert categoryValue != null;
-            int versionCode = Integer.valueOf(categoryValue);
+            int versionCode = Integer.parseInt(categoryValue);
 
             if(versionCode > BuildConfig.VERSION_CODE){
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -193,7 +193,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String type = remoteMessage.getData().get(KEY_CHANNEL_TYPE);
         String categoryName = remoteMessage.getData().get(KEY_CATEGORY_NAME);
         String categoryValue = remoteMessage.getData().get(KEY_CATEGORY_VALUE);
-        String playLoad = remoteMessage.getData().get(KEY_DATA_PLAYLOAD);
+        String playLoad = remoteMessage.getData().get(KEY_DATA_PAYLOAD);
 
         if(title != null && message != null){
             GrblNotification notification = new GrblNotification(title, message, type, categoryName, categoryValue, playLoad);

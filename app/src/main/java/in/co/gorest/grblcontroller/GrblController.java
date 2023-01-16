@@ -33,7 +33,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GrblController extends SugarApp {
 
-    private final String TAG = GrblController.class.getSimpleName();
     private static GrblController grblController;
     private GoRestService goRestService;
 
@@ -44,13 +43,6 @@ public class GrblController extends SugarApp {
         configureCrashReporting();
 
         grblController = this;
-
-//        Picasso.Builder builder = new Picasso.Builder(this);
-//        builder.downloader(new OkHttp3Downloader(this, Integer.MAX_VALUE));
-//        Picasso picasso = builder.build();
-//        picasso.setIndicatorsEnabled(BuildConfig.DEBUG);
-//        picasso.setLoggingEnabled(BuildConfig.DEBUG);
-//        Picasso.setSingletonInstance(picasso);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Iconify.with(new FontAwesomeModule());

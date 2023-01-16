@@ -30,8 +30,6 @@ import in.co.gorest.grblcontroller.model.Position;
 
 public class MachineStatusListener extends BaseObservable {
 
-    private static final String TAG = MachineStatusListener.class.getSimpleName();
-
     private final String emptyString = "";
     private final Double DEFAULT_FEED_RATE          = Constants.DEFAULT_JOGGING_FEED_RATE;
 
@@ -62,8 +60,8 @@ public class MachineStatusListener extends BaseObservable {
     private EnabledPins enabledPins = new EnabledPins(emptyString);
     private AccessoryStates accessoryStates = new AccessoryStates(emptyString);
     private BuildInfo buildInfo = null;
-    private CompileTimeOptions compileTimeOptions = null;
-    private ParserState parserState = null;
+    private CompileTimeOptions compileTimeOptions;
+    private ParserState parserState;
     private Boolean verboseOutput = false;
 	private Boolean laserModeEnabled = false;
 	private Boolean ignoreError20 = false;

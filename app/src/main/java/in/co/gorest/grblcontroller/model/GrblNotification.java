@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class GrblNotification extends SugarRecord {
 
@@ -37,8 +38,8 @@ public class GrblNotification extends SugarRecord {
     public String type;
     public String categoryName;
     public String categoryValue;
-    public String playload;
-    public String recievedOn;
+    public String payload;
+    public String receivedOn;
     public String status;
 
     public GrblNotification(){}
@@ -46,18 +47,18 @@ public class GrblNotification extends SugarRecord {
     public GrblNotification(String title, String message){
         this.title = title;
         this.message = message;
-        this.recievedOn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+        this.receivedOn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         this.status = "unread";
     }
 
-    public GrblNotification(String title, String message, String type, String categoryName, String categoryValue, String playload){
+    public GrblNotification(String title, String message, String type, String categoryName, String categoryValue, String payload){
         this.title = title;
         this.message = message;
         this.type = type;
         this.categoryName = categoryName;
         this.categoryValue = categoryValue;
-        this.playload = playload;
-        this.recievedOn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+        this.payload = payload;
+        this.receivedOn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         this.status = "unread";
     }
 
@@ -76,20 +77,20 @@ public class GrblNotification extends SugarRecord {
     public void setCategoryValue(String categoryValue){ this.categoryValue = categoryValue; }
     public String getCategoryValue(){ return this.categoryValue; }
 
-    public void setPlayload(String playload){ this.playload = playload; }
-    public String getPlayload(){ return this.playload; }
+    public void setPayload(String payload){ this.payload = payload; }
+    public String getPayload(){ return this.payload; }
 
-    public void setRecievedOn(String recievedOn){ this.recievedOn = recievedOn; }
-    public String getRecievedOn(){ return this.recievedOn; }
+    public void setReceivedOn(String receivedOn){ this.receivedOn = receivedOn; }
+    public String getReceivedOn(){ return this.receivedOn; }
 
     public void setStatus(String status){ this.status = status; }
     public String getStatus(){ return this.status; }
 
     public String getNotificationTime(){
-        if(this.recievedOn != null){
+        if(this.receivedOn != null){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
             try {
-                return new SimpleDateFormat("d MMM, yyyy HH:mm:ss", Locale.ENGLISH).format(simpleDateFormat.parse(this.recievedOn));
+                return new SimpleDateFormat("d MMM, yyyy HH:mm:ss", Locale.ENGLISH).format(Objects.requireNonNull(simpleDateFormat.parse(this.receivedOn)));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

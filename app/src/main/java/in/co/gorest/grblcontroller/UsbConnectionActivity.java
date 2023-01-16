@@ -23,11 +23,11 @@
 
 package in.co.gorest.grblcontroller;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -36,7 +36,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -47,11 +46,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.ref.WeakReference;
-
 import in.co.gorest.grblcontroller.events.GrblSettingMessageEvent;
 import in.co.gorest.grblcontroller.events.JogCommandEvent;
-import in.co.gorest.grblcontroller.events.StreamingCompleteEvent;
 import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
@@ -60,8 +56,6 @@ import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class UsbConnectionActivity extends GrblActivity{
 
-    private static final String TAG = UsbConnectionActivity.class.getSimpleName();
-
     private GrblUsbSerialService grblUsbSerialService;
     private GrblServiceMessageHandler grblServiceMessageHandler;
     private boolean mBound = false;
@@ -69,7 +63,7 @@ public class UsbConnectionActivity extends GrblActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        grblServiceMessageHandler = new GrblServiceMessageHandler(this);
+        grblServiceMessageHandler = new GrblServiceMessageHandler();
 
         Intent intent = new Intent(getApplicationContext(), GrblUsbSerialService.class);
         bindService(intent, usbConnection, Context.BIND_AUTO_CREATE);
@@ -113,6 +107,7 @@ public class UsbConnectionActivity extends GrblActivity{
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -123,9 +118,7 @@ public class UsbConnectionActivity extends GrblActivity{
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
                         .setTitle("USB OTG Connection")
                         .setMessage("To connect or disconnect a device, just plug or unplug the usb cable.")
-                        .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) { }
-                        })
+                        .setPositiveButton(getString(R.string.text_ok), (dialog, which) -> { })
                         .setCancelable(false);
 
                 alertDialogBuilder.show();
@@ -137,15 +130,13 @@ public class UsbConnectionActivity extends GrblActivity{
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.text_grbl_soft_reset)
                             .setMessage(R.string.text_grbl_soft_reset_desc)
-                            .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if(FileStreamerIntentService.getIsServiceRunning()){
-                                        FileStreamerIntentService.setShouldContinue(false);
-                                        Intent intent = new Intent(getApplicationContext(), FileStreamerIntentService.class);
-                                        stopService(intent);
-                                    }
-                                    onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
+                            .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> {
+                                if(FileStreamerIntentService.getIsServiceRunning()){
+                                    FileStreamerIntentService.setShouldContinue(false);
+                                    Intent intent = new Intent(getApplicationContext(), FileStreamerIntentService.class);
+                                    stopService(intent);
                                 }
+                                onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
                             })
                             .setNegativeButton(getString(R.string.text_cancel), null)
                             .show();
@@ -173,24 +164,16 @@ public class UsbConnectionActivity extends GrblActivity{
      * This handler will be passed to UsbService. Data received from serial port is displayed through this handler
      */
     private static class GrblServiceMessageHandler extends Handler {
-        private final WeakReference<UsbConnectionActivity> mActivity;
 
-        public GrblServiceMessageHandler(UsbConnectionActivity activity) {
-            mActivity = new WeakReference<>(activity);
+        public GrblServiceMessageHandler() {
         }
 
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case GrblUsbSerialService.MESSAGE_FROM_SERIAL_PORT:
-                    String data = (String) msg.obj;
-
-                    break;
                 case GrblUsbSerialService.CTS_CHANGE:
-
-                    break;
                 case GrblUsbSerialService.DSR_CHANGE:
-
                     break;
             }
         }
@@ -246,7 +229,7 @@ public class UsbConnectionActivity extends GrblActivity{
             grblUsbSerialService = ((GrblUsbSerialService.UsbSerialBinder) service).getService();
             mBound = true;
             grblUsbSerialService.setMessageHandler(grblServiceMessageHandler);
-            grblUsbSerialService.setStatusUpdatePoolInterval(Long.valueOf(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
+            grblUsbSerialService.setStatusUpdatePoolInterval(Long.parseLong(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
         }
 
         @Override
@@ -284,7 +267,7 @@ public class UsbConnectionActivity extends GrblActivity{
         }
 
         if(event.getSetting().equals("$110") || event.getSetting().equals("$111") || event.getSetting().equals("$112")){
-            Double maxFeedRate = Double.parseDouble(event.getValue());
+            double maxFeedRate = Double.parseDouble(event.getValue());
             if(maxFeedRate > sharedPref.getDouble(getString(R.string.preference_jogging_max_feed_rate), machineStatus.getJogging().feed)){
                 sharedPref.edit().putDouble(getString(R.string.preference_jogging_max_feed_rate), maxFeedRate).apply();
             }

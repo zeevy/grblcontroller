@@ -2,6 +2,7 @@ package com.joanzapata.iconify.internal;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -30,7 +31,7 @@ public final class ParsingUtil {
         context = context.getApplicationContext();
 
         // Don't do anything related to iconify if text is null
-        if (text == null) return text;
+        if (text == null) return null;
 
         // Analyse the text and replace {} blocks with the appropriate character
         // Retain all transformations in the accumulator
@@ -100,7 +101,6 @@ public final class ParsingUtil {
         int startIndex = stringText.indexOf("{", start);
         if (startIndex == -1) return;
         int endIndex = stringText.indexOf("}", startIndex) + 1;
-        if (endIndex == -1) return;
         String expression = stringText.substring(startIndex + 1, endIndex - 1);
 
         // Split the expression and retrieve the icon key
@@ -142,12 +142,12 @@ public final class ParsingUtil {
             }
 
             // Look for an icon size
-            else if (stroke.matches("([0-9]*(\\.[0-9]*)?)dp")) {
-                iconSizePx = dpToPx(context, Float.valueOf(stroke.substring(0, stroke.length() - 2)));
-            } else if (stroke.matches("([0-9]*(\\.[0-9]*)?)sp")) {
-                iconSizePx = spToPx(context, Float.valueOf(stroke.substring(0, stroke.length() - 2)));
-            } else if (stroke.matches("([0-9]*)px")) {
-                iconSizePx = Integer.valueOf(stroke.substring(0, stroke.length() - 2));
+            else if (stroke.matches("(\\d*(\\.\\d*)?)dp")) {
+                iconSizePx = dpToPx(context, Float.parseFloat(stroke.substring(0, stroke.length() - 2)));
+            } else if (stroke.matches("(\\d*(\\.\\d*)?)sp")) {
+                iconSizePx = spToPx(context, Float.parseFloat(stroke.substring(0, stroke.length() - 2)));
+            } else if (stroke.matches("(\\d*)px")) {
+                iconSizePx = Integer.parseInt(stroke.substring(0, stroke.length() - 2));
             } else if (stroke.matches("@dimen/(.*)")) {
                 iconSizePx = getPxFromDimen(context, context.getPackageName(), stroke.substring(7));
                 if (iconSizePx < 0)
@@ -156,12 +156,12 @@ public final class ParsingUtil {
                 iconSizePx = getPxFromDimen(context, ANDROID_PACKAGE_NAME, stroke.substring(15));
                 if (iconSizePx < 0)
                     throw new IllegalArgumentException("Unknown resource " + stroke + " in \"" + fullText + "\"");
-            } else if (stroke.matches("([0-9]*(\\.[0-9]*)?)%")) {
-                iconSizeRatio = Float.valueOf(stroke.substring(0, stroke.length() - 1)) / 100f;
+            } else if (stroke.matches("(\\d*(\\.\\d*)?)%")) {
+                iconSizeRatio = Float.parseFloat(stroke.substring(0, stroke.length() - 1)) / 100f;
             }
 
             // Look for an icon color
-            else if (stroke.matches("#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})")) {
+            else if (stroke.matches("#([\\dA-Fa-f]{6}|[\\dA-Fa-f]{8})")) {
                 iconColor = Color.parseColor(stroke);
             } else if (stroke.matches("@color/(.*)")) {
                 iconColor = getColorFromResource(context, context.getPackageName(), stroke.substring(7));
@@ -186,6 +186,7 @@ public final class ParsingUtil {
         recursivePrepareSpannableIndexes(context, fullText, text, iconFontDescriptors, startIndex);
     }
 
+    @SuppressLint("DiscouragedApi")
     public static float getPxFromDimen(Context context, String packageName, String resName) {
         Resources resources = context.getResources();
         int resId = resources.getIdentifier(
@@ -195,6 +196,7 @@ public final class ParsingUtil {
         return resources.getDimension(resId);
     }
 
+    @SuppressLint("DiscouragedApi")
     public static int getColorFromResource(Context context, String packageName, String resName) {
         Resources resources = context.getResources();
         int resId = resources.getIdentifier(

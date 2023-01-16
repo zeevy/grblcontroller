@@ -1,7 +1,5 @@
 package in.co.gorest.grblcontroller.model;
 
-import android.util.Log;
-
 import com.orm.SugarRecord;
 import com.orm.query.Condition;
 import com.orm.query.Select;

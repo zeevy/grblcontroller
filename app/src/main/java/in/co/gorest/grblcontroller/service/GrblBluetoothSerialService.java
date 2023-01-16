@@ -22,6 +22,7 @@
 package in.co.gorest.grblcontroller.service;
 
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -136,7 +137,7 @@ public class GrblBluetoothSerialService extends Service{
             if(deviceAddress != null){
                 try{
                     BluetoothDevice device = mAdapter.getRemoteDevice(deviceAddress.toUpperCase());
-                    this.connect(device, false);
+                    this.connect(device);
                 }catch(IllegalArgumentException e){
                     EventBus.getDefault().post(new UiToastEvent(e.getMessage(), true, true));
                     disconnectService();
@@ -210,7 +211,7 @@ public class GrblBluetoothSerialService extends Service{
         updateUserInterfaceTitle();
     }
 
-    synchronized void connect(BluetoothDevice device, boolean secure) {
+    synchronized void connect(BluetoothDevice device) {
 
         // Cancel any thread attempting to make a connection
         if (mState == STATE_CONNECTING) {
@@ -227,12 +228,13 @@ public class GrblBluetoothSerialService extends Service{
         }
 
         // Start the thread to connect with the given device
-        mConnectThread = new ConnectThread(device, secure);
+        mConnectThread = new ConnectThread(device, false);
         mConnectThread.start();
         // Update UI title
         updateUserInterfaceTitle();
     }
 
+    @SuppressLint("MissingPermission")
     private synchronized void connected(BluetoothSocket socket, BluetoothDevice device, final String socketType) {
         // Cancel the thread that completed the connection
         if (mConnectThread != null) {
@@ -340,6 +342,7 @@ public class GrblBluetoothSerialService extends Service{
         private final BluetoothServerSocket mmServerSocket;
         private final String mSocketType;
 
+        @SuppressLint("MissingPermission")
         public AcceptThread(boolean secure) {
             BluetoothServerSocket tmp = null;
             mSocketType = secure ? "Secure" : "Insecure";
@@ -415,6 +418,7 @@ public class GrblBluetoothSerialService extends Service{
         private final BluetoothDevice mmDevice;
         private final String mSocketType;
 
+        @SuppressLint("MissingPermission")
         public ConnectThread(BluetoothDevice device, boolean secure) {
             mmDevice = device;
             BluetoothSocket tmp = null;
@@ -433,6 +437,7 @@ public class GrblBluetoothSerialService extends Service{
             mState = STATE_CONNECTING;
         }
 
+        @SuppressLint("MissingPermission")
         public void run() {
             Log.i(TAG, "BEGIN mConnectThread SocketType:" + mSocketType);
             setName("ConnectThread" + mSocketType);
@@ -550,7 +555,7 @@ public class GrblBluetoothSerialService extends Service{
     }
 
     public void serialWriteString(String s){
-        byte buffer[] = s.getBytes();
+        byte[] buffer = s.getBytes();
         this.serialWriteBytes(buffer);
         this.serialWriteBytes(BYTE_NEWLINE);
         serialBluetoothCommunicationHandler.obtainMessage(Constants.MESSAGE_WRITE, s.length(), -1, s).sendToTarget();
