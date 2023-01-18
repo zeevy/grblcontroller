@@ -1,0 +1,109 @@
+{
+  "project_info": {
+    "project_number": "785640354976",
+    "firebase_url": "https://grbl-controller.firebaseio.com",
+    "project_id": "grbl-controller",
+    "storage_bucket": "grbl-controller.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785640354976:android:333c3c1569ba40c5b405c5",
+        "android_client_info": {
+          "package_name": "com.siliconcircuits.tradingstocks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU3jDBtHS-FmsI0NHArpU0iCT-v6W0lOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785640354976-ol3fe7sdnmv2565n361cvvnicn6c6qi2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785640354976:android:52392fa51329f49f",
+        "android_client_info": {
+          "package_name": "in.co.gorest.grblcontroller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU3jDBtHS-FmsI0NHArpU0iCT-v6W0lOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785640354976-ol3fe7sdnmv2565n361cvvnicn6c6qi2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-4930099895671899~8705180010"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785640354976:android:243166355edd7594",
+        "android_client_info": {
+          "package_name": "in.co.gorest.grblcontroller.plus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785640354976-6hmblfhtgpsnj83glf5r8qn1809n8036.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.co.gorest.grblcontroller.plus",
+            "certificate_hash": "605667dadaf11f3de4199141467e2705672a90a9"
+          }
+        },
+        {
+          "client_id": "785640354976-9gr1qfc99hoc24p2fqd40876lq3pvia9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.co.gorest.grblcontroller.plus",
+            "certificate_hash": "8df89fde391c2397bddd85f9a0214436e4b05e77"
+          }
+        },
+        {
+          "client_id": "785640354976-e0oajmsvttmfcc8v1u0ns4khhj9tgnhq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.co.gorest.grblcontroller.plus",
+            "certificate_hash": "213a0bc235bea25ea0cead7996d95c03ec8d1193"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU3jDBtHS-FmsI0NHArpU0iCT-v6W0lOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785640354976-ol3fe7sdnmv2565n361cvvnicn6c6qi2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
