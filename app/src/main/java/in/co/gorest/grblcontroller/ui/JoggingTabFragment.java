@@ -97,7 +97,6 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             jogButton.setTag(joggingPadTags[jogPadIndex]);
             jogPadIndex++;
         }
-
     }
 
     @Override
@@ -330,19 +329,19 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         }
 
         if(resourceId == R.id.custom_button_2){
-            title = sharedPref.getString(getString(R.string.preference_custom_button_one), getString(R.string.text_value_na));
+            title = sharedPref.getString(getString(R.string.preference_custom_button_two), getString(R.string.text_value_na));
             commands = isLongClick ? sharedPref.getString(getString(R.string.preference_custom_button_two_long_click), "") : sharedPref.getString(getString(R.string.preference_custom_button_two_short_click), "");
             confirmFirst = sharedPref.getBoolean(getString(R.string.preference_custom_button_two_confirm), true);
         }
 
         if(resourceId == R.id.custom_button_3){
-            title = sharedPref.getString(getString(R.string.preference_custom_button_one), getString(R.string.text_value_na));
+            title = sharedPref.getString(getString(R.string.preference_custom_button_three), getString(R.string.text_value_na));
             commands = isLongClick ? sharedPref.getString(getString(R.string.preference_custom_button_three_long_click), "") : sharedPref.getString(getString(R.string.preference_custom_button_three_short_click), "");
             confirmFirst = sharedPref.getBoolean(getString(R.string.preference_custom_button_three_confirm), true);
         }
 
         if(resourceId == R.id.custom_button_4){
-            title = sharedPref.getString(getString(R.string.preference_custom_button_one), getString(R.string.text_value_na));
+            title = sharedPref.getString(getString(R.string.preference_custom_button_four), getString(R.string.text_value_na));
             commands = isLongClick ? sharedPref.getString(getString(R.string.preference_custom_button_four_long_click), "") : sharedPref.getString(getString(R.string.preference_custom_button_four_short_click), "");
             confirmFirst = sharedPref.getBoolean(getString(R.string.preference_custom_button_four_confirm), true);
         }

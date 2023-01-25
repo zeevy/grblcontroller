@@ -193,7 +193,8 @@
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tab_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp">
+                            android:layout_height="36dp"
+                            tools:ignore="SpeakableTextPresentCheck">
 
                         </com.google.android.material.tabs.TabLayout>
 
@@ -211,7 +212,8 @@
                             android:layout_height="fill_parent"
                             android:layout_below="@id/tab_layout_spacer"
                             android:background="@android:color/white"
-                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                            tools:ignore="SpeakableTextPresentCheck" />
 
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>

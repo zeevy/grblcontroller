@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -31,7 +32,7 @@
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:targetApi="q"
+        tools:targetApi="s"
         android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:name=".SplashActivity"
@@ -40,7 +41,7 @@
             android:supportsPictureInPicture="false"
             android:theme="@style/SplashTheme"
             tools:targetApi="n"
-            tools:ignore="LockedOrientationActivity"
+            tools:ignore="LockedOrientationActivity,NonResizeableActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,7 +57,7 @@
             android:supportsPictureInPicture="false"
             android:theme="@style/AppTheme.NoActionBar"
             tools:targetApi="n"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity,NonResizeableActivity" />
         <activity
             android:name=".UsbConnectionActivity"
             android:resizeableActivity="false"
@@ -64,7 +65,7 @@
             android:supportsPictureInPicture="false"
             android:theme="@style/AppTheme.NoActionBar"
             tools:targetApi="n"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity,NonResizeableActivity" />
         <activity
             android:name=".DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -72,21 +73,22 @@
             android:resizeableActivity="false"
             android:supportsPictureInPicture="false"
             android:theme="@android:style/Theme.Material.Light.Dialog"
-            tools:targetApi="n" />
+            tools:targetApi="n"
+            tools:ignore="NonResizeableActivity" />
         <activity
             android:name=".SettingsActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
             tools:targetApi="n"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity,NonResizeableActivity" />
         <activity
             android:name=".AboutActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
             tools:targetApi="n"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity,NonResizeableActivity" />
 
         <activity android:name=".NotificationArchiveActivity" />
 

@@ -80,7 +80,6 @@ import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
-import in.co.gorest.grblcontroller.service.MyFirebaseMessagingService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;
 import in.co.gorest.grblcontroller.util.GrblUtils;
@@ -130,10 +129,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         Iconify.with(new FontAwesomeModule());
         setupTabLayout();
         checkPowerManagement();
-
-        String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
-        boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
-        if(fcmToken != null && !tokenSent) MyFirebaseMessagingService.sendRegistrationToServer(fcmToken);
     }
 
     private boolean hasPaidVersion() {

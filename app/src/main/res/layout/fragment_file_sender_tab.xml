@@ -1,4 +1,5 @@
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -12,7 +13,6 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:layout_marginTop="4dp"
             android:layout_width="match_parent"
@@ -36,7 +36,8 @@
                     android:id="@+id/select_gcode_file"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
 
             </RelativeLayout>
 
@@ -74,14 +75,16 @@
                 tools:ignore="ObsoleteLayoutParam">
 
                 <TableRow>
+
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/enable_checking"
-                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on : @string/text_check_mode_off}'
-                        android:layout_weight="0.33"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on : @string/text_check_mode_off}'
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -197,61 +200,68 @@
                 <TableRow>
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 18dp @color/colorAccent} R100" : "{fa-rocket 16dp} R100"}'
                         android:id="@+id/rapid_overrides_reset"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 18dp @color/colorAccent} R100" : "{fa-rocket 16dp} R100"}'
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 18dp @color/colorAccent} R50" : "{fa-rocket 16dp} R50"}'
                         android:id="@+id/rapid_override_medium"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 18dp @color/colorAccent} R50" : "{fa-rocket 16dp} R50"}'
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 16dp} R25"}'
                         android:id="@+id/rapid_override_low"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 18dp @color/colorAccent} R25" : "{fa-rocket 16dp} R25"}'
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </TableRow>
 
                 <TableRow>
+
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on : @string/text_spindle_off}'
                         android:id="@+id/toggle_spindle"
-                        android:layout_weight="0.33"
-                        android:gravity="center"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:gravity="center"
+                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on : @string/text_spindle_off}'
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.flood ? @string/text_flood_on : @string/text_flood_off}'
                         android:id="@+id/toggle_flood_coolant"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:text='@{machineStatus.accessoryStates.flood ? @string/text_flood_on : @string/text_flood_off}'
+                        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.mist ? @string/text_mist_on : @string/text_mist_off}'
                         android:id="@+id/toggle_mist_coolant"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:text='@{machineStatus.accessoryStates.mist ? @string/text_mist_on : @string/text_mist_off}'
+                        tools:ignore="SpeakableTextPresentCheck" />
                 </TableRow>
 
             </TableLayout>

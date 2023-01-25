@@ -121,14 +121,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }else if(notification.categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_LINK)){
             this.context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(notification.categoryValue)));
 
-        }else if(notification.categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_PROMOTION)){
-            try {
-                this.context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus")));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                this.context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller.plus")));
-            }
         }
-
     }
 
     private void removeNotification(final int position){

@@ -24,9 +24,11 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/jog_inches"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp" />
 
     </RelativeLayout>
 
@@ -60,7 +62,7 @@
         android:layout_height="wrap_content"
         tools:ignore="ObsoleteLayoutParam">
 
-        <TableRow>
+        <TableRow tools:ignore="UselessParent">
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_xy_step_small"
@@ -69,7 +71,7 @@
                 android:layout_width="0dp"
                 android:text="XY: Low"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_xy_step_medium"
@@ -78,7 +80,7 @@
                 android:layout_width="0dp"
                 android:text="XY: Medium"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_xy_step_high"
@@ -87,7 +89,7 @@
                 android:layout_width="0dp"
                 android:text="XY: High"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
 
         </TableRow>
 
@@ -125,7 +127,7 @@
         android:layout_height="wrap_content"
         tools:ignore="ObsoleteLayoutParam">
 
-        <TableRow>
+        <TableRow tools:ignore="UselessParent">
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_z_step_small"
@@ -134,7 +136,7 @@
                 android:layout_width="0dp"
                 android:text="Z: Low"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_z_step_medium"
@@ -143,7 +145,7 @@
                 android:layout_width="0dp"
                 android:text="Z: Medium"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_z_step_high"
@@ -152,7 +154,7 @@
                 android:layout_width="0dp"
                 android:text="Z: High"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
 
         </TableRow>
 

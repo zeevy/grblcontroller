@@ -37,17 +37,6 @@ public class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onStart(){
-        super.onStart();
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-    }
-
-    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -61,5 +50,4 @@ public class BaseFragment extends Fragment {
         void onGcodeCommandReceived(String command);
         void onGrblRealTimeCommandReceived(byte command);
     }
-
 }

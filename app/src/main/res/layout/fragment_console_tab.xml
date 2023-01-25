@@ -34,10 +34,11 @@
                     android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/console_verbose_output"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </RelativeLayout>
 
@@ -109,7 +110,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content"
                         android:hint="gcode"
-                        tools:ignore="LabelFor" />
+                        tools:ignore="HardcodedText,LabelFor"
+                        android:autofillHints="" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:text="{fa-send 24dp @color/colorAccent}"

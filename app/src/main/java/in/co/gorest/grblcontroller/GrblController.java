@@ -27,20 +27,13 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.orm.SugarApp;
 
-import in.co.gorest.grblcontroller.network.GoRestService;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class GrblController extends SugarApp {
 
     private static GrblController grblController;
-    private GoRestService goRestService;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        configureCrashReporting();
 
         grblController = this;
 
@@ -51,22 +44,4 @@ public class GrblController extends SugarApp {
     public static synchronized GrblController getInstance(){
         return grblController;
     }
-
-    private void configureCrashReporting(){
-
-    }
-
-    public GoRestService getRetrofit(){
-        if(goRestService == null){
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://gorest.co.in")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            goRestService = retrofit.create(GoRestService.class);
-        }
-
-        return goRestService;
-    }
-
 }
