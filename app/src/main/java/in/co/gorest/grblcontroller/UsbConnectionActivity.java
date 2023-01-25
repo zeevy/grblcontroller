@@ -188,18 +188,18 @@ public class UsbConnectionActivity extends GrblActivity{
 
             String intentAction = intent.getAction();
             if(intentAction == null){
-                grblToast("Unknown error", true, true);
+                showToastMessage("Unknown error", true, true);
                 return;
             }
 
             switch (intentAction) {
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connected));
-                    grblToast(getString(R.string.text_usb_device_connected));
+                    showToastMessage(getString(R.string.text_usb_device_connected));
                     break;
                 case GrblUsbSerialService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_no_usb_permission);
-                    grblToast(getString(R.string.text_usb_permission_not_granted), true, true);
+                    showToastMessage(getString(R.string.text_usb_permission_not_granted), true, true);
                     break;
                 case GrblUsbSerialService.ACTION_NO_USB: // NO USB CONNECTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_no_usb_device);
@@ -212,12 +212,12 @@ public class UsbConnectionActivity extends GrblActivity{
                         FileStreamerIntentService.setShouldContinue(false);
                         stopService(new Intent(getApplicationContext(), FileStreamerIntentService.class));
                     }
-                    grblToast(getString(R.string.text_usb_device_disconnected), true, true);
+                    showToastMessage(getString(R.string.text_usb_device_disconnected), true, true);
                     break;
                 case GrblUsbSerialService.ACTION_USB_NOT_SUPPORTED: // USB NOT SUPPORTED
                     if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.text_usb_device_not_supported);
                     MachineStatusListener.getInstance().setState(Constants.MACHINE_STATUS_NOT_CONNECTED);
-                    grblToast(getString(R.string.text_usb_device_not_supported), true, true);
+                    showToastMessage(getString(R.string.text_usb_device_not_supported), true, true);
                     break;
             }
         }

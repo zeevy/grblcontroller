@@ -81,6 +81,7 @@ dependencies {
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
     implementation 'com.github.nbsp-team:MaterialFilePicker:85292dceb0'
     implementation 'com.github.satyan:sugar:1.5'
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
 
     annotationProcessor 'androidx.databinding:databinding-compiler:7.4.0'
 

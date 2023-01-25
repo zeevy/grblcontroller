@@ -27,6 +27,8 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.orm.SugarApp;
 
+import es.dmoral.toasty.Toasty;
+
 public class GrblController extends SugarApp {
 
     private static GrblController grblController;
@@ -39,6 +41,11 @@ public class GrblController extends SugarApp {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Iconify.with(new FontAwesomeModule());
+
+        Toasty.Config.getInstance()
+                .tintIcon(true)
+                .allowQueue(true)
+                .apply();
     }
 
     public static synchronized GrblController getInstance(){

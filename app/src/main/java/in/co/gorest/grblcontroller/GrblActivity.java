@@ -29,8 +29,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -43,7 +41,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,6 +61,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import es.dmoral.toasty.Toasty;
 import in.co.gorest.grblcontroller.databinding.ActivityMainBinding;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
 import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
@@ -95,9 +93,9 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     protected MachineStatusListener machineStatus = null;
     protected GrblBluetoothSerialService grblBluetoothSerialService = null;
 
-    String lastToastMessage = null;
-    private Toast toastMessage;
     public static boolean isAppRunning;
+
+    private Toast lastToast;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -117,7 +115,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         CardView viewLastToast = findViewById(R.id.view_last_toast);
         viewLastToast.setOnLongClickListener(view -> {
-            if(lastToastMessage != null) grblToast(lastToastMessage);
+            if(lastToast != null) lastToast.show();
             return true;
         });
 
@@ -152,27 +150,11 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         MachineStatusListener.resetClass();
         isAppRunning = false;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        lastToast = null;
     }
 
     @Override
     public void onBackPressed(){ moveTaskToBack(true); }
-
-    public void freeAppNotification(){
-        new AlertDialog.Builder(this)
-                .setTitle("Grbl Controller +")
-                .setMessage("for more exiting features like job resume, job history, in app documentation, jog pad rotation, haptic feedback, additional AB axis support etc.. upgrade today")
-                .setPositiveButton("Upgrade", (dialog, which) -> {
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus")));
-                    }
-                    catch (ActivityNotFoundException e) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller.plus")));
-                    }
-                })
-                .setNegativeButton("May be latter", null)
-                .setCancelable(false)
-                .show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -214,7 +196,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
                     startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
                 }catch (ActivityNotFoundException e){
-                    grblToast("No application available to perform this action!", true, true);
+                    showToastMessage("No application available to perform this action!", true, true);
                 }
 
                 return true;
@@ -313,35 +295,24 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
             onGcodeCommandReceived(command);
         }else{
-            grblToast(getString(R.string.text_machine_not_idle), true, true);
+            showToastMessage(getString(R.string.text_machine_not_idle), true, true);
         }
     }
 
-    protected void grblToast(String message){
-        this.grblToast(message, false, false);
+    protected void showToastMessage(String message){
+        this.showToastMessage(message, false, false);
     }
 
     @SuppressLint("ShowToast")
-    protected void grblToast(String message, Boolean longToast, Boolean isWarning){
-        if(toastMessage == null){
-            toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
-            toastMessage.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 120);
-            View view = toastMessage.getView();
-            view.setBackgroundResource(android.R.drawable.toast_frame);
-            TextView toastMessageText = view.findViewById(android.R.id.message);
-            toastMessageText.setTextColor(Color.parseColor("#ffffff"));
-        }
-
+    protected void showToastMessage(String message, Boolean longToast, Boolean isWarning){
         if(isWarning){
-            toastMessage.getView().setBackgroundColor(Color.parseColor("#d50000"));
+            lastToast = Toasty.warning(this, message, longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT, true);
         }else{
-            toastMessage.getView().setBackgroundColor(Color.parseColor("#646464"));
+            lastToast = Toasty.success(this, message, longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
         }
 
-        toastMessage.setDuration(longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
-        toastMessage.setText(message);
-        toastMessage.show();
-        this.lastToastMessage = message;
+        lastToast.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 120);
+        lastToast.show();
     }
 
     @Override
@@ -399,7 +370,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUiToastEvent(UiToastEvent event){
-        grblToast(event.getMessage(), event.getLongToast(), event.getIsWarning());
+        showToastMessage(event.getMessage(), event.getLongToast(), event.getIsWarning());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -73,7 +73,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
-            grblToast(getString(R.string.text_no_bluetooth_adapter));
+            showToastMessage(getString(R.string.text_no_bluetooth_adapter));
             restartInUsbMode();
         } else {
             Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
@@ -208,7 +208,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                     }
 
                 }else{
-                    grblToast(getString(R.string.text_bt_not_enabled));
+                    showToastMessage(getString(R.string.text_bt_not_enabled));
                 }
                 return true;
 
@@ -271,10 +271,10 @@ public class BluetoothConnectionActivity extends GrblActivity {
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     mActivity.get().mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    mActivity.get().grblToast(mActivity.get().getString(R.string.text_connected_to) + " " + mActivity.get().mConnectedDeviceName);
+                    mActivity.get().showToastMessage(mActivity.get().getString(R.string.text_connected_to) + " " + mActivity.get().mConnectedDeviceName);
                     break;
                 case Constants.MESSAGE_TOAST:
-                    mActivity.get().grblToast(msg.getData().getString(Constants.TOAST));
+                    mActivity.get().showToastMessage(msg.getData().getString(Constants.TOAST));
                     break;
             }
         }
