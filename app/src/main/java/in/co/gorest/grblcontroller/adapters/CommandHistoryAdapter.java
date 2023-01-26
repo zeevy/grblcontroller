@@ -14,7 +14,7 @@ import in.co.gorest.grblcontroller.model.CommandHistory;
 
 public class CommandHistoryAdapter extends RecyclerView.Adapter<CommandHistoryAdapter.ViewHolder>{
 
-    private List<CommandHistory> dataSet;
+    private final List<CommandHistory> dataSet;
     private View.OnClickListener onItemClickListener;
     private View.OnLongClickListener onLongClickListener;
 
@@ -22,7 +22,7 @@ public class CommandHistoryAdapter extends RecyclerView.Adapter<CommandHistoryAd
         this.dataSet = dataSet;
     }
 
-    public void setItemLongClickListner(View.OnLongClickListener longClickListener){
+    public void setItemLongClickListener(View.OnLongClickListener longClickListener){
         onLongClickListener = longClickListener;
     }
 
@@ -48,7 +48,7 @@ public class CommandHistoryAdapter extends RecyclerView.Adapter<CommandHistoryAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView commandText;
+        private final TextView commandText;
 
         public ViewHolder(View itemView){
             super(itemView);

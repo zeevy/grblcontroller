@@ -27,54 +27,28 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.orm.SugarApp;
 
-import in.co.gorest.grblcontroller.network.GoRestService;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import es.dmoral.toasty.Toasty;
 
 public class GrblController extends SugarApp {
 
-    private final String TAG = GrblController.class.getSimpleName();
     private static GrblController grblController;
-    private GoRestService goRestService;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        configureCrashReporting();
-
         grblController = this;
-
-//        Picasso.Builder builder = new Picasso.Builder(this);
-//        builder.downloader(new OkHttp3Downloader(this, Integer.MAX_VALUE));
-//        Picasso picasso = builder.build();
-//        picasso.setIndicatorsEnabled(BuildConfig.DEBUG);
-//        picasso.setLoggingEnabled(BuildConfig.DEBUG);
-//        Picasso.setSingletonInstance(picasso);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Iconify.with(new FontAwesomeModule());
+
+        Toasty.Config.getInstance()
+                .tintIcon(true)
+                .allowQueue(true)
+                .apply();
     }
 
     public static synchronized GrblController getInstance(){
         return grblController;
     }
-
-    private void configureCrashReporting(){
-
-    }
-
-    public GoRestService getRetrofit(){
-        if(goRestService == null){
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://gorest.co.in")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            goRestService = retrofit.create(GoRestService.class);
-        }
-
-        return goRestService;
-    }
-
 }

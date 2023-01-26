@@ -52,7 +52,7 @@ public class AboutActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.application_about);
             findPreference("pref_app_version").setSummary(BuildConfig.VERSION_NAME);
             if(this.hasPaidVersion()){
-                getPreferenceScreen().removePreference(findPreference("buy_grbl_controller_plus"));
+                getPreferenceScreen().removePreference(Objects.requireNonNull(findPreference("buy_grbl_controller_plus")));
             }
 
         }
@@ -63,7 +63,7 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         public boolean hasPaidVersion() {
-            PackageManager pm = Objects.requireNonNull(getActivity()).getPackageManager();
+            PackageManager pm = requireActivity().getPackageManager();
             try {
                 pm.getPackageInfo("in.co.gorest.grblcontroller.plus", PackageManager.GET_ACTIVITIES);
                 return true;

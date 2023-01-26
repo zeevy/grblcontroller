@@ -32,10 +32,11 @@
                     android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/console_verbose_output"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </RelativeLayout>
 
@@ -91,16 +92,18 @@
 
                     <EditText
                         android:id="@+id/command_input"
-                        android:padding="7dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.60"
+                        android:autofillHints=""
+                        android:background="@drawable/rounded_border_edit_text"
+                        android:inputType="textCapCharacters"
                         android:maxLength="78"
                         android:maxLines="1"
-                        android:inputType="textCapCharacters"
-                        android:layout_weight="0.60"
-                        android:background="@drawable/rounded_border_edit_text"
-                        android:layout_width="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content"
-                        tools:ignore="LabelFor" />
+                        android:minHeight="48dp"
+                        android:padding="7dp"
+                        tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:text="{fa-send 20sp @color/colorAccent}"
@@ -110,7 +113,7 @@
                         android:gravity="center"
                         android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:text="{fa-history 20sp @color/colorAccent}"
@@ -120,7 +123,7 @@
                         android:gravity="center"
                         android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                 </TableRow>
 

@@ -25,19 +25,16 @@ package in.co.gorest.grblcontroller.service;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import androidx.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.Objects;
 
 import in.co.gorest.grblcontroller.BuildConfig;
 import in.co.gorest.grblcontroller.GrblController;
@@ -47,10 +44,7 @@ import in.co.gorest.grblcontroller.events.FcmNotificationRecieved;
 import in.co.gorest.grblcontroller.helpers.EnhancedSharedPreferences;
 import in.co.gorest.grblcontroller.helpers.NotificationHelper;
 import in.co.gorest.grblcontroller.model.Constants;
-import in.co.gorest.grblcontroller.model.FcmToken;
 import in.co.gorest.grblcontroller.model.GrblNotification;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -61,10 +55,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String KEY_CHANNEL_TYPE            = "type";
     private static final String KEY_CATEGORY_NAME           = "category_name";
     private static final String KEY_CATEGORY_VALUE          = "category_value";
-    private static final String KEY_DATA_PLAYLOAD           = "playload";
+    private static final String KEY_DATA_PAYLOAD            = "payload";
 
     @Override
-    public void onNewToken(String refreshedToken) {
+    public void onNewToken(@NonNull String refreshedToken) {
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
         EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), getString(R.string.shared_preference_key));
@@ -73,8 +67,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_GENERAL_NAME);
         FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_BUG_TRACKER_NAME);
         FirebaseMessaging.getInstance().subscribeToTopic(NotificationHelper.CHANNEL_SERVICE_NAME);
-
-        sendRegistrationToServer(refreshedToken);
     }
 
     @Override
@@ -148,7 +140,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_UPDATE)){
             assert categoryValue != null;
-            int versionCode = Integer.valueOf(categoryValue);
+            int versionCode = Integer.parseInt(categoryValue);
 
             if(versionCode > BuildConfig.VERSION_CODE){
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -165,16 +157,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
             saveNotification(remoteMessage);
-
-        }else if(categoryName.equalsIgnoreCase(Constants.TEXT_CATEGORY_PROMOTION)){
-
-            if(!this.hasPaidVersion()){
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus"));
-                final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-                notificationHelper.getNotificationGeneral(notificationTitle, notificationMessage, pendingIntent);
-                saveNotification(remoteMessage);
-            }
 
         }else{
             Intent intent = new Intent(this, SplashActivity.class);
@@ -193,46 +175,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String type = remoteMessage.getData().get(KEY_CHANNEL_TYPE);
         String categoryName = remoteMessage.getData().get(KEY_CATEGORY_NAME);
         String categoryValue = remoteMessage.getData().get(KEY_CATEGORY_VALUE);
-        String playLoad = remoteMessage.getData().get(KEY_DATA_PLAYLOAD);
+        String playLoad = remoteMessage.getData().get(KEY_DATA_PAYLOAD);
 
         if(title != null && message != null){
             GrblNotification notification = new GrblNotification(title, message, type, categoryName, categoryValue, playLoad);
             notification.save();
             EventBus.getDefault().post(new FcmNotificationRecieved(notification));
         }
-    }
-
-    public static void sendRegistrationToServer(final String refreshedToken){
-
-        Log.d(TAG, refreshedToken);
-
-        GrblController.getInstance().getRetrofit().postFcmToken(new FcmToken(refreshedToken)).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
-                if(response.isSuccessful()){
-                    boolean isSaved = Objects.requireNonNull(response.body()).get("success").getAsBoolean();
-                    if(isSaved){
-                        EnhancedSharedPreferences sharedPreferences = EnhancedSharedPreferences.getInstance(GrblController.getInstance(), GrblController.getInstance().getString(R.string.shared_preference_key));
-                        sharedPreferences.edit().putBoolean(GrblController.getInstance().getString(R.string.firebase_cloud_messaging_token_sent), true).apply();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable throwable) {
-
-            }
-        });
-
-    }
-
-    private boolean hasPaidVersion() {
-        PackageManager pm = getPackageManager();
-        try {
-            pm.getPackageInfo("in.co.gorest.grblcontroller.plus", PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException ignored) {}
-
-        return false;
     }
 }

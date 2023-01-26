@@ -18,10 +18,9 @@ public class IconFontDescriptorWrapper {
 
     public IconFontDescriptorWrapper(IconFontDescriptor iconFontDescriptor) {
         this.iconFontDescriptor = iconFontDescriptor;
-        iconsByKey = new HashMap<String, Icon>();
+        iconsByKey = new HashMap<>();
         Icon[] characters = iconFontDescriptor.characters();
-        for (int i = 0, charactersLength = characters.length; i < charactersLength; i++) {
-            Icon icon = characters[i];
+        for (Icon icon : characters) {
             iconsByKey.put(icon.key(), icon);
         }
     }
@@ -44,6 +43,6 @@ public class IconFontDescriptorWrapper {
     }
 
     public boolean hasIcon(Icon icon) {
-        return iconsByKey.values().contains(icon);
+        return iconsByKey.containsValue(icon);
     }
 }

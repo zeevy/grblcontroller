@@ -25,37 +25,33 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import androidx.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
@@ -65,6 +61,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import es.dmoral.toasty.Toasty;
 import in.co.gorest.grblcontroller.databinding.ActivityMainBinding;
 import in.co.gorest.grblcontroller.events.ConsoleMessageEvent;
 import in.co.gorest.grblcontroller.events.GrblAlarmEvent;
@@ -81,7 +78,6 @@ import in.co.gorest.grblcontroller.listeners.MachineStatusListener;
 import in.co.gorest.grblcontroller.model.Constants;
 import in.co.gorest.grblcontroller.service.FileStreamerIntentService;
 import in.co.gorest.grblcontroller.service.GrblBluetoothSerialService;
-import in.co.gorest.grblcontroller.service.MyFirebaseMessagingService;
 import in.co.gorest.grblcontroller.ui.BaseFragment;
 import in.co.gorest.grblcontroller.ui.GrblFragmentPagerAdapter;
 import in.co.gorest.grblcontroller.util.GrblUtils;
@@ -92,17 +88,16 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    private static final String TAG = GrblActivity.class.getSimpleName();
-
     protected EnhancedSharedPreferences sharedPref;
     protected ConsoleLoggerListener consoleLogger = null;
     protected MachineStatusListener machineStatus = null;
     protected GrblBluetoothSerialService grblBluetoothSerialService = null;
 
-    String lastToastMessage = null;
-    private Toast toastMessage;
     public static boolean isAppRunning;
 
+    private Toast lastToast;
+
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,36 +114,19 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         binding.setMachineStatus(machineStatus);
 
         CardView viewLastToast = findViewById(R.id.view_last_toast);
-        viewLastToast.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if(lastToastMessage != null) grblToast(lastToastMessage);
-                return true;
-            }
+        viewLastToast.setOnLongClickListener(view -> {
+            if(lastToast != null) lastToast.show();
+            return true;
         });
 
         for(int resourceId: new Integer[]{R.id.wpos_edit_x, R.id.wpos_edit_y, R.id.wpos_edit_z}){
             IconTextView positionTextView = findViewById(resourceId);
-            positionTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setWorkPosition(v.getTag().toString());
-                }
-            });
+            positionTextView.setOnClickListener(v -> setWorkPosition(v.getTag().toString()));
         }
 
         Iconify.with(new FontAwesomeModule());
         setupTabLayout();
         checkPowerManagement();
-
-        String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
-        boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
-        if(fcmToken != null && !tokenSent) MyFirebaseMessagingService.sendRegistrationToServer(fcmToken);
-
-        if(!this.hasPaidVersion()){
-            freeAppNotification();
-        }
-
     }
 
     private boolean hasPaidVersion() {
@@ -172,29 +150,11 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         MachineStatusListener.resetClass();
         isAppRunning = false;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        lastToast = null;
     }
 
     @Override
     public void onBackPressed(){ moveTaskToBack(true); }
-
-    public void freeAppNotification(){
-        new AlertDialog.Builder(this)
-                .setTitle("Grbl Controller +")
-                .setMessage("for more exiting features like job resume, job history, in app documentation, jog pad rotation, haptic feedback, additional AB axis support etc.. upgrade today")
-                .setPositiveButton("Upgrade", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=in.co.gorest.grblcontroller.plus")));
-                        }
-                        catch (android.content.ActivityNotFoundException anfe) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=in.co.gorest.grblcontroller.plus")));
-                        }
-                    }
-                })
-                .setNegativeButton("May be latter", null)
-                .setCancelable(false)
-                .show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -208,6 +168,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -235,7 +196,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
                     startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
                 }catch (ActivityNotFoundException e){
-                    grblToast("No application available to perform this action!", true, true);
+                    showToastMessage("No application available to perform this action!", true, true);
                 }
 
                 return true;
@@ -303,8 +264,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     private void setWorkPosition(final String axisLabel){
         LayoutInflater inflater = LayoutInflater.from(this);
-        final ViewGroup nullParent = null;
-        View v = inflater.inflate(R.layout.dialog_input_decimal_signed, nullParent, false);
+        View v = inflater.inflate(R.layout.dialog_input_decimal_signed, null, false);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setView(v);
@@ -312,26 +272,19 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         alertDialogBuilder.setMessage(getString(R.string.test_set_cordinate_system_description, axisLabel));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal_signed);
-        if(axisLabel.toUpperCase().equals("X")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordX()));
-        if(axisLabel.toUpperCase().equals("Y")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordY()));
-        if(axisLabel.toUpperCase().equals("Z")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordZ()));
+        if(axisLabel.equalsIgnoreCase("X")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordX()));
+        if(axisLabel.equalsIgnoreCase("Y")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordY()));
+        if(axisLabel.equalsIgnoreCase("Z")) editText.setText(String.valueOf(machineStatus.getWorkPosition().getCordZ()));
         editText.setSelection(editText.getText().length());
 
         alertDialogBuilder.setCancelable(true)
-                .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String axisValue = editText.getText().toString();
-                        if(axisValue.length() > 0){
-                            sendCommandIfIdle("G10L20P0" + axisLabel + axisValue);
-                        }
+                .setPositiveButton(getString(R.string.text_ok), (dialog, id) -> {
+                    String axisValue = editText.getText().toString();
+                    if(axisValue.length() > 0){
+                        sendCommandIfIdle("G10L20P0" + axisLabel + axisValue);
                     }
                 })
-                .setNegativeButton(getString(R.string.text_cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                .setNegativeButton(getString(R.string.text_cancel), (dialog, id) -> dialog.cancel());
 
         AlertDialog dialog = alertDialogBuilder.create();
         if(dialog.getWindow() != null) dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -342,35 +295,24 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
             onGcodeCommandReceived(command);
         }else{
-            grblToast(getString(R.string.text_machine_not_idle), true, true);
+            showToastMessage(getString(R.string.text_machine_not_idle), true, true);
         }
     }
 
-    protected void grblToast(String message){
-        this.grblToast(message, false, false);
+    protected void showToastMessage(String message){
+        this.showToastMessage(message, false, false);
     }
 
     @SuppressLint("ShowToast")
-    protected void grblToast(String message, Boolean longToast, Boolean isWarning){
-        if(toastMessage == null){
-            toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
-            toastMessage.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 120);
-            View view = toastMessage.getView();
-            view.setBackgroundResource(android.R.drawable.toast_frame);
-            TextView toastMessageText = view.findViewById(android.R.id.message);
-            toastMessageText.setTextColor(Color.parseColor("#ffffff"));
-        }
-
+    protected void showToastMessage(String message, Boolean longToast, Boolean isWarning){
         if(isWarning){
-            toastMessage.getView().setBackgroundColor(Color.parseColor("#d50000"));
+            lastToast = Toasty.warning(this, message, longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT, true);
         }else{
-            toastMessage.getView().setBackgroundColor(Color.parseColor("#646464"));
+            lastToast = Toasty.success(this, message, longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
         }
 
-        toastMessage.setDuration(longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
-        toastMessage.setText(message);
-        toastMessage.show();
-        this.lastToastMessage = message;
+        lastToast.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 120);
+        lastToast.show();
     }
 
     @Override
@@ -396,14 +338,12 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.text_power_management_warning_title))
                         .setMessage(getString(R.string.text_power_management_warning_description))
-                        .setPositiveButton(getString(R.string.text_settings), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    Intent myIntent = new Intent();
-                                    myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                                    startActivity(myIntent);
-                                } catch (RuntimeException ignored) {}
-                            }
+                        .setPositiveButton(getString(R.string.text_settings), (dialog, which) -> {
+                            try {
+                                Intent myIntent = new Intent();
+                                myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                                startActivity(myIntent);
+                            } catch (RuntimeException ignored) {}
                         })
                         .setNegativeButton(getString(R.string.text_cancel), null)
                         .setCancelable(false)
@@ -430,7 +370,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUiToastEvent(UiToastEvent event){
-        grblToast(event.getMessage(), event.getLongToast(), event.getIsWarning());
+        showToastMessage(event.getMessage(), event.getLongToast(), event.getIsWarning());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
