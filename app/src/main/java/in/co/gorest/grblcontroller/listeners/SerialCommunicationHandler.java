@@ -115,7 +115,7 @@ public abstract class SerialCommunicationHandler extends Handler {
             machineStatus.setToolLengthOffset(GrblUtils.getToolLengthOffset(message));
             EventBus.getDefault().post(new ConsoleMessageEvent(message));
 
-        }else if(machineStatus.getCustomStartUpString().length() > 0 && message.toLowerCase() == machineStatus.getCustomStartUpString().toLowerCase()){
+        }else if(machineStatus.getCustomStartUpString().length() > 0 && message.equalsIgnoreCase(machineStatus.getCustomStartUpString())){
             EventBus.getDefault().post(new ConsoleMessageEvent(message));
             MachineStatusListener.BuildInfo buildInfo = new MachineStatusListener.BuildInfo(1.1, 'f');
             machineStatus.setBuildInfo(buildInfo);
@@ -150,9 +150,9 @@ public abstract class SerialCommunicationHandler extends Handler {
         Position MPos = null;
         Position WPos = null;
         Position WCO = null;
-        Boolean hasOverrides = false;
-        Boolean enabledPinsChanged = false;
-        Boolean accessoryStatesChanged = false;
+        boolean hasOverrides = false;
+        boolean enabledPinsChanged = false;
+        boolean accessoryStatesChanged = false;
 
         for (String part : statusMessage.substring(0, statusMessage.length()-1).split("\\|")) {
 

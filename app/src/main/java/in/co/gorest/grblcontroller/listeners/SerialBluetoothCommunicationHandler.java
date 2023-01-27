@@ -60,12 +60,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
                 if(msg.arg1 > 0){
                     final String message = (String) msg.obj;
                     if(!singleThreadExecutor.isShutdown()){
-                        singleThreadExecutor.submit(new Runnable() {
-                            @Override
-                            public void run() {
-                                onBluetoothSerialRead(message.trim(), grblBluetoothSerialService);
-                            }
-                        });
+                        singleThreadExecutor.submit(() -> onBluetoothSerialRead(message.trim(), grblBluetoothSerialService));
                     }
                 }
                 break;
@@ -88,12 +83,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
 
             long delayMillis = grblBluetoothSerialService.getStatusUpdatePoolInterval();
             for(final String startUpCommand: this.getStartUpCommands()){
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        grblBluetoothSerialService.serialWriteString(startUpCommand);
-                    }
-                }, delayMillis);
+                handler.postDelayed(() -> grblBluetoothSerialService.serialWriteString(startUpCommand), delayMillis);
 
                 delayMillis = delayMillis + grblBluetoothSerialService.getStatusUpdatePoolInterval();
             }
@@ -108,12 +98,7 @@ public class SerialBluetoothCommunicationHandler extends SerialCommunicationHand
         stopGrblStatusUpdateService();
 
         grblStatusUpdater = Executors.newScheduledThreadPool(1);
-        grblStatusUpdater.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                grblBluetoothSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
-            }
-        }, grblBluetoothSerialService.getStatusUpdatePoolInterval(), grblBluetoothSerialService.getStatusUpdatePoolInterval(), TimeUnit.MILLISECONDS);
+        grblStatusUpdater.scheduleWithFixedDelay(() -> grblBluetoothSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND), grblBluetoothSerialService.getStatusUpdatePoolInterval(), grblBluetoothSerialService.getStatusUpdatePoolInterval(), TimeUnit.MILLISECONDS);
 
     }
 

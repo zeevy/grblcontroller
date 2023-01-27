@@ -45,6 +45,7 @@
 
 package in.co.gorest.grblcontroller.service;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -69,6 +70,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -83,8 +85,6 @@ import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class GrblUsbSerialService extends Service {
-
-    private final String TAG = GrblUsbSerialService.class.getSimpleName();
 
     public static final String ACTION_USB_READY = "com.felhr.connectivityservices.USB_READY";
     public static final String ACTION_USB_ATTACHED = "android.hardware.usb.action.USB_DEVICE_ATTACHED";
@@ -203,20 +203,13 @@ public class GrblUsbSerialService extends Service {
         public void onReceivedData(byte[] arg0) {
             try{
                 int newLineIndex;
-                rxBuffer.append(new String(arg0, "UTF-8"));
+                rxBuffer.append(new String(arg0, StandardCharsets.UTF_8));
 
                 while((newLineIndex = rxBuffer.indexOf("\n")) != -1){
                     String readMessage = rxBuffer.substring(0, newLineIndex);
                     rxBuffer.delete(0, newLineIndex+1);
                     serialUsbCommunicationHandler.obtainMessage(Constants.MESSAGE_READ, readMessage.length(), -1, readMessage).sendToTarget();
                 }
-
-//                int newLineIndex  = rxBuffer.indexOf("\n");
-//                if(newLineIndex > 0){
-//                    String readMessage = rxBuffer.substring(0, newLineIndex);
-//                    rxBuffer.delete(0, newLineIndex+1);
-//                    serialUsbCommunicationHandler.obtainMessage(Constants.MESSAGE_READ, readMessage.length(), -1, readMessage).sendToTarget();
-//                }
 
             }catch (Exception ignored){
 
@@ -228,7 +221,7 @@ public class GrblUsbSerialService extends Service {
     /*
      * State changes in the CTS line will be received here
      */
-    private UsbSerialInterface.UsbCTSCallback ctsCallback = new UsbSerialInterface.UsbCTSCallback() {
+    private final UsbSerialInterface.UsbCTSCallback ctsCallback = new UsbSerialInterface.UsbCTSCallback() {
         @Override
         public void onCTSChanged(boolean state) {
             if(mHandler != null) mHandler.obtainMessage(CTS_CHANGE).sendToTarget();
@@ -238,7 +231,7 @@ public class GrblUsbSerialService extends Service {
     /*
      * State changes in the DSR line will be received here
      */
-    private UsbSerialInterface.UsbDSRCallback dsrCallback = new UsbSerialInterface.UsbDSRCallback() {
+    private final UsbSerialInterface.UsbDSRCallback dsrCallback = new UsbSerialInterface.UsbDSRCallback() {
         @Override
         public void onDSRChanged(boolean state) {
             if(mHandler != null) mHandler.obtainMessage(DSR_CHANGE).sendToTarget();
@@ -329,6 +322,7 @@ public class GrblUsbSerialService extends Service {
     /*
      * Request user permission. The response will be received in the BroadcastReceiver
      */
+    @SuppressLint("UnspecifiedImmutableFlag")
     private void requestUserPermission() {
         PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
         usbManager.requestPermission(device, mPendingIntent);
@@ -384,13 +378,13 @@ public class GrblUsbSerialService extends Service {
                 } else {
                     // Serial port could not be opened, maybe an I/O error or if CDC driver was chosen, it does not really fit
                     // Send an Intent to Main Activity
+                    Intent intent;
                     if (serialPort instanceof CDCSerialDevice) {
-                        Intent intent = new Intent(ACTION_CDC_DRIVER_NOT_WORKING);
-                        context.sendBroadcast(intent);
+                        intent = new Intent(ACTION_CDC_DRIVER_NOT_WORKING);
                     } else {
-                        Intent intent = new Intent(ACTION_USB_DEVICE_NOT_WORKING);
-                        context.sendBroadcast(intent);
+                        intent = new Intent(ACTION_USB_DEVICE_NOT_WORKING);
                     }
+                    context.sendBroadcast(intent);
                 }
             } else {
                 // No driver for given device, even generic CDC driver could not be loaded

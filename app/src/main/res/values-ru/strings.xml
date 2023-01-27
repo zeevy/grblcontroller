@@ -216,7 +216,7 @@
     <string name="text_usb_connection_baud_rate">Коэффициент бода подключения Usb</string>
     <string name="text_remember_file_location">Запомнить местоположение файла</string>
     <string name="text_remember_file_location_desc">открывает сборщик с последним используемым местоположением файла</string>
-    <string name="text_joggin_preferenes">Предпочтения бегом</string>
+    <string name="text_jogging_preferences">Предпочтения бегом</string>
     <string name="test_set_cordinate_system">Установить координационную систему G10 L20 P0 %s-</string>
     <string name="test_set_cordinate_system_description">изменение местоположения оси %s в текущей системе координат к заданной стоимости</string>
     <string name="text_delete_command_history_confirm">Вы хотите удалить эту команду из истории?</string>

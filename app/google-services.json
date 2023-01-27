@@ -1,0 +1,36 @@
+{
+  "project_info": {
+    "project_number": "785640354976",
+    "firebase_url": "https://grbl-controller.firebaseio.com",
+    "project_id": "grbl-controller",
+    "storage_bucket": "grbl-controller.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785640354976:android:52392fa51329f49f",
+        "android_client_info": {
+          "package_name": "in.co.gorest.grblcontroller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU3jDBtHS-FmsI0NHArpU0iCT-v6W0lOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785640354976-ol3fe7sdnmv2565n361cvvnicn6c6qi2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-4930099895671899~8705180010"
+    }
+  ],
+  "configuration_version": "1"
+}

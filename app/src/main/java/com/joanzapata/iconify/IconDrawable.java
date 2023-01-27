@@ -1,5 +1,6 @@
 package com.joanzapata.iconify;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
@@ -198,6 +199,7 @@ public class IconDrawable extends Drawable {
         paint.setColorFilter(null);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     public int getOpacity() {
         return this.alpha;

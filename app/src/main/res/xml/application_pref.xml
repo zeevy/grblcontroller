@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:custom="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceScreen
         android:key="application_preferences_flashcard"
@@ -40,7 +41,7 @@
             android:summary="@string/text_auto_connect_desc" />
 
         <SwitchPreference
-            android:icon="@drawable/ic_swap_horiz_black_24dp"
+            android:icon="@drawable/ic_swap_horizontal_black_24dp"
             android:key="@string/preference_single_step_mode"
             android:title="@string/text_single_step_mode"
             android:summary="@string/text_single_step_mode_description"
@@ -65,10 +66,10 @@
     <PreferenceScreen
         android:key="jogging_preferences_flashcard"
         android:icon="@drawable/ic_open_with_black_24dp"
-        android:title="@string/text_joggin_preferenes"
+        android:title="@string/text_jogging_preferences"
         android:summary="customize jogging panel preferences">
 
-        <Preference android:title="@string/text_joggin_preferenes"/>
+        <Preference android:title="@string/text_jogging_preferences"/>
 
         <in.co.gorest.grblcontroller.helpers.NumberPickerPreference
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
@@ -160,7 +161,8 @@
             android:key="custom_button_flashcard"
             android:icon="@drawable/ic_keyboard_black_24dp"
             android:title="Custom buttons"
-            android:summary="configure custom buttons and their behaviour">
+            android:summary="configure custom buttons and their behaviour"
+            tools:ignore="PrivateResource">
 
             <Preference android:title="Custom Buttons Configuration"/>
 
@@ -169,7 +171,8 @@
                 android:icon="@drawable/ic_keyboard_black_24dp"
                 android:title="@string/text_enable_custom_buttons"
                 android:defaultValue="false"
-                android:summary="@string/text_enable_custom_buttons_desc" />
+                android:summary="@string/text_enable_custom_buttons_desc"
+                tools:ignore="PrivateResource" />
 
             <PreferenceScreen android:dependency="@string/preference_enable_custom_buttons"
                 android:key="custom_button_1_flashcard"

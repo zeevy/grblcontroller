@@ -18,24 +18,28 @@
 
             <RelativeLayout
                 android:id="@+id/probing_help"
-                android:padding="4dp"
-                android:clickable="true" android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="48dp"
+                android:padding="4dp"
+                tools:targetApi="m"
+                tools:ignore="UnusedAttribute">
 
                 <com.joanzapata.iconify.widget.IconTextView
-                    android:text="@string/text_probing_tab_heading"
-                    android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/text_probing_tab_heading"
                     tools:ignore="RelativeOverlap" />
 
                 <TextView
-                    android:text="G38.3 | G43.1"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="G38.3 | G43.1"
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
@@ -44,78 +48,90 @@
 
             <RelativeLayout
                 android:id="@+id/probing_feed_rate_view"
-                android:clickable="true" android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="4dp"
-                android:layout_marginBottom="4dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="48dp"
+                android:padding="4dp"
+                tools:targetApi="m"
+                tools:ignore="UnusedAttribute">
 
                 <TextView
-                    android:layout_toStartOf="@+id/probing_feed_rate"
-                    android:text="@string/text_probing_feed_rate"
-                    android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/probing_feed_rate"
+                    android:text="@string/text_probing_feed_rate" />
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_feed_rate"
-                    android:text="10"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="10"
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/probing_plate_thickness_view"
-                android:clickable="true" android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="4dp"
-                android:layout_marginBottom="4dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="48dp"
+                android:padding="4dp"
+                tools:targetApi="m"
+                tools:ignore="UnusedAttribute">
 
                 <TextView
-                    android:layout_toStartOf="@+id/probing_plate_thickness"
-                    android:text="@string/text_touch_plate_thickness"
-                    android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/probing_plate_thickness"
+                    android:text="@string/text_touch_plate_thickness" />
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_plate_thickness"
-                    android:text="2.0"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="2.0"
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/probing_distance_view"
-                android:clickable="true" android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="4dp"
-                android:layout_marginBottom="4dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="48dp"
+                android:padding="4dp"
+                tools:targetApi="m"
+                tools:ignore="UnusedAttribute">
 
                 <TextView
-                    android:layout_toStartOf="@+id/probing_distance"
-                    android:text="@string/text_distance_to_probe"
-                    android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/probing_distance"
+                    android:text="@string/text_distance_to_probe" />
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_distance"
-                    android:text="5"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="5"
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
@@ -179,10 +195,11 @@
                     android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/auto_zero_after_probe"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </RelativeLayout>
 
@@ -202,7 +219,7 @@
                         android:layout_weight="0.33"
                         android:id="@+id/start_probe"
                         android:text="@string/text_start_probe"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
 
                     <com.joanzapata.iconify.widget.IconButton
@@ -210,7 +227,7 @@
                         android:layout_weight="0.33"
                         android:id="@+id/start_tool_length_offset"
                         android:text="@string/probe_plus_tlo"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
 
                     <com.joanzapata.iconify.widget.IconButton
@@ -218,7 +235,7 @@
                         android:layout_weight="0.33"
                         android:id="@+id/cancel_tool_offset"
                         android:text="TLO {fa-times 16dp}"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         tools:ignore="HardcodedText" />
 

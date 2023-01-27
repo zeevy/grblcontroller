@@ -1,4 +1,5 @@
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -12,7 +13,6 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
@@ -76,16 +76,18 @@
                 tools:ignore="ObsoleteLayoutParam">
 
                 <TableRow>
+
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/enable_checking"
-                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on_large : @string/text_check_mode_off_large}'
-                        android:layout_weight="0.33"
-                        android:textSize="24sp"
-                        android:padding="16dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_width="0dp"/>
+                        android:padding="16dp"
+                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on_large : @string/text_check_mode_off_large}'
+                        android:textSize="24sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -97,7 +99,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -109,7 +111,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                 </TableRow>
 
@@ -128,7 +130,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -140,7 +142,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -152,7 +154,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -164,7 +166,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                 </TableRow>
 
@@ -182,7 +184,7 @@
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -193,7 +195,7 @@
                         android:layout_weight="0.25" android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -205,7 +207,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
@@ -217,7 +219,7 @@
                         android:layout_width="0dp"
                         android:gravity="center"
                         android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
                 </TableRow>
 
@@ -228,37 +230,40 @@
                 <TableRow>
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 24dp @color/colorAccent} R100" : "{fa-rocket 24dp} R100"}'
-                        android:padding="16dp"
-                        android:textSize="24sp"
                         android:id="@+id/rapid_overrides_reset"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:padding="16dp"
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 100 ? "{fa-rocket 24dp @color/colorAccent} R100" : "{fa-rocket 24dp} R100"}'
+                        android:textSize="24sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 24dp @color/colorAccent} R50" : "{fa-rocket 24dp} R50"}'
-                        android:padding="16dp"
-                        android:textSize="24sp"
                         android:id="@+id/rapid_override_medium"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:padding="16dp"
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 50 ? "{fa-rocket 24dp @color/colorAccent} R50" : "{fa-rocket 24dp} R50"}'
+                        android:textSize="24sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 24dp @color/colorAccent} R25" : "{fa-rocket 24dp} R25"}'
-                        android:padding="16dp"
-                        android:textSize="24sp"
                         android:id="@+id/rapid_override_low"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:padding="16dp"
+                        android:text='@{safeUnbox(machineStatus.overridePercents.rapid) == 25 ? "{fa-rocket 24dp @color/colorAccent} R25" : "{fa-rocket 24dp} R25"}'
+                        android:textSize="24sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintButtonSize" />
 
                 </TableRow>
 
@@ -267,38 +272,42 @@
                 </TableRow>
 
                 <TableRow>
+
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on_large : @string/text_spindle_off_large}'
-                        android:padding="16dp"
-                        android:textSize="24sp"
                         android:id="@+id/toggle_spindle"
-                        android:layout_weight="0.33"
-                        android:gravity="center"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on_large : @string/text_spindle_off_large}'
+                        android:textSize="24sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.flood ? @string/text_flood_on_large : @string/text_flood_off_large}'
-                        android:padding="16dp"
-                        android:textSize="24sp"
                         android:id="@+id/toggle_flood_coolant"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:padding="16dp"
+                        android:text='@{machineStatus.accessoryStates.flood ? @string/text_flood_on_large : @string/text_flood_off_large}'
+                        android:textSize="24sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintButtonSize" />
 
                     <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{machineStatus.accessoryStates.mist ? @string/text_mist_on_large : @string/text_mist_off_large}'
-                        android:padding="16dp"
-                        android:textSize="24sp"
                         android:id="@+id/toggle_mist_coolant"
-                        android:layout_weight="0.33"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:gravity="center"
-                        android:layout_height="wrap_content"/>
+                        android:padding="16dp"
+                        android:text='@{machineStatus.accessoryStates.mist ? @string/text_mist_on_large : @string/text_mist_off_large}'
+                        android:textSize="24sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintButtonSize" />
                 </TableRow>
 
             </TableLayout>

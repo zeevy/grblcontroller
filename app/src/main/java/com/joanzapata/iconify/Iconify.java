@@ -11,7 +11,7 @@ import java.util.List;
 public class Iconify {
 
     /** List of icon font descriptors */
-    private static List<IconFontDescriptorWrapper> iconFontDescriptors = new ArrayList<IconFontDescriptorWrapper>();
+    private static final List<IconFontDescriptorWrapper> iconFontDescriptors = new ArrayList<>();
 
     /**
      * Add support for a new icon font.

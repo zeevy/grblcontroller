@@ -27,7 +27,7 @@ import in.co.gorest.grblcontroller.model.GrblNotification;
 
 public class FcmNotificationRecieved {
 
-    private GrblNotification grblNotification;
+    private final GrblNotification grblNotification;
 
     public FcmNotificationRecieved(GrblNotification grblNotification){
         this.grblNotification = grblNotification;

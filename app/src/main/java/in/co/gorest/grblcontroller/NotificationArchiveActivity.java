@@ -75,7 +75,7 @@ public class NotificationArchiveActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                String limit = String.valueOf(page * 10) + ", 10";
+                String limit = page * 10 + ", 10";
                 List<GrblNotification> moreItems = GrblNotification.find(GrblNotification.class, null, null, null, "id DESC", limit);
                 dataSet.addAll(moreItems);
                 notificationAdapter.notifyItemRangeInserted(notificationAdapter.getItemCount(), dataSet.size() - 1);
@@ -90,8 +90,7 @@ public class NotificationArchiveActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFcmNotificationRecieved(FcmNotificationRecieved notificationRecieved){
-        GrblNotification grblNotification = notificationRecieved.getGrblNotification();
+    public void onFcmNotificationReceived(FcmNotificationRecieved notificationReceived){
 
     }
 

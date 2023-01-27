@@ -62,12 +62,7 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
                 if(msg.arg1 > 0){
                     final String message = (String) msg.obj;
                     if(!singleThreadExecutor.isShutdown()){
-                        singleThreadExecutor.submit(new Runnable() {
-                            @Override
-                            public void run() {
-                                onUsbSerialRead(message.trim(), grblUsbSerialService);
-                            }
-                        });
+                        singleThreadExecutor.submit(() -> onUsbSerialRead(message.trim(), grblUsbSerialService));
                     }
                 }
                 break;
@@ -91,12 +86,7 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
 
             long delayMillis = grblUsbSerialService.getStatusUpdatePoolInterval();
             for(final String startUpCommand: this.getStartUpCommands()){
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        grblUsbSerialService.serialWriteString(startUpCommand);
-                    }
-                }, delayMillis);
+                handler.postDelayed(() -> grblUsbSerialService.serialWriteString(startUpCommand), delayMillis);
 
                 delayMillis = delayMillis + grblUsbSerialService.getStatusUpdatePoolInterval();
             }
@@ -108,12 +98,7 @@ public class SerialUsbCommunicationHandler extends SerialCommunicationHandler {
         stopGrblStatusUpdateService();
 
         grblStatusUpdater = Executors.newScheduledThreadPool(1);
-        grblStatusUpdater.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                grblUsbSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND);
-            }
-        }, grblUsbSerialService.getStatusUpdatePoolInterval(), grblUsbSerialService.getStatusUpdatePoolInterval(), TimeUnit.MILLISECONDS);
+        grblStatusUpdater.scheduleWithFixedDelay(() -> grblUsbSerialService.serialWriteByte(GrblUtils.GRBL_STATUS_COMMAND), grblUsbSerialService.getStatusUpdatePoolInterval(), grblUsbSerialService.getStatusUpdatePoolInterval(), TimeUnit.MILLISECONDS);
 
     }
 

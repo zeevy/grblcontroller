@@ -23,6 +23,8 @@ package in.co.gorest.grblcontroller.events;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +49,7 @@ public class GrblSettingMessageEvent {
         parse();
     }
 
+    @NonNull
     @Override
     public String toString() {
         String descriptionStr = "";

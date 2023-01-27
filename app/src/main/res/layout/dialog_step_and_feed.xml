@@ -24,9 +24,11 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/jog_inches"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp" />
 
     </RelativeLayout>
 
@@ -61,7 +63,7 @@
         android:layout_height="wrap_content"
         tools:ignore="ObsoleteLayoutParam">
 
-        <TableRow>
+        <TableRow tools:ignore="UselessParent">
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_xy_step_small"
@@ -124,7 +126,7 @@
         android:layout_height="wrap_content"
         tools:ignore="ObsoleteLayoutParam">
 
-        <TableRow>
+        <TableRow tools:ignore="UselessParent">
 
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_z_step_small"

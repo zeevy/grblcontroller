@@ -22,6 +22,8 @@
 package in.co.gorest.grblcontroller.events;
 
 
+import androidx.annotation.NonNull;
+
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.util.GrblLookups;
@@ -37,7 +39,7 @@ public class GrblErrorEvent {
     public GrblErrorEvent(GrblLookups lookups, String message){
         this.message = message;
 
-        String inputParts[] = message.split(":");
+        String[] inputParts = message.split(":");
         if(inputParts.length == 2){
             String[] lookup = lookups.lookup(inputParts[1].trim());
             if(lookup != null){
@@ -48,6 +50,7 @@ public class GrblErrorEvent {
         }
     }
 
+    @NonNull
     @Override
     public String toString(){
         return GrblController.getInstance().getString(R.string.text_grbl_error_format, errorCode, errorDescription);

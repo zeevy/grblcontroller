@@ -21,23 +21,23 @@
 
 package in.co.gorest.grblcontroller.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SwitchCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.joanzapata.iconify.widget.IconButton;
 
@@ -78,6 +78,7 @@ public class ConsoleTabFragment extends BaseFragment {
         machineStatus = MachineStatusListener.getInstance();
     }
 
+    @SuppressLint({"NotifyDataSetChanged", "ClickableViewAccessibility"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -93,90 +94,66 @@ public class ConsoleTabFragment extends BaseFragment {
 
         final EditText commandInput = view.findViewById(R.id.command_input);
 
-        consoleLogView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
-                switch (event.getAction() & MotionEvent.ACTION_MASK){
-                    case MotionEvent.ACTION_UP:
-                        v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-                return false;
+        consoleLogView.setOnTouchListener((v, event) -> {
+            v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
+            if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(false);
             }
+            return false;
         });
 
         IconButton sendCommand = view.findViewById(R.id.send_command);
-        sendCommand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String commandText = commandInput.getText().toString();
-                if(commandText.length() > 0){
-                    GcodeCommand gcodeCommand = new GcodeCommand(commandText);
-                    fragmentInteractionListener.onGcodeCommandReceived(gcodeCommand.getCommandString());
-                    CommandHistory.saveToHistory(commandText, gcodeCommand.getCommandString());
-                    dataSet.clear();
-                    dataSet.addAll(CommandHistory.getHistory("0", "15"));
-                    commandHistoryAdapter.notifyDataSetChanged();
-                    if(gcodeCommand.getHasRomAccess()){
-                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
-                    }
-
-                    if(gcodeCommand.getCommandString().toUpperCase().contains("G43.1Z")){
-                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
-                    }
-
-                    if(gcodeCommand.getCommandString().equals("$32=1")) machineStatus.setLaserModeEnabled(true);
-                    if(gcodeCommand.getCommandString().equals("$32=0")) machineStatus.setLaserModeEnabled(false);
-                    commandInput.setText(null);
-                    viewSwitcher.setDisplayedChild(0);
+        sendCommand.setOnClickListener(view12 -> {
+            String commandText = commandInput.getText().toString();
+            if(commandText.length() > 0){
+                GcodeCommand gcodeCommand = new GcodeCommand(commandText);
+                fragmentInteractionListener.onGcodeCommandReceived(gcodeCommand.getCommandString());
+                CommandHistory.saveToHistory(commandText, gcodeCommand.getCommandString());
+                dataSet.clear();
+                dataSet.addAll(CommandHistory.getHistory("0", "15"));
+                commandHistoryAdapter.notifyDataSetChanged();
+                if(gcodeCommand.getHasRomAccess()){
+                    fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+                    fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
                 }
+
+                if(gcodeCommand.getCommandString().toUpperCase().contains("G43.1Z")){
+                    fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_GCODE_PARAMETERS_COMMAND);
+                }
+
+                if(gcodeCommand.getCommandString().equals("$32=1")) machineStatus.setLaserModeEnabled(true);
+                if(gcodeCommand.getCommandString().equals("$32=0")) machineStatus.setLaserModeEnabled(false);
+                commandInput.setText(null);
+                viewSwitcher.setDisplayedChild(0);
             }
         });
 
-        sendCommand.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.text_clear_console))
-                        .setMessage(getString(R.string.text_clear_console_description))
-                        .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                consoleLogger.clearMessages();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.text_no_confirm), null)
-                        .show();
+        sendCommand.setOnLongClickListener(view1 -> {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.text_clear_console))
+                    .setMessage(getString(R.string.text_clear_console_description))
+                    .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> consoleLogger.clearMessages())
+                    .setNegativeButton(getString(R.string.text_no_confirm), null)
+                    .show();
 
-                return true;
-            }
+            return true;
         });
 
         final SwitchCompat consoleVerboseOutput = view.findViewById(R.id.console_verbose_output);
         consoleVerboseOutput.setChecked(sharedPref.getBoolean(getString(R.string.preference_console_verbose_mode), false));
-        consoleVerboseOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                MachineStatusListener.getInstance().setVerboseOutput(b);
-                sharedPref.edit().putBoolean(getString(R.string.preference_console_verbose_mode), b).apply();
-            }
+        consoleVerboseOutput.setOnCheckedChangeListener((compoundButton, b) -> {
+            MachineStatusListener.getInstance().setVerboseOutput(b);
+            sharedPref.edit().putBoolean(getString(R.string.preference_console_verbose_mode), b).apply();
         });
 
         IconButton consoleHistory = view.findViewById(R.id.console_history);
-        consoleHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewSwitcher.showNext();
-            }
-        });
+        consoleHistory.setOnClickListener(v -> viewSwitcher.showNext());
 
         dataSet = CommandHistory.getHistory("0", "15");
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         commandHistoryAdapter = new CommandHistoryAdapter(dataSet);
         commandHistoryAdapter.setItemClickListener(onItemClickListener);
-        commandHistoryAdapter.setItemLongClickListner(onItemLongClickListener);
+        commandHistoryAdapter.setItemLongClickListener(onItemLongClickListener);
         recyclerView.setAdapter(commandHistoryAdapter);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -195,37 +172,35 @@ public class ConsoleTabFragment extends BaseFragment {
         return view;
     }
 
-    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-            int position = viewHolder.getAdapterPosition();
+            int position = viewHolder.getAbsoluteAdapterPosition();
             if(position == RecyclerView.NO_POSITION) return;
             CommandHistory commandHistory = dataSet.get(position);
             commandInput.append(commandHistory.getCommand());
         }
     };
 
-    private View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
+    private final View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
 
         @Override
         public boolean onLongClick(View view) {
             final RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-            final int position = viewHolder.getAdapterPosition();
+            final int position = viewHolder.getAbsoluteAdapterPosition();
             if(position == RecyclerView.NO_POSITION) return false;
             final CommandHistory commandHistory = dataSet.get(position);
 
             new AlertDialog.Builder(getActivity())
                     .setTitle(commandHistory.getCommand())
                     .setMessage(getString(R.string.text_delete_command_history_confirm))
-                    .setPositiveButton(getActivity().getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            commandHistory.delete();
-                            dataSet.remove(position);
-                            commandHistoryAdapter.notifyItemRemoved(position);
-                            commandHistoryAdapter.notifyItemRangeChanged(position, dataSet.size());
-                        }
-                    }).setNegativeButton(getActivity().getString(R.string.text_cancel), null).setCancelable(true).show();
+                    .setPositiveButton(requireActivity().getString(R.string.text_yes_confirm), (dialog, which) -> {
+                        commandHistory.delete();
+                        dataSet.remove(position);
+                        commandHistoryAdapter.notifyItemRemoved(position);
+                        commandHistoryAdapter.notifyItemRangeChanged(position, dataSet.size());
+                    }).setNegativeButton(requireActivity().getString(R.string.text_cancel), null).setCancelable(true).show();
 
             return true;
         }

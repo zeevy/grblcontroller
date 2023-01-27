@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -12,12 +13,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dialog_input_decimal_signed"
-            android:padding="8dp"
-            android:background="@drawable/rounded_border_edit_text"
-            android:selectAllOnFocus="true"
-            android:inputType="numberDecimal|numberSigned"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_border_edit_text"
+            android:inputType="numberDecimal|numberSigned"
+            android:padding="8dp"
+            android:selectAllOnFocus="true"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
