@@ -300,12 +300,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                                 }
                             }
                         })
-                .setNegativeButton(getString(R.string.text_cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                .setNegativeButton(getString(R.string.text_cancel), (dialog, id) -> dialog.cancel());
 
         AlertDialog dialog = alertDialogBuilder.create();
         if(dialog.getWindow() != null) dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

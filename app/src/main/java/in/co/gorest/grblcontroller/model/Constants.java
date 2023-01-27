@@ -77,7 +77,6 @@ public interface Constants {
 
     String TEXT_CATEGORY_UPDATE                     = "update";
     String TEXT_CATEGORY_LINK                       = "link";
-    String TEXT_CATEGORY_PROMOTION                  = "promotion";
 
     String CAM_FEED_RATE = "1000.0" ;
     String CAM_TRAVERSAL = "5.0" ;
