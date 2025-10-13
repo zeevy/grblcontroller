@@ -1,0 +1,213 @@
+*** Begin Patch
+*** Add File: src/main/java/in/co/gorest/grblcontroller/Protocol.java
++package in.co.gorest.grblcontroller;
++
++public enum Protocol {
++    GRBL,
++    FLUIDNC,
++    GRBLHAL
++}
++
+*** End Patch
+
+*** Begin Patch
+*** Add File: src/main/java/in/co/gorest/grblcontroller/StatusParser.java
++package in.co.gorest.grblcontroller;
++
++import android.util.Log;
++
++public class StatusParser {
++    private static final String TAG = "StatusParser";
++    private Protocol protocol = Protocol.GRBL;
++
++    public void setProtocol(Protocol p) {
++        this.protocol = p;
++    }
++
++    public Protocol getProtocol() {
++        return this.protocol;
++    }
++
++    /**
++     * Parse a single incoming status line from controller and return normalized state object.
++     * For simplicity this returns a small POJO-like string containing main fields separated by |
++     * Format examples returned: "STATE:Idle|X:0.000|Y:0.000|Z:0.000|BUF:10/128|F:1000|S:0"
++     */
++    public String parse(String line) {
++        if (line == null) return null;
++        line = line.trim();
++        try {
++            switch (protocol) {
++                case FLUIDNC:
++                    return parseFluidNC(line);
++                case GRBLHAL:
++                    return parseGrblHAL(line);
++                case GRBL:
++                default:
++                    return parseGrbl(line);
++            }
++        } catch (Exception e) {
++            Log.w(TAG, "parse error for line: " + line, e);
++            return null;
++        }
++    }
++
++    private String parseGrbl(String line) {
++        // GRBL typical status: <Idle|MPos:0.000,0.000,0.000|FS:0,0|WCO:0.000,0.000,0.000>
++        if (line.startsWith("<") && line.endsWith(">")) {
++            String inner = line.substring(1, line.length()-1);
++            String[] parts = inner.split("\\|");
++            String state = "STATE:Unknown";
++            String mpos = "X:0.000|Y:0.000|Z:0.000";
++            String fs = "F:0|S:0";
++            String buf = "";
++            for (String p : parts) {
++                if (p.startsWith("MPos:") || p.startsWith("WPos:")) {
++                    String vals = p.substring(p.indexOf(':')+1).replace(',', '|').replaceAll("=",":");
++                    String[] v = vals.split("\\|");
++                    if (v.length >= 3) {
++                        mpos = "X:" + v[0] + "|Y:" + v[1] + "|Z:" + v[2];
++                    }
++                } else if (p.startsWith("FS:") || p.startsWith("F:") || p.startsWith("S:")) {
++                    // FS:feed,spindle
++                    String vals = p.substring(p.indexOf(':')+1);
++                    String[] v = vals.split(",");
++                    String feed = v.length>0? v[0] : "0";
++                    String sp = v.length>1? v[1] : "0";
++                    fs = "F:" + feed + "|S:" + sp;
++                } else if (!p.isEmpty()) {
++                    // first token often is state
++                    if (!p.contains(":")) state = "STATE:" + p;
++                }
++            }
++            return state + "|" + mpos + "|" + fs + (buf.isEmpty() ? "" : "|" + buf);
++        }
++        return null;
++    }
++
++    private String parseFluidNC(String line) {
++        // FluidNC often reports JSON or custom status. Handle simple JSON-like and angle status.
++        // Example angle: <Run|MPos:...|BUF:...> or {"state":"run", "mpos":[0,0,0], "buf": 64}
++        if (line.startsWith("{") && line.endsWith("}")) {
++            // Very lightweight JSON extractor without dependency
++            String state = "STATE:Unknown";
++            String mpos = "X:0.000|Y:0.000|Z:0.000";
++            String buf = "";
++            String feed = "0";
++            String sp = "0";
++            String s = line.replaceAll("[\\{\\}\"]", "");
++            for (String kv : s.split(",")) {
++                String[] pair = kv.split(":",2);
++                if (pair.length<2) continue;
++                String k = pair[0].trim();
++                String v = pair[1].trim();
++                if (k.equalsIgnoreCase("state")) state = "STATE:" + v;
++                else if (k.equalsIgnoreCase("mpos") || k.equalsIgnoreCase("position")) {
++                    String cleaned = v.replaceAll("[\\[\\]]", "");
++                    String[] vals = cleaned.split("\\s*,\\s*");
++                    if (vals.length>=3) mpos = "X:" + vals[0] + "|Y:" + vals[1] + "|Z:" + vals[2];
++                } else if (k.equalsIgnoreCase("buf")) buf = "BUF:" + v;
++                else if (k.equalsIgnoreCase("feed")) feed = v;
++                else if (k.equalsIgnoreCase("spindle")) sp = v;
++            }
++            return state + "|" + mpos + "|F:" + feed + "|S:" + sp + (buf.isEmpty()? "" : "|" + buf);
++        } else {
++            // fallback to GRBL-like angle parsing
++            return parseGrbl(line);
++        }
++    }
++
++    private String parseGrblHAL(String line) {
++        // grblHAL sometimes uses extended status tokens and named buffer fields.
++        // Accept either JSON, GRBL angle or plain tokens.
++        String parsed = parseFluidNC(line);
++        if (parsed != null) return parsed;
++        return parseGrbl(line);
++    }
++}
++
+*** End Patch
+
+*** Begin Patch
+*** Add File: src/main/java/in/co/gorest/grblcontroller/SettingsProtocolActivity.java
++package in.co.gorest.grblcontroller;
++
++import android.app.Activity;
++import android.content.Intent;
++import android.os.Bundle;
++import android.view.View;
++import android.widget.Button;
++import android.widget.RadioButton;
++
++public class SettingsProtocolActivity extends Activity {
++    private Protocol selected = Protocol.GRB L;
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_settings_protocol);
++        RadioButton rGrbl = findViewById(R.id.r_grbl);
++        RadioButton rFluid = findViewById(R.id.r_fluidnc);
++        RadioButton rHal = findViewById(R.id.r_grblhal);
++        Button btnOk = findViewById(R.id.btn_ok_protocol);
++
++        rGrbl.setOnClickListener(v -> selected = Protocol.GRB L);
++        rFluid.setOnClickListener(v -> selected = Protocol.FLUIDNC);
++        rHal.setOnClickListener(v -> selected = Protocol.GRB LHAL);
++
++        btnOk.setOnClickListener(v -> {
++            Intent i = new Intent();
++            i.putExtra("protocol", selected.name());
++            setResult(RESULT_OK, i);
++            finish();
++        });
++    }
++}
++
+*** End Patch
+
+*** Begin Patch
+*** Update File: src/main/java/in/co/gorest/grblcontroller/SerialService.java
+@@
+-    // existing imports...
++    // existing imports...
++    import android.content.Intent;
++    import android.util.Log;
++    // add parser
++    private StatusParser statusParser = new StatusParser();
++    private static final String TAG = "SerialService";
+@@
+-    private void handleReceivedLine(String line) {
+-        // existing parsing logic...
+-        // e.g., update UI with raw status
+-    }
++    private void handleReceivedLine(String line) {
++        // centralize status parsing by protocol
++        String normalized = statusParser.parse(line);
++        if (normalized != null) {
++            // broadcast normalized status for UI to consume
++            Intent intent = new Intent("in.co.gorest.grblcontroller.STATUS");
++            intent.putExtra("status", normalized);
++            sendBroadcast(intent);
++        } else {
++            // fallback: broadcast raw line in case UI expects it
++            Intent intent = new Intent("in.co.gorest.grblcontroller.RAW_LINE");
++            intent.putExtra("raw", line);
++            sendBroadcast(intent);
++        }
++    }
++
++    public void setProtocol(Protocol p) {
++        statusParser.setProtocol(p);
++        Log.i(TAG, "Protocol set to " + p.name());
++    }
+*** End Patch
+
+*** Begin Patch
+*** Update File: README.md
+@@
+ #### Features: 
+@@
+ - Supports short text commands. 
+ - Supports Probing (G38.3) with auto adjust Z-Axis. 
++- Added selectable controller protocol support: GRBL (default), FluidNC, grblHAL. Choose protocol in Settings to improve status parsing and compatibility.
+*** End Patch
