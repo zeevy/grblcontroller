@@ -1,21 +1,13 @@
 name: Publish to Play Store
 
 on:
-  workflow_dispatch:
-    inputs:
-      track:
-        description: 'Play Store track'
-        required: true
-        default: 'internal'
-        type: choice
-        options:
-          - internal
-          - alpha
-          - beta
-          - production
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   publish:
+    if: github.actor == github.repository_owner
     runs-on: ubuntu-latest
 
     steps:
@@ -52,4 +44,4 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: in.co.gorest.grblcontroller
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
-          track: ${{ github.event.inputs.track }}
+          track: internal
