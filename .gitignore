@@ -9,3 +9,5 @@ gradle
 /build
 /captures
 .externalNativeBuild
+CLAUDE.md
+.claude

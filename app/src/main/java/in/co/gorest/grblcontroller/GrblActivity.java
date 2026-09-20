@@ -44,7 +44,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -128,6 +130,18 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         Iconify.with(new FontAwesomeModule());
         setupTabLayout();
         checkPowerManagement();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, Constants.REQUEST_NOTIFICATION_PERMISSIONS);
+        }
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        });
     }
 
     private boolean hasPaidVersion() {
@@ -155,9 +169,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     }
 
     @Override
-    public void onBackPressed(){ moveTaskToBack(true); }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         if(menu != null){
@@ -174,34 +185,28 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
-            case R.id.app_settings:
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                return true;
+        if(id == R.id.app_settings){
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+            return true;
 
-            case  R.id.app_notifications:
-                startActivity(new Intent(getApplicationContext(), NotificationArchiveActivity.class));
-                return true;
+        }else if(id == R.id.app_about){
+            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+            return true;
 
-            case R.id.app_about:
-                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                return true;
+        }else if(id == R.id.share){
+            try {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBodyText = "Grbl Controller. Very cool CNC controller for grbl firmware https://goo.gl/aVnvp4";
 
-            case R.id.share:
-                try {
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    sharingIntent.setType("text/plain");
-                    String shareBodyText = "Grbl Controller. Very cool CNC controller for grbl firmware https://goo.gl/aVnvp4";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Grbl Controller");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+                startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
+            }catch (ActivityNotFoundException e){
+                showToastMessage("No application available to perform this action!", true, true);
+            }
 
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Grbl Controller");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-                    startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
-                }catch (ActivityNotFoundException e){
-                    showToastMessage("No application available to perform this action!", true, true);
-                }
-
-                return true;
-
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

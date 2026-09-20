@@ -2,11 +2,11 @@ package com.joanzapata.iconify.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Button;
+import androidx.appcompat.widget.AppCompatButton;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.internal.HasOnViewAttachListener;
 
-public class IconButton extends Button implements HasOnViewAttachListener {
+public class IconButton extends AppCompatButton implements HasOnViewAttachListener {
 
     private HasOnViewAttachListenerDelegate delegate;
 

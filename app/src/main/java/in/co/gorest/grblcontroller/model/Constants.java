@@ -35,6 +35,8 @@ public interface Constants {
     int MESSAGE_DEVICE_NAME             = 4;
     int MESSAGE_TOAST                   = 5;
     int REQUEST_READ_PERMISSIONS        = 6;
+    int REQUEST_BLUETOOTH_PERMISSIONS   = 7;
+    int REQUEST_NOTIFICATION_PERMISSIONS = 12;
     int PROBE_TYPE_NORMAL               = 7;
     int PROBE_TYPE_TOOL_OFFSET          = 8;
     int CONNECT_DEVICE_SECURE           = 9;

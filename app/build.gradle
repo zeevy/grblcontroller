@@ -1,25 +1,12 @@
-buildscript {
-    repositories {
-    }
-
-    dependencies {
-
-    }
-}
 apply plugin: 'com.android.application'
 
-repositories {
-    maven { url 'http://dl.bintray.com/lukaville/maven' }
-}
-
 android {
-    compileSdkVersion 33
-    buildToolsVersion '29.0.3'
+    compileSdk 36
 
     defaultConfig {
         applicationId "in.co.gorest.grblcontroller"
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdkVersion 26
+        targetSdkVersion 36
         versionCode 38
         versionName "2.57"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,22 +18,23 @@ android {
             debuggable false
             minifyEnabled true
             shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
             minifyEnabled true
             shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
+        buildConfig true
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     namespace 'in.co.gorest.grblcontroller'
 }
@@ -61,8 +49,6 @@ allprojects {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.firebase:firebase-core:21.1.1'
-    implementation 'com.google.firebase:firebase-messaging:23.1.1'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -79,7 +65,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.warkiz:IndicatorSeekBar:v2.1.1'
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
-    implementation 'com.github.nbsp-team:MaterialFilePicker:85292dceb0'
     implementation 'com.github.satyan:sugar:1.5'
     implementation 'com.github.GrenderG:Toasty:1.5.2'
 
@@ -87,5 +72,3 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
 }
-
-apply plugin: 'com.google.gms.google-services'

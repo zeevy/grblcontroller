@@ -216,68 +216,58 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     public void onClick(View view) {
         int id = view.getId();
 
-        switch(id){
-            case R.id.jogging_step_feed_view:
-                this.setJoggingStepAndFeed();
-                return;
+        if(id == R.id.jogging_step_feed_view){
+            this.setJoggingStepAndFeed();
 
-            case R.id.run_homing_cycle:
+        }else if(id == R.id.run_homing_cycle){
 
-                if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_ALARM)){
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle(getString(R.string.text_homing_cycle))
-                            .setMessage(getString(R.string.text_do_homing_cycle))
-                            .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_RUN_HOMING_CYCLE))
-                            .setNegativeButton(getString(R.string.text_no_confirm), null)
-                            .show();
-                }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
-                }
-                break;
+            if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_ALARM)){
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(getString(R.string.text_homing_cycle))
+                        .setMessage(getString(R.string.text_do_homing_cycle))
+                        .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_RUN_HOMING_CYCLE))
+                        .setNegativeButton(getString(R.string.text_no_confirm), null)
+                        .show();
+            }else{
+                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
+            }
 
-            case R.id.jog_cancel:
-                if(machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
-                    fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_JOG_CANCEL_COMMAND);
-                }
+        }else if(id == R.id.jog_cancel){
+            if(machineStatus.getState().equals(Constants.MACHINE_STATUS_JOG)){
+                fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_JOG_CANCEL_COMMAND);
+            }
 
-                if(customCommandsAsyncTask != null && customCommandsAsyncTask.getStatus() == AsyncTask.Status.RUNNING){
-                    customCommandsAsyncTask.cancel(true);
-                    fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
-                }
+            if(customCommandsAsyncTask != null && customCommandsAsyncTask.getStatus() == AsyncTask.Status.RUNNING){
+                customCommandsAsyncTask.cancel(true);
+                fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
+            }
 
-                break;
+        }else if(id == R.id.custom_button_1){
 
-            case R.id.custom_button_1:
+            pointsCoords+=String.valueOf( machineStatus.getWorkPosition().getCordX())+','+
+                    String.valueOf(machineStatus.getWorkPosition().getCordY())+','+
+                    String.valueOf(machineStatus.getWorkPosition().getCordZ())+"\n";
 
-                pointsCoords+=String.valueOf( machineStatus.getWorkPosition().getCordX())+','+
-                        String.valueOf(machineStatus.getWorkPosition().getCordY())+','+
-                        String.valueOf(machineStatus.getWorkPosition().getCordZ())+"\n";
+            //System.out.println(pointsCoords);
 
-                //System.out.println(pointsCoords);
+            File pointsFile;
 
-                File pointsFile;
+            pointsFile = new File(getActivity().getExternalFilesDir(null), "points.txt");
 
-                pointsFile = new File(getActivity().getExternalFilesDir(null), "points.txt");
+            try {
+                FileOutputStream fos = new FileOutputStream(pointsFile);
+                fos.write(pointsCoords.getBytes());
+                fos.flush();
+                fos.close();
 
-                try {
-                    FileOutputStream fos = new FileOutputStream(pointsFile);
-                    fos.write(pointsCoords.getBytes());
-                    fos.flush();
-                    fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            EventBus.getDefault().post(new UiToastEvent("new points file at "+getActivity().getExternalFilesDir(null) , true, true));
 
-                EventBus.getDefault().post(new UiToastEvent("new points file at "+getActivity().getExternalFilesDir(null) , true, true));
-
-                break;
-
-            case R.id.custom_button_2:
-            case R.id.custom_button_3:
-            case R.id.custom_button_4:
-                customButton(id, false);
-                break;
+        }else if(id == R.id.custom_button_2 || id == R.id.custom_button_3 || id == R.id.custom_button_4){
+            customButton(id, false);
         }
     }
 
@@ -287,55 +277,47 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     public boolean onLongClick(View view) {
         int id = view.getId();
 
-        switch(id){
+        if(id == R.id.run_homing_cycle){
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.text_set_coordinate_system))
+                    .setMessage(getString(R.string.text_set_all_axes_zero))
+                    .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> sendCommandIfIdle(GrblUtils.GCODE_RESET_COORDINATES_TO_ZERO))
+                    .setNegativeButton(getString(R.string.text_no_confirm), null)
+                    .show();
+            return true;
 
-            case R.id.run_homing_cycle:
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.text_set_coordinate_system))
-                        .setMessage(getString(R.string.text_set_all_axes_zero))
-                        .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> sendCommandIfIdle(GrblUtils.GCODE_RESET_COORDINATES_TO_ZERO))
-                        .setNegativeButton(getString(R.string.text_no_confirm), null)
-                        .show();
-                return true;
+        }else if(id == R.id.jog_cancel){
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.text_return_to_zero_position))
+                    .setMessage(getString(R.string.text_go_to_zero_position_in_current_wpos))
+                    .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> {
+                        for (String gCommand : GrblUtils.getReturnToHomeCommands()) {
+                            sendCommandIfIdle(gCommand);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.text_no_confirm), null)
+                    .show();
+            return true;
 
-            case R.id.jog_cancel:
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.text_return_to_zero_position))
-                        .setMessage(getString(R.string.text_go_to_zero_position_in_current_wpos))
-                        .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> {
-                            for (String gCommand : GrblUtils.getReturnToHomeCommands()) {
-                                sendCommandIfIdle(gCommand);
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.text_no_confirm), null)
-                        .show();
-                return true;
+        }else if(id == R.id.wpos_g54 || id == R.id.wpos_g55 || id == R.id.wpos_g56 || id == R.id.wpos_g57){
+            saveWPos((Button) view);
+            return true;
 
-            case R.id.wpos_g54:
-            case R.id.wpos_g55:
-            case R.id.wpos_g56:
-            case R.id.wpos_g57:
-                saveWPos((Button) view);
-                return true;
+        }else if(id == R.id.goto_x_zero){
+            gotoAxisZero("X");
+            return true;
 
-            case R.id.goto_x_zero:
-                gotoAxisZero("X");
-                return true;
+        }else if(id == R.id.goto_y_zero){
+            gotoAxisZero("Y");
+            return true;
 
-            case R.id.goto_y_zero:
-                gotoAxisZero("Y");
-                return true;
+        }else if(id == R.id.goto_z_zero){
+            gotoAxisZero("Z");
+            return true;
 
-            case R.id.goto_z_zero:
-                gotoAxisZero("Z");
-                return true;
-
-            case R.id.custom_button_1:
-            case R.id.custom_button_2:
-            case R.id.custom_button_3:
-            case R.id.custom_button_4:
-                customButton(id, true);
-                return true;
+        }else if(id == R.id.custom_button_1 || id == R.id.custom_button_2 || id == R.id.custom_button_3 || id == R.id.custom_button_4){
+            customButton(id, true);
+            return true;
         }
 
         return false;
@@ -542,18 +524,14 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 if(isAdded()){
                     String stepValue = sharedPref.getString(iconButton.getTag().toString(), "0");
                     if(stepValue.equals("0")){
-                        switch(resourceId){
-                            case R.id.jog_xy_step_small:
-                                stepValue = "0.1";
-                                break;
+                        if(resourceId == R.id.jog_xy_step_small){
+                            stepValue = "0.1";
 
-                            case R.id.jog_xy_step_medium:
-                                stepValue = "1";
-                                break;
+                        }else if(resourceId == R.id.jog_xy_step_medium){
+                            stepValue = "1";
 
-                            case R.id.jog_xy_step_high:
-                                stepValue = "5";
-                                break;
+                        }else if(resourceId == R.id.jog_xy_step_high){
+                            stepValue = "5";
                         }
                     }
 
@@ -625,18 +603,14 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 if(isAdded()){
                     String stepValue = sharedPref.getString(iconButton.getTag().toString(), "0");
                     if(stepValue.equals("0")){
-                        switch(resourceId){
-                            case R.id.jog_z_step_small:
-                                stepValue = "0.01";
-                                break;
+                        if(resourceId == R.id.jog_z_step_small){
+                            stepValue = "0.01";
 
-                            case R.id.jog_z_step_medium:
-                                stepValue = "0.1";
-                                break;
+                        }else if(resourceId == R.id.jog_z_step_medium){
+                            stepValue = "0.1";
 
-                            case R.id.jog_z_step_high:
-                                stepValue = "1";
-                                break;
+                        }else if(resourceId == R.id.jog_z_step_high){
+                            stepValue = "1";
                         }
                     }
 

@@ -61,6 +61,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.felhr.usbserial.CDCSerialDevice;
 import com.felhr.usbserial.UsbSerialDevice;
@@ -249,17 +250,20 @@ public class GrblUsbSerialService extends Service {
                 boolean granted = Objects.requireNonNull(arg1.getExtras()).getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
                 if(granted){
                     Intent intent = new Intent(ACTION_USB_PERMISSION_GRANTED);
+                    intent.setPackage(getPackageName());
                     arg0.sendBroadcast(intent);
                     connection = usbManager.openDevice(device);
                     new ConnectionThread().start();
                 }else{
                     Intent intent = new Intent(ACTION_USB_PERMISSION_NOT_GRANTED);
+                    intent.setPackage(getPackageName());
                     arg0.sendBroadcast(intent);
                 }
             }else if(Objects.equals(arg1.getAction(), ACTION_USB_ATTACHED)) {
                 if(!serialPortConnected) findSerialPortDevice();
             } else if (Objects.equals(arg1.getAction(), ACTION_USB_DETACHED)) {
                 Intent intent = new Intent(ACTION_USB_DISCONNECTED);
+                intent.setPackage(getPackageName());
                 arg0.sendBroadcast(intent);
                 serialUsbCommunicationHandler.stopGrblStatusUpdateService();
                 if(serialPortConnected){
@@ -297,16 +301,19 @@ public class GrblUsbSerialService extends Service {
                 if (!keep) {
                     // There is no USB devices connected (but usb host were listed). Send an intent to MainActivity.
                     Intent intent = new Intent(ACTION_NO_USB);
+                    intent.setPackage(getPackageName());
                     sendBroadcast(intent);
                 }
             } else {
                 // There is no USB devices connected. Send an intent to MainActivity
                 Intent intent = new Intent(ACTION_NO_USB);
+                intent.setPackage(getPackageName());
                 sendBroadcast(intent);
             }
         }catch (NullPointerException e){
             // There is no USB devices connected. Send an intent to MainActivity
             Intent intent = new Intent(ACTION_NO_USB);
+            intent.setPackage(getPackageName());
             sendBroadcast(intent);
         }
     }
@@ -316,7 +323,7 @@ public class GrblUsbSerialService extends Service {
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(ACTION_USB_DETACHED);
         filter.addAction(ACTION_USB_ATTACHED);
-        registerReceiver(usbReceiver, filter);
+        ContextCompat.registerReceiver(this, usbReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     /*
@@ -389,6 +396,7 @@ public class GrblUsbSerialService extends Service {
             } else {
                 // No driver for given device, even generic CDC driver could not be loaded
                 Intent intent = new Intent(ACTION_USB_NOT_SUPPORTED);
+                intent.setPackage(getPackageName());
                 context.sendBroadcast(intent);
             }
         }

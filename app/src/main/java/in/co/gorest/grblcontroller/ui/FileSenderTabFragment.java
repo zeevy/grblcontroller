@@ -21,16 +21,17 @@
 
 package in.co.gorest.grblcontroller.ui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,8 +42,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
-import com.nbsp.materialfilepicker.MaterialFilePicker;
-import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,10 +49,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
@@ -112,13 +112,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         View view = binding.getRoot();
 
         IconTextView selectGcodeFile = view.findViewById(R.id.select_gcode_file);
-        selectGcodeFile.setOnClickListener(view14 -> {
-            if(hasExternalStorageReadPermission()){
-                getFilePicker();
-            }else{
-                askExternalReadPermission();
-            }
-        });
+        selectGcodeFile.setOnClickListener(view14 -> getFilePicker());
 
         final IconButton enableChecking = view.findViewById(R.id.enable_checking);
         enableChecking.setOnClickListener(view13 -> {
@@ -240,15 +234,15 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == Constants.FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-
-            if(filePath != null){
-                fileSender.setGcodeFile(new File(filePath));
-                if(fileSender.getGcodeFile().exists()){
+        if(requestCode == Constants.FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
+            Uri uri = data.getData();
+            if(uri != null){
+                File gcodeFile = copyPickedFileToCache(uri);
+                if(gcodeFile != null){
+                    fileSender.setGcodeFile(gcodeFile);
                     fileSender.setElapsedTime("00:00:00");
                     new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
-                    sharedPref.edit().putString(getString(R.string.most_recent_selected_file), fileSender.getGcodeFile().getAbsolutePath()).apply();
+                    sharedPref.edit().putString(getString(R.string.most_recent_selected_file), fileSender.getGcodeFile().getName()).apply();
                 }else{
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found), true, true));
                 }
@@ -257,24 +251,51 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     }
 
+    private String getDisplayName(Uri uri){
+        String name = null;
+        try(Cursor cursor = requireContext().getContentResolver().query(uri, null, null, null, null)){
+            if(cursor != null && cursor.moveToFirst()){
+                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if(nameIndex >= 0) name = cursor.getString(nameIndex);
+            }
+        }
+        return name != null ? name : "gcode_file";
+    }
+
+    private File copyPickedFileToCache(Uri uri){
+        String displayName = getDisplayName(uri);
+        if(!displayName.toLowerCase().matches(Constants.SUPPORTED_FILE_TYPES_STRING)){
+            EventBus.getDefault().post(new UiToastEvent(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES), true, true));
+            return null;
+        }
+
+        File destination = new File(requireContext().getCacheDir(), displayName);
+        try(InputStream in = requireContext().getContentResolver().openInputStream(uri); OutputStream out = new FileOutputStream(destination)){
+            if(in == null) return null;
+
+            byte[] buffer = new byte[8192];
+            int read;
+            while((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
+            return destination;
+        }catch (IOException e){
+            Log.e(TAG, "Could not copy picked g-code file", e);
+            return null;
+        }
+    }
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onLongClick(View view){
         int id = view.getId();
-        switch(id){
-            case R.id.feed_override_coarse_minus:
-            case R.id.feed_override_coarse_plus:
-            case R.id.feed_override_fine_minus:
-            case R.id.feed_override_fine_plus:
-                sendRealTimeCommand(Overrides.CMD_FEED_OVR_RESET);
-                return true;
+        if(id == R.id.feed_override_coarse_minus || id == R.id.feed_override_coarse_plus
+                || id == R.id.feed_override_fine_minus || id == R.id.feed_override_fine_plus){
+            sendRealTimeCommand(Overrides.CMD_FEED_OVR_RESET);
+            return true;
 
-            case R.id.spindle_override_coarse_minus:
-            case R.id.spindle_override_coarse_plus:
-            case R.id.spindle_override_fine_minus:
-            case R.id.spindle_override_fine_plus:
-                sendRealTimeCommand(Overrides.CMD_SPINDLE_OVR_RESET);
-                return true;
+        }else if(id == R.id.spindle_override_coarse_minus || id == R.id.spindle_override_coarse_plus
+                || id == R.id.spindle_override_fine_minus || id == R.id.spindle_override_fine_plus){
+            sendRealTimeCommand(Overrides.CMD_SPINDLE_OVR_RESET);
+            return true;
         }
 
         return false;
@@ -379,62 +400,10 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     }
 
     private void getFilePicker(){
-
-        String rootPath = "/storage/";
-
-        if(sharedPref.getBoolean(getString(R.string.preference_remember_last_file_location), true)){
-            String recentFile = sharedPref.getString(getString(R.string.most_recent_selected_file), null);
-            if(recentFile != null){
-                File f = new File(recentFile);
-                do{
-                    f = new File(Objects.requireNonNull(f.getParent()));
-                    rootPath = f.getAbsolutePath();
-                }while (!f.isDirectory());
-            }
-        }
-
-        new MaterialFilePicker()
-                .withActivity(getActivity())
-                .withCloseMenu(true)
-                .withRequestCode(Constants.FILE_PICKER_REQUEST_CODE)
-                .withHiddenFiles(false)
-                .withFilter(Pattern.compile(Constants.SUPPORTED_FILE_TYPES_STRING, Pattern.CASE_INSENSITIVE))
-                .withTitle(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES))
-                .withPath(rootPath)
-                .start();
-
-    }
-
-    private Boolean hasExternalStorageReadPermission(){
-        boolean hasPermission = true;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(requireActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                hasPermission = false;
-            }
-        }
-        return hasPermission;
-    }
-
-    private void askExternalReadPermission(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUEST_READ_PERMISSIONS);
-        }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission), true, true));
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if(requestCode == Constants.REQUEST_READ_PERMISSIONS){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getFilePicker();
-            }else{
-                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission), true, true));
-            }
-        }
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, Constants.FILE_PICKER_REQUEST_CODE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

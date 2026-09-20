@@ -2,11 +2,11 @@ package com.joanzapata.iconify.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ToggleButton;
+import androidx.appcompat.widget.AppCompatToggleButton;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.internal.HasOnViewAttachListener;
 
-public class IconToggleButton extends ToggleButton implements HasOnViewAttachListener {
+public class IconToggleButton extends AppCompatToggleButton implements HasOnViewAttachListener {
 
     private HasOnViewAttachListenerDelegate delegate;
 

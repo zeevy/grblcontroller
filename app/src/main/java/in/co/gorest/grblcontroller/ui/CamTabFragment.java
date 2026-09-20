@@ -45,7 +45,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.databinding.FragmentCamTabBinding;
@@ -354,24 +353,7 @@ public class CamTabFragment extends BaseFragment {
 
 
     private void writeOnFile(String gcode){
-        //su file path gia in uso
-        String rootPath = "/storage/";
-
-        if(sharedPref.getBoolean(getString(R.string.preference_remember_last_file_location), true)){
-            String recentFile = sharedPref.getString(getString(R.string.most_recent_selected_file), null);
-            if(recentFile != null){
-                File f = new File(recentFile);
-                do{
-                    f = new File(Objects.requireNonNull(f.getParent()));
-                    rootPath = f.getAbsolutePath();
-                }while (!f.isDirectory());
-            }
-        }
-
-        //save gcode job on file ,save at last position of open file??
-        File jobFile;
-
-        jobFile = new File(rootPath, "job1.nc");
+        File jobFile = new File(requireContext().getExternalFilesDir(null), "job1.nc");
 
         try {
             FileOutputStream fos = new FileOutputStream(jobFile);
@@ -383,7 +365,7 @@ public class CamTabFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        EventBus.getDefault().post(new UiToastEvent("new job file at "+rootPath , true, true));
+        EventBus.getDefault().post(new UiToastEvent("new job file at "+jobFile.getAbsolutePath() , true, true));
 
     }
     private void setCamFrom() {

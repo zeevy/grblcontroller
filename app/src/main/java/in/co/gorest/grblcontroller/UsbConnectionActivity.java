@@ -39,6 +39,8 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.core.content.ContextCompat;
+
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
@@ -112,39 +114,36 @@ public class UsbConnectionActivity extends GrblActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        if(id == R.id.action_connect){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
+                    .setTitle("USB OTG Connection")
+                    .setMessage("To connect or disconnect a device, just plug or unplug the usb cable.")
+                    .setPositiveButton(getString(R.string.text_ok), (dialog, which) -> { })
+                    .setCancelable(false);
 
-            case R.id.action_connect:
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
-                        .setTitle("USB OTG Connection")
-                        .setMessage("To connect or disconnect a device, just plug or unplug the usb cable.")
-                        .setPositiveButton(getString(R.string.text_ok), (dialog, which) -> { })
-                        .setCancelable(false);
+            alertDialogBuilder.show();
 
-                alertDialogBuilder.show();
-                break;
+        }else if(id == R.id.action_grbl_reset){
+            boolean resetConfirm = sharedPref.getBoolean(getString(R.string.preference_confirm_grbl_soft_reset), true);
+            if(resetConfirm){
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.text_grbl_soft_reset)
+                        .setMessage(R.string.text_grbl_soft_reset_desc)
+                        .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> {
+                            if(FileStreamerIntentService.getIsServiceRunning()){
+                                FileStreamerIntentService.setShouldContinue(false);
+                                Intent intent = new Intent(getApplicationContext(), FileStreamerIntentService.class);
+                                stopService(intent);
+                            }
+                            onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
+                        })
+                        .setNegativeButton(getString(R.string.text_cancel), null)
+                        .show();
 
-            case R.id.action_grbl_reset:
-                boolean resetConfirm = sharedPref.getBoolean(getString(R.string.preference_confirm_grbl_soft_reset), true);
-                if(resetConfirm){
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.text_grbl_soft_reset)
-                            .setMessage(R.string.text_grbl_soft_reset_desc)
-                            .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> {
-                                if(FileStreamerIntentService.getIsServiceRunning()){
-                                    FileStreamerIntentService.setShouldContinue(false);
-                                    Intent intent = new Intent(getApplicationContext(), FileStreamerIntentService.class);
-                                    stopService(intent);
-                                }
-                                onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
-                            })
-                            .setNegativeButton(getString(R.string.text_cancel), null)
-                            .show();
-
-                }else{
-                    onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
-                }
-                return true;
+            }else{
+                onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
+            }
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -157,7 +156,7 @@ public class UsbConnectionActivity extends GrblActivity{
         filter.addAction(GrblUsbSerialService.ACTION_USB_DISCONNECTED);
         filter.addAction(GrblUsbSerialService.ACTION_USB_NOT_SUPPORTED);
         filter.addAction(GrblUsbSerialService.ACTION_USB_PERMISSION_NOT_GRANTED);
-        registerReceiver(mUsbReceiver, filter);
+        ContextCompat.registerReceiver(this, mUsbReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     /*

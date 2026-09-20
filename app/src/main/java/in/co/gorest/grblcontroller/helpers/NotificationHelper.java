@@ -26,24 +26,14 @@ package in.co.gorest.grblcontroller.helpers;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
-import androidx.core.app.NotificationCompat;
 
 import in.co.gorest.grblcontroller.R;
 
 public class NotificationHelper extends ContextWrapper {
 
     private NotificationManager notificationManager;
-
-    public static final String CHANNEL_GENERAL_ID               = "in.co.gorest.grblcontroller.GENERAL_SERVICE";
-    public static final String CHANNEL_GENERAL_NAME             = "General";
-    public static final String CHANNEL_GENERAL_ABOUT            = "application specific news, features and updates information.";
-
-    public static final String CHANNEL_BUG_TRACKER_ID           = "in.co.gorest.grblcontroller.BUG_TRACKER_SERVICE";
-    public static final String CHANNEL_BUG_TRACKER_NAME         = "BugTracker";
-    public static final String CHANNEL_BUG_TRACKER_ABOUT        = "notifications about recent application bugs, issues and resolutions.";
 
     public static final String CHANNEL_SERVICE_ID               = "in.co.gorest.grblcontroller.APPLICATION_SERVICE";
     public static final String CHANNEL_SERVICE_NAME             = "Service";
@@ -56,23 +46,6 @@ public class NotificationHelper extends ContextWrapper {
     public void createChannels(){
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel mChannelOne = new NotificationChannel(CHANNEL_GENERAL_ID, CHANNEL_GENERAL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-            mChannelOne.setDescription(CHANNEL_GENERAL_ABOUT);
-            mChannelOne.enableLights(false);
-            mChannelOne.setLightColor(getColor(R.color.colorPrimary));
-            mChannelOne.setShowBadge(true);
-            mChannelOne.enableVibration(false);
-            mChannelOne.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            getNotificationManager().createNotificationChannel(mChannelOne);
-
-            NotificationChannel mChannelTwo = new NotificationChannel(CHANNEL_BUG_TRACKER_ID, CHANNEL_BUG_TRACKER_NAME, NotificationManager.IMPORTANCE_HIGH);
-            mChannelTwo.setDescription(CHANNEL_BUG_TRACKER_ABOUT);
-            mChannelTwo.enableLights(true);
-            mChannelTwo.enableVibration(true);
-            mChannelTwo.setLightColor(getColor(R.color.colorPrimary));
-            mChannelTwo.setShowBadge(true);
-            getNotificationManager().createNotificationChannel(mChannelTwo);
-
             NotificationChannel mChannelThree = new NotificationChannel(CHANNEL_SERVICE_ID, CHANNEL_SERVICE_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             mChannelThree.setDescription(CHANNEL_SERVICE_ABOUT);
             mChannelThree.enableLights(false);
@@ -82,38 +55,6 @@ public class NotificationHelper extends ContextWrapper {
             mChannelThree.setSound(null, null);
             getNotificationManager().createNotificationChannel(mChannelThree);
         }
-    }
-
-    public void getNotificationGeneral(String title, String message, PendingIntent pendingIntent){
-
-        NotificationCompat.Builder notificationBuilder =  new NotificationCompat.Builder(getApplicationContext(), CHANNEL_GENERAL_ID)
-                .setContentTitle(title)
-                //.setContentText(message)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setColor(getResources().getColor(R.color.colorPrimary))
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
-
-        this.notify((int)System.currentTimeMillis(), notificationBuilder);
-    }
-
-    public void getNotificationBugTracker(String title, String message, PendingIntent pendingIntent){
-
-        NotificationCompat.Builder notificationBuilder =  new NotificationCompat.Builder(getApplicationContext(), CHANNEL_BUG_TRACKER_ID)
-                .setContentTitle(title)
-                //.setContentText(message)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setColor(getResources().getColor(R.color.colorPrimary))
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
-
-        this.notify((int)System.currentTimeMillis(), notificationBuilder);
-    }
-
-    public void notify(int id, NotificationCompat.Builder notification) {
-        getNotificationManager().notify(id, notification.build());
     }
 
     private NotificationManager getNotificationManager() {

@@ -75,9 +75,12 @@ public class BluetoothConnectionActivity extends GrblActivity {
         if (bluetoothAdapter == null) {
             showToastMessage(getString(R.string.text_no_bluetooth_adapter));
             restartInUsbMode();
+        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                && (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.BLUETOOTH_CONNECT, android.Manifest.permission.BLUETOOTH_SCAN}, Constants.REQUEST_BLUETOOTH_PERMISSIONS);
         } else {
-            Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
-            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+            bindBluetoothService();
         }
 
         grblServiceMessageHandler = new BluetoothConnectionActivity.GrblServiceMessageHandler(this);
@@ -113,6 +116,28 @@ public class BluetoothConnectionActivity extends GrblActivity {
                 }
             };
             thread.start();
+        }
+    }
+
+    private void bindBluetoothService(){
+        Intent intent = new Intent(getApplicationContext(), GrblBluetoothSerialService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == Constants.REQUEST_BLUETOOTH_PERMISSIONS){
+            boolean granted = grantResults.length > 0;
+            for(int result : grantResults) if(result != PackageManager.PERMISSION_GRANTED) granted = false;
+
+            if(granted){
+                bindBluetoothService();
+            }else{
+                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_bluetooth_permission), true, true));
+                restartInUsbMode();
+            }
         }
     }
 
@@ -183,8 +208,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
-            case R.id.action_connect:
+        if(id == R.id.action_connect){
                 if(bluetoothAdapter.isEnabled()){
 
                     if(grblBluetoothSerialService != null){
@@ -212,7 +236,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
                 }
                 return true;
 
-            case R.id.action_grbl_reset:
+        }else if(id == R.id.action_grbl_reset){
                 boolean resetConfirm = sharedPref.getBoolean(getString(R.string.preference_confirm_grbl_soft_reset), true);
                 if(resetConfirm){
                     new AlertDialog.Builder(this)

@@ -2,11 +2,11 @@ package com.joanzapata.iconify.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatTextView;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.internal.HasOnViewAttachListener;
 
-public class IconTextView extends TextView implements HasOnViewAttachListener {
+public class IconTextView extends AppCompatTextView implements HasOnViewAttachListener {
 
     private HasOnViewAttachListenerDelegate delegate;
 

@@ -335,7 +335,8 @@ public class FileStreamerIntentService extends IntentService{
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onGrblErrorEvent(GrblErrorEvent event){
-        setShouldContinue(event.getErrorCode() == 20 && machineStatusListener.getIgnoreError20());
+        boolean ignorable = event.getErrorCode() == 20 && machineStatusListener.getIgnoreError20();
+        if(!ignorable) setShouldContinue(false);
     }
 
 }
