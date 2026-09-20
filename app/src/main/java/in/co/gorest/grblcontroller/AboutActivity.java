@@ -39,8 +39,10 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_preference);
+        setSupportActionBar(findViewById(R.id.toolbar));
         if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_app_about));
-        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new AppAboutFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.preference_content, new AppAboutFragment()).commit();
     }
 
     public static class AppAboutFragment extends PreferenceFragmentCompat {

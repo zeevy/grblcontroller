@@ -82,6 +82,7 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
+            android:theme="@style/AppTheme.NoActionBar"
             tools:targetApi="n"
             tools:ignore="LockedOrientationActivity,NonResizeableActivity" />
         <activity
@@ -89,6 +90,7 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
+            android:theme="@style/AppTheme.NoActionBar"
             tools:targetApi="n"
             tools:ignore="LockedOrientationActivity,NonResizeableActivity" />
 
