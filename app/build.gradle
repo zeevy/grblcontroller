@@ -39,6 +39,21 @@ android {
     namespace 'in.co.gorest.grblcontroller'
 }
 
+// Release signing is only wired up when RELEASE_KEYSTORE_PATH is set (the Play
+// publish CI job sets it from a secret). Local and CI builds without it keep
+// producing an unsigned release build, same as before.
+if (System.getenv("RELEASE_KEYSTORE_PATH")) {
+    android.signingConfigs {
+        release {
+            storeFile file(System.getenv("RELEASE_KEYSTORE_PATH"))
+            storePassword System.getenv("RELEASE_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("RELEASE_KEY_ALIAS")
+            keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+        }
+    }
+    android.buildTypes.release.signingConfig android.signingConfigs.release
+}
+
 allprojects {
     repositories {
         google()

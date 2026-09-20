@@ -11,3 +11,6 @@ gradle
 .externalNativeBuild
 CLAUDE.md
 .claude
+*.jks
+*.keystore
+release.keystore
