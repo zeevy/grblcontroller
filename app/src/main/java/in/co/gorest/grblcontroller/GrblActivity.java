@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -354,21 +355,17 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
 
             if(pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())){
-
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.text_power_management_warning_title))
-                        .setMessage(getString(R.string.text_power_management_warning_description))
-                        .setPositiveButton(getString(R.string.text_settings), (dialog, which) -> {
-                            try {
-                                Intent myIntent = new Intent();
-                                myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                                startActivity(myIntent);
-                            } catch (RuntimeException ignored) {}
-                        })
-                        .setNegativeButton(getString(R.string.text_cancel), null)
-                        .setCancelable(false)
-                        .show();
-
+                // Ask the system directly to allow background running. This shows a yes/no
+                // dialog instead of sending the user to the battery settings list.
+                try {
+                    Intent myIntent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    myIntent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivity(myIntent);
+                } catch (RuntimeException e) {
+                    try {
+                        startActivity(new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
+                    } catch (RuntimeException ignored) {}
+                }
             }
         }
     }
