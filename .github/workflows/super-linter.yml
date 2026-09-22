@@ -11,6 +11,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+permissions:
+  contents: read
+  statuses: write
+
 jobs:
   run-lint:
     runs-on: ubuntu-latest
@@ -26,4 +30,8 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "master"
+          # docs/js and docs/css hold third party libraries, not our code
+          FILTER_REGEX_EXCLUDE: .*docs/(js|css)/.*
+          # the Java code follows Android Studio style, not Google Java style
+          VALIDATE_GOOGLE_JAVA_FORMAT: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

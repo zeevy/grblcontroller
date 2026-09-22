@@ -3,6 +3,9 @@ name: Verify release signing
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     if: github.actor == github.repository_owner
