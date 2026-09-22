@@ -191,6 +191,7 @@
     <string name="text_straight_probe">G38.3: Прямое контактное измерение</string>
     <string name="text_streaming_stop_button_behaviour">Функции кнопки остановки трансляции</string>
     <string name="text_time_elapsed">Время работы</string>
+    <string name="text_progress">Прогресс</string>
     <string name="text_touch_plate_thickness">Толщина листа</string>
     <string name="text_unable_to_connect_to_device">Невозможно соединиться с устройством</string>
     <string name="text_unknown">Неизвестно</string>

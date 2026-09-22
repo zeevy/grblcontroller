@@ -20,18 +20,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
 
       - name: Lint Code Base
-        uses: super-linter/super-linter@v8
+        uses: super-linter/super-linter@4ce20838b8ab83717e78138c5b3a1407148e0918 # v8
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "master"
           # docs/js and docs/css hold third party libraries, not our code
           FILTER_REGEX_EXCLUDE: .*docs/(js|css)/.*
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_BIOME_LINT: false
+          # the release workflows share their setup steps on purpose
+          VALIDATE_JSCPD: false
           # the Java code follows Android Studio style, not Google Java style
           VALIDATE_GOOGLE_JAVA_FORMAT: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
