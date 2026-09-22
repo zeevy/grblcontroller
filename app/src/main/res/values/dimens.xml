@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing follows the Material 8dp grid. -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_s">8dp</dimen>
+    <dimen name="spacing_m">16dp</dimen>
+    <dimen name="spacing_l">24dp</dimen>
+    <dimen name="list_item_min_height">48dp</dimen>
+
+    <!-- Content sits 12dp from the screen edge. Buttons carry a 3dp inset in their
+         background, so the tab content pads 9dp and text rows pad 3dp more. -->
+    <dimen name="button_inset">3dp</dimen>
+    <dimen name="screen_edge">9dp</dimen>
+    <dimen name="card_edge">12dp</dimen>
+    <dimen name="card_padding">12dp</dimen>
+    <dimen name="corner_button">12dp</dimen>
+    <!-- Dialog buttons line up with the 16dp slider inset, minus the 3dp button inset. -->
+    <dimen name="dialog_button_edge">13dp</dimen>
+    <dimen name="corner_card">16dp</dimen>
+    <dimen name="button_min_height">46dp</dimen>
+    <dimen name="tab_height">48dp</dimen>
+    <!-- Vertical padding on each X, Y, Z row of the status card. -->
+    <dimen name="status_row_padding">6dp</dimen>
+</resources>

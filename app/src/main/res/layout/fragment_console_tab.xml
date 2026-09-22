@@ -6,23 +6,41 @@
         <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
     </data>
 
-    <ScrollView
+    <!-- Not a ScrollView: the page must stay screen high so the console well takes the spare space. -->
+    <FrameLayout
+        android:paddingStart="@dimen/screen_edge"
+        android:paddingEnd="@dimen/screen_edge"
         android:id="@+id/console_scroll_view"
-        android:paddingTop="4dp"
-        android:fillViewport="true"
+        android:paddingTop="@dimen/spacing_s"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_s"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/button_inset"
+                android:layout_marginEnd="@dimen/button_inset"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:paddingStart="@dimen/card_padding"
+                android:paddingEnd="@dimen/card_padding"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical">
 
             <RelativeLayout
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -45,17 +63,19 @@
             <ViewSwitcher
                 android:id="@+id/console_view_switcher"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <RelativeLayout
-                    android:padding="8dp"
+                    android:paddingTop="@dimen/spacing_xs"
+                    android:paddingBottom="@dimen/spacing_s"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:text="@{console.messages}"
-                        android:minHeight="250dp"
-                        android:maxLines="16"
+
+
                         android:padding="8dp"
                         android:gravity="bottom"
                         android:id="@+id/console_logger"
@@ -64,33 +84,39 @@
                         android:overScrollMode="always"
                         android:fadeScrollbars="false"
                         android:textSize="12sp"
-                        android:background="@drawable/rounded_border_edit_text"
+                        android:background="@drawable/bg_inset"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         tools:ignore="SmallSp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:padding="8dp"
+                    android:paddingTop="@dimen/spacing_xs"
+                    android:paddingBottom="@dimen/spacing_s"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:background="@drawable/rounded_border_edit_text"
+                        android:background="@drawable/bg_inset"
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="match_parent"
                         android:scrollbars="vertical"/>
 
                 </RelativeLayout>
 
             </ViewSwitcher>
 
+            <!-- The two buttons carry a 3dp inset, so pull the row out on the right to meet the card padding. -->
             <TableLayout
-                android:padding="4dp"
+                android:layout_marginEnd="-3dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="@dimen/spacing_s"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -141,9 +167,12 @@
 
             </TableLayout>
 
+            </LinearLayout>
+
+
         </LinearLayout>
 
-    </ScrollView>
+    </FrameLayout>
 
 </layout>
 

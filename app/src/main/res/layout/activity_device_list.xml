@@ -15,7 +15,10 @@
 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="8dp"
+    android:paddingStart="@dimen/spacing_l"
+    android:paddingEnd="@dimen/spacing_l"
+    android:paddingTop="@dimen/spacing_m"
+    android:paddingBottom="@dimen/spacing_s"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,12 +26,13 @@
     <TextView
         android:text="@string/text_paired_devices"
         android:textSize="20sp"
-        android:padding="4dp"
+        android:paddingTop="@dimen/spacing_xs"
+        android:paddingBottom="@dimen/spacing_s"
         android:textColor="@color/colorBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
-    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+    <View android:layout_marginBottom="@dimen/spacing_s" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
 
     <ListView
         android:id="@+id/paired_devices"

@@ -30,7 +30,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
@@ -116,7 +115,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         binding.setMachineStatus(machineStatus);
         View view = binding.getRoot();
 
-        RelativeLayout joggingStepFeedView = view.findViewById(R.id.jogging_step_feed_view);
+        View joggingStepFeedView = view.findViewById(R.id.jogging_step_feed_view);
         joggingStepFeedView.setOnClickListener(this);
 
         for(int resourceId : new Integer[]{R.id.jog_y_positive, R.id.jog_x_positive, R.id.jog_z_positive,

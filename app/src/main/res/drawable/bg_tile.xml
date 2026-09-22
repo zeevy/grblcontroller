@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rounded grey tile used for the step and feed values on the jogging tab. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/colorButton" />
+    <corners android:radius="@dimen/corner_button" />
+</shape>

@@ -6,7 +6,9 @@
     </data>
 
     <ScrollView
-        android:paddingTop="4dp"
+        android:paddingStart="@dimen/screen_edge"
+        android:paddingEnd="@dimen/screen_edge"
+        android:paddingTop="@dimen/spacing_s"
         android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,31 +18,145 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/jogging_step_feed_view"
-                android:paddingBottom="8dp" android:paddingTop="8dp" android:paddingLeft="4dp" android:paddingRight="4dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/button_inset"
+                android:layout_marginEnd="@dimen/button_inset"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:paddingStart="@dimen/card_padding"
+                android:paddingEnd="@dimen/card_padding"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_toStartOf="@+id/jogging_step_feed"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/text_steps_feed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/jogging_step_feed_view"
+                android:layout_marginStart="-3dp"
+                android:layout_marginEnd="-3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:clickable="true"
+                android:focusable="true">
 
-                <com.joanzapata.iconify.widget.IconTextView
-                    android:id="@+id/jogging_step_feed"
-                    android:layout_alignParentEnd="true"
-                    android:text='@{"XY:" + machineStatus.jogging.stepXY.toString() + " | Z:" + machineStatus.jogging.stepZ.toString() + " | F:" + machineStatus.jogging.feed.toString() + " {fa-edit 16dp}"}'
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/button_inset"
+                    android:layout_marginEnd="@dimen/button_inset"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="@dimen/spacing_s"
+                    android:paddingEnd="@dimen/spacing_s"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
 
-            </RelativeLayout>
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="{fa-arrows-alt 10sp @color/colorAccent} XY"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextSecondary"
+                        tools:ignore="HardcodedText" />
 
-            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{machineStatus.jogging.stepXY.toString()}'
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/button_inset"
+                    android:layout_marginEnd="@dimen/button_inset"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="@dimen/spacing_s"
+                    android:paddingEnd="@dimen/spacing_s"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="{fa-caret-up 10sp @color/colorAccent} Z"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextSecondary"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{machineStatus.jogging.stepZ.toString()}'
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:layout_marginStart="@dimen/button_inset"
+                    android:layout_marginEnd="@dimen/button_inset"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="@dimen/spacing_s"
+                    android:paddingEnd="@dimen/spacing_s"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="{fa-forward 10sp @color/colorAccent} Feed"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextSecondary"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{machineStatus.jogging.feed.toString()}'
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:background="@color/colorDivider" />
+
 
             <TableLayout
+                android:layout_marginStart="-3dp"
+                android:layout_marginEnd="-3dp"
                 android:layout_centerHorizontal="true"
                 android:stretchColumns="*"
                 android:layout_width="match_parent"
@@ -176,9 +292,26 @@
 
             </TableLayout>
 
-            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/button_inset"
+                android:layout_marginEnd="@dimen/button_inset"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:paddingStart="@dimen/card_padding"
+                android:paddingEnd="@dimen/card_padding"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical">
 
             <TableLayout
+                android:layout_marginStart="-3dp"
+                android:layout_marginEnd="-3dp"
                 android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -318,6 +451,9 @@
                 </TableRow>
 
             </TableLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

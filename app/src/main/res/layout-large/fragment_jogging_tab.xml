@@ -15,29 +15,116 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/jogging_step_feed_view"
-                android:padding="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:clickable="true"
+                android:focusable="true">
 
-                <TextView
-                    android:layout_toStartOf="@+id/jogging_step_feed"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/text_steps_feed"
-                    android:textSize="20sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/button_inset"
+                    android:layout_marginEnd="@dimen/button_inset"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="@dimen/spacing_s"
+                    android:paddingEnd="@dimen/spacing_s"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
 
-                <com.joanzapata.iconify.widget.IconTextView
-                    android:id="@+id/jogging_step_feed"
-                    android:layout_alignParentEnd="true"
-                    android:text='@{"XY:" + machineStatus.jogging.stepXY.toString() + " | Z:" + machineStatus.jogging.stepZ.toString() + " | F:" + machineStatus.jogging.feed.toString() + " {fa-edit 22sp}"}'
-                    android:textSize="20sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="{fa-arrows-alt 10sp @color/colorAccent} XY"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextSecondary"
+                        tools:ignore="HardcodedText" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{machineStatus.jogging.stepXY.toString()}'
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/button_inset"
+                    android:layout_marginEnd="@dimen/button_inset"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="@dimen/spacing_s"
+                    android:paddingEnd="@dimen/spacing_s"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="{fa-caret-up 10sp @color/colorAccent} Z"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextSecondary"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{machineStatus.jogging.stepZ.toString()}'
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:layout_marginStart="@dimen/button_inset"
+                    android:layout_marginEnd="@dimen/button_inset"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="@dimen/spacing_s"
+                    android:paddingEnd="@dimen/spacing_s"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="{fa-forward 10sp @color/colorAccent} Feed"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextSecondary"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{machineStatus.jogging.feed.toString()}'
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <View android:layout_margin="8dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
 

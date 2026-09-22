@@ -7,7 +7,10 @@
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:padding="16dp"
+        android:paddingStart="@dimen/spacing_l"
+        android:paddingEnd="@dimen/spacing_l"
+        android:paddingTop="@dimen/spacing_s"
+        android:paddingBottom="@dimen/spacing_s"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

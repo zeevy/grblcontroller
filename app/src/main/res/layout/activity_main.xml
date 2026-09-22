@@ -34,142 +34,164 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/view_last_toast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_marginStart="@dimen/card_edge"
+                    android:layout_marginTop="@dimen/spacing_s"
+                    android:layout_marginEnd="@dimen/card_edge"
                     android:clickable="false"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="4dp">
+                    app:cardBackgroundColor="@color/colorSurface"
+                    app:cardCornerRadius="@dimen/corner_card"
+                    app:cardElevation="0dp">
 
                     <TableLayout
                         android:id="@+id/view_toast"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:padding="12dp"
+                        android:padding="@dimen/card_padding"
                         android:stretchColumns="0,1,2">
 
                         <TableRow>
 
                             <TextView
+                                android:paddingBottom="@dimen/spacing_xs"
+                                android:textAppearance="@style/TextAppearance.Grbl.State"
                                 android:text="@{machineStatus.state}"
-                                android:textColor="@{machineStatus.state.equalsIgnoreCase(machineStatus.STATE_ALARM) ? @color/colorPrimary : @android:color/tertiary_text_dark}" />
+                                android:textColor="@{machineStatus.state.equalsIgnoreCase(machineStatus.STATE_ALARM) ? @color/colorPrimary : @color/colorTextSecondary}" />
 
-                            <TextView android:text="MPos"
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Caption"
+                                android:gravity="end|bottom"
+                                android:text="MPos"
                                 tools:ignore="HardcodedText" />
 
                             <TextView
-                                android:gravity="end"
+                                android:textAppearance="@style/TextAppearance.Grbl.Caption"
+                                android:gravity="end|bottom"
                                 android:text="WPos"
                                 tools:ignore="HardcodedText" />
                         </TableRow>
 
                         <TableRow>
 
-                            <View
-                                android:layout_width="fill_parent"
-                                android:layout_height="0.2dp"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="4dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorDivider" />
-                        </TableRow>
-
-                        <TableRow>
-
                             <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Axis"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
                                 android:text="X"
-                                android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @android:color/tertiary_text_dark}"
+                                android:textColor="@{machineStatus.enabledPins.x ? @color/colorPrimary : @color/colorTextSecondary}"
                                 tools:ignore="HardcodedText" />
 
-                            <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordX)}' />
-
-                            <com.joanzapata.iconify.widget.IconTextView
-                                android:gravity="end" android:id="@+id/wpos_edit_x" android:tag="X"
-                                android:text='@{String.format("%.3f {fa-edit 16sp}", machineStatus.workPosition.cordX)}' />
-
-                        </TableRow>
-
-                        <TableRow>
-
-                            <View
-                                android:layout_width="fill_parent"
-                                android:layout_height="0.05dp"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginBottom="2dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorDivider" />
-                        </TableRow>
-
-                        <TableRow>
-
                             <TextView
-                                android:text="Y"
-                                android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @android:color/tertiary_text_dark}"
-                                tools:ignore="HardcodedText" />
-
-                            <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordY)}' />
-
-                            <com.joanzapata.iconify.widget.IconTextView
-                                android:gravity="end" android:id="@+id/wpos_edit_y" android:tag="Y"
-                                android:text='@{String.format("%.3f {fa-edit 16sp}", machineStatus.workPosition.cordY)}' />
-
-                        </TableRow>
-
-                        <TableRow>
-
-                            <View
-                                android:layout_width="fill_parent"
-                                android:layout_height="0.05dp"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginBottom="2dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorDivider" />
-                        </TableRow>
-
-                        <TableRow>
-
-                            <TextView
-                                android:text="Z"
-                                android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @android:color/tertiary_text_dark}"
-                                tools:ignore="HardcodedText" />
-
-                            <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordZ)}' />
-
-                            <com.joanzapata.iconify.widget.IconTextView
-                                android:gravity="end" android:id="@+id/wpos_edit_z" android:tag="Z"
-                                android:text='@{String.format("%.3f {fa-edit 16sp}", machineStatus.workPosition.cordZ)}'
-                                android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tertiary_text_dark}" />
-
-                        </TableRow>
-
-                        <TableRow>
-
-                            <View
-                                android:layout_width="fill_parent"
-                                android:layout_height="0.2dp"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="4dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorDivider" />
-                        </TableRow>
-
-                        <TableRow>
-
-                            <TextView android:text='@{machineStatus.parserState.coordinateSystem + " " + machineStatus.parserState.unitSelection + " " + machineStatus.parserState.distanceMode}' />
-
-                            <TextView android:text="@{machineStatus.feedRate.toString()}" />
-
-                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Coordinate"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
                                 android:gravity="end"
-                                android:text='@{machineStatus.plannerBuffer.toString() + " | " + machineStatus.serialRxBuffer.toString()}' />
+                                android:text='@{String.format("%.3f", machineStatus.machinePosition.cordX)}' />
+
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Coordinate"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
+                                android:textColor="@color/colorTextSecondary"
+                                android:gravity="end" android:id="@+id/wpos_edit_x" android:tag="X"
+                                android:text='@{String.format("%.3f", machineStatus.workPosition.cordX)}' />
+
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Axis"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
+                                android:text="Y"
+                                android:textColor="@{machineStatus.enabledPins.y ? @color/colorPrimary : @color/colorTextSecondary}"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Coordinate"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
+                                android:gravity="end"
+                                android:text='@{String.format("%.3f", machineStatus.machinePosition.cordY)}' />
+
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Coordinate"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
+                                android:textColor="@color/colorTextSecondary"
+                                android:gravity="end" android:id="@+id/wpos_edit_y" android:tag="Y"
+                                android:text='@{String.format("%.3f", machineStatus.workPosition.cordY)}' />
+
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Axis"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
+                                android:text="Z"
+                                android:textColor="@{machineStatus.enabledPins.z ? @color/colorPrimary : @color/colorTextSecondary}"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Coordinate"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
+                                android:gravity="end"
+                                android:text='@{String.format("%.3f", machineStatus.machinePosition.cordZ)}' />
+
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Coordinate"
+                                android:paddingTop="@dimen/status_row_padding"
+                                android:paddingBottom="@dimen/status_row_padding"
+                                android:gravity="end" android:id="@+id/wpos_edit_z" android:tag="Z"
+                                android:text='@{String.format("%.3f", machineStatus.workPosition.cordZ)}'
+                                android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @color/colorTextSecondary}" />
+
+                        </TableRow>
+
+                        <TableRow>
+
+                            <View
+                                android:layout_width="fill_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="@dimen/spacing_s"
+                                android:layout_marginBottom="@dimen/spacing_s"
+                                android:layout_weight="1"
+                                android:background="@color/colorDivider" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Footer"
+                                android:text='@{machineStatus.parserState.coordinateSystem + " " + machineStatus.parserState.unitSelection + " " + machineStatus.parserState.distanceMode}' />
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Footer"
+                                android:gravity="center"
+                                android:text='@{"F" + machineStatus.feedRate.toString()}' />
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.Grbl.Footer"
+                                android:gravity="end"
+                                android:text='@{"Rx" + machineStatus.plannerBuffer.toString() + " Tx" + machineStatus.serialRxBuffer.toString()}' />
                         </TableRow>
 
                     </TableLayout>
@@ -178,22 +200,25 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/spacing_s"
                     android:clickable="false"
                     android:focusable="false"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="4dp">
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="0dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp">
+                        android:layout_height="match_parent">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tab_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp"
+                            android:layout_height="@dimen/tab_height"
+                            android:background="@android:color/transparent"
+                            app:tabIndicatorHeight="3dp"
                             tools:ignore="SpeakableTextPresentCheck">
 
                         </com.google.android.material.tabs.TabLayout>
@@ -201,17 +226,17 @@
                         <View
                             android:id="@+id/tab_layout_spacer"
                             android:layout_width="fill_parent"
-                            android:layout_height="0.2dp"
+                            android:layout_height="1dp"
                             android:layout_below="@id/tab_layout"
-                            android:layout_marginBottom="4dp"
                             android:background="@color/colorDivider" />
 
                         <androidx.viewpager.widget.ViewPager
                             android:id="@+id/tab_layout_pager"
                             android:layout_width="match_parent"
-                            android:layout_height="fill_parent"
+                            android:layout_height="match_parent"
                             android:layout_below="@id/tab_layout_spacer"
-                            android:background="@android:color/white"
+                            android:layout_alignParentBottom="true"
+                            android:background="@android:color/transparent"
                             app:layout_behavior="@string/appbar_scrolling_view_behavior"
                             tools:ignore="SpeakableTextPresentCheck" />
 

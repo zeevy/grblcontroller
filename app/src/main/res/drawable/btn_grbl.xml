@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Flat rounded button. The 3dp inset gives a 6dp gap between buttons that sit side by side. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="@dimen/button_inset"
+    android:insetTop="@dimen/button_inset"
+    android:insetRight="@dimen/button_inset"
+    android:insetBottom="@dimen/button_inset">
+    <ripple android:color="?attr/colorControlHighlight">
+        <item>
+            <selector>
+                <item android:state_enabled="false">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/colorButtonDisabled" />
+                        <corners android:radius="@dimen/corner_button" />
+                    </shape>
+                </item>
+                <item>
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/colorButton" />
+                        <corners android:radius="@dimen/corner_button" />
+                    </shape>
+                </item>
+            </selector>
+        </item>
+    </ripple>
+</inset>

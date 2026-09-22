@@ -8,6 +8,51 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowFullscreen">true</item>
 		<item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="buttonStyle">@style/Widget.Grbl.Button</item>
+        <item name="android:buttonStyle">@style/Widget.Grbl.Button</item>
+    </style>
+
+    <!-- Flat rounded button used for every button in the app. -->
+    <style name="Widget.Grbl.Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_grbl</item>
+        <item name="android:textColor">@color/btn_grbl_text</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:minHeight">@dimen/button_min_height</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingLeft">@dimen/spacing_s</item>
+        <item name="android:paddingRight">@dimen/spacing_s</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <!-- Status card text. -->
+    <style name="TextAppearance.Grbl.State" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.06</item>
+    </style>
+    <style name="TextAppearance.Grbl.Caption" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.12</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+    <style name="TextAppearance.Grbl.Axis" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.Grbl.Coordinate" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+    <style name="TextAppearance.Grbl.Footer" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

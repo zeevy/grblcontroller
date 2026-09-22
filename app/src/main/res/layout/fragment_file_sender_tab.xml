@@ -8,110 +8,224 @@
     </data>
 
     <ScrollView
+        android:paddingStart="@dimen/screen_edge"
+        android:paddingEnd="@dimen/screen_edge"
         android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/spacing_s"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:padding="4dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/button_inset"
+                android:layout_marginEnd="@dimen/button_inset"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:paddingStart="@dimen/card_padding"
+                android:paddingEnd="@dimen/card_padding"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_toStartOf="@+id/select_gcode_file"
-                    android:layout_alignParentStart="true"
-                    android:text="@{fileSender.gcodeFileName}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <com.joanzapata.iconify.widget.IconTextView
-                    android:enabled="@{(machineStatus.state.equals(machineStatus.STATE_IDLE) || machineStatus.state.equals(machineStatus.STATE_CHECK)) &amp;&amp; fileSender.status.equals(fileSender.STATUS_IDLE)}"
-                    android:text="{fa-folder-open 24dp}"
-                    android:id="@+id/select_gcode_file"
-                    android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:ignore="HardcodedText" />
-
-            </RelativeLayout>
-
-            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.gridlayout.widget.GridLayout
-                    app:columnCount="2"
-                    app:useDefaultMargins="true"
-                    app:alignmentMode="alignBounds"
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/list_item_min_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <TextView app:layout_gravity="left" android:text="@string/text_lines_total_sent" />
-                    <TextView app:layout_gravity="right" android:text='@{fileSender.rowsInFile.toString() + " | " + fileSender.rowsSent.toString()}' />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextPrimary"
+                        android:maxLines="2"
+                        android:ellipsize="middle"
+                        android:text="@{fileSender.gcodeFileName}" />
 
-                    <TextView app:layout_gravity="left" android:text="@string/text_time_elapsed" />
-                    <TextView app:layout_gravity="right" android:text="@{fileSender.elapsedTime}" />
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:enabled="@{(machineStatus.state.equals(machineStatus.STATE_IDLE) || machineStatus.state.equals(machineStatus.STATE_CHECK)) &amp;&amp; fileSender.status.equals(fileSender.STATUS_IDLE)}"
+                        android:text="{fa-folder-open 20dp}"
+                        android:id="@+id/select_gcode_file"
+                        android:layout_width="64dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="@dimen/spacing_s"
+                        android:gravity="center"
+                        android:background="@drawable/bg_tile"
+                        android:textColor="@color/btn_grbl_text"
+                        tools:ignore="HardcodedText" />
 
-                    <TextView app:layout_gravity="left" android:text='@{machineStatus.compileTimeOptions.variableSpindle ? @string/text_overrides_fsv : @string/text_overrides_fs}' />
-                    <TextView app:layout_gravity="right" android:text='@{machineStatus.overridePercents.feed.toString() + ":" + machineStatus.overridePercents.spindle.toString() + (machineStatus.compileTimeOptions.variableSpindle ? ":" + machineStatus.spindleSpeed : "")}' />
+                </LinearLayout>
 
-                </androidx.gridlayout.widget.GridLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
 
-            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="44dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorTextPrimary"
+                        android:text='@{machineStatus.compileTimeOptions.variableSpindle ? @string/text_overrides_fsv : @string/text_overrides_fs}' />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent"
+                        android:text='@{"F" + machineStatus.overridePercents.feed.toString() + ":S" + machineStatus.overridePercents.spindle.toString() + (machineStatus.compileTimeOptions.variableSpindle ? ":V" + machineStatus.spindleSpeed : "")}' />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="44dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorTextPrimary"
+                        android:text="@string/text_progress" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent"
+                        android:text='@{safeUnbox(fileSender.rowsInFile) > 0 ? (safeUnbox(fileSender.rowsSent) * 100 / safeUnbox(fileSender.rowsInFile)) + "% (" + fileSender.rowsSent + "/" + fileSender.rowsInFile + ")" : "0% (0/0)"}' />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="44dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorTextPrimary"
+                        android:text="@string/text_time_elapsed" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent"
+                        android:text="@{fileSender.elapsedTime}" />
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
+
+                <!-- Buttons carry a 3dp inset, so pull them out by 3dp to line up with the card text. -->
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-3dp"
+                    android:layout_marginEnd="-3dp"
+                    android:paddingTop="@dimen/spacing_xs"
+                    android:paddingBottom="@dimen/spacing_xs"
+                    android:stretchColumns="*">
+                    <TableRow>
+
+                        <com.joanzapata.iconify.widget.IconButton
+                            android:id="@+id/enable_checking"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                            android:gravity="center"
+                            android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on : @string/text_check_mode_off}'
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                        <com.joanzapata.iconify.widget.IconButton
+                            android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                            android:id="@+id/start_streaming"
+                            android:text="{fa-play 16dp} {fa-pause 16dp}"
+                            android:layout_weight="0.33"
+                            android:layout_width="0dp"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            tools:ignore="HardcodedText" />
+
+                        <com.joanzapata.iconify.widget.IconButton
+                            android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
+                            android:id="@+id/stop_streaming"
+                            android:layout_gravity="center_vertical"
+                            android:text=" {fa-stop 16dp @color/colorPrimary} "
+                            android:layout_weight="0.33"
+                            android:layout_width="0dp"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            tools:ignore="HardcodedText" />
+
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/button_inset"
+                android:layout_marginEnd="@dimen/button_inset"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:paddingStart="@dimen/card_padding"
+                android:paddingEnd="@dimen/card_padding"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical">
+
+            <!-- Buttons carry a 3dp inset, so pull them out by 3dp to line up with the card edge. -->
             <TableLayout
                 android:layout_centerHorizontal="true"
+                android:layout_marginStart="-3dp"
+                android:layout_marginEnd="-3dp"
                 android:stretchColumns="*"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="ObsoleteLayoutParam">
-
-                <TableRow>
-
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/enable_checking"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:gravity="center"
-                        android:text='@{machineStatus.state.equals(machineStatus.STATE_CHECK) ? @string/text_check_mode_on : @string/text_check_mode_off}'
-                        tools:ignore="SpeakableTextPresentCheck" />
-
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:id="@+id/start_streaming"
-                        android:text="{fa-play 16dp} {fa-pause 16dp}"
-                        android:layout_weight="0.33"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
-
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:id="@+id/stop_streaming"
-                        android:layout_gravity="center_vertical"
-                        android:text=" {fa-stop 16dp @color/colorPrimary} "
-                        android:layout_weight="0.33"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_height="wrap_content"
-                        tools:ignore="HardcodedText" />
-
-                </TableRow>
-
-                <TableRow>
-                    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:layout_weight="1" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
-                </TableRow>
 
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
@@ -265,6 +379,8 @@
                 </TableRow>
 
             </TableLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

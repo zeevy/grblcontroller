@@ -6,7 +6,9 @@
     </data>
 
     <ScrollView
-        android:paddingTop="4dp"
+        android:paddingStart="@dimen/screen_edge"
+        android:paddingEnd="@dimen/screen_edge"
+        android:paddingTop="@dimen/spacing_s"
         android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,6 +18,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/button_inset"
+                android:layout_marginEnd="@dimen/button_inset"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:paddingStart="@dimen/card_padding"
+                android:paddingEnd="@dimen/card_padding"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/probing_help"
                 android:layout_width="match_parent"
@@ -23,8 +40,10 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="4dp"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
                 tools:targetApi="m"
                 tools:ignore="UnusedAttribute">
 
@@ -32,6 +51,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary"
                     android:text="@string/text_probing_tab_heading"
                     tools:ignore="RelativeOverlap" />
 
@@ -43,19 +65,26 @@
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:background="@color/colorDivider" />
 
-            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+
 
             <RelativeLayout
                 android:id="@+id/probing_feed_rate_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="4dp"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
                 tools:targetApi="m"
                 tools:ignore="UnusedAttribute">
 
@@ -64,10 +93,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/probing_feed_rate"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorTextPrimary"
                     android:text="@string/text_probing_feed_rate" />
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_feed_rate"
+                    android:fontFamily="monospace"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -75,17 +109,22 @@
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
 
             <RelativeLayout
                 android:id="@+id/probing_plate_thickness_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="4dp"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
                 tools:targetApi="m"
                 tools:ignore="UnusedAttribute">
 
@@ -94,10 +133,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/probing_plate_thickness"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorTextPrimary"
                     android:text="@string/text_touch_plate_thickness" />
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_plate_thickness"
+                    android:fontFamily="monospace"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -105,17 +149,22 @@
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
 
             <RelativeLayout
                 android:id="@+id/probing_distance_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="4dp"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
                 tools:targetApi="m"
                 tools:ignore="UnusedAttribute">
 
@@ -124,10 +173,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/probing_distance"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorTextPrimary"
                     android:text="@string/text_distance_to_probe" />
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/probing_distance"
+                    android:fontFamily="monospace"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -135,16 +189,24 @@
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
 
             <RelativeLayout
                 android:id="@+id/last_probe_position_view"
-                android:padding="4dp"
-                android:layout_marginBottom="4dp"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_toStartOf="@+id/last_probe_position"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorTextPrimary"
                     android:text="@string/text_last_probe_position"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
@@ -153,20 +215,31 @@
                 <TextView
                     android:text='@{(machineStatus.lastProbePosition != null) ? machineStatus.lastProbePosition.cordZ.toString() : @string/text_unknown}'
                     android:id="@+id/last_probe_position"
+                    android:fontFamily="monospace"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
             </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
 
             <RelativeLayout
-                android:padding="4dp"
-                android:layout_marginBottom="4dp"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_toStartOf="@+id/current_tlo"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorTextPrimary"
                     android:text="@string/text_current_tlo"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
@@ -175,20 +248,31 @@
                 <TextView
                     android:text='@{machineStatus.toolLengthOffset.toString()}'
                     android:id="@+id/current_tlo"
+                    android:fontFamily="monospace"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
             </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
 
             <RelativeLayout
-                android:padding="4dp"
-                android:layout_marginBottom="4dp"
+                android:paddingTop="@dimen/spacing_xs"
+                android:paddingBottom="@dimen/spacing_xs"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_toStartOf="@+id/auto_zero_after_probe"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorTextPrimary"
                     android:text="@string/text_auto_zero_z_axis_after_probe"
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
@@ -203,9 +287,17 @@
 
             </RelativeLayout>
 
-            <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:background="@color/colorDivider" />
 
             <TableLayout
+                android:layout_marginStart="-3dp"
+                android:layout_marginEnd="-3dp"
                 android:layout_centerHorizontal="true"
                 android:stretchColumns="*"
                 android:layout_width="match_parent"
@@ -242,6 +334,9 @@
                 </TableRow>
 
             </TableLayout>
+            </LinearLayout>
+
+
 
         </LinearLayout>
 

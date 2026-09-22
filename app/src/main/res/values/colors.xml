@@ -8,4 +8,15 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorDivider">#bdbdbd</color>
     <color name="colorBlack">#000000</color>
+
+    <!-- Surfaces, darkest to lightest: enabled button, card, page, disabled button.
+         Disabled buttons sit lighter than the page so they read as recessed. -->
+    <color name="colorBackground">#E8E9ED</color>
+    <color name="colorSurface">#DADDE3</color>
+    <color name="colorButton">#C9CED6</color>
+    <color name="colorButtonDisabled">#F3F4F6</color>
+    <color name="colorButtonText">#1F2328</color>
+    <color name="colorButtonTextDisabled">#9AA0A6</color>
+    <color name="colorTextPrimary">#1F2328</color>
+    <color name="colorTextSecondary">#5F6368</color>
 </resources>

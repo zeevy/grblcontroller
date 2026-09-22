@@ -39,7 +39,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent" android:layout_height="wrap_content" app:cardElevation="4dp" android:layout_margin="8dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content" app:cardElevation="0dp" app:cardCornerRadius="@dimen/corner_card" app:cardBackgroundColor="@color/colorSurface" android:layout_margin="8dp"
                 android:focusable="true" android:clickable="true" android:id="@+id/view_last_toast"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -66,7 +66,7 @@
                         <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordX)}' android:layout_gravity="center"  android:textSize="20sp" />
                         <com.joanzapata.iconify.widget.IconTextView
                             android:gravity="end" android:id="@+id/wpos_edit_x" android:tag="X"
-                            android:text='@{String.format("%.3f {fa-edit 20sp}", machineStatus.workPosition.cordX)}'
+                            android:text='@{String.format("%.3f", machineStatus.workPosition.cordX)}'
                             android:textSize="20sp"/>
 
                     </TableRow>
@@ -80,7 +80,7 @@
                         <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordY)}' android:layout_gravity="center"  android:textSize="20sp" />
                         <com.joanzapata.iconify.widget.IconTextView
                             android:gravity="end" android:id="@+id/wpos_edit_y" android:tag="Y"
-                            android:text='@{String.format("%.3f {fa-edit 20sp}", machineStatus.workPosition.cordY)}'
+                            android:text='@{String.format("%.3f", machineStatus.workPosition.cordY)}'
                             android:textSize="20sp"/>
 
                     </TableRow>
@@ -94,7 +94,7 @@
                         <TextView android:text='@{String.format("%.3f", machineStatus.machinePosition.cordZ)}' android:layout_gravity="center"  android:textSize="20sp" />
                         <com.joanzapata.iconify.widget.IconTextView
                             android:gravity="end" android:id="@+id/wpos_edit_z" android:tag="Z"
-                            android:text='@{String.format("%.3f {fa-edit 20sp}", machineStatus.workPosition.cordZ)}'
+                            android:text='@{String.format("%.3f", machineStatus.workPosition.cordZ)}'
                             android:textColor="@{(machineStatus.toolLengthOffset != 0) ? @color/colorPrimary : @android:color/tertiary_text_dark}"
                             android:textSize="20sp" />
                     </TableRow>

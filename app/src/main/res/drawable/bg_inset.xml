@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Grey rounded well used for the console output inside a white card. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/colorWhite" />
+    <corners android:radius="@dimen/corner_button" />
+</shape>

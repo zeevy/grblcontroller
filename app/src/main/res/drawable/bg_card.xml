@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- White rounded card used for value groups inside the tabs. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/colorSurface" />
+    <corners android:radius="@dimen/corner_button" />
+</shape>

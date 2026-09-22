@@ -339,6 +339,7 @@
     <string name="text_gcode_length_warning">WARNING! Gcode command with length up to 80 characters found at line</string>
     <string name="text_lines_total_sent">Total lines | Sent</string>
     <string name="text_time_elapsed">Time elapsed</string>
+    <string name="text_progress">Progress</string>
     <string name="text_file_not_found">File not found!</string>
     <string name="text_overrides_fsv">Overrides F:S:V</string>
     <string name="text_overrides_fs">Overrides F:S</string>

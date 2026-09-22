@@ -421,6 +421,7 @@
         android:key="@string/preference_ignore_error_20"
         android:icon="@drawable/ic_warning_black_24dp"
         android:title="Ignore unsupported gcode command error"
+        android:singleLineTitle="false"
         android:summary="ignores the grbl error: unsupported or invalid g-code command found in block."
         android:defaultValue="false"/>
 

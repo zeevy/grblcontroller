@@ -77,9 +77,9 @@ public class ProbingTabFragment extends BaseFragment {
         sharedPref = EnhancedSharedPreferences.getInstance(requireActivity().getApplicationContext(), getString(R.string.shared_preference_key));
 
         if(GrblActivity.isTablet(requireActivity())){
-            this.editIcon = " {fa-edit 22sp}";
+            this.editIcon = "";
         }else{
-            this.editIcon = " {fa-edit 16sp}";
+            this.editIcon = "";
         }
 
         EventBus.getDefault().register(this);

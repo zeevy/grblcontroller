@@ -9,8 +9,11 @@
     <View android:layout_marginBottom="8dp" android:layout_marginTop="4dp" android:layout_height="0.4dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
 
     <RelativeLayout
-        android:padding="16dp"
-        android:layout_marginBottom="8dp"
+        android:paddingStart="@dimen/spacing_l"
+        android:paddingEnd="@dimen/spacing_l"
+        android:paddingTop="@dimen/spacing_s"
+        android:paddingBottom="@dimen/spacing_s"
+        android:layout_marginBottom="@dimen/spacing_s"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,6 +41,8 @@
         android:layout_height="wrap_content">
 
         <com.warkiz.widget.IndicatorStayLayout
+            android:paddingStart="@dimen/spacing_m"
+            android:paddingEnd="@dimen/spacing_m"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -55,8 +60,8 @@
     </RelativeLayout>
 
     <TableLayout
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingStart="@dimen/dialog_button_edge"
+        android:paddingEnd="@dimen/dialog_button_edge"
         android:layout_centerHorizontal="true"
         android:stretchColumns="*"
         android:layout_width="match_parent"
@@ -68,7 +73,7 @@
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_xy_step_small"
                 android:tag="@string/preference_jog_xy_step_small"
-                android:layout_weight="0.25"
+                android:layout_weight="0.3333"
                 android:layout_width="0dp"
                 android:text="XY: Small"
                 tools:ignore="HardcodedText" />
@@ -93,7 +98,7 @@
 
     </TableLayout>
 
-    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+    <View android:layout_marginStart="@dimen/spacing_l" android:layout_marginEnd="@dimen/spacing_l" android:layout_marginTop="@dimen/spacing_s" android:layout_marginBottom="@dimen/spacing_s" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
 
     <RelativeLayout
         android:layout_marginBottom="8dp"
@@ -101,6 +106,8 @@
         android:layout_height="wrap_content">
 
         <com.warkiz.widget.IndicatorStayLayout
+            android:paddingStart="@dimen/spacing_m"
+            android:paddingEnd="@dimen/spacing_m"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -118,8 +125,8 @@
     </RelativeLayout>
 
     <TableLayout
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingStart="@dimen/dialog_button_edge"
+        android:paddingEnd="@dimen/dialog_button_edge"
         android:layout_centerHorizontal="true"
         android:stretchColumns="*"
         android:layout_width="match_parent"
@@ -131,7 +138,7 @@
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/jog_z_step_small"
                 android:tag="@string/preference_jog_z_step_small"
-                android:layout_weight="0.25"
+                android:layout_weight="0.3333"
                 android:layout_width="0dp"
                 android:text="Z: Small"
                 tools:ignore="HardcodedText" />
@@ -156,7 +163,7 @@
 
     </TableLayout>
 
-    <View android:layout_margin="4dp" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
+    <View android:layout_marginStart="@dimen/spacing_l" android:layout_marginEnd="@dimen/spacing_l" android:layout_marginTop="@dimen/spacing_s" android:layout_marginBottom="@dimen/spacing_s" android:layout_height="0.2dp" android:background="@color/colorDivider" android:layout_width="fill_parent" />
 
     <RelativeLayout
         android:layout_marginBottom="8dp"
@@ -164,6 +171,8 @@
         android:layout_height="wrap_content">
 
         <com.warkiz.widget.IndicatorStayLayout
+            android:paddingStart="@dimen/spacing_m"
+            android:paddingEnd="@dimen/spacing_m"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

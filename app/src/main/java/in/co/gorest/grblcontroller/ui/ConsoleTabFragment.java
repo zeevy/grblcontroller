@@ -94,12 +94,28 @@ public class ConsoleTabFragment extends BaseFragment {
 
         final EditText commandInput = view.findViewById(R.id.command_input);
 
+        // Keep touch scrolling inside the console text. The request goes up to every parent on its own.
         consoleLogView.setOnTouchListener((v, event) -> {
-            v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
+            v.getParent().requestDisallowInterceptTouchEvent(true);
             if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-                v.getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                v.getParent().requestDisallowInterceptTouchEvent(false);
             }
             return false;
+        });
+
+        // Show the newest line when text arrives.
+        consoleLogView.addTextChangedListener(new android.text.TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(android.text.Editable s) {
+                consoleLogView.post(() -> {
+                    android.text.Layout layout = consoleLogView.getLayout();
+                    if (layout == null) return;
+                    int overflow = layout.getLineTop(consoleLogView.getLineCount()) - consoleLogView.getHeight()
+                            + consoleLogView.getPaddingTop() + consoleLogView.getPaddingBottom();
+                    consoleLogView.scrollTo(0, Math.max(0, overflow));
+                });
+            }
         });
 
         IconButton sendCommand = view.findViewById(R.id.send_command);

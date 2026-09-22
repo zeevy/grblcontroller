@@ -23,8 +23,9 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:padding="@dimen/spacing_s"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 tools:ignore="UnusedAttribute">
 
                 <com.joanzapata.iconify.widget.IconTextView
@@ -51,12 +52,12 @@
                 android:id="@+id/probing_feed_rate_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:padding="@dimen/spacing_s"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 tools:ignore="UnusedAttribute">
 
                 <TextView
@@ -82,12 +83,12 @@
                 android:id="@+id/probing_plate_thickness_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:padding="@dimen/spacing_s"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 tools:ignore="UnusedAttribute">
 
                 <TextView
@@ -113,12 +114,12 @@
                 android:id="@+id/probing_distance_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:padding="@dimen/spacing_s"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 tools:ignore="UnusedAttribute">
 
                 <TextView
@@ -142,8 +143,9 @@
 
             <RelativeLayout
                 android:id="@+id/last_probe_position_view"
-                android:padding="8dp"
-                android:layout_marginBottom="4dp"
+                android:padding="@dimen/spacing_s"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -166,8 +168,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:padding="8dp"
-                android:layout_marginBottom="4dp"
+                android:padding="@dimen/spacing_s"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -190,8 +193,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:padding="8dp"
-                android:layout_marginBottom="4dp"
+                android:padding="@dimen/spacing_s"
+                android:minHeight="@dimen/list_item_min_height"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
