@@ -3,20 +3,32 @@
     <color name="colorPrimary">#d50000</color>
     <color name="colorPrimaryLight">#ff5131</color>
     <color name="colorPrimaryDark">#9b0000</color>
-    <color name="colorAccent">#338a3e</color>
+    <color name="colorAccent">#00796B</color>
     <color name="colorPrimaryText">#ffffff</color>
     <color name="colorWhite">#ffffff</color>
-    <color name="colorDivider">#bdbdbd</color>
+    <color name="colorDivider">#C9CED8</color>
     <color name="colorBlack">#000000</color>
 
     <!-- Surfaces, darkest to lightest: enabled button, card, page, disabled button.
          Disabled buttons sit lighter than the page so they read as recessed. -->
-    <color name="colorBackground">#E8E9ED</color>
-    <color name="colorSurface">#DADDE3</color>
-    <color name="colorButton">#C9CED6</color>
-    <color name="colorButtonDisabled">#F3F4F6</color>
-    <color name="colorButtonText">#1F2328</color>
-    <color name="colorButtonTextDisabled">#9AA0A6</color>
-    <color name="colorTextPrimary">#1F2328</color>
-    <color name="colorTextSecondary">#5F6368</color>
+    <color name="colorBackground">#E4E7ED</color>
+    <color name="colorSurface">#F3F5F8</color>
+    <color name="colorButton">#D3D8E1</color>
+    <color name="colorButtonDisabled">#FAFBFD</color>
+    <!-- Selected buttons: active coordinate system, check mode, rapid override, spindle and coolant. -->
+    <color name="colorButtonSelected">#C5E3DE</color>
+    <color name="colorButtonTextSelected">#00594F</color>
+    <!-- Machine state word on the status card. -->
+    <color name="stateIdle">#2E7D32</color>
+    <color name="stateRun">#1565C0</color>
+    <color name="stateJog">#0277BD</color>
+    <color name="stateHold">#E65100</color>
+    <color name="stateDoor">#E68A00</color>
+    <color name="stateCheck">#7B1FA2</color>
+    <color name="stateHome">#00695C</color>
+    <color name="stateAlarm">#C62828</color>
+    <color name="colorButtonText">#1B222C</color>
+    <color name="colorButtonTextDisabled">#9AA3B0</color>
+    <color name="colorTextPrimary">#1B222C</color>
+    <color name="colorTextSecondary">#4E5665</color>
 </resources>

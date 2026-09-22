@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="in.co.gorest.grblcontroller.ui.StateColors" />
         <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
     </data>
 
@@ -67,7 +68,7 @@
                                 android:paddingBottom="@dimen/spacing_xs"
                                 android:textAppearance="@style/TextAppearance.Grbl.State"
                                 android:text="@{machineStatus.state}"
-                                android:textColor="@{machineStatus.state.equalsIgnoreCase(machineStatus.STATE_ALARM) ? @color/colorPrimary : @color/colorTextSecondary}" />
+                                android:textColor="@{StateColors.forState(context, machineStatus.state)}" />
 
                             <TextView
                                 android:textAppearance="@style/TextAppearance.Grbl.Caption"

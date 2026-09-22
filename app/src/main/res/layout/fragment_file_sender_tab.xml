@@ -170,6 +170,7 @@
 
                         <com.joanzapata.iconify.widget.IconButton
                             android:id="@+id/enable_checking"
+                            android:selected="@{machineStatus.state.equals(machineStatus.STATE_CHECK)}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.33"
@@ -315,6 +316,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/rapid_overrides_reset"
+                        android:selected="@{safeUnbox(machineStatus.overridePercents.rapid) == 100}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.33"
@@ -325,6 +327,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/rapid_override_medium"
+                        android:selected="@{safeUnbox(machineStatus.overridePercents.rapid) == 50}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.33"
@@ -335,6 +338,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/rapid_override_low"
+                        android:selected="@{safeUnbox(machineStatus.overridePercents.rapid) == 25}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.33"
@@ -349,6 +353,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/toggle_spindle"
+                        android:selected="@{machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.33"
@@ -359,6 +364,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/toggle_flood_coolant"
+                        android:selected="@{machineStatus.accessoryStates.flood}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.33"
@@ -369,6 +375,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/toggle_mist_coolant"
+                        android:selected="@{machineStatus.accessoryStates.mist}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.33"

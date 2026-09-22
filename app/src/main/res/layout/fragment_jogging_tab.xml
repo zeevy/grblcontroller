@@ -367,6 +367,7 @@
 
                     <com.joanzapata.iconify.widget.IconButton
                         android:id="@+id/wpos_g54"
+                        android:selected='@{"G54".equals(machineStatus.parserState.coordinateSystem)}'
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:tag="G54"
                         android:text="G54"
@@ -379,6 +380,7 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/wpos_g55"
+                        android:selected='@{"G55".equals(machineStatus.parserState.coordinateSystem)}'
                         android:tag="G55"
                         android:text="G55"
                         android:layout_weight="0.25"
@@ -390,6 +392,7 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/wpos_g56"
+                        android:selected='@{"G56".equals(machineStatus.parserState.coordinateSystem)}'
                         android:tag="G56"
                         android:text="G56"
                         android:layout_weight="0.25"
@@ -401,6 +404,7 @@
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/wpos_g57"
+                        android:selected='@{"G57".equals(machineStatus.parserState.coordinateSystem)}'
                         android:tag="G57"
                         android:text="G57"
                         android:layout_weight="0.25"
