@@ -58,6 +58,7 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.Binder;
 import android.os.Build;
+import android.util.Log;
 import android.os.Handler;
 import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
@@ -86,6 +87,8 @@ import in.co.gorest.grblcontroller.model.GcodeCommand;
 import in.co.gorest.grblcontroller.util.GrblUtils;
 
 public class GrblUsbSerialService extends Service {
+
+    private static final String TAG = GrblUsbSerialService.class.getSimpleName();
 
     public static final String ACTION_USB_READY = "com.felhr.connectivityservices.USB_READY";
     public static final String ACTION_USB_ATTACHED = "android.hardware.usb.action.USB_DEVICE_ATTACHED";
@@ -135,10 +138,6 @@ public class GrblUsbSerialService extends Service {
         setFilter();
         usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
         findSerialPortDevice();
-
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-            startForeground(Constants.USB_OTG_SERVICE_NOTIFICATION_ID, this.getNotification(null));
-        }
 
         serialUsbCommunicationHandler = new SerialUsbCommunicationHandler(this);
         EventBus.getDefault().register(this);
@@ -253,6 +252,15 @@ public class GrblUsbSerialService extends Service {
                     intent.setPackage(getPackageName());
                     arg0.sendBroadcast(intent);
                     connection = usbManager.openDevice(device);
+                    // Android 14+ allows a connectedDevice foreground service only after
+                    // a USB device permission is granted, so go foreground here, not in onCreate.
+                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
+                        try{
+                            startForeground(Constants.USB_OTG_SERVICE_NOTIFICATION_ID, getNotification(null));
+                        }catch(SecurityException e){
+                            Log.w(TAG, "could not start foreground service", e);
+                        }
+                    }
                     new ConnectionThread().start();
                 }else{
                     Intent intent = new Intent(ACTION_USB_PERMISSION_NOT_GRANTED);

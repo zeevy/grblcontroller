@@ -31,7 +31,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -78,12 +77,9 @@ public class UsbConnectionActivity extends GrblActivity{
         super.onStart();
         setFilters();  // Start listening notifications from UsbService
 
-        Intent intent = new Intent(getApplicationContext(), GrblUsbSerialService.class);
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-            getApplicationContext().startForegroundService(intent);
-        }else{
-            startService(intent);
-        }
+        // The service goes foreground on its own once a USB device permission is granted.
+        // startForegroundService would crash here on Android 14+ when no device is granted yet.
+        startService(new Intent(getApplicationContext(), GrblUsbSerialService.class));
     }
 
     @Override
