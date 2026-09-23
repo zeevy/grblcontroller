@@ -237,7 +237,13 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         if(requestCode == Constants.FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
             Uri uri = data.getData();
             if(uri != null){
-                File gcodeFile = copyPickedFileToCache(uri);
+                String displayName = getDisplayName(uri);
+                if(!displayName.toLowerCase().matches(Constants.SUPPORTED_FILE_TYPES_STRING)){
+                    String allowed = "." + String.join(", .", Constants.SUPPORTED_FILE_EXTENSIONS);
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_unsupported_file_type, allowed), true, true));
+                    return;
+                }
+                File gcodeFile = copyPickedFileToCache(uri, displayName);
                 if(gcodeFile != null){
                     fileSender.setGcodeFile(gcodeFile);
                     fileSender.setElapsedTime("00:00:00");
@@ -262,13 +268,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         return name != null ? name : "gcode_file";
     }
 
-    private File copyPickedFileToCache(Uri uri){
-        String displayName = getDisplayName(uri);
-        if(!displayName.toLowerCase().matches(Constants.SUPPORTED_FILE_TYPES_STRING)){
-            EventBus.getDefault().post(new UiToastEvent(GrblUtils.implode(" | ", Constants.SUPPORTED_FILE_TYPES), true, true));
-            return null;
-        }
-
+    private File copyPickedFileToCache(Uri uri, String displayName){
         File destination = new File(requireContext().getCacheDir(), displayName);
         try(InputStream in = requireContext().getContentResolver().openInputStream(uri); OutputStream out = new FileOutputStream(destination)){
             if(in == null) return null;

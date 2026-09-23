@@ -207,7 +207,7 @@
 
 
     <!-- Probing Tab -->
-    <string name="text_probing_help">1. Do probing with first tool.  2. Change the tool.  3. Probe again with \"Probe + TLO\".</string>
+    <string name="text_probing_help">Probe: a ferramenta desce até tocar a placa. O zero de Z fica no topo da placa.\nProbe + TLO: depois de trocar a ferramenta, sonde de novo. A diferença de comprimento vira o offset da ferramenta (G43.1).\nTLO ✕: limpa o offset da ferramenta (G49).\n\nPassos\n1. Coloque a placa sob a ferramenta e conecte o fio da sonda.\n2. Defina o avanço, a espessura da placa e a distância de sondagem.\n3. Toque em Probe com a primeira ferramenta.\n4. Troque a ferramenta e toque em Probe + TLO.</string>
     <string name="text_probing_feed_rate">Feed rate</string>
     <string name="text_touch_plate_thickness">Plate thickness</string>
     <string name="text_distance_to_probe">Distance to probe</string>
@@ -226,7 +226,7 @@
     <string name="text_probe_success_auto_zero">Probe success with auto adjust</string>
     <string name="text_probe_success">Probe success</string>
     <string name="text_probe_success_with_tlo">Probe success. Tool length offset applied</string>
-    <string name="text_probing_tab_heading">Probing | Tool length offset {fa-info-circle 16dp @color/colorAccent}</string>
+    <string name="text_probing_tab_heading">Probing {fa-info-circle 16dp @color/colorAccent}</string>
     <string name="text_last_probe_position">Last probe position</string>
     <string name="text_current_tlo">Current TLO</string>
     <string name="probe_plus_tlo">Probe {fa-plus 14dp} TLO</string>
@@ -283,6 +283,8 @@
     <string name="text_time_elapsed">Time elapsed</string>
     <string name="text_progress">Progresso</string>
     <string name="text_file_not_found">File not found!</string>
+    <string name="text_select_gcode_file">Selecionar arquivo G-code</string>
+    <string name="text_unsupported_file_type">Tipo de arquivo não suportado. Permitidos: %1$s</string>
     <string name="text_overrides_fsv">Overrides F:S:V</string>
     <string name="text_overrides_fs">Overrides F:S</string>
     <string name="text_check_mode_on">Check {fa-toggle-on 16dp @color/colorAccent}</string>
