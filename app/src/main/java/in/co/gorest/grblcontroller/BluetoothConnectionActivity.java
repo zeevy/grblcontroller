@@ -162,7 +162,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
     }
 
     private void restartInUsbMode(){
-        sharedPref.edit().putString(getString(R.string.text_default_connection), Constants.SERIAL_CONNECTION_TYPE_USB_OTG).apply();
+        sharedPref.edit().putString(getString(R.string.preference_default_serial_connection_type), Constants.SERIAL_CONNECTION_TYPE_USB_OTG).apply();
         startActivity(new Intent(this, UsbConnectionActivity.class));
         finish();
     }
