@@ -30,7 +30,6 @@ import java.io.File;
 import in.co.gorest.grblcontroller.BR;
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
-import in.co.gorest.grblcontroller.model.Constants;
 
 public class FileSenderListener extends BaseObservable {
 

@@ -39,4 +39,6 @@ jobs:
           VALIDATE_JSCPD: false
           # the Java code follows Android Studio style, not Google Java style
           VALIDATE_GOOGLE_JAVA_FORMAT: false
+          # checkstyle enforces Sun style (80 char lines, javadoc on every field), which this code does not follow
+          VALIDATE_JAVA: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
