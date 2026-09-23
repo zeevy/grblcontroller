@@ -25,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.provider.DocumentsContract;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -220,7 +221,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
             fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
         }
 
-        String stopButtonBehaviour = sharedPref.getString(getString(R.string.preference_streaming_stop_button_behaviour), Constants.JUST_STOP_STREAMING);
+        String stopButtonBehaviour = sharedPref.getString(getString(R.string.preference_streaming_stop_button_behaviour), Constants.STOP_STREAMING_AND_RESET);
         if(machineStatus.getState().equals(Constants.MACHINE_STATUS_RUN) && stopButtonBehaviour.equals(Constants.STOP_STREAMING_AND_RESET)){
             fragmentInteractionListener.onGrblRealTimeCommandReceived(GrblUtils.GRBL_RESET_COMMAND);
         }
@@ -248,7 +249,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                     fileSender.setGcodeFile(gcodeFile);
                     fileSender.setElapsedTime("00:00:00");
                     new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
-                    sharedPref.edit().putString(getString(R.string.most_recent_selected_file), fileSender.getGcodeFile().getName()).apply();
+                    sharedPref.edit().putString(getString(R.string.most_recent_selected_file), uri.toString()).apply();
                 }else{
                     EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found), true, true));
                 }
@@ -403,6 +404,10 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
+        String lastFile = sharedPref.getString(getString(R.string.most_recent_selected_file), "");
+        if(sharedPref.getBoolean(getString(R.string.preference_remember_last_file_location), true) && lastFile.startsWith("content://")){
+            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(lastFile));
+        }
         startActivityForResult(intent, Constants.FILE_PICKER_REQUEST_CODE);
     }
 

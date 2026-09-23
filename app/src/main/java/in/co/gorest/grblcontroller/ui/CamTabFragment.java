@@ -407,7 +407,7 @@ public class CamTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_cam_feedrate));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_cam_feed_rate), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_cam_feed_rate), String.valueOf(Constants.CAM_FEED_RATE)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;
@@ -445,7 +445,7 @@ public class CamTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_cam_step_over));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_cam_step_over), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_cam_step_over), String.valueOf(Constants.CAM_STEP_OVER)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;
@@ -484,7 +484,7 @@ public class CamTabFragment extends BaseFragment {
             alertDialogBuilder.setTitle(getString(R.string.text_cam_traversal));
 
             final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-            editText.setText(sharedPref.getString(getString(R.string.preference_cam_z_traversal), "10.0"));
+            editText.setText(sharedPref.getString(getString(R.string.preference_cam_z_traversal), String.valueOf(Constants.CAM_TRAVERSAL)));
             editText.setSelection(editText.getText().length());
 
             final String faEditIcon = this.editIcon;
@@ -523,7 +523,7 @@ public class CamTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_facing_zdeep));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_cam_z_deep), "0.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_cam_z_deep), String.valueOf(Constants.CAM_ZDEEP)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;
@@ -561,7 +561,7 @@ public class CamTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_facing_zstep));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_cam_z_step), "0.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_cam_z_step), String.valueOf(Constants.CAM_ZSTEP)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;
@@ -598,7 +598,7 @@ public class CamTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_cam_tool_dia));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_cam_tool_dia), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_cam_tool_dia), String.valueOf(Constants.CAM_TOOL_DIA)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;

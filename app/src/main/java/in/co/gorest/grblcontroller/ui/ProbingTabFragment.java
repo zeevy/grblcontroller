@@ -206,7 +206,7 @@ public class ProbingTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_probing_distance));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_probing_distance), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;
@@ -238,7 +238,7 @@ public class ProbingTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_touch_plate_thickness));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_probing_plate_thickness), String.valueOf(Constants.PROBING_PLATE_THICKNESS)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;
@@ -268,7 +268,7 @@ public class ProbingTabFragment extends BaseFragment {
         alertDialogBuilder.setTitle(getString(R.string.text_probing_feed_rate));
 
         final EditText editText = v.findViewById(R.id.dialog_input_decimal);
-        editText.setText(sharedPref.getString(getString(R.string.preference_probing_feed_rate), "10.0"));
+        editText.setText(sharedPref.getString(getString(R.string.preference_probing_feed_rate), String.valueOf(Constants.PROBING_FEED_RATE)));
         editText.setSelection(editText.getText().length());
 
         final String faEditIcon = this.editIcon;
