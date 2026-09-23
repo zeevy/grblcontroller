@@ -62,8 +62,9 @@ public interface Constants {
     String MACHINE_STATUS_HOME          = "Home";
     String MACHINE_STATUS_NOT_CONNECTED = "Unknown";
 
-    String[] SUPPORTED_FILE_TYPES       = {".tap",".gcode", ".nc", ".ngc", ".fnc", ".txt"};
-    String SUPPORTED_FILE_TYPES_STRING  = "^.*\\.(tap|gcode|nc|ngc|cnc|txt|ncc|fnc|dnc|fan|gc|txt|ncg|ncp|fgc)$";
+    // G-code file extensions the file tab accepts. The check regex is built from this list.
+    String[] SUPPORTED_FILE_EXTENSIONS  = {"tap", "gcode", "nc", "ngc", "cnc", "ncc", "fnc", "dnc", "fan", "gc", "ncg", "ncp", "fgc", "txt"};
+    String SUPPORTED_FILE_TYPES_STRING  = "^.*\\.(" + String.join("|", SUPPORTED_FILE_EXTENSIONS) + ")$";
 
     String JUST_STOP_STREAMING          = "0";
     String STOP_STREAMING_AND_RESET     = "1";

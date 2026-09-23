@@ -1,0 +1,3 @@
+[codespell]
+# Android attribute names that look like typos
+ignore-words-list = showin

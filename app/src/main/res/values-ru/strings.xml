@@ -93,6 +93,8 @@
     <string name="text_enable_custom_buttons_desc">добавляет четыре пользовательские кнопки на панель ручного управления.</string>
     <string name="text_file_checking_started">Проверка файла начата</string>
     <string name="text_file_not_found">Файл не найден!</string>
+    <string name="text_select_gcode_file">Выберите файл G-code</string>
+    <string name="text_unsupported_file_type">Неподдерживаемый тип файла. Разрешены: %1$s</string>
     <string name="text_file_reading_in_progress">Идёт чтение файла</string>
     <string name="text_file_streaming_started">Трансляция файла начата</string>
     <string name="text_flood_off">СОЖ {fa-toggle-off 16dp}</string>
@@ -157,8 +159,8 @@
     <string name="text_probe_success_with_tlo">Успех зонда. Длина инструмента смещение применяется</string>
     <string name="text_probing_distance">Расстояние зондирования</string>
     <string name="text_probing_feed_rate">Скорость подачи</string>
-    <string name="text_probing_help">1. У зондирования с первым инструментом. 2. Изменение инструмента. 3. Зонд снова с  \"зонд + TLO \".</string>
-    <string name="text_probing_tab_heading">Зондирование | Смещение длины инструмента {fa-info-circle 16dp @color/colorAccent}</string>
+    <string name="text_probing_help">Probe: инструмент опускается, пока не коснётся пластины. Ноль Z ставится на верх пластины.\nProbe + TLO: после смены инструмента зондируйте снова. Разница длины задаётся как смещение инструмента (G43.1).\nTLO ✕: сбрасывает смещение инструмента (G49).\n\nШаги\n1. Положите пластину под инструмент и подключите провод зонда.\n2. Задайте подачу, толщину пластины и расстояние зондирования.\n3. Нажмите Probe с первым инструментом.\n4. Смените инструмент и нажмите Probe + TLO.</string>
+    <string name="text_probing_tab_heading">Зондирование {fa-info-circle 16dp @color/colorAccent}</string>
     <string name="text_quick_jogging">Кнопки быстрого шагового перемещения</string>
     <string name="text_quick_jogging_desc">настройте кнопки быстрого шагового перемещения</string>
     <string name="text_reset">Сброс</string>

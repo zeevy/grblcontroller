@@ -217,7 +217,7 @@
                     android:id="@+id/last_probe_position"
                     android:fontFamily="monospace"
                     android:textSize="16sp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorTextPrimary"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -250,7 +250,7 @@
                     android:id="@+id/current_tlo"
                     android:fontFamily="monospace"
                     android:textSize="16sp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorTextPrimary"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
