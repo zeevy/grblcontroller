@@ -45,7 +45,6 @@
 
 package in.co.gorest.grblcontroller.service;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -337,9 +336,10 @@ public class GrblUsbSerialService extends Service {
     /*
      * Request user permission. The response will be received in the BroadcastReceiver
      */
-    @SuppressLint("UnspecifiedImmutableFlag")
     private void requestUserPermission() {
-        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+        // Mutable so UsbManager can add EXTRA_PERMISSION_GRANTED. Android 14+ needs a mutable intent to be explicit.
+        Intent intent = new Intent(ACTION_USB_PERMISSION).setPackage(getPackageName());
+        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE);
         usbManager.requestPermission(device, mPendingIntent);
     }
 
@@ -356,6 +356,13 @@ public class GrblUsbSerialService extends Service {
     private class ConnectionThread extends Thread {
         @Override
         public void run() {
+            // openDevice returns null if the device was unplugged or cannot be opened.
+            if (connection == null) {
+                Intent intent = new Intent(ACTION_USB_DEVICE_NOT_WORKING);
+                intent.setPackage(getPackageName());
+                context.sendBroadcast(intent);
+                return;
+            }
             serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
             if (serialPort != null) {
                 if (serialPort.open()) {
