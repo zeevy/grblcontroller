@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -79,7 +80,13 @@ public class UsbConnectionActivity extends GrblActivity{
 
         // The service goes foreground on its own once a USB device permission is granted.
         // startForegroundService would crash here on Android 14+ when no device is granted yet.
-        startService(new Intent(getApplicationContext(), GrblUsbSerialService.class));
+        try{
+            startService(new Intent(getApplicationContext(), GrblUsbSerialService.class));
+        }catch(IllegalStateException e){
+            // Android refuses this while it counts the app as in the background.
+            // The bind in onCreate already keeps the service alive.
+            Log.w("UsbConnectionActivity", "could not start the USB service", e);
+        }
     }
 
     @Override
