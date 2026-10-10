@@ -25,7 +25,6 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.PowerManager;
 import android.os.Process;
 import androidx.core.app.NotificationCompat;
@@ -106,6 +105,16 @@ public class FileStreamerIntentService extends IntentService{
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
+        // Android kills the app when a service started with startForegroundService() stops, or runs
+        // for 10 s, without calling startForeground(). So call it first, on every start, before any work.
+        boolean isCheckMode = intent != null && intent.getBooleanExtra(CHECK_MODE_ENABLED, false);
+        String title = getString(isCheckMode ? R.string.text_file_checking_started : R.string.text_file_streaming_started);
+        startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(title, FileSenderListener.getInstance().getGcodeFileName()));
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
     protected void onHandleIntent(Intent intent){
         fileSenderListener = FileSenderListener.getInstance();
         if(fileSenderListener.getGcodeFile() == null){
@@ -151,20 +160,12 @@ public class FileStreamerIntentService extends IntentService{
         EventBus.getDefault().post(new StreamingStartedEvent());
 
         if(isCheckMode){
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.text_file_checking_started), fileSenderListener.getGcodeFile().getName()));
-            }
-
             if(defaultConnectionType != null && defaultConnectionType.equals(Constants.SERIAL_CONNECTION_TYPE_BLUETOOTH)){
                 this.checkGcodeFile();
             }else{
                 this.startStreaming(555);
             }
         }else{
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
-                startForeground(Constants.FILE_STREAMING_NOTIFICATION_ID, getNotification(getString(R.string.text_file_streaming_started), fileSenderListener.getGcodeFile().getName()));
-            }
-
             this.startStreaming(5);
         }
 
