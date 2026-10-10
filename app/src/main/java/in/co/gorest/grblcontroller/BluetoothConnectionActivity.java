@@ -144,14 +144,15 @@ public class BluetoothConnectionActivity extends GrblActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        onGcodeCommandReceived("$10=1");
+        // On a recreate keep the connection: a connected service is started, so it outlives the unbind.
+        if(isFinishing()) onGcodeCommandReceived("$10=1");
         if(mBound){
             grblBluetoothSerialService.setMessageHandler(null);
             unbindService(serviceConnection);
             mBound = false;
         }
 
-        stopService(new Intent(this, GrblBluetoothSerialService.class));
+        if(isFinishing()) stopService(new Intent(this, GrblBluetoothSerialService.class));
         EventBus.getDefault().unregister(this);
     }
 
@@ -271,6 +272,9 @@ public class BluetoothConnectionActivity extends GrblActivity {
             mBound = true;
             grblBluetoothSerialService.setMessageHandler(grblServiceMessageHandler);
             grblBluetoothSerialService.setStatusUpdatePoolInterval(Long.parseLong(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
+            // After a recreate the link may still be up; show it. STATE_NONE is left out, as it posts "connection lost".
+            int state = grblBluetoothSerialService.getState();
+            if(state == GrblBluetoothSerialService.STATE_CONNECTED || state == GrblBluetoothSerialService.STATE_CONNECTING) onBluetoothStateChange(state);
         }
 
         @Override

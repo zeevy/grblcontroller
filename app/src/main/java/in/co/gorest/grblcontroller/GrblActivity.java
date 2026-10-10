@@ -105,6 +105,13 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // A fresh start gets fresh state; a recreate (rotation, fold, resize) keeps it. Reset here, not
+        // in onDestroy: a closing activity is destroyed after the new one has read these objects.
+        if(savedInstanceState == null){
+            ConsoleLoggerListener.resetClass();
+            FileSenderListener.resetClass();
+            MachineStatusListener.resetClass();
+        }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -130,7 +137,10 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         Iconify.with(new FontAwesomeModule());
         setupTabLayout();
-        checkPowerManagement();
+        // Ask once per start. On a recreate the dialog would cover the Stop button of a running job.
+        if(savedInstanceState == null) checkPowerManagement();
+        // A recreate during a job gets a new window, so set keep screen on again.
+        if(FileStreamerIntentService.getIsServiceRunning()) OnStreamingStartEvent(new StreamingStartedEvent());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
@@ -160,10 +170,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     public void onDestroy(){
         super.onDestroy();
 
-        stopService(new Intent(this, FileStreamerIntentService.class));
-        ConsoleLoggerListener.resetClass();
-        FileSenderListener.resetClass();
-        MachineStatusListener.resetClass();
+        // Only a real exit stops the job. A recreate must not stop it in the middle.
+        if(isFinishing()) stopService(new Intent(this, FileStreamerIntentService.class));
         isAppRunning = false;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         lastToast = null;

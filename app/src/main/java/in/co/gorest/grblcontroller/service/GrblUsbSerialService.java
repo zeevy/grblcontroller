@@ -115,7 +115,7 @@ public class GrblUsbSerialService extends Service {
     private UsbDeviceConnection connection;
     private UsbSerialDevice serialPort;
 
-    private boolean serialPortConnected;
+    private volatile boolean serialPortConnected;
     public static volatile boolean isGrblFound = false;
 
     private SerialUsbCommunicationHandler serialUsbCommunicationHandler;
@@ -166,6 +166,8 @@ public class GrblUsbSerialService extends Service {
 
         EventBus.getDefault().unregister(this);
     }
+
+    public boolean isSerialPortConnected(){ return serialPortConnected; }
 
     public void serialWriteByte(byte b){
         byte[] c = {b};

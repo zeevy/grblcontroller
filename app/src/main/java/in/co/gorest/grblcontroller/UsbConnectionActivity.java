@@ -92,14 +92,15 @@ public class UsbConnectionActivity extends GrblActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        onGcodeCommandReceived("$10=1");
+        // On a recreate keep the connection: the service is started, so it outlives the unbind.
+        if(isFinishing()) onGcodeCommandReceived("$10=1");
         unregisterReceiver(mUsbReceiver);
         if(mBound){
             grblUsbSerialService.setMessageHandler(null);
             unbindService(usbConnection);
             mBound = false;
         }
-        stopService(new Intent(this, GrblUsbSerialService.class));
+        if(isFinishing()) stopService(new Intent(this, GrblUsbSerialService.class));
         EventBus.getDefault().unregister(this);
     }
 
@@ -232,6 +233,8 @@ public class UsbConnectionActivity extends GrblActivity{
             mBound = true;
             grblUsbSerialService.setMessageHandler(grblServiceMessageHandler);
             grblUsbSerialService.setStatusUpdatePoolInterval(Long.parseLong(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
+            // After a recreate the port may still be open; show it.
+            if(grblUsbSerialService.isSerialPortConnected() && getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connected));
         }
 
         @Override
