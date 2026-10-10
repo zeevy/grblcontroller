@@ -144,14 +144,15 @@ public class BluetoothConnectionActivity extends GrblActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        onGcodeCommandReceived("$10=1");
+        // On a recreate keep the connection: a connected service is started, so it outlives the unbind.
+        if(isFinishing()) onGcodeCommandReceived("$10=1");
         if(mBound){
             grblBluetoothSerialService.setMessageHandler(null);
             unbindService(serviceConnection);
             mBound = false;
         }
 
-        stopService(new Intent(this, GrblBluetoothSerialService.class));
+        if(isFinishing()) stopService(new Intent(this, GrblBluetoothSerialService.class));
         EventBus.getDefault().unregister(this);
     }
 

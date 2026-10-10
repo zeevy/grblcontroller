@@ -167,7 +167,8 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     public void onDestroy(){
         super.onDestroy();
 
-        stopService(new Intent(this, FileStreamerIntentService.class));
+        // Only a real exit stops the job. A recreate must not stop it in the middle.
+        if(isFinishing()) stopService(new Intent(this, FileStreamerIntentService.class));
         isAppRunning = false;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         lastToast = null;
