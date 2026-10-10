@@ -105,6 +105,13 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // A fresh start gets fresh state; a recreate (rotation, fold, resize) keeps it. Reset here, not
+        // in onDestroy: a closing activity is destroyed after the new one has read these objects.
+        if(savedInstanceState == null){
+            ConsoleLoggerListener.resetClass();
+            FileSenderListener.resetClass();
+            MachineStatusListener.resetClass();
+        }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -161,9 +168,6 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         super.onDestroy();
 
         stopService(new Intent(this, FileStreamerIntentService.class));
-        ConsoleLoggerListener.resetClass();
-        FileSenderListener.resetClass();
-        MachineStatusListener.resetClass();
         isAppRunning = false;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         lastToast = null;
