@@ -272,6 +272,9 @@ public class BluetoothConnectionActivity extends GrblActivity {
             mBound = true;
             grblBluetoothSerialService.setMessageHandler(grblServiceMessageHandler);
             grblBluetoothSerialService.setStatusUpdatePoolInterval(Long.parseLong(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
+            // After a recreate the link may still be up; show it. STATE_NONE is left out, as it posts "connection lost".
+            int state = grblBluetoothSerialService.getState();
+            if(state == GrblBluetoothSerialService.STATE_CONNECTED || state == GrblBluetoothSerialService.STATE_CONNECTING) onBluetoothStateChange(state);
         }
 
         @Override

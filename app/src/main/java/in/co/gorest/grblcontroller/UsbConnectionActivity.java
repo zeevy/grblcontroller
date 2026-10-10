@@ -233,6 +233,8 @@ public class UsbConnectionActivity extends GrblActivity{
             mBound = true;
             grblUsbSerialService.setMessageHandler(grblServiceMessageHandler);
             grblUsbSerialService.setStatusUpdatePoolInterval(Long.parseLong(sharedPref.getString(getString(R.string.preference_update_pool_interval), String.valueOf(Constants.GRBL_STATUS_UPDATE_INTERVAL))));
+            // After a recreate the port may still be open; show it.
+            if(grblUsbSerialService.isSerialPortConnected() && getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_connected));
         }
 
         @Override
