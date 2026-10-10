@@ -6,11 +6,12 @@
         <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
     </data>
 
-    <!-- Not a ScrollView: the page must stay screen high so the console well takes the spare space. -->
+    <!-- Not a ScrollView: the page must stay screen high so the console well takes the spare space.
+         No id: the large layout uses console_scroll_view on a ScrollView, and the same id on a
+         different view type crashes the view state restore when the screen size changes. -->
     <FrameLayout
         android:paddingStart="@dimen/screen_edge"
         android:paddingEnd="@dimen/screen_edge"
-        android:id="@+id/console_scroll_view"
         android:paddingTop="@dimen/spacing_s"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
