@@ -52,8 +52,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
+import android.hardware.usb.UsbEndpoint;
+import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.os.Binder;
 import android.os.Build;
@@ -351,6 +354,19 @@ public class GrblUsbSerialService extends Service {
         }
     }
 
+    /** True when the interface has a bulk IN and a bulk OUT endpoint, the ones a serial driver reads and writes. */
+    private static boolean hasBulkInAndOut(UsbInterface usbInterface) {
+        boolean in = false;
+        boolean out = false;
+        for (int i = 0; i < usbInterface.getEndpointCount(); i++) {
+            UsbEndpoint endpoint = usbInterface.getEndpoint(i);
+            if (endpoint.getType() != UsbConstants.USB_ENDPOINT_XFER_BULK) continue;
+            if (endpoint.getDirection() == UsbConstants.USB_DIR_IN) in = true;
+            else out = true;
+        }
+        return in && out;
+    }
+
     /*
     * A simple thread to open a serial port.
     * Although it should be a fast operation. moving usb operations away from UI thread is a good thing.
@@ -366,6 +382,13 @@ public class GrblUsbSerialService extends Service {
                 return;
             }
             serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
+            // The CH34x, CP210x, FTDI and PL2303 drivers read and write through interface 0
+            // and do not check that it has bulk endpoints: open() crashes with a null endpoint.
+            // Such a device is reported as not supported. The CDC driver finds its own interface.
+            if (serialPort != null && !(serialPort instanceof CDCSerialDevice)
+                    && !hasBulkInAndOut(device.getInterface(0))) {
+                serialPort = null;
+            }
             if (serialPort != null) {
                 if (serialPort.open()) {
                     serialPortConnected = true;
