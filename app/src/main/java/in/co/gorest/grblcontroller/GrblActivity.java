@@ -301,18 +301,13 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
                         sendCommandIfIdle("G10L20P0" + axisLabel + axisValue);
                     }
                 })
-                .setNeutralButton("/2",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                Double val = Double.parseDouble( editText.getText().toString());
-                                val=val/2;
-                                String axisValue=val.toString();
-                                if(axisValue.length() > 0){
-                                    sendCommandIfIdle("G10L20P0" + axisLabel + axisValue);
-                                }
-                            }
-                        })
+                .setNeutralButton("/2", (dialog, id) -> {
+                    // The box can be empty or hold only "-" or ".", so do not crash on a bad number.
+                    try {
+                        double val = Double.parseDouble(editText.getText().toString()) / 2;
+                        sendCommandIfIdle("G10L20P0" + axisLabel + val);
+                    } catch (NumberFormatException ignored) {}
+                })
                 .setNegativeButton(getString(R.string.text_cancel), (dialog, id) -> dialog.cancel());
 
         AlertDialog dialog = alertDialogBuilder.create();
