@@ -49,6 +49,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 import in.co.gorest.grblcontroller.R;
 import in.co.gorest.grblcontroller.events.GrblRealTimeCommandEvent;
@@ -78,6 +81,8 @@ public class GrblBluetoothSerialService extends Service{
     private AcceptThread mSecureAcceptThread;
     private AcceptThread mInsecureAcceptThread;
     private ConnectThread mConnectThread;
+    // One thread does every socket write, so a slow socket never blocks the UI and writes stay in order.
+    private final ExecutorService writeExecutor = Executors.newSingleThreadExecutor();
     private ConnectedThread mConnectedThread;
     private int mState;
     private int mNewState;
@@ -171,6 +176,7 @@ public class GrblBluetoothSerialService extends Service{
         }
         updateUserInterfaceTitle();
         EventBus.getDefault().unregister(this);
+        writeExecutor.shutdown();
     }
 
     private synchronized void updateUserInterfaceTitle() {
@@ -551,7 +557,11 @@ public class GrblBluetoothSerialService extends Service{
             if (mState != STATE_CONNECTED) return;
             r = mConnectedThread;
         }
-        r.write(b);
+        try {
+            writeExecutor.execute(() -> r.write(b));
+        } catch (RejectedExecutionException e) {
+            Log.w(TAG, "write after the service stopped", e);
+        }
     }
 
     public void serialWriteString(String s){
