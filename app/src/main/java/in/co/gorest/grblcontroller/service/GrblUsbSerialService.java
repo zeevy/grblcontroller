@@ -261,7 +261,8 @@ public class GrblUsbSerialService extends Service {
                     if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1){
                         try{
                             startForeground(Constants.USB_OTG_SERVICE_NOTIFICATION_ID, getNotification(null));
-                        }catch(SecurityException e){
+                        // ForegroundServiceStartNotAllowedException (Android 12+) is an IllegalStateException.
+                        }catch(SecurityException | IllegalStateException e){
                             Log.w(TAG, "could not start foreground service", e);
                         }
                     }
