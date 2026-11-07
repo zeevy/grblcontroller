@@ -7,8 +7,8 @@ android {
         applicationId "in.co.gorest.grblcontroller"
         minSdkVersion 26
         targetSdkVersion 36
-        versionCode 46
-        versionName "2.64"
+        versionCode 47
+        versionName "2.65"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
