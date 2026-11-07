@@ -24,6 +24,7 @@ package in.co.gorest.grblcontroller.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.provider.DocumentsContract;
 import android.database.Cursor;
@@ -31,6 +32,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Process;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -55,6 +58,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import in.co.gorest.grblcontroller.GrblController;
 import in.co.gorest.grblcontroller.R;
@@ -77,6 +83,9 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     private MachineStatusListener machineStatus;
     private FileSenderListener fileSender;
     private EnhancedSharedPreferences sharedPref;
+
+    // One thread, so two quick picks are copied one after the other.
+    private static final ExecutorService FILE_COPY_EXECUTOR = Executors.newSingleThreadExecutor();
 
     public FileSenderTabFragment() {}
 
@@ -237,51 +246,99 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
         if(requestCode == Constants.FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
             Uri uri = data.getData();
-            if(uri != null){
-                String displayName = getDisplayName(uri);
-                if(!displayName.toLowerCase().matches(Constants.SUPPORTED_FILE_TYPES_STRING)){
-                    String allowed = "." + String.join(", .", Constants.SUPPORTED_FILE_EXTENSIONS);
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_unsupported_file_type, allowed), true, true));
-                    return;
-                }
-                File gcodeFile = copyPickedFileToCache(uri, displayName);
-                if(gcodeFile != null){
-                    fileSender.setGcodeFile(gcodeFile);
-                    fileSender.setElapsedTime("00:00:00");
-                    new ReadFileAsyncTask().execute(fileSender.getGcodeFile());
-                    sharedPref.edit().putString(getString(R.string.most_recent_selected_file), uri.toString()).apply();
-                }else{
-                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_file_not_found), true, true));
-                }
-            }
+            if(uri != null) loadPickedFile(uri);
         }
 
     }
 
-    private String getDisplayName(Uri uri){
+    /**
+     * The picked file can live on a slow provider, such as a cloud drive that downloads it first.
+     * So the name lookup and the copy run on a background thread, and the tab shows "reading" until they end.
+     * The result goes back on the main thread and does not use the fragment, which may be gone by then.
+     */
+    private void loadPickedFile(Uri uri){
+        final Context context = requireContext().getApplicationContext();
+        final FileSenderListener sender = fileSender;
+        final EnhancedSharedPreferences prefs = sharedPref;
+        final Handler mainThread = new Handler(Looper.getMainLooper());
+
+        sender.setStatus(FileSenderListener.STATUS_READING);
+        FILE_COPY_EXECUTOR.execute(() -> {
+            boolean supported = true;
+            File gcodeFile = null;
+            try{
+                String displayName = getDisplayName(context, uri);
+                supported = displayName.toLowerCase(Locale.ROOT).matches(Constants.SUPPORTED_FILE_TYPES_STRING);
+                if(supported) gcodeFile = copyPickedFileToCache(context, uri, displayName);
+            }catch (RuntimeException e){
+                // A provider can refuse the uri (SecurityException, IllegalArgumentException). Treat it as a file we could not read.
+                Log.e(TAG, "Could not read picked g-code file", e);
+            }finally{
+                // Always post back, so the tab never stays on "reading".
+                final boolean isSupported = supported;
+                final File copiedFile = gcodeFile;
+                mainThread.post(() -> onPickedFileLoaded(context, sender, prefs, uri, isSupported, copiedFile));
+            }
+        });
+    }
+
+    private static void onPickedFileLoaded(Context context, FileSenderListener sender, EnhancedSharedPreferences prefs, Uri uri, boolean supported, File gcodeFile){
+        if(!supported){
+            sender.setStatus(FileSenderListener.STATUS_IDLE);
+            String allowed = "." + String.join(", .", Constants.SUPPORTED_FILE_EXTENSIONS);
+            EventBus.getDefault().post(new UiToastEvent(context.getString(R.string.text_unsupported_file_type, allowed), true, true));
+            return;
+        }
+
+        if(gcodeFile == null){
+            sender.setStatus(FileSenderListener.STATUS_IDLE);
+            EventBus.getDefault().post(new UiToastEvent(context.getString(R.string.text_file_not_found), true, true));
+            return;
+        }
+
+        sender.setGcodeFile(gcodeFile);
+        sender.setElapsedTime("00:00:00");
+        new ReadFileAsyncTask().execute(gcodeFile);
+        prefs.edit().putString(context.getString(R.string.most_recent_selected_file), uri.toString()).apply();
+    }
+
+    /** The name comes from another app, so only its last part is kept. A name like "../x.gcode" must not leave the cache folder. */
+    @SuppressLint("UnsanitizedFilenameFromContentProvider") // getName() below is the sanitising step; lint does not see it.
+    private static String getDisplayName(Context context, Uri uri){
         String name = null;
-        try(Cursor cursor = requireContext().getContentResolver().query(uri, null, null, null, null)){
+        try(Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)){
             if(cursor != null && cursor.moveToFirst()){
                 int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                 if(nameIndex >= 0) name = cursor.getString(nameIndex);
             }
         }
-        return name != null ? name : "gcode_file";
+        if(name != null) name = new File(name).getName();
+        return name != null && !name.isEmpty() ? name : "gcode_file";
     }
 
-    private File copyPickedFileToCache(Uri uri, String displayName){
-        File destination = new File(requireContext().getCacheDir(), displayName);
-        try(InputStream in = requireContext().getContentResolver().openInputStream(uri); OutputStream out = new FileOutputStream(destination)){
-            if(in == null) return null;
+    /** Copies to a temp file first, so a failed copy never leaves the selected file half written. */
+    private static File copyPickedFileToCache(Context context, Uri uri, String displayName){
+        File destination = new File(context.getCacheDir(), displayName);
+        File partial = new File(context.getCacheDir(), displayName + ".part");
+        try(InputStream in = context.getContentResolver().openInputStream(uri); OutputStream out = new FileOutputStream(partial)){
+            if(in == null){
+                partial.delete();
+                return null;
+            }
 
             byte[] buffer = new byte[8192];
             int read;
             while((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
-            return destination;
         }catch (IOException e){
             Log.e(TAG, "Could not copy picked g-code file", e);
+            partial.delete();
             return null;
         }
+
+        if(partial.renameTo(destination)) return destination;
+        Log.e(TAG, "Could not move copied g-code file into place");
+        partial.delete();
+        return null;
     }
 
     @SuppressLint("NonConstantResourceId")
