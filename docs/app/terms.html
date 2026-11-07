@@ -1,76 +1,202 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-:root{--bg:#F4F6F9;--card:#FFFFFF;--fg:#14202E;--muted:#556170;--line:#D3D9E1;--accent:#1B3A5C}
-@media (prefers-color-scheme:dark){:root{--bg:#10141C;--card:#1A202C;--fg:#E6E9F0;--muted:#A3ADBC;--line:#343D4E;--accent:#AFC6E6}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-main{max-width:760px;margin:0 auto;padding:32px 16px 48px}
-h1{font-size:1.9rem;line-height:1.2;margin:0 0 4px}
-h2{font-size:1.15rem;margin:28px 0 6px;color:var(--accent)}
-p,li{max-width:70ch}
-ul{padding-left:20px}
-li{margin:4px 0}
-a{color:var(--accent)}
-code{font-size:.92em;overflow-wrap:anywhere}
-.date{color:var(--muted);margin:0 0 20px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px 20px 16px}
-footer{color:var(--muted);font-size:.9rem;margin-top:24px}
-</style>
-<title>Grbl Controller Terms of Service</title>
-</head>
-<body>
-<main>
-<h1>Grbl Controller Terms of Service</h1>
-<p class="date">Last updated: 7 November 2026</p>
-<div class="card">
-<h2>About these terms</h2>
-<p>These terms cover the Android app Grbl Controller by Silicon Circuits (package <code>com.siliconcircuits.grblcontroller</code>), called "the app" below. By installing or using the app, you agree to these terms.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+      :root {
+        --bg: #f4f6f9;
+        --card: #ffffff;
+        --fg: #14202e;
+        --muted: #556170;
+        --line: #d3d9e1;
+        --accent: #1b3a5c;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #10141c;
+          --card: #1a202c;
+          --fg: #e6e9f0;
+          --muted: #a3adbc;
+          --line: #343d4e;
+          --accent: #afc6e6;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font:
+          16px/1.6 -apple-system,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 32px 16px 48px;
+      }
+      h1 {
+        font-size: 1.9rem;
+        line-height: 1.2;
+        margin: 0 0 4px;
+      }
+      h2 {
+        font-size: 1.15rem;
+        margin: 28px 0 6px;
+        color: var(--accent);
+      }
+      p,
+      li {
+        max-width: 70ch;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      li {
+        margin: 4px 0;
+      }
+      a {
+        color: var(--accent);
+      }
+      code {
+        font-size: 0.92em;
+        overflow-wrap: anywhere;
+      }
+      .date {
+        color: var(--muted);
+        margin: 0 0 20px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 4px 20px 16px;
+      }
+      footer {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-top: 24px;
+      }
+    </style>
+    <title>Grbl Controller Terms of Service</title>
+  </head>
+  <body>
+    <main>
+      <h1>Grbl Controller Terms of Service</h1>
+      <p class="date">Last updated: 7 November 2026</p>
+      <div class="card">
+        <h2>About these terms</h2>
+        <p>
+          These terms cover the Android app Grbl Controller by Silicon Circuits
+          (package <code>com.siliconcircuits.grblcontroller</code>), called "the
+          app" below. By installing or using the app, you agree to these terms.
+        </p>
 
-<h2>What the app does</h2>
-<p>The app controls CNC machines and lasers that run GRBL or grblHAL firmware. It connects to the machine over Bluetooth, USB or WiFi, and sends commands and G-code to it.</p>
+        <h2>What the app does</h2>
+        <p>
+          The app controls CNC machines and lasers that run GRBL or grblHAL
+          firmware. It connects to the machine over Bluetooth, USB or WiFi, and
+          sends commands and G-code to it.
+        </p>
 
-<h2>Safe use is your responsibility</h2>
-<ul>
-<li>A CNC machine or laser can damage the work, the machine or the tool, and can hurt people.</li>
-<li>Check every G-code file and every setting before you run it.</li>
-<li>Keep the machine's emergency stop within reach, and do not leave a running machine alone.</li>
-<li>Wear the safety gear your machine needs, such as laser safety glasses.</li>
-<li>A phone or its link can fail during a job. Do not depend on the app as your only way to stop the machine.</li>
-</ul>
+        <h2>Safe use is your responsibility</h2>
+        <ul>
+          <li>
+            A CNC machine or laser can damage the work, the machine or the tool,
+            and can hurt people.
+          </li>
+          <li>Check every G-code file and every setting before you run it.</li>
+          <li>
+            Keep the machine's emergency stop within reach, and do not leave a
+            running machine alone.
+          </li>
+          <li>
+            Wear the safety gear your machine needs, such as laser safety
+            glasses.
+          </li>
+          <li>
+            A phone or its link can fail during a job. Do not depend on the app
+            as your only way to stop the machine.
+          </li>
+        </ul>
 
-<h2>No warranty</h2>
-<p>The app is given "as is", without any warranty. As far as the law allows, Silicon Circuits is not responsible for any damage to machines, tools, materials or property, or for any injury or loss, that comes from using the app.</p>
+        <h2>No warranty</h2>
+        <p>
+          The app is given "as is", without any warranty. As far as the law
+          allows, Silicon Circuits is not responsible for any damage to
+          machines, tools, materials or property, or for any injury or loss,
+          that comes from using the app.
+        </p>
 
-<h2>Premium subscription</h2>
-<ul>
-<li>Most features are free. Premium is an optional subscription that adds more features.</li>
-<li>Premium is sold through Google Play as a monthly plan (₹99 per month) or a yearly plan (₹720 per year). Google Play shows the price in your country before you buy.</li>
-<li>Google Play takes the payment. A subscription renews on its own until you cancel it.</li>
-<li>You can cancel at any time in Google Play, under Payments and subscriptions. After you cancel, Premium stays until the end of the period you paid for.</li>
-<li>Refunds follow Google Play's refund policy.</li>
-<li>We may change the features or prices of Premium. A price change applies only from your next renewal, and Google Play tells you before it applies.</li>
-</ul>
+        <h2>Premium subscription</h2>
+        <ul>
+          <li>
+            Most features are free. Premium is an optional subscription that
+            adds more features.
+          </li>
+          <li>
+            Premium is sold through Google Play as a monthly plan (₹99 per
+            month) or a yearly plan (₹720 per year). Google Play shows the price
+            in your country before you buy.
+          </li>
+          <li>
+            Google Play takes the payment. A subscription renews on its own
+            until you cancel it.
+          </li>
+          <li>
+            You can cancel at any time in Google Play, under Payments and
+            subscriptions. After you cancel, Premium stays until the end of the
+            period you paid for.
+          </li>
+          <li>Refunds follow Google Play's refund policy.</li>
+          <li>
+            We may change the features or prices of Premium. A price change
+            applies only from your next renewal, and Google Play tells you
+            before it applies.
+          </li>
+        </ul>
 
-<h2>Your files and data</h2>
-<p>Your G-code files and settings stay on your phone. The <a href="privacy.html">Privacy Policy</a> says what the app collects and why.</p>
+        <h2>Your files and data</h2>
+        <p>
+          Your G-code files and settings stay on your phone. The
+          <a href="privacy.html">Privacy Policy</a> says what the app collects
+          and why.
+        </p>
 
-<h2>Other products</h2>
-<p>Machines, controller boards, firmware and Google Play belong to other companies and people. Their own terms apply to them.</p>
+        <h2>Other products</h2>
+        <p>
+          Machines, controller boards, firmware and Google Play belong to other
+          companies and people. Their own terms apply to them.
+        </p>
 
-<h2>Your rights under consumer law</h2>
-<p>Nothing in these terms limits any right you have under the consumer protection law of your country.</p>
+        <h2>Your rights under consumer law</h2>
+        <p>
+          Nothing in these terms limits any right you have under the consumer
+          protection law of your country.
+        </p>
 
-<h2>Changes to these terms</h2>
-<p>We may update these terms. The date at the top shows the last change. If you go on using the app after a change, you accept the new terms.</p>
+        <h2>Changes to these terms</h2>
+        <p>
+          We may update these terms. The date at the top shows the last change.
+          If you go on using the app after a change, you accept the new terms.
+        </p>
 
-<h2>Contact</h2>
-<p>Write to the developer email shown on the app's Google Play page, or open an issue at <a href="https://github.com/zeevy/grblcontroller/issues">github.com/zeevy/grblcontroller/issues</a>.</p>
-</div>
-<footer>Copyright Silicon Circuits.</footer>
-</main>
-</body>
+        <h2>Contact</h2>
+        <p>
+          Write to the developer email shown on the app's Google Play page, or
+          open an issue at
+          <a href="https://github.com/zeevy/grblcontroller/issues"
+            >github.com/zeevy/grblcontroller/issues</a
+          >.
+        </p>
+      </div>
+      <footer>Copyright Silicon Circuits.</footer>
+    </main>
+  </body>
 </html>
